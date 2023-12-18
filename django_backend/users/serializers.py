@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
+from users.models import Profile
 
 class UserCreateSerializer(serializers.ModelSerializer):
     class Meta:
@@ -14,3 +15,11 @@ class UserCreateSerializer(serializers.ModelSerializer):
         user.set_password(password)
         user.save()
         return user
+class ProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = ('user', 'picture', 'bio')
+
+    def to_representation(self, instance):
+        self.fields['user'] = UserCreateSerializer(read_only=True)
+        return super(ProfileSerializer, self).to_representation(instance)

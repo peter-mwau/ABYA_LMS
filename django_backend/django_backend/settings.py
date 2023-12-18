@@ -14,6 +14,14 @@ SECRET_KEY = 'django-insecure-g_*&=328p$=7b*j4*+=_ce^iq)79uuj9momun5qzsj(ftyy4e2
 DEBUG = True
 
 ALLOWED_HOSTS = []
+SITE_ID = 1
+AUTHENTICATION_BACKENDS = [
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+
+    # `allauth` specific authentication methods, such as login by email
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
 
 
 # Application definition
@@ -25,9 +33,23 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework',
-    'corsheaders',
+    'django.contrib.sites',
     'users',
+
+    'rest_framework',
+    'rest_framework.authtoken',
+    'rest_auth',
+
+    'corsheaders',
+    
+    
+    "allauth",
+    "allauth.account",
+    'rest_auth.registration',
+    "allauth.socialaccount",
+    "allauth.socialaccount.providers.google",
+    "allauth.socialaccount.providers.github",
+
 ]
 
 MIDDLEWARE = [
@@ -40,14 +62,41 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     "django.middleware.http.ConditionalGetMiddleware",
     'corsheaders.middleware.CorsMiddleware',
+    "allauth.account.middleware.AccountMiddleware",
 ]
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
+    ],
+}
+
 
 APPEND_SLASH = True
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
 ]
-
+SOCIALACCOUNT_PROVIDERS = {
+    "google": {
+        "APP": {
+            "client_id": "477107765491-unp4kkcaef05tqsefdl1ujdsdj67vrl5.apps.googleusercontent.com",
+            "secret": "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",
+            "key": ""
+            }
+        },
+    "github": {
+        "APP": {
+            "client_id": "07438dec7e42a78a9d98",
+            "secret": "1249b7e63db0ea073fee6d3fe9173df3d18c8dbd",
+            "key": ""
+            }
+        }
+    }
+ACCOUNT_EMAIL_VERIFICATION = 'none'
+ACCOUNT_AUTHENTICATION_METHOD = 'username'
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_ADAPTER = 'users.adapters.CustomAccountAdapter'
+ACCOUNT_FORMS = {'signup': 'users.forms.UserCreateForm'}
 
 ROOT_URLCONF = 'django_backend.urls'
 
@@ -78,7 +127,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'abya_database',
         'USER': 'root',
-        'PASSWORD': 'password',
+        'PASSWORD': 'lms123',
         'HOST': 'localhost',
         'PORT': '3306'
     }
@@ -121,6 +170,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
+# LOGIN_REDIRECT_URL = '/courses/all/'
+# LOGOUT_REDIRECT_URL = '/accounts/login/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
