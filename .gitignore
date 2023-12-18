@@ -1,0 +1,33 @@
+# Django
+*.pyc
+__pycache__/
+*.pyo
+*.pyd
+*.log
+*.pot
+*.pyc
+*.sql
+*.sqlite3
+db.sqlite3
+media
+
+# Virtualenv
+venv/
+virtualenv/
+*.pyc
+
+# Node modules
+node_modules/
+
+# IDE - VS Code
+.vscode/
+*.code-workspace
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
