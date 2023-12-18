@@ -1,4 +1,5 @@
 from rest_framework.views import APIView
+from rest_framework import status
 from rest_framework.response import Response
 from .serializers import UserCreateSerializer
 from .serializers import PasswordResetConfirmSerializer
@@ -10,20 +11,24 @@ from django.core.mail import send_mail
 from django.contrib.sites.shortcuts import get_current_site
 from django.utils.encoding import force_bytes
 from django.contrib.auth import get_user_model
+from rest_framework.permissions import IsAuthenticated
+from dj_rest_auth.registration.views import RegisterView
+from dj_rest_auth.views import LoginView, LogoutView
+from .serializers import UserCreateSerializer, ProfileSerializer
 
 
 
-class RegisterUserView(APIView):
-    def get(self, request):
-        # Replace this with your own logic
-        return Response({"message": "GET request received"})
+# class RegisterUserView(APIView):
+#     def get(self, request):
+#         # Replace this with your own logic
+#         return Response({"message": "GET request received"})
 
-    def post(self, request):
-        serializer = UserCreateSerializer(data=request.data)
-        if serializer.is_valid():
-            user = serializer.save()
-            return Response({"user": UserCreateSerializer(user).data})
-        return Response(serializer.errors, status=400)
+#     def post(self, request):
+#         serializer = UserCreateSerializer(data=request.data)
+#         if serializer.is_valid():
+#             user = serializer.save()
+#             return Response({"user": UserCreateSerializer(user).data})
+#         return Response(serializer.errors, status=400)
     
 # For confirming the password reset, i.e., it's the endpoint where the user sends the new password along with the uidb64 and token
 class PasswordResetConfirmView(APIView):
@@ -63,3 +68,19 @@ class PasswordResetView(APIView):
             return Response({"message": "Password reset email has been sent."}, status=status.HTTP_200_OK)
 
         return Response({"error": "Email is required."}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class CustomRegisterView(RegisterView):
+    serializer_class = UserCreateSerializer  
+
+    def perform_create(self, serializer):
+        user = serializer.save()
+        return user
+    
+class CustomLoginView(LoginView):
+    pass
+
+class CustomLogoutView(LogoutView):
+    permission_classes = (IsAuthenticated,)
+
+

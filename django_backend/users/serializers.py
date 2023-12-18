@@ -4,6 +4,7 @@ from django.contrib.auth.tokens import default_token_generator
 from django.utils.http import urlsafe_base64_decode as uid_decoder
 # from django.utils.translation import ugettext_lazy as _
 
+from users.models import Profile
 
 class UserCreateSerializer(serializers.ModelSerializer):
     class Meta:
@@ -41,3 +42,11 @@ class PasswordResetConfirmSerializer(serializers.Serializer):
         self.user.set_password(password)
         self.user.save()
         return self.user
+class ProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = ('user', 'picture', 'bio')
+
+    def to_representation(self, instance):
+        self.fields['user'] = UserCreateSerializer(read_only=True)
+        return super(ProfileSerializer, self).to_representation(instance)

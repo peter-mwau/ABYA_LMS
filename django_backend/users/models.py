@@ -44,3 +44,10 @@ class User(AbstractUser):
     def __str__(self):
         return self.first_name + ' ' + self.last_name
     
+class Profile(models.Model):
+    user = models.OneToOneField('users.User', on_delete=models.CASCADE)
+    picture = models.ImageField(upload_to="profile_pictures", null=True, blank=True)
+    bio = models.TextField(blank=True)
+
+    def __str__(self):
+        return self.user.username
