@@ -35,9 +35,16 @@ from django.http import Http404
 from assignments import models
 from assignments.models import QuizSubmission, CompletedQuiz
 from django.db.models import Count
-
-
+from rest_framework import viewsets, permissions
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.generics import ListAPIView, RetrieveAPIView
+from rest_framework.views import APIView
+from .serializers import CourseSerializer, ChapterSerializer, LessonSerializer
 # Create your views here.
+
+
 class CreateCourse(LoginRequiredMixin, generic.CreateView):
     fields = ('course_name', 'course_description')
     model = Course
@@ -51,7 +58,14 @@ class CreateCourse(LoginRequiredMixin, generic.CreateView):
     def form_valid(self, form):
         form.instance.teacher = self.request.user
         return super(CreateCourse, self).form_valid(form)
-    
+
+class CourseViewSet(viewsets.ModelViewSet):
+    queryset = Course.objects.all()
+    serializer_class = CourseSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def perform_create(self, serializer):
+        serializer.save(teacher=self.request.user)
 class CreateChapterView(LoginRequiredMixin, generic.CreateView):
     model = Chapter
     form_class = CreateChapterForm
@@ -70,6 +84,13 @@ class CreateChapterView(LoginRequiredMixin, generic.CreateView):
     def get_success_url(self):
         url = reverse('courses:list')
         return url
+class ChapterViewSet(viewsets.ModelViewSet):
+    queryset = Chapter.objects.all()
+    serializer_class = ChapterSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def perform_create(self, serializer):
+        serializer.save(teacher=self.request.user)
 
 class CreateLessonView(LoginRequiredMixin, generic.CreateView):
     form_class = CreateLessonForm
@@ -101,6 +122,28 @@ class CreateLessonView(LoginRequiredMixin, generic.CreateView):
         return super().form_valid(form)
     def get_success_url(self) -> str:
         return reverse('courses:list')
+class LessonViewSet(viewsets.ModelViewSet):
+    queryset = Lesson.objects.all()
+    serializer_class = LessonSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def perform_create(self, serializer):
+        word_file = serializer.validated_data['word_file']
+
+        if word_file:
+            if hasattr(word_file, 'read'):
+                # File is in memory, read its content
+                content = word_file.read()
+                # Perform the Word to Markdown conversion
+                result = mammoth.convert_to_markdown(io.BytesIO(content))
+                serializer.validated_data['lesson_content'] = result.value
+            else:
+                # File is on disk, perform conversion as before
+                with open(word_file.path, 'rb') as docx_file:
+                    result = mammoth.convert_to_markdown(docx_file)
+                    serializer.validated_data['lesson_content'] = result.value
+
+        serializer.save(teacher=self.request.user)
 
 class CourseDetail(generic.DetailView):
     model = Course
@@ -331,6 +374,11 @@ class ListCourse(generic.ListView):
             messages.info(self.request, 'No courses available at the moment.')
 
         return context
+class ListCourseAPI(ListAPIView):
+    queryset = Course.objects.all()
+    serializer_class = CourseSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
 class CourseInfoView(generic.DetailView):
     model = Course
     template_name = 'courses/course_info.html'
@@ -350,6 +398,24 @@ class CourseInfoView(generic.DetailView):
         context['chapters'] = self.object.chapters.all()
         context['course'] = course
         return context
+
+class CourseInfoAPI(RetrieveAPIView):
+    queryset = Course.objects.all()
+    serializer_class = CourseSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance)
+
+        chapters = Chapter.objects.filter(course=instance)
+        chapter_serializer = ChapterSerializer(chapters, many=True)
+
+        return Response({
+            'course': serializer.data,
+            'chapters': chapter_serializer.data,
+        })
+
 
 
 class EnrollCourse(LoginRequiredMixin, generic.RedirectView):
@@ -386,6 +452,25 @@ class UnenrollCourse(LoginRequiredMixin, generic.RedirectView):
             enrollment.delete()
             messages.success(self.request, 'You have unenrolled from the course.')
         return super().get(self.request, *args, **kwargs)
+    
+class EnrollCourseAPI(APIView):
+    def post(self, request, pk, format=None):
+        course = get_object_or_404(Course, pk=pk)
+        try:
+            Enrollment.objects.create(student=request.user, course=course)
+        except:
+            return Response({'detail': 'You are already enrolled in the course.'}, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response({'detail': 'You are now enrolled in the course.'}, status=status.HTTP_201_CREATED)
+class UnenrollCourseAPI(APIView):
+    def post(self, request, pk, format=None):
+        try:
+            enrollment = Enrollment.objects.filter(student=request.user, course__pk=pk).get()
+        except Enrollment.DoesNotExist:
+            return Response({'detail': 'You are not enrolled in this course.'}, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            enrollment.delete()
+            return Response({'detail': 'You have unenrolled from the course.'}, status=status.HTTP_204_NO_CONTENT)
 
 class UpdateCourseView(LoginRequiredMixin, generic.UpdateView):
     model = Course
@@ -575,7 +660,32 @@ def mark_lesson_as_complete(request):
 
     return JsonResponse({'message': 'Lesson marked as complete successfully.', 'completed_lessons_count': completed_lessons, 'completion_percentage': completion_percentage}, status=200)
 
+class MarkLessonAsCompleteAPI(APIView):
+    def post(self, request, format=None):
+        lesson_id = request.data.get('lesson_id')
+        if not lesson_id:
+            return Response({'message': 'Missing lesson ID.'}, status=status.HTTP_400_BAD_REQUEST)
 
+        lesson = get_object_or_404(Lesson, pk=lesson_id)
+
+        if CompletedLesson.objects.filter(user=request.user, lesson=lesson).exists():
+            return Response({'message': 'Lesson is already marked as complete.'}, status=status.HTTP_200_OK)
+
+        CompletedLesson.objects.create(user=request.user, lesson=lesson)
+
+        # Calculate the completion percentage for the course
+        course = lesson.chapter.course
+        total_lessons = Lesson.objects.filter(chapter__course=course).count()
+        total_quizzes = course.total_quizzes()
+        completed_lessons = request.user.completed_lessons.filter(lesson__chapter__course=course).count()
+        completed_quizzes = request.user.completed_quizzes(course)
+
+        completion_percentage = (completed_lessons + completed_quizzes/ (total_lessons + total_quizzes)) * 100
+
+        return Response({
+            'message': 'Lesson marked as complete successfully.',
+            'completion_percentage': completion_percentage,
+        }, status=status.HTTP_200_OK)
 @csrf_protect
 def update_video_progress(request):
     if request.method == 'POST':

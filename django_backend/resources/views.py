@@ -8,9 +8,11 @@ from resources.models import Resource
 from resources.models import VideoLesson, VideoProgress
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_protect
+from rest_framework.decorators import api_view
 # Create your views here.
 
 
+@api_view(['POST'])
 class CreateResource(LoginRequiredMixin, generic.CreateView):
     form_class = CreateResourceForm
     template_name = 'resources/create_resource_form.html'
