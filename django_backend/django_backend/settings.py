@@ -35,6 +35,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'users',
+    'courses',
+    'assignments',
+    'resources',
 
     'rest_framework',
     'rest_framework.authtoken',
@@ -128,7 +131,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'abya_database',
         'USER': 'root',
-        'PASSWORD': 'password',
+        'PASSWORD': 'lms123',
         'HOST': 'localhost',
         'PORT': '3306'
     }
