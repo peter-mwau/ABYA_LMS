@@ -73,6 +73,17 @@ function Login() {
                       <span>Login with Google</span>
                   </a>
               </div>
+              {/* or div to separate the two */}
+              <div class="relative mt-4">
+                  <div class="absolute inset-0 flex items-center">
+                      <div class="w-full border-t border-gray-300"></div>
+                  </div>
+                  <div class="relative flex justify-center text-sm">
+                      <span class="px-2 text-gray-500 bg-white dark:bg-gray-800">
+                          Or continue with
+                      </span>
+                  </div>
+              </div>
               <form class="space-y-4 md:space-y-6" action="#" onSubmit={handleSubmit}>
               {error && <p className='text-red-500 font-semibold'>{error}</p>}
               {successMessage && <p className='text-green-500 font-semibold'>{successMessage}</p>}
