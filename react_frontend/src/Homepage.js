@@ -1,243 +1,251 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import Navbar from './Navbar';
-
-function Homepage() {
-  // const [username, setUsername] = useState('');
-  const [isSideNavOpen, setIsSideNavOpen] = useState(false);
-  
-
-  function handleSideNavButtonClick() {
-    setIsSideNavOpen(!isSideNavOpen);
-  }
- 
-
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-
-    axios({
-      url: 'http://localhost:8000/users/',
-      method: 'get',
-      headers: {
-        'Authorization': `Token ${token}`,
-      },
-    })
-    .then((response) => {
-      // setUsername(response.data.username);
-    })
-    .catch((error) => {
-      console.error(error);
-    });
-  }, []);
-
-  return (
-    <div>
-      <Navbar />
-<button data-drawer-target="sidebar-multi-level-sidebar" data-drawer-toggle="sidebar-multi-level-sidebar" aria-controls="sidebar-multi-level-sidebar" type="button" onClick={handleSideNavButtonClick} class="inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
-   <span class="sr-only">Open sidebar</span>
-   <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-   <path clip-rule="evenodd" fill-rule="evenodd" d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"></path>
-   </svg>
-</button>
+import { useState } from "react";
+// import landingImage from './web3.jpg';
 
 
-{isSideNavOpen && (
-<aside id="sidebar-multi-level-sidebar" class="fixed top-[130px] left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidebar">
-   <div class="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
-      <ul class="space-y-2 font-medium">
-         <li>
-            <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-               <svg class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 21">
-                  <path d="M16.975 11H10V4.025a1 1 0 0 0-1.066-.998 8.5 8.5 0 1 0 9.039 9.039.999.999 0 0 0-1-1.066h.002Z"/>
-                  <path d="M12.5 0c-.157 0-.311.01-.565.027A1 1 0 0 0 11 1.02V10h8.975a1 1 0 0 0 1-.935c.013-.188.028-.374.028-.565A8.51 8.51 0 0 0 12.5 0Z"/>
-               </svg>
-               <span class="ms-3">Dashboard</span>
-            </a>
-         </li>
-         <li>
-            <button type="button" class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700" aria-controls="dropdown-example" data-collapse-toggle="dropdown-example">
-                  <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 21">
-                     <path d="M15 12a1 1 0 0 0 .962-.726l2-7A1 1 0 0 0 17 3H3.77L3.175.745A1 1 0 0 0 2.208 0H1a1 1 0 0 0 0 2h.438l.6 2.255v.019l2 7 .746 2.986A3 3 0 1 0 9 17a2.966 2.966 0 0 0-.184-1h2.368c-.118.32-.18.659-.184 1a3 3 0 1 0 3-3H6.78l-.5-2H15Z"/>
-                  </svg>
-                  <span class="flex-1 ms-3 text-left rtl:text-right whitespace-nowrap">E-commerce</span>
-                  <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
-                  </svg>
-            </button>
-            <ul id="dropdown-example" class="hidden py-2 space-y-2">
-                  <li>
-                     <a href="#" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Products</a>
-                  </li>
-                  <li>
-                     <a href="#" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Billing</a>
-                  </li>
-                  <li>
-                     <a href="#" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Invoice</a>
-                  </li>
-            </ul>
-         </li>
-         <li>
-            <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-               <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 18">
-                  <path d="M6.143 0H1.857A1.857 1.857 0 0 0 0 1.857v4.286C0 7.169.831 8 1.857 8h4.286A1.857 1.857 0 0 0 8 6.143V1.857A1.857 1.857 0 0 0 6.143 0Zm10 0h-4.286A1.857 1.857 0 0 0 10 1.857v4.286C10 7.169 10.831 8 11.857 8h4.286A1.857 1.857 0 0 0 18 6.143V1.857A1.857 1.857 0 0 0 16.143 0Zm-10 10H1.857A1.857 1.857 0 0 0 0 11.857v4.286C0 17.169.831 18 1.857 18h4.286A1.857 1.857 0 0 0 8 16.143v-4.286A1.857 1.857 0 0 0 6.143 10Zm10 0h-4.286A1.857 1.857 0 0 0 10 11.857v4.286c0 1.026.831 1.857 1.857 1.857h4.286A1.857 1.857 0 0 0 18 16.143v-4.286A1.857 1.857 0 0 0 16.143 10Z"/>
-               </svg>
-               <span class="flex-1 ms-3 whitespace-nowrap">Kanban</span>
-               <span class="inline-flex items-center justify-center px-2 ms-3 text-sm font-medium text-gray-800 bg-gray-100 rounded-full dark:bg-gray-700 dark:text-gray-300">Pro</span>
-            </a>
-         </li>
-         <li>
-            <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-               <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="m17.418 3.623-.018-.008a6.713 6.713 0 0 0-2.4-.569V2h1a1 1 0 1 0 0-2h-2a1 1 0 0 0-1 1v2H9.89A6.977 6.977 0 0 1 12 8v5h-2V8A5 5 0 1 0 0 8v6a1 1 0 0 0 1 1h8v4a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-4h6a1 1 0 0 0 1-1V8a5 5 0 0 0-2.582-4.377ZM6 12H4a1 1 0 0 1 0-2h2a1 1 0 0 1 0 2Z"/>
-               </svg>
-               <span class="flex-1 ms-3 whitespace-nowrap">Inbox</span>
-               <span class="inline-flex items-center justify-center w-3 h-3 p-3 ms-3 text-sm font-medium text-blue-800 bg-blue-100 rounded-full dark:bg-blue-900 dark:text-blue-300">3</span>
-            </a>
-         </li>
-         <li>
-            <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-               <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
-                  <path d="M14 2a3.963 3.963 0 0 0-1.4.267 6.439 6.439 0 0 1-1.331 6.638A4 4 0 1 0 14 2Zm1 9h-1.264A6.957 6.957 0 0 1 15 15v2a2.97 2.97 0 0 1-.184 1H19a1 1 0 0 0 1-1v-1a5.006 5.006 0 0 0-5-5ZM6.5 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9ZM8 10H5a5.006 5.006 0 0 0-5 5v2a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-2a5.006 5.006 0 0 0-5-5Z"/>
-               </svg>
-               <span class="flex-1 ms-3 whitespace-nowrap">Users</span>
-            </a>
-         </li>
-         <li>
-            <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-               <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20">
-                  <path d="M17 5.923A1 1 0 0 0 16 5h-3V4a4 4 0 1 0-8 0v1H2a1 1 0 0 0-1 .923L.086 17.846A2 2 0 0 0 2.08 20h13.84a2 2 0 0 0 1.994-2.153L17 5.923ZM7 9a1 1 0 0 1-2 0V7h2v2Zm0-5a2 2 0 1 1 4 0v1H7V4Zm6 5a1 1 0 1 1-2 0V7h2v2Z"/>
-               </svg>
-               <span class="flex-1 ms-3 whitespace-nowrap">Products</span>
-            </a>
-         </li>
-         <li>
-            <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-               <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 16">
-                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 8h11m0 0L8 4m4 4-4 4m4-11h3a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-3"/>
-               </svg>
-               <span class="flex-1 ms-3 whitespace-nowrap">Sign In</span>
-            </a>
-         </li>
-         <li>
-            <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-               <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M5 5V.13a2.96 2.96 0 0 0-1.293.749L.879 3.707A2.96 2.96 0 0 0 .13 5H5Z"/>
-                  <path d="M6.737 11.061a2.961 2.961 0 0 1 .81-1.515l6.117-6.116A4.839 4.839 0 0 1 16 2.141V2a1.97 1.97 0 0 0-1.933-2H7v5a2 2 0 0 1-2 2H0v11a1.969 1.969 0 0 0 1.933 2h12.134A1.97 1.97 0 0 0 16 18v-3.093l-1.546 1.546c-.413.413-.94.695-1.513.81l-3.4.679a2.947 2.947 0 0 1-1.85-.227 2.96 2.96 0 0 1-1.635-3.257l.681-3.397Z"/>
-                  <path d="M8.961 16a.93.93 0 0 0 .189-.019l3.4-.679a.961.961 0 0 0 .49-.263l6.118-6.117a2.884 2.884 0 0 0-4.079-4.078l-6.117 6.117a.96.96 0 0 0-.263.491l-.679 3.4A.961.961 0 0 0 8.961 16Zm7.477-9.8a.958.958 0 0 1 .68-.281.961.961 0 0 1 .682 1.644l-.315.315-1.36-1.36.313-.318Zm-5.911 5.911 4.236-4.236 1.359 1.359-4.236 4.237-1.7.339.341-1.699Z"/>
-               </svg>
-               <span class="flex-1 ms-3 whitespace-nowrap">Sign Up</span>
-            </a>
-         </li>
-      </ul>
-   </div>
-</aside>
-)}
 
-<div class="p-4 sm:ml-64">
-   <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
-      <div class="grid grid-cols-3 gap-4 mb-4">
-         <div class="flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800">
-            <p class="text-2xl text-gray-400 dark:text-gray-500">
-               <svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
-               </svg>
-            </p>
-         </div>
-         <div class="flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800">
-            <p class="text-2xl text-gray-400 dark:text-gray-500">
-               <svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
-               </svg>
-            </p>
-         </div>
-         <div class="flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800">
-            <p class="text-2xl text-gray-400 dark:text-gray-500">
-               <svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
-               </svg>
-            </p>
-         </div>
-      </div>
-      <div class="flex items-center justify-center h-48 mb-4 rounded bg-gray-50 dark:bg-gray-800">
-         <p class="text-2xl text-gray-400 dark:text-gray-500">
-            <svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-               <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
-            </svg>
-         </p>
-      </div>
-      <div class="grid grid-cols-2 gap-4 mb-4">
-         <div class="flex items-center justify-center rounded bg-gray-50 h-28 dark:bg-gray-800">
-            <p class="text-2xl text-gray-400 dark:text-gray-500">
-               <svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
-               </svg>
-            </p>
-         </div>
-         <div class="flex items-center justify-center rounded bg-gray-50 h-28 dark:bg-gray-800">
-            <p class="text-2xl text-gray-400 dark:text-gray-500">
-               <svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
-               </svg>
-            </p>
-         </div>
-         <div class="flex items-center justify-center rounded bg-gray-50 h-28 dark:bg-gray-800">
-            <p class="text-2xl text-gray-400 dark:text-gray-500">
-               <svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
-               </svg>
-            </p>
-         </div>
-         <div class="flex items-center justify-center rounded bg-gray-50 h-28 dark:bg-gray-800">
-            <p class="text-2xl text-gray-400 dark:text-gray-500">
-               <svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
-               </svg>
-            </p>
-         </div>
-      </div>
-      <div class="flex items-center justify-center h-48 mb-4 rounded bg-gray-50 dark:bg-gray-800">
-         <p class="text-2xl text-gray-400 dark:text-gray-500">
-            <svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-               <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
-            </svg>
-         </p>
-      </div>
-      <div class="grid grid-cols-2 gap-4">
-         <div class="flex items-center justify-center rounded bg-gray-50 h-28 dark:bg-gray-800">
-            <p class="text-2xl text-gray-400 dark:text-gray-500">
-               <svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
-               </svg>
-            </p>
-         </div>
-         <div class="flex items-center justify-center rounded bg-gray-50 h-28 dark:bg-gray-800">
-            <p class="text-2xl text-gray-400 dark:text-gray-500">
-               <svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
-               </svg>
-            </p>
-         </div>
-         <div class="flex items-center justify-center rounded bg-gray-50 h-28 dark:bg-gray-800">
-            <p class="text-2xl text-gray-400 dark:text-gray-500">
-               <svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
-               </svg>
-            </p>
-         </div>
-         <div class="flex items-center justify-center rounded bg-gray-50 h-28 dark:bg-gray-800">
-            <p class="text-2xl text-gray-400 dark:text-gray-500">
-               <svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
-               </svg>
-            </p>
-         </div>
-      </div>
-   </div>
-</div>
+const Homepage = () => {
+    const landingImage = './web3.jpg';
+    const [isHidden, setIsHidden] = useState(true);
 
+    const toggleNav = () => {
+        document.addEventListener("DOMContentLoaded", function() {
+            const openSidenavButton = document.getElementById("openSidenav");
+            
+    
+            openSidenavButton.addEventListener("click", function() {
+                if (isHidden) {
+                    // sidenav.style.width = "250px"; // Adjust the width as needed
+                    setIsHidden(!isHidden)
+                } else {
+                    // sidenav.style.width = "0";
+                    setIsHidden(isHidden);
+                }
+            });
+        });
+    };
 
+    const sectionStyle = {
+        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.8)), url(${landingImage})`,
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: 'cover',
+        height: '100vh', // Adjust as needed
+        };
+
+    return ( 
+    <body class="bg-gray-200 text-white">
+    <div id="landing" style={sectionStyle} class="w-full h-[100vh] mx-auto flex flex-col items-center justify-center bg-black bg-opacity-10">
+        <div class="h-[70px, auto] w-full p-2 flex flex-row relative my-auto space-x-[30%] container">
+            <div class="items-start p-1 m-2">
+                {/* {% comment %} <img src="{% static 'django_lms/images/abya2.jpg' %}" class="rounded-full bg-cover"/> {% endcomment %} */}
+                <img width="500" height="500" src="https://abyauniversity.com/wp-content/uploads/2022/08/abya-university-resized.png" class="attachment-large size-large wp-image-3255" alt="" loading="lazy" srcset="https://abyauniversity.com/wp-content/uploads/2022/08/abya-university-resized.png 592w, https://abyauniversity.com/wp-content/uploads/2022/08/abya-university-resized-300x129.png 300w" sizes="(max-width: 592px) 100vw, 592px" />
+            </div>
+            <div class="lg:my-auto lg:flex text-white font-bold lg:items-end lg:mx-auto hidden space-x-3">
+                <a href="{% url 'home' %}" class="text-black bg-yellow-500 p-1 rounded-2xl hover:text-white hover:bg-yellow-400 hover:shadow-md transition duration-300 ease-in-out font-bold py-2 px-4">Home</a>
+                <a href="{% url 'users:login' %}" class="text-white hover:text-cyan-950 hover:bg-yellow-400 hover:border-yellow-400 hover:p-2 hover:rounded-2xl hover:shadow-md hover:transition-transform hover:scale-105 transition duration-300 ease-in-out font-bold py-2 px-4">Login</a>
+                <a href="{% url 'users:signup' %}" class="text-white hover:text-cyan-950 hover:bg-yellow-400 hover:border-yellow-400 hover:p-2 hover:rounded-2xl hover:shadow-md hover:transition-transform hover:scale-105 transition duration-300 ease-in-out font-bold py-2 px-4">Register</a>
+                <a href="#about" class="text-white hover:text-cyan-950 hover:bg-yellow-400 hover:border-yellow-400 hover:p-2 hover:rounded-2xl hover:shadow-md hover:transition-transform hover:scale-105 transition duration-300 ease-in-out font-bold py-2 px-4">About</a>
+                <a href="#contact" class="text-white hover:text-cyan-950 hover:bg-yellow-400 hover:border-yellow-400 hover:p-2 hover:rounded-2xl hover:shadow-md hover:transition-transform hover:scale-105 transition duration-300 ease-in-out font-bold py-2 px-4">Contact</a>
+            </div>
+            
+        </div>
+        <div class="index-image text-yellow-400">
+            <div class="mx-auto items-center flex justify-center w-[80%] py-5">
+                <div class="flex flex-row my-auto space-x-4 w-auto">
+                <div class="items-start mx-auto justify-start my-auto m-3 space-x-5 w-1/2">
+                    <h1 class="text-5xl">Learning Management System</h1>
+                    <p class="text-gray-100 ">Innovation. Creativity. Teamwork.</p>
+                    <p class="bg-gray-100 bg-opacity-60 hover:text-cyan-950 hover:bg-opacity-80  rounded-md shadow-sm p-2 mt-2 hover:shadow-2xl w-auto"><a href="{% url 'courses:list' %}" class="mx-auto items-center justify-center flex text-xl font-serif font-semibold decoration-none hover:no-underline text-black ">View All Courses</a></p>
+                </div>
+                <div class="hidden lg:flex items-end justify-end my-auto"><img src="https://res.cloudinary.com/mhmd/image/upload/v1556834136/illus_kftyh4.png" alt="" class="img-fluid w-[600px]" /></div>
+                </div>
+            </div>
+            <div class="bg-black bg-opacity-40 m-2 p-2 items-center justify-center flex mx-auto hover:cursor-pointer hover:translate-y-2 hover:delay-100 rounded-lg h-[200px] w-1/2 hover:bg-opacity-60 hover:text-yellow-400 hover:animate-pulse transition duration-300 ease-in-out">
+                <p class="text-3xl font-semibold font-serif text-center items-center justify-center mx-auto my-auto flex text-yellow-400">Empowering The Next Generation of Change Leaders</p>
+            </div>
+        </div>
+        {/* <!-- Navigation button --> */}
+    <button id="openSidenav" onClick={toggleNav} class="text-white p-2 lg:hidden rounded-lg hover:bg-yellow-500 hover:text-black hover:shadow-md transition duration-300 ease-in-out fixed top-4 right-4 z-10">☰</button>
+
+    {/* <!-- Sidenav container --> */}
+    <div id="sidenav" className={`sidenav ${isHidden ? 'hidden' : ''} w-[250px] hidden h-full absolute top-0 right-0 bg-cyan-950 text-white overflow-x-hidden transition duration-300 ease-in-out`}>
+        {/* <!-- Sidenav content goes here --> */}
+        <div class="p-4">
+            <a href="{% url 'home' %}" class="text-white block py-2 px-4 hover:bg-yellow-500 hover:text-black hover:rounded-lg transition duration-300 ease-in-out font-bold">Home</a>
+            <a href="{% url 'users:login' %}" class="text-white block py-2 px-4 hover:bg-yellow-500 hover:text-black hover:rounded-lg transition duration-300 ease-in-out font-bold">Login</a>
+            <a href="{% url 'users:signup' %}" class="text-white block py-2 px-4 hover:bg-yellow-500 hover:text-black hover:rounded-lg transition duration-300 ease-in-out font-bold">Register</a>
+            <a href="#about" class="text-white block py-2 px-4 hover:bg-yellow-500 hover:text-black hover:rounded-lg transition duration-300 ease-in-out font-bold">About</a>
+            <a href="#contact" class="text-white block py-2 px-4 hover:bg-yellow-500 hover:text-black hover:rounded-lg transition duration-300 ease-in-out font-bold">Contact</a>
+        </div>
     </div>
-  );
-}
+    </div>
+   {/* <!-- About Section --> */}
+<section id="about" class="about bg-gray-100 py-16">
+    <div class="container mx-auto px-4">
+        <div class="flex flex-col items-center">
+            <h2 class="text-3xl font-semibold text-cyan-950 mb-4 underline-offset-auto uppercase">Why We Are The Best!</h2>
+            <div class="ekit_heading_separetor_wraper">
+                <div class="elementskit-border-divider"></div>
+            </div>
+            <p class="text-lg text-gray-600 text-center max-w-2xl">
+                Abya is your gateway to a world of knowledge and learning. We are dedicated to empowering the next generation of change leaders through innovative education and creative collaboration.
+            </p>
+        </div>
+        <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="bg-transparent p-6 rounded-lg flex flex-row hover:cursor-pointer hover:shadow-md transition delay-200 ease-in-out">
+                <img src="https://thenounproject.com/api/private/icons/2797169/edit/?backgroundShape=SQUARE&backgroundShapeColor=%23000000&backgroundShapeOpacity=0&exportSize=752&flipX=false&flipY=false&foregroundColor=%23000000&foregroundOpacity=1&imageFormat=png&rotation=0" alt="Learn Together Icon" class="w-[150px] h-[150px] text-cyan-950 mr-2 my-auto" />
+                <div class="flex flex-col my-auto">
+                <h3 class="text-xl font-semibold text-cyan-950 mb-2">Learn Together</h3>
+                <p class="text-gray-600">
+                    Learning together with like-minded participants has proven to be more effective than learning alone.
+                </p>
+                </div>
+            </div>
+            <div class="bg-transparent p-6 rounded-lg flex flex-row hover:cursor-pointer hover:shadow-md transition delay-200 ease-in-out">
+                <img src="https://thenounproject.com/api/private/icons/4568402/edit/?backgroundShape=SQUARE&backgroundShapeColor=%23000000&backgroundShapeOpacity=0&exportSize=752&flipX=false&flipY=false&foregroundColor=%23000000&foregroundOpacity=1&imageFormat=png&rotation=0" alt="Available Icon" class="w-[150px] h-[150px] text-cyan-950 mr-2 my-auto" />
+                <div class="flex flex-col my-auto">
+                <h3 class="text-xl font-semibold text-cyan-950 mb-2">Available from Anywhere Any Device</h3>
+                <p class="text-gray-600">
+                    No matter where you are or in which part of the country you reside in, you can learn from anywhere.
+                </p>
+            </div>
+            </div>
+            <div class="bg-transparent p-6 rounded-lg flex flex-row hover:cursor-pointer hover:shadow-md transition delay-200 ease-in-out">
+                <img src="https://thenounproject.com/api/private/icons/1214792/edit/?backgroundShape=SQUARE&backgroundShapeColor=%23000000&backgroundShapeOpacity=0&exportSize=752&flipX=false&flipY=false&foregroundColor=%23000000&foregroundOpacity=1&imageFormat=png&rotation=0" alt="Available Icon" class="w-[150px] h-[150px] text-cyan-950 mr-2 my-auto" />
+                <div class="flex flex-col my-auto">
+                    <h3 class="text-xl font-semibold text-cyan-950 mb-2">Access Mentors</h3>
+                    <p class="text-gray-600">
+                        Throughout the Learning journey, you will have access to mentors -- who are influential leaders in the disruptive tech space.
+                    </p>
+                </div>
+            </div>
+            <div class="bg-transparent p-6 rounded-lg flex flex-row hover:cursor-pointer hover:shadow-md transition delay-200 ease-in-out">
+                <img src="https://thenounproject.com/api/private/icons/2573072/edit/?backgroundShape=SQUARE&backgroundShapeColor=%23000000&backgroundShapeOpacity=0&exportSize=752&flipX=false&flipY=false&foregroundColor=%23000000&foregroundOpacity=1&imageFormat=png&rotation=0" alt="Available Icon" class="w-[150px] h-[150px] text-white mr-2 my-auto" />
+                <div class="flex flex-col my-auto">
+                <h3 class="text-xl font-semibold text-cyan-950 mb-2">Fun & Easy to Follow Content</h3>
+                <p class="text-gray-600">
+                    Learn the basics and then proceed to intermidiate level, from zero knowledge and skill to the deep dive of developing smart contracts.
+                </p>
+            </div>
+            </div>
+        </div>
+        <div class="lg:flex lg:flex-row flex-row md:flex-row mt-5 lg:relative lg:w-[70%] container p-2 lg:mx-auto lg:items-center lg:justify-center lg:h-[400px] md:h-auto hidden">
+            <div class="items-start bg-gray-200 text-cyan-950 p-5 sm:h-[400px]">
+                <p class="mx-auto items-center justify-center flex font-bold text-xl">Our Values</p>
+                <div class="mx-auto m-2 flex items-center justify-center max-w-[500px] h-auto flex-row flex-wrap ">
+                    <div class="flex flex-col hover:cursor-pointer hover:bg-white transition delay-200 ease-in-out p-2">
+                        <img src="https://thenounproject.com/api/private/icons/6189049/edit/?backgroundShape=SQUARE&backgroundShapeColor=%23000000&backgroundShapeOpacity=0&exportSize=752&flipX=false&flipY=false&foregroundColor=%23000000&foregroundOpacity=1&imageFormat=png&rotation=0" alt="Available Icon" class="w-[100px] h-[100px] text-cyan-950 mr-2 my-auto" />
+                        <p class="mx-auto items-center justify-center flex">Innovation</p>
+                    </div>
+                    <div class="flex flex-col hover:cursor-pointer hover:bg-white transition delay-200 ease-in-out p-2">
+                        <img src="https://thenounproject.com/api/private/icons/6186496/edit/?backgroundShape=SQUARE&backgroundShapeColor=%23000000&backgroundShapeOpacity=0&exportSize=752&flipX=false&flipY=false&foregroundColor=%23000000&foregroundOpacity=1&imageFormat=png&rotation=0" alt="Available Icon" class="w-[100px] h-[100px] text-cyan-950 mr-2 my-auto" />
+                        <p class="mx-auto items-center justify-center flex">Creativity</p>
+                    </div>
+                    <div class="flex flex-col hover:cursor-pointer hover:bg-white transition delay-200 ease-in-out p-2">
+                        <img src="https://thenounproject.com/api/private/icons/5542179/edit/?backgroundShape=SQUARE&backgroundShapeColor=%23000000&backgroundShapeOpacity=0&exportSize=752&flipX=false&flipY=false&foregroundColor=%23000000&foregroundOpacity=1&imageFormat=png&rotation=0" alt="Available Icon" class="w-[100px] h-[100px] text-cyan-950 mr-2 my-auto" />
+                        <p class="mx-auto items-center justify-center flex">Teamwork</p>
+                    </div>
+                    <div class="flex flex-col hover:cursor-pointer hover:bg-white transition delay-200 ease-in-out p-2">
+                        <img src="https://thenounproject.com/api/private/icons/1612513/edit/?backgroundShape=SQUARE&backgroundShapeColor=%23000000&backgroundShapeOpacity=0&exportSize=752&flipX=false&flipY=false&foregroundColor=%23000000&foregroundOpacity=1&imageFormat=png&rotation=0" alt="Available Icon" class="w-[100px] h-[100px] text-cyan-950 mr-2 my-auto" />
+                        <p class="mx-auto items-center justify-center flex">Diversity</p>
+                    </div>
+                    <div class="flex flex-col hover:cursor-pointer hover:bg-white transition delay-200 ease-in-out p-2">
+                        <img src="https://thenounproject.com/api/private/icons/5995805/edit/?backgroundShape=SQUARE&backgroundShapeColor=%23000000&backgroundShapeOpacity=0&exportSize=752&flipX=false&flipY=false&foregroundColor=%23000000&foregroundOpacity=1&imageFormat=png&rotation=0" alt="Available Icon" class="w-[100px] h-[100px] text-cyan-950 mr-2 my-auto" />
+                        <p class="mx-auto items-center justify-center flex">Integrity</p>
+                    </div>
+                </div>
+            </div>
+            <div class="items-end bg-cyan-950 text-yellow-500 p-2 max-w-[500px] h-[400px] sm:p-2 sm:w-1/2 sm:h-[400px]">
+                <span class="my-auto container">
+                <p class="mx-auto items-center justify-center flex font-bold text-xl">How can we Help You?</p>
+                <p class="items-center justify-center p-2 m-2 mx-auto flex text-white">Are you a university student and want to change the course of history? Do you want to be part of something bigger than yourself? If your answer is YES, then ABYA is the place for you! </p>
+                <button class="bg-gray-100 m-2 p-2 mx-auto items-center justify-center flex text-cyan-950 font-bold rounded-md hover:bg-yellow-500 transition delay-200 ease-in-out">Register Today!</button>
+                </span>
+            </div>
+        </div>
+    </div>
+</section>
 
+{/* <!-- Contact Section --> */}
+<section id="contact" class="contact bg-cyan-950 text-white py-16">
+    <div class="container mx-auto px-4">
+        <div class="flex flex-col items-center sm:pt-4">
+            <h2 class="text-3xl font-semibold mb-4 underline-offset-auto uppercase">Contact Us</h2>
+            <div class="ekit_heading_separetor_wraper">
+                <div class="elementskit-border-divider"></div>
+            </div>
+        </div>
+        <div class="m-2 p-2 mx-auto flex flex-col sm:flex-row md:flex-row sm:w-full">
+            {/* <!-- Add your contact information or contact form here --> */}
+            <div class="items-start left-5 my-auto sm:mx-auto">
+                <img width="700" height="654" src="https://abyauniversity.com/wp-content/uploads/2022/08/abya-university-resized.png" class="attachment-large size-large wp-image-3255" alt="" loading="lazy" srcset="https://abyauniversity.com/wp-content/uploads/2022/08/abya-university-resized.png 592w, https://abyauniversity.com/wp-content/uploads/2022/08/abya-university-resized-300x129.png 300w" sizes="(max-width: 592px) 100vw, 592px" />
+            </div>
+             {/* <!-- Quick Links --> */}
+             <div class="w-full flex flex-col md:w-1/2 p-5 m-2 items-center my-auto sm:mx-auto sm:w-full sm:flex">
+                <h3 class="text-2xl font-semibold mb-4">Quick Links</h3>
+                <ul class="space-y-2">
+                    <li><a href="#landing" class="hover:text-yellow-500 hover:cursor-pointer hover:no-underline">Home</a></li>
+                    <li><a href="#" class="hover:text-yellow-500 hover:cursor-pointer hover:no-underline">Courses</a></li>
+                    <li><a href="#about" class="hover:text-yellow-500 hover:cursor-pointer hover:no-underline">About Us</a></li>
+                    <li><a href="#contact" class="hover:text-yellow-500 hover:cursor-pointer hover:no-underline">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="w-full md:w-1/2 p-5 items-center m-2 my-auto sm:w-full">               
+                {/* <!-- Contact Info --> */}
+                <div class="mt-6 md:mt-0">
+                    <div class="text-white p-6 rounded-lg h-full">
+                        <p class="text-lg font-semibold">Contact Information</p>
+                        <ul class="mt-4 space-y-2">
+                            <li class="hover:text-yellow-500"><i class="fa fa-map-marker text-2xl p-2"></i>Crystal Business Plaza, Off Magadi Road, Rongai, Kenya</li>
+                            <li class="hover:text-yellow-500"><i class="fa fa-phone text-2xl p-2"></i>+254 (0) 97546916</li>
+                            <li class="hover:text-yellow-500"><i class="fa fa-envelope text-2xl p-2"></i>info@abyauniversity.com</li>
+                        </ul>
+                        <div class="flex flex-row text-white space-x-4 mt-4">
+                            <a href="https://www.linkedin.com/company/abya-africa" target="_blank" aria-label="LinkedIn" class="linkedin hover:text-yellow-500 transition delay-200 ease-in-out hover:-translate-y-1.5">
+                                <i class="fab fa-linkedin fa-2x"></i>
+                            </a>
+                            <a href="https://twitter.com/abyaafrica" target="_blank" aria-label="Twitter" class="twitter hover:text-yellow-500 transition delay-200 ease-in-out hover:-translate-y-1.5">
+                                <i class="fab fa-twitter fa-2x"></i>
+                            </a>
+                            <a href="https://www.facebook.com/abyaafrica" target="_blank" aria-label="Facebook" class="facebook hover:text-yellow-500 transition delay-200 ease-in-out hover:-translate-y-1.5">
+                                <i class="fab fa-facebook fa-2x"></i>
+                            </a>
+                            <a href="https://www.instagram.com/abyaafrica" target="_blank" aria-label="Instagram" class="instagram hover:text-yellow-500 transition delay-200 ease-in-out hover:-translate-y-1.5">
+                                <i class="fab fa-instagram fa-2x"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="items-end w-full sm:w-2/3 md:w-2/3 shadow-lg my-auto">
+                {/* <!-- Contact Form --> */}
+                {/* {% comment %} sm:mx-auto sm:w-2/3 md:w-2/3 md:mx-auto {% endcomment %} */}
+                <form class="w-full bg-white bg-opacity-90 rounded-lg p-6 shadow-lg sm:mx-auto sm:w-2/3 md:w-2/3 md:mx-auto">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6">Get In Touch</h2>
+                    <div class="space-y-4">
+                        <div class="mb-4">
+                            <input type="text" class="w-full p-3 rounded-lg border border-gray-300 focus:border-cyan-500 focus:ring focus:ring-cyan-200" placeholder="Your Name" />
+                        </div>
+                        <div class="mb-4">
+                            <input type="email" class="w-full p-3 rounded-lg border border-gray-300 focus:border-cyan-500 focus:ring focus:ring-cyan-200" placeholder="Your Email" />
+                        </div>
+                        <div class="mb-4">
+                            <input type="text" class="w-full p-3 rounded-lg border border-gray-300 focus:border-cyan-500 focus:ring focus:ring-cyan-200" placeholder="Subject" />
+                        </div>
+                        <div class="mb-4">
+                            <textarea class="w-full p-3 rounded-lg border border-gray-300 focus:border-cyan-500 focus:ring focus:ring-cyan-200" rows="4" placeholder="Type your message here"></textarea>
+                        </div>
+                        <button type="submit" class="w-full py-3 bg-cyan-900 text-white rounded-lg hover:text-black hover:bg-yellow-400 transition duration-300 ease-in-out">Send Message</button>
+                    </div>
+                </form>
+            </div>
+            {/* <!-- You can add a contact form here if needed --> */}
+        </div>
+    </div>
+</section>
+
+   
+</body>
+     );
+}
+ 
 export default Homepage;
