@@ -128,7 +128,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'abya_database',
         'USER': 'root',
-        'PASSWORD': 'password',
+        'PASSWORD': 'lms123',
         'HOST': 'localhost',
         'PORT': '3306'
     }
