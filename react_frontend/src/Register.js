@@ -24,11 +24,11 @@ function Register() {
       last_name: lastName,
       email: email,
       password: password,
-      userType: userType,
+      userType: Number(userType),
     })
     .then((response) => {
       // Redirect the user to the login page
-      window.location.href = '/';
+      window.location.href = '/login';
       // This depends on your routing setup
       setSuccessMessage('Registration successful! Please login.');
     })
@@ -58,7 +58,8 @@ function Register() {
 <section class="bg-gray-100 dark:bg-gray-900 h-auto" >
 <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
     {/* <a href="#" class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white"> */}
-    <img width="100" height="100" src="https://abyauniversity.com/wp-content/uploads/2022/08/abya-university-resized.png" class="attachment-large size-large wp-image-3255" alt="" loading="lazy" srcset="https://abyauniversity.com/wp-content/uploads/2022/08/abya-university-resized.png 592w, https://abyauniversity.com/wp-content/uploads/2022/08/abya-university-resized-300x129.png 300w" sizes="(max-width: 592px) 100vw, 592px items-center justify-center" />    
+    {/* <img width="100" height="100" src="https://abyauniversity.com/wp-content/uploads/2022/08/abya-university-resized.png" class="attachment-large size-large wp-image-3255" alt="" loading="lazy" srcset="https://abyauniversity.com/wp-content/uploads/2022/08/abya-university-resized.png 592w, https://abyauniversity.com/wp-content/uploads/2022/08/abya-university-resized-300x129.png 300w" sizes="(max-width: 592px) 100vw, 592px items-center justify-center" />     */}
+    {/* <img src="logo_mine.png" alt="logo" className="lg:w-[100px] w-[100px] p-3"/> */}
     {/* </a> */}
     <div class="w-full bg-gray-250 text-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
         <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
@@ -85,11 +86,12 @@ function Register() {
                     <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} name="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@company.com" required="" />
                 </div>
                 <div>
-                    <label for="usertype" class="block mb-2 text-sm font-medium text-gray-600 dark:text-white">User type</label>
-                    <input type="number" value={userType} onChange={(e) => {const value = e.target.value;
-                      if (value === '1' || value === '2') {
-                        setUserType(value);
-                      }}}  name="usertype" id="usertype" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="1 or 2" required="" />
+                  <label htmlFor="usertype" className="block mb-2 text-sm font-medium text-gray-600 dark:text-white">User type</label>
+                    <select value={userType} onChange={(e) => setUserType(e.target.value)} name="usertype" id="usertype" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                      <option value="">Select user type</option>
+                      <option value="1">Student</option>
+                      <option value="2">Teacher</option>
+                    </select>
                 </div>
                 <div>
                     <label for="password" class="block mb-2 text-sm font-medium text-gray-600 dark:text-white">Password</label>
@@ -108,7 +110,7 @@ function Register() {
                       {/* <a class="font-medium text-primary-600 hover:underline dark:text-primary-500" href="#"></a> */}
                     </div>
                 </div>
-                <button type="submit" class="w-full text-white bg-gray-300 text-yellow-500 hover:bg-yellow-500 hover:text-cyan-950 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Create an account</button>
+                <button type="submit" class="w-full text-cyan-950 bg-gray-300 hover:bg-yellow-500 hover:text-cyan-950 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Create an account</button>
                 {error && <p className='text-red-500 font-semibold'>{error.message}</p>}
                 <p class="text-sm font-light text-gray-600 dark:text-gray-400">
                     Already have an account? <a href="/login" class="font-medium text-primary-600 hover:underline dark:text-primary-500">Login here</a>
