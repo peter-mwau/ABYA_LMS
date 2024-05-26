@@ -72,7 +72,11 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
     ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
 }
+
 
 
 APPEND_SLASH = True
@@ -131,7 +135,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'abya_database',
         'USER': 'root',
-        'PASSWORD': 'lms123',
+        'PASSWORD': 'password',
         'HOST': 'localhost',
         'PORT': '3306'
     }

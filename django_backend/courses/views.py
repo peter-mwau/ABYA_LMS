@@ -42,6 +42,8 @@ from rest_framework import status
 from rest_framework.generics import ListAPIView, RetrieveAPIView
 from rest_framework.views import APIView
 from .serializers import CourseSerializer, ChapterSerializer, LessonSerializer
+from django.contrib.auth.decorators import login_required
+
 # Create your views here.
 
 
@@ -364,7 +366,7 @@ class CourseDetail(generic.DetailView):
 
 class ListCourse(generic.ListView):
     model = Course
-    template_name = 'courses/course_list.html'
+    # template_name = 'courses/course_list.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -374,6 +376,7 @@ class ListCourse(generic.ListView):
             messages.info(self.request, 'No courses available at the moment.')
 
         return context
+@login_required
 class ListCourseAPI(ListAPIView):
     queryset = Course.objects.all()
     serializer_class = CourseSerializer

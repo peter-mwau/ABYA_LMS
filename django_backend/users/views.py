@@ -15,6 +15,8 @@ from rest_framework.permissions import IsAuthenticated
 from dj_rest_auth.registration.views import RegisterView
 from dj_rest_auth.views import LoginView, LogoutView
 from .serializers import UserCreateSerializer, ProfileSerializer
+from rest_framework.authtoken.models import Token
+
 
 
 
@@ -82,5 +84,12 @@ class CustomLoginView(LoginView):
 
 class CustomLogoutView(LogoutView):
     permission_classes = (IsAuthenticated,)
+
+    def logout(self, request):
+        # Remove the user's authentication token
+        Token.objects.filter(user=request.user).delete()
+
+        # Continue with the default logout process
+        super().logout(request)
 
 
