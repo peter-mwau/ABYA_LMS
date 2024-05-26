@@ -57,10 +57,7 @@ function Register() {
   return (
 <section class="bg-gray-100 dark:bg-gray-900 h-auto" >
 <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-    {/* <a href="#" class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white"> */}
-    {/* <img width="100" height="100" src="https://abyauniversity.com/wp-content/uploads/2022/08/abya-university-resized.png" class="attachment-large size-large wp-image-3255" alt="" loading="lazy" srcset="https://abyauniversity.com/wp-content/uploads/2022/08/abya-university-resized.png 592w, https://abyauniversity.com/wp-content/uploads/2022/08/abya-university-resized-300x129.png 300w" sizes="(max-width: 592px) 100vw, 592px items-center justify-center" />     */}
-    {/* <img src="logo_mine.png" alt="logo" className="lg:w-[100px] w-[100px] p-3"/> */}
-    {/* </a> */}
+    <img width="250" height="250" src="https://abyauniversity.com/wp-content/uploads/2024/04/abya_logo.png" class="attachment-large size-large wp-image-3255" alt="" loading="lazy" srcset="https://abyauniversity.com/wp-content/uploads/2024/04/abya_logo.png 350w, https://abyauniversity.com/wp-content/uploads/2024/04/abya_logo-300x129.png 300w" sizes="(max-width: 592px) 100vw, 592px" className='p-3' /> 
     <div class="w-full bg-gray-250 text-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
         <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
             <h1 class="text-xl font-bold leading-tight tracking-tight text-cyan-950 md:text-2xl dark:text-white">
@@ -73,13 +70,15 @@ function Register() {
                     <label for="username" class="block mb-2 text-sm font-medium text-gray-600 dark:text-white">Your username</label>
                     <input type="text" value={username} onChange={(e) => setUsername(e.target.value)}  name="username" id="username" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Username" required="" />
                 </div>
-                <div>
+                <div className='lg:flex lg:flex-row lg:gap-2 md:flex md:flex-row md:gap-2'>
+                  <div>
                     <label for="firstName" class="block mb-2 text-sm font-medium text-gray-600 dark:text-white">Your first name</label>
                     <input type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)} name="firstName" id="firstName" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="First Name" required="" />
-                </div>
-                <div>
+                  </div>
+                  <div>
                     <label for="lastName" class="block mb-2 text-sm font-medium text-gray-600 dark:text-white">Your last name</label>
                     <input type="text" value={lastName} onChange={(e) => setLastName(e.target.value)} name="lastName" id="lastName" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Last Name" required="" />
+                  </div>
                 </div>
                 <div>
                     <label for="email" class="block mb-2 text-sm font-medium text-gray-600 dark:text-white">Your email</label>
