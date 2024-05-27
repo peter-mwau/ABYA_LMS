@@ -10,8 +10,8 @@ function Login() {
   const [error, setError] = useState(null);
   const [successMessage, setSuccessMessage] = useState('');
   const navigate = useNavigate();
-  const googleIcon = '/google.png'; // path is relative to the public/ directory
-  const githubIcon = '/github.svg'
+  // const googleIcon = '/google.png'; // path is relative to the public/ directory
+  // const githubIcon = '/github.svg'
   // style={{ backgroundImage: `url(${backgroundImage})` }}
 
   const handleSubmit = (event) => {

@@ -18,6 +18,12 @@ function Register() {
   const handleSubmit = (event) => {
     event.preventDefault();
   
+    // Check if passwords match
+  if (password !== confirmPassword) {
+    setErrorMessage('Passwords do not match!!');
+    return;
+  }
+
     axios.post('http://localhost:8000/users/register/', {
       username: username,
       first_name: firstName,
@@ -65,7 +71,7 @@ function Register() {
             </h1>
             <form class="space-y-4 md:space-y-6" action="#" onSubmit={handleSubmit}>
             {successMessage && <p className='text-green-500 font-semibold'>{successMessage}</p>}
-            {errorMessage && <p className='text-red-500 font-semibold'>{errorMessage}</p>}
+            {errorMessage && <p className='text-red-500 font-normal'>{errorMessage}</p>}
                 <div>
                     <label for="username" class="block mb-2 text-sm font-medium text-gray-600 dark:text-white">Your username</label>
                     <input type="text" value={username} onChange={(e) => setUsername(e.target.value)}  name="username" id="username" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Username" required="" />
