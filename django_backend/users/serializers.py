@@ -7,13 +7,28 @@ from django.utils.http import urlsafe_base64_decode as uid_decoder
 from users.models import Profile
 
 class UserCreateSerializer(serializers.ModelSerializer):
+    # confirm_password = serializers.CharField(write_only=True)
     class Meta:
         model = get_user_model()
-        fields = ('username', 'first_name', 'last_name', 'email', 'password', 'user_type')
+        fields = ('username', 'first_name', 'last_name', 'email', 'password','user_type')
         extra_kwargs = {'password': {'write_only': True}}
+    
+    def validate(self, data):
+        # if data['password'] != data['confirm_password']:
+        #     raise serializers.ValidationError({"password": "Password fields didn't match."})
+        
+        # Check if a user with the provided username or email already exists
+        username = data.get('username')
+        email = data.get('email')
+        if get_user_model().objects.filter(username=username).exists():
+            raise serializers.ValidationError({"username": "A user with this username already exists."})
+        if get_user_model().objects.filter(email=email).exists():
+            raise serializers.ValidationError({"email": "A user with this email already exists."})
+        
+        return data
 
     def create(self, validated_data):
-        print(validated_data)  # print validated data
+        # validated_data.pop('confirm_password')  # We don't need the confirm_password field anymore
         password = validated_data.pop('password')
         user = get_user_model().objects.create(**validated_data)
         user.set_password(password)
