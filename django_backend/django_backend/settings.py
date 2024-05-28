@@ -1,4 +1,5 @@
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -13,7 +14,9 @@ SECRET_KEY = 'django-insecure-g_*&=328p$=7b*j4*+=_ce^iq)79uuj9momun5qzsj(ftyy4e2
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', '127.0.0.1:8000', '.localhost']
+
+
 SITE_ID = 1
 AUTHENTICATION_BACKENDS = [
     # Needed to login by username in Django admin, regardless of `allauth`
@@ -57,6 +60,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -65,7 +69,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     "django.middleware.http.ConditionalGetMiddleware",
-    'corsheaders.middleware.CorsMiddleware',
     "allauth.account.middleware.AccountMiddleware",
 ]
 REST_FRAMEWORK = {
@@ -81,9 +84,11 @@ REST_FRAMEWORK = {
 
 APPEND_SLASH = True
 
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-]
+CORS_ALLOW_ALL_ORIGINS = True
+
+# CORS_ALLOWED_ORIGINS = [
+#     "http://localhost:3000",
+# ]
 SOCIALACCOUNT_PROVIDERS = {
     "google": {
         "APP": {
@@ -177,7 +182,12 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+
+# Media files (Uploaded by users)
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
 # LOGIN_REDIRECT_URL = '/courses/all/'
 # LOGOUT_REDIRECT_URL = '/accounts/login/'
 

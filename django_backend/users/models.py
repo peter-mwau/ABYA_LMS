@@ -1,14 +1,8 @@
 from django.db import models
-# from django.contrib import auth
-from django.contrib.auth.models import AbstractUser
-from django.conf import settings
-from django.contrib.auth import get_user_model
-# from courses.models import Lesson
-from django.utils.functional import lazy
-# Create your models here.
 from django.contrib.auth.models import AbstractUser, Group, Permission
 from django.utils.translation import gettext_lazy as _
-
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 class User(AbstractUser):
     USER_TYPE_CHOICES = (
@@ -17,13 +11,6 @@ class User(AbstractUser):
     )
 
     user_type = models.PositiveIntegerField(choices=USER_TYPE_CHOICES, default=1)
-    # completed_lessons = models.ManyToManyField('courses.Lesson', through='CompletedLesson', related_name='completed_by', blank=True)
-    # completed_lessons = models.ManyToManyField('courses.CompletedLesson', related_name='completed_by', blank=True)
-
-    # def completed_quizzes(self, course=None):
-    #     if course:
-    #         return self.quiz.filter(quiz__course=course).count()
-    #     return self.quizsubmission_set.all()
     groups = models.ManyToManyField(
         Group,
         related_name="custom_user_set",
@@ -41,13 +28,23 @@ class User(AbstractUser):
         help_text=_("Specific permissions for this user."),
         verbose_name=_("user permissions"),
     )
-    def __str__(self):
-        return self.first_name + ' ' + self.last_name
-    
-class Profile(models.Model):
-    user = models.OneToOneField('users.User', on_delete=models.CASCADE)
-    picture = models.ImageField(upload_to="profile_pictures", null=True, blank=True)
-    bio = models.TextField(blank=True)
 
     def __str__(self):
-        return self.user.username
+        return self.first_name + ' ' + self.last_name
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
+    phone = models.CharField(max_length=15, null=True)
+    bio = models.TextField(null=True, blank=True)
+    avatar = models.ImageField(upload_to='images/', null=True, blank=True)
+
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(user=instance)
+
+@receiver(post_save, sender=User)
+def save_user_profile(sender, instance, **kwargs):
+    instance.profile.save()

@@ -6,11 +6,20 @@ from django.utils.http import urlsafe_base64_decode as uid_decoder
 
 from users.models import Profile
 
+
+class ProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = ('user', 'bio')
+
+    # def to_representation(self, instance):
+    #     self.fields['user'] = UserCreateSerializer(read_only=True)
+    #     return super(ProfileSerializer, self).to_representation(instance)
 class UserCreateSerializer(serializers.ModelSerializer):
-    # confirm_password = serializers.CharField(write_only=True)
+    profile = ProfileSerializer(read_only=True)
     class Meta:
         model = get_user_model()
-        fields = ('username', 'first_name', 'last_name', 'email', 'password','user_type')
+        fields = ('username', 'first_name', 'last_name', 'email', 'password','user_type', 'profile')
         extra_kwargs = {'password': {'write_only': True}}
     
     def validate(self, data):
@@ -57,11 +66,4 @@ class PasswordResetConfirmSerializer(serializers.Serializer):
         self.user.set_password(password)
         self.user.save()
         return self.user
-class ProfileSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Profile
-        fields = ('user', 'picture', 'bio')
 
-    def to_representation(self, instance):
-        self.fields['user'] = UserCreateSerializer(read_only=True)
-        return super(ProfileSerializer, self).to_representation(instance)
