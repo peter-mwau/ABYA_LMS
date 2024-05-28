@@ -140,6 +140,8 @@ class UserDataView(APIView):
 
     def get(self, request, *args, **kwargs):
         user = request.user
+        user_type = request.user.user_type
+        user_type_str = "Student" if user_type == 1 else "Teacher" if user_type == 2 else "Unknown"
         print(user)
         profile = Profile.objects.filter(user=user).first()
         if not profile:
@@ -158,6 +160,8 @@ class UserDataView(APIView):
             'phone': profile.phone,
             'bio': profile.bio,
             'avatar': request.build_absolute_uri(profile.avatar.url) if profile.avatar else None,
+            'user_type': user_type_str,
+
         }
         print(data)
         return Response(data)
