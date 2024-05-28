@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from 'react';
-// import axios from 'axios';
-// import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 
 function Navbar() {
     // const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [darkMode, setDarkMode] = useState(false);
+    const [userProfile, setUserProfile] = useState(null);
+    const navigate = useNavigate();
+    const [user, updateUser] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
 
 
     useEffect(() => {
@@ -15,11 +19,74 @@ function Navbar() {
       } else {
         document.body.classList.remove('dark');
       }
-    }, [darkMode]);
+
+    const userToken = localStorage.getItem('userToken');
+    console.log(userToken);
+    // Fetch user profile details
+    fetch('http://localhost:8000/users/profile/', {
+      headers: {
+        'Authorization': `Token ${userToken}`
+      }
+    })
+      .then(response => response.json())
+      .then(data => setUserProfile(data))
+      .catch(error => console.error('Error:', error));
+  }, [darkMode]);
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      const userToken = localStorage.getItem('userToken');
+      console.log(userToken);
+      try {
+        const response = await axios.get('http://localhost:8000/users/profile/', {
+          headers: {
+              'Authorization': `Token ${userToken}`
+          },
+        });
+        updateUser(response.data);
+        setIsLoading(false);
+      } catch (error) {
+        console.error('Failed to fetch profile:', error);
+        setIsLoading(false);
+      }
+    };
+
+    fetchProfile();
+  }, []);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
 
       const toggleDropdown = () => {
         setIsDropdownOpen(!isDropdownOpen);
+      };
+
+      const logout = async (event) => {
+        event.preventDefault();
+        try {
+             // Retrieve the token from local storage
+           const userToken = localStorage.getItem('userToken');
+           console.log("useToken: ", userToken)
+           const response = await axios.post('http://localhost:8000/users/logout/', null, {
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Token ${userToken}`
+              }
+            });
+      
+          console.log(response.data);
+          if (response.status === 200) {
+           // Remove the token from local storage
+           localStorage.removeItem('userToken');
+           navigate('/login')
+         } else {
+           console.error('Logout failed:', response.data);
+         }
+        } catch (error) {
+          console.error('Error:', error);
+        }
       };
     
     
@@ -34,17 +101,21 @@ function Navbar() {
   <div class="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse flex-col">
       <button type="button" onClick={toggleDropdown} class="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
         <span class="sr-only">Open user menu</span>
-        {/* <img class="w-8 h-8 rounded-full" src="/profile-picture-3.jpg" alt="user photo" /> */}
+        <img class="w-8 h-8 rounded-full" src="/profile-picture-3.jpg" alt="user photo" />
+        {/* <img class="w-8 h-8 rounded-full" src={userProfile?.picture} alt="user photo" /> */}
       </button>
       {/* <!-- Dropdown menu --> */}
       <div className={`py-2 space-y-2 ${isDropdownOpen ? '' : 'hidden'} z-50 my-4 absolute mt-[50px] text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600" id="user-dropdown`}>
         <div class="px-4 py-3">
-          <span class="block text-sm text-gray-900 dark:text-white">Username</span>
-          <span class="block text-sm  text-gray-500 truncate dark:text-gray-400">name@abya.com</span>
+          <span class="block text-sm text-gray-900 dark:text-white">{user.username}</span>
+          <span class="block text-sm  text-gray-500 truncate dark:text-gray-400">{user.email}</span>
         </div>
         <ul class="py-2" aria-labelledby="user-menu-button">
           <li>
             <a href="#me" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Dashboard</a>
+          </li>
+          <li>
+            <a href="/profile" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Profile</a>
           </li>
           <li>
             <a href="#me" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Settings</a>
@@ -53,7 +124,7 @@ function Navbar() {
             <a href="#me" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Earnings</a>
           </li>
           <li>
-            <a href="#me" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</a>
+            <button onClick={logout} class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</button>
           </li>
         </ul>
       </div>

@@ -155,7 +155,7 @@ const Homepage = () => {
                     </div>
                 </div>
             </div>
-            <div class="items-end bg-cyan-950 text-yellow-500 p-2 max-w-[500px] h-[400px] sm:p-2 sm:w-1/2 sm:h-[400px]">
+            <div class="items-end bg-cyan-950 text-yellow-500  lg:pt-10 p-2 max-w-[500px] h-[400px] sm:p-2 sm:w-1/2 sm:h-[400px]">
                 <span class="my-auto container">
                 <p class="mx-auto items-center justify-center flex font-bold text-xl">How can we Help You?</p>
                 <p class="items-center justify-center p-2 m-2 mx-auto flex text-white">Are you a university student and want to change the course of history? Do you want to be part of something bigger than yourself? If your answer is YES, then ABYA is the place for you! </p>
