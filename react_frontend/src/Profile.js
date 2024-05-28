@@ -92,7 +92,7 @@ const Profile = () => {
   return (
     <>
     <Navbar />
-    <div className='bg-transparent h-auto lg:h-[90vh] pt-[15%] lg:pt-[5%]  container items-center justify-center mx-auto text-cyan-900'>
+    <div className='bg-transparent h-auto lg:h-[90vh] pt-[15%] lg:pt-[5%] container items-center justify-center mx-auto text-cyan-900'>
         <div className='shadow-lg shadow-cyan-950 p-5 rounded-md lg:w-[70%] lg:items-center lg:justify-center lg:mx-auto'>
             {/* <Link to='/home' className='bg-green-500 hover:bg-green-400 p-2 items-end rounded-md font-semibold'>Back</Link> */}
         <h2 className='text-center p-4 font-semibold text-2xl uppercase lg:pb-[40px]'>Profile Details</h2>
@@ -107,6 +107,7 @@ const Profile = () => {
         <p>Date Joined:{user.datejoined}</p>
         <p>Last Login: {user.lastlogin}</p>
         <p>Is Active: {user.isactive ?  'Yes' : 'No'}</p>
+        <p>User Type: {user.user_type}</p>
         <p>Phone Number: {isEditing ? <input name='phone' type='number' value={user ? user.phone : ''} onChange={handleInputChange} className='border-gray-500 border-2 rounded-md p-2'/> : "+254 " + user.phone}</p>
         <p>Bio: {isEditing ? <textarea name='bio' value={user ? user.bio : ''} onChange={handleInputChange} className='border-gray-500 border-2 rounded-md p-2'/> : user.bio}</p>
         <p>Avatar: {isEditing ? <input name='avatar' value={user.avatar} onChange={handleInputChange} className='border-gray-500 border-2 rounded-md p-2'/> : user.avatar}</p>
