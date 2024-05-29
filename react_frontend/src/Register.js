@@ -9,7 +9,7 @@ function Register() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [userType, setUserType] = useState('');
-  const [error, setError] = useState(null);
+  // const [error, setError] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
   const [successMessage, setSuccessMessage] = useState(null);
   // const backgroundImage = '/web3.jpg'; // path is relative to the public/ directory
@@ -34,6 +34,7 @@ function Register() {
     })
     .then((response) => {
       // Redirect the user to the login page
+      console.log(response);
       window.location.href = '/login';
       // This depends on your routing setup
       setSuccessMessage('Registration successful! Please login.');
@@ -42,7 +43,7 @@ function Register() {
       if (error.response) {
         // The request was made and the server responded with a status code
         // that falls out of the range of 2xx
-        setError(error.response.data);
+        setErrorMessage(error.response.data);
         // Set the error message
         if (error.response.data.username) {
           setErrorMessage(error.response.data.username[0]);
@@ -53,10 +54,10 @@ function Register() {
         }  // print the response body
       } else if (error.request) {
         // The request was made but no response was received
-        setError('No response from server. Please try again later.');
+        setErrorMessage('No response from server. Please try again later.');
       } else {
         // Something happened in setting up the request that triggered an Error
-        setError('Error in sending request');
+        setErrorMessage('Error in sending request');
       }
     });
   };
@@ -116,7 +117,7 @@ function Register() {
                     </div>
                 </div>
                 <button type="submit" class="w-full text-cyan-950 bg-gray-300 hover:bg-yellow-500 hover:text-cyan-950 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Create an account</button>
-                {error && <p className='text-red-500 font-semibold'>{error.message}</p>}
+                {errorMessage && <p className='text-red-500 font-semibold'>{errorMessage}</p>}
                 <p class="text-sm font-light text-gray-600 dark:text-gray-400">
                     Already have an account? <a href="/login" class="font-medium text-primary-600 hover:underline dark:text-primary-500">Login here</a>
                 </p>
