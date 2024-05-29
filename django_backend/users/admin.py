@@ -9,5 +9,8 @@ class CustomUserAdmin(UserAdmin):
     list_filter = ('user_type', 'is_active', 'is_staff', 'is_superuser')
     search_fields = ('username', 'email', 'first_name', 'last_name')
 
-admin.site.register(Profile)
+class ProfileAdmin(admin.ModelAdmin):
+    list_display = ('user_id', 'avatar', 'bio', 'first_name', 'last_name', 'phone')
+
+admin.site.register(Profile, ProfileAdmin)
 admin.site.register(User, CustomUserAdmin)
