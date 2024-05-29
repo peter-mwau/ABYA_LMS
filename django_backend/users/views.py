@@ -93,8 +93,12 @@ class CustomRegisterView(RegisterView):
     serializer_class = UserCreateSerializer  
 
     def perform_create(self, serializer):
-        user = serializer.save()
-        return user
+        try:
+            user = serializer.save()
+            return user
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        # return user
     
 class CustomLoginView(LoginView):
     def post(self, request, *args, **kwargs):
