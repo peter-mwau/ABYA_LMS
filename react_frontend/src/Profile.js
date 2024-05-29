@@ -35,6 +35,17 @@ const Profile = () => {
       fetchProfile();
     }, []);
 
+    const handleImageChange = (event) => {
+      const file = event.target.files[0];
+    
+      if (file) {
+        updateProfile({
+          ...profile,
+          avatar: file
+        });
+      }
+    };
+
     console.log('Current profile:', profile);
 
     const handleInputChange = (event) => {
@@ -63,6 +74,10 @@ const Profile = () => {
       
         for (const key in user) {
           formData.append(key, user[key]);
+        }
+      
+        if (profile && profile.avatar instanceof File) {
+          formData.append('avatar', profile.avatar);
         }
       
         try {
@@ -110,7 +125,7 @@ const Profile = () => {
         <p>User Type: {user.user_type}</p>
         <p>Phone Number: {isEditing ? <input name='phone' type='number' value={user ? user.phone : ''} onChange={handleInputChange} className='border-gray-500 border-2 rounded-md p-2'/> : "+254 " + user.phone}</p>
         <p>Bio: {isEditing ? <textarea name='bio' value={user ? user.bio : ''} onChange={handleInputChange} className='border-gray-500 border-2 rounded-md p-2'/> : user.bio}</p>
-        <p>Avatar: {isEditing ? <input name='avatar' value={user.avatar} onChange={handleInputChange} className='border-gray-500 border-2 rounded-md p-2'/> : user.avatar}</p>
+        <p>Avatar: {isEditing ? <input type='file' name='avatar' onChange={handleImageChange} className='rounded-md p-2'/> : user.avatar}</p>
         </div>
         <button className='bg-cyan-950 hover:bg-yellow-500 text-white uppercase hover:cursor-pointer p-2 items-center justify-center mx-auto w-[70%] rounded-md font-semibold flex mt-[80px]' onClick={isEditing ? handleSave : handleEdit}>{isEditing ? 'Save' : 'Edit'}</button>
         </div>
