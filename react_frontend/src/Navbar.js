@@ -11,7 +11,7 @@ function Navbar() {
     const navigate = useNavigate();
     const [user, updateUser] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
-
+    const baseUrl = 'http://localhost:8000/users';
 
     useEffect(() => {
       if (darkMode) {
@@ -44,6 +44,7 @@ function Navbar() {
           },
         });
         updateUser(response.data);
+        console.log(response.data);
         setIsLoading(false);
       } catch (error) {
         console.error('Failed to fetch profile:', error);
@@ -101,8 +102,8 @@ function Navbar() {
   <div class="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse flex-col">
       <button type="button" onClick={toggleDropdown} class="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
         <span class="sr-only">Open user menu</span>
-        <img class="w-8 h-8 rounded-full hidden md:flex lg:flex" src="/profile-picture-3.jpg" alt="user photo" />
-        {/* <img class="w-8 h-8 rounded-full" src={userProfile?.picture} alt="user photo" /> */}
+        {/* <img class="w-8 h-8 rounded-full hidden md:flex lg:flex" src="/profile-picture-3.jpg" alt="user photo" /> */}
+        <img class="w-10 h-10 rounded-full" src={user && user.avatar ? `${baseUrl}${user.avatar}` : 'Loading...'} alt="user photo" />
       </button>
       {/* <!-- Dropdown menu --> */}
       <div className={`py-2 space-y-2 ${isDropdownOpen ? '' : 'hidden'} z-50 my-4 absolute mt-[50px] text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600" id="user-dropdown`}>
