@@ -159,7 +159,7 @@ class UserDataView(APIView):
             'isactive': user.is_active,
             'phone': profile.phone,
             'bio': profile.bio,
-            'avatar': request.build_absolute_uri(profile.avatar.url) if profile.avatar else None,
+            'avatar': profile.avatar.url if profile.avatar else None,
             'user_type': user_type_str,
 
         }
