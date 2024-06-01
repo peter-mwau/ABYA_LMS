@@ -36,13 +36,15 @@ from assignments import models
 from assignments.models import QuizSubmission, CompletedQuiz
 from django.db.models import Count
 from rest_framework import viewsets, permissions
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, action
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.generics import ListAPIView, RetrieveAPIView
 from rest_framework.views import APIView
 from .serializers import CourseSerializer, ChapterSerializer, LessonSerializer
+from .permissions import IsTeacherOfCourse, IsTeacherOfChapterCourse, IsTeacherOfLessonChapterCourse
 from django.contrib.auth.decorators import login_required
+
 
 # Create your views here.
 
@@ -66,8 +68,30 @@ class CourseViewSet(viewsets.ModelViewSet):
     serializer_class = CourseSerializer
     permission_classes = [permissions.IsAuthenticated]
 
-    def perform_create(self, serializer):
-        serializer.save(teacher=self.request.user)
+    @action(detail=False, methods=['post'], url_path='create-course')
+    def create_course(self, request):
+        serializer = CourseSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(teacher=request.user)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    @action(detail=False, methods=['get'], url_path='list-courses')
+    def list_courses(self, request):
+        queryset = self.get_queryset()
+        serializer = CourseSerializer(queryset, many=True)
+        if not queryset:
+            return Response({'message': 'No courses available at the moment.'}, status=204)
+        return Response(serializer.data, status=200)
+    
+    @action(detail=True, methods=['put'], permission_classes=[IsTeacherOfCourse])
+    def update_course(self, request, pk=None):
+        course = self.get_object()
+        serializer = CourseSerializer(course, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 class CreateChapterView(LoginRequiredMixin, generic.CreateView):
     model = Chapter
     form_class = CreateChapterForm
@@ -91,9 +115,23 @@ class ChapterViewSet(viewsets.ModelViewSet):
     serializer_class = ChapterSerializer
     permission_classes = [permissions.IsAuthenticated]
 
-    def perform_create(self, serializer):
-        serializer.save(teacher=self.request.user)
-
+    @action(detail=False, methods=['post'], url_path='create-chapter')
+    def create_chapter(self, request):
+        serializer = ChapterSerializer(data=request.data)
+        if serializer.is_valid():
+            user_object = get_object_or_404(User, username=request.user.username)
+            serializer.save(teacher=user_object)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    @action(detail=True, methods=['put'], permission_classes=[IsTeacherOfChapterCourse])
+    def update_chapter(self, request, pk=None):
+        chapter = self.get_object()
+        serializer = ChapterSerializer(chapter, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 class CreateLessonView(LoginRequiredMixin, generic.CreateView):
     form_class = CreateLessonForm
     template_name = 'courses/create_lesson.html'
@@ -129,24 +167,38 @@ class LessonViewSet(viewsets.ModelViewSet):
     serializer_class = LessonSerializer
     permission_classes = [permissions.IsAuthenticated]
 
-    def perform_create(self, serializer):
-        word_file = serializer.validated_data['word_file']
+    @action(detail=False, methods=['post'], url_path='create-lesson')
+    def create_lesson(self, request):
+        serializer = LessonSerializer(data=request.data)
+        if serializer.is_valid():
+            user_object = get_object_or_404(User, username=request.user.username)
+            word_file = request.data.get('word_file')
 
-        if word_file:
-            if hasattr(word_file, 'read'):
-                # File is in memory, read its content
-                content = word_file.read()
-                # Perform the Word to Markdown conversion
-                result = mammoth.convert_to_markdown(io.BytesIO(content))
-                serializer.validated_data['lesson_content'] = result.value
-            else:
-                # File is on disk, perform conversion as before
-                with open(word_file.path, 'rb') as docx_file:
-                    result = mammoth.convert_to_markdown(docx_file)
+            if word_file:
+                if hasattr(word_file, 'read'):
+                    # File is in memory, read its content
+                    content = word_file.read()
+                    # Perform the Word to Markdown conversion
+                    result = mammoth.convert_to_markdown(io.BytesIO(content))
                     serializer.validated_data['lesson_content'] = result.value
+                else:
+                    # File is on disk, perform conversion as before
+                    with open(word_file.path, 'rb') as docx_file:
+                        result = mammoth.convert_to_markdown(docx_file)
+                        serializer.validated_data['lesson_content'] = result.value
 
-        serializer.save(teacher=self.request.user)
-
+            serializer.save(teacher=user_object)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    @action(detail=True, methods=['put'], permission_classes=[IsTeacherOfLessonChapterCourse])
+    def update_lesson(self, request, pk=None):
+        lesson = self.get_object()
+        serializer = LessonSerializer(lesson, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 class CourseDetail(generic.DetailView):
     model = Course
     
@@ -364,43 +416,43 @@ class CourseDetail(generic.DetailView):
         return context
 
 
-class ListCourse(generic.ListView):
-    model = Course
-    # template_name = 'courses/course_list.html'
+# class ListCourse(generic.ListView):
+#     model = Course
+#     # template_name = 'courses/course_list.html'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        course_list = Course.objects.all()
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         course_list = Course.objects.all()
 
-        if not course_list:
-            messages.info(self.request, 'No courses available at the moment.')
+#         if not course_list:
+#             messages.info(self.request, 'No courses available at the moment.')
 
-        return context
-@login_required
-class ListCourseAPI(ListAPIView):
-    queryset = Course.objects.all()
-    serializer_class = CourseSerializer
-    permission_classes = [permissions.IsAuthenticated]
+#         return context
+# @login_required
+# class ListCourseAPI(ListAPIView):
+#     queryset = Course.objects.all()
+#     serializer_class = CourseSerializer
+#     permission_classes = [permissions.IsAuthenticated]
 
-class CourseInfoView(generic.DetailView):
-    model = Course
-    template_name = 'courses/course_info.html'
-    context_object_name = 'course'
+# class CourseInfoView(generic.DetailView):
+#     model = Course
+#     template_name = 'courses/course_info.html'
+#     context_object_name = 'course'
 
-    def get_context_data(self, **kwargs):
-        try:
-            course = get_object_or_404(Course, pk=self.kwargs['pk'])
-        except Http404:
-            # Handle the case where the course does not exist
-            messages.error(self.request, 'Course not found.')
-            return HttpResponseRedirect(reverse('courses:list'))
-        context = super().get_context_data(**kwargs)
-        chapter = Chapter.objects.filter(course=course)
+#     def get_context_data(self, **kwargs):
+#         try:
+#             course = get_object_or_404(Course, pk=self.kwargs['pk'])
+#         except Http404:
+#             # Handle the case where the course does not exist
+#             messages.error(self.request, 'Course not found.')
+#             return HttpResponseRedirect(reverse('courses:list'))
+#         context = super().get_context_data(**kwargs)
+#         chapter = Chapter.objects.filter(course=course)
        
 
-        context['chapters'] = self.object.chapters.all()
-        context['course'] = course
-        return context
+#         context['chapters'] = self.object.chapters.all()
+#         context['course'] = course
+#         return context
 
 class CourseInfoAPI(RetrieveAPIView):
     queryset = Course.objects.all()
@@ -421,40 +473,40 @@ class CourseInfoAPI(RetrieveAPIView):
 
 
 
-class EnrollCourse(LoginRequiredMixin, generic.RedirectView):
+# class EnrollCourse(LoginRequiredMixin, generic.RedirectView):
 
-    def get_redirect_url(self, *args, **kwargs):
-        return reverse('courses:detail', kwargs={'pk':self.kwargs.get('pk')})
+#     def get_redirect_url(self, *args, **kwargs):
+#         return reverse('courses:detail', kwargs={'pk':self.kwargs.get('pk')})
     
-    def get(self, *args, **kwargs):
-        course = get_object_or_404(Course, pk=self.kwargs.get('pk'))
+#     def get(self, *args, **kwargs):
+#         course = get_object_or_404(Course, pk=self.kwargs.get('pk'))
 
-        try:
-            Enrollment.objects.create(student=self.request.user, course=course)
-        except:
-            messages.warning(self.request, 'You are already enrolled in the course.')
-        else:
-            messages.success(self.request, 'You are now enrolled in the course.')
-        return super().get(self.request, *args, **kwargs)
+#         try:
+#             Enrollment.objects.create(student=self.request.user, course=course)
+#         except:
+#             messages.warning(self.request, 'You are already enrolled in the course.')
+#         else:
+#             messages.success(self.request, 'You are now enrolled in the course.')
+#         return super().get(self.request, *args, **kwargs)
 
-class UnenrollCourse(LoginRequiredMixin, generic.RedirectView):
+# class UnenrollCourse(LoginRequiredMixin, generic.RedirectView):
 
-    def get_redirect_url(self, *args, **kwargs):
-        return reverse('courses:detail', kwargs={'pk':self.kwargs.get('pk')})
+#     def get_redirect_url(self, *args, **kwargs):
+#         return reverse('courses:detail', kwargs={'pk':self.kwargs.get('pk')})
 
-    def get(self, *args, **kwargs):
+#     def get(self, *args, **kwargs):
 
-        try:
-            enrollment = Enrollment.objects.filter(
-                student=self.request.user,
-                course__pk=self.kwargs.get('pk')
-            ).get()
-        except Enrollment.DoesNotExist:
-            messages.warning(self.request, 'You are not enrolled in this course.')
-        else:
-            enrollment.delete()
-            messages.success(self.request, 'You have unenrolled from the course.')
-        return super().get(self.request, *args, **kwargs)
+#         try:
+#             enrollment = Enrollment.objects.filter(
+#                 student=self.request.user,
+#                 course__pk=self.kwargs.get('pk')
+#             ).get()
+#         except Enrollment.DoesNotExist:
+#             messages.warning(self.request, 'You are not enrolled in this course.')
+#         else:
+#             enrollment.delete()
+#             messages.success(self.request, 'You have unenrolled from the course.')
+#         return super().get(self.request, *args, **kwargs)
     
 class EnrollCourseAPI(APIView):
     def post(self, request, pk, format=None):
@@ -474,64 +526,6 @@ class UnenrollCourseAPI(APIView):
         else:
             enrollment.delete()
             return Response({'detail': 'You have unenrolled from the course.'}, status=status.HTTP_204_NO_CONTENT)
-
-class UpdateCourseView(LoginRequiredMixin, generic.UpdateView):
-    model = Course
-    form_class = UpdateCourseForm
-    template_name = 'courses/update_course.html'
-    success_url = '/all/'  
-
-    def get_object(self, queryset=None):
-        pk = self.kwargs.get('pk')  # Get the value of the 'pk' parameter from kwargs
-        return get_object_or_404(Course, pk=pk)  # Retrieve the lesson object using the 'pk'
-
-
-
-
-    
-class UpdateChapterView(LoginRequiredMixin, generic.UpdateView):
-    model = Chapter
-    form = UpdateChapterForm
-    template_name = 'courses/update_chapter.html'
-    success_url = '/all/'
-    
-    def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()
-        kwargs['user'] = self.request.user
-        return kwargs
-    
-    def get_object(self, queryset=None):
-        pk = self.kwargs.get('pk')  # Get the value of the 'pk' parameter from kwargs
-        return get_object_or_404(Chapter, pk=pk)  # Retrieve the lesson object using the 'pk'
-    
-    def form_valid(self, form):
-        if form.instance.course.teacher == self.request.user:
-            return super().form_valid(form)
-        else:
-            form.add_error(None, "You don't have permission to edit this chapter.")
-            return self.form_invalid(form)
-        
-class UpdateLessonView(LoginRequiredMixin, generic.UpdateView):
-    model = Lesson
-    form = UpdateLessonForm
-    template_name = "courses/update_lesson.html"
-    success_url = '/all/'
-    
-    def get_object(self, queryset=None):
-        pk = self.kwargs.get('pk')  # Get the value of the 'pk' parameter from kwargs
-        return get_object_or_404(Lesson, pk=pk)  # Retrieve the lesson object using the 'pk'
-
-    def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()
-        kwargs["user"] = self.request.user
-        return kwargs
-    
-    def form_valid(self, form):
-        if form.instance.chapter.course.teacher == self.request.user:
-            return super().form_valid(form)
-        else:
-            form.add_error(None, "You don't have permission to edit this lesson.")
-            return self.form_invalid(form)
 
    
 def certificate_view(request, course_id):
@@ -610,16 +604,7 @@ def get_completed_lessons_count(request, course_id):
         return JsonResponse(context)
     else:
         return JsonResponse({'message': 'Invalid request method.'}, status=400)
-# class CompletedLessonCountView(View):
-#     def get(self, request, *args, **kwargs):
-#         course_pk = self.kwargs['pk']  # Access the 'pk' parameter from the URL
-#         # Your logic to calculate completed lesson count
-#         course = get_object_or_404(Course, pk=course_pk)
-#         completed_lessons_count = request.user.completed_lessons.filter(
-#             lesson__chapter__course=course
-#         ).count()
-#         data = {'completed_lessons_count': completed_lessons_count}
-#         return JsonResponse(data)
+
         
 
 def mark_lesson_as_complete(request):
