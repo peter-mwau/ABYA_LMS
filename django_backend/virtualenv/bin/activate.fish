@@ -33,7 +33,7 @@ end
 # Unset irrelevant variables.
 deactivate nondestructive
 
-set -gx VIRTUAL_ENV "/home/machar/ABYA_LMS/django_backend/virtualenv"
+set -gx VIRTUAL_ENV "/home/mikepc/github/ABYA_LMS/django_backend/virtualenv"
 
 set -gx _OLD_VIRTUAL_PATH $PATH
 set -gx PATH "$VIRTUAL_ENV/bin" $PATH

@@ -1,4 +1,4 @@
-#!/home/machar/ABYA_LMS/django_backend/virtualenv/bin/python
+#!/home/mikepc/github/ABYA_LMS/django_backend/virtualenv/bin/python
 # -*- coding: utf-8 -*-
 import re
 import sys
