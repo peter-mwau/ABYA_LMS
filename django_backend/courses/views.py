@@ -40,8 +40,11 @@ from rest_framework.decorators import api_view, action
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.generics import ListAPIView, RetrieveAPIView
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
-from .serializers import CourseSerializer, ChapterSerializer, LessonSerializer
+from .serializers import CourseSerializer, ChapterSerializer, LessonSerializer, CompletedLessonSerializer, CompletedCourseSerializer 
+from resources.serializers import VideoLessonSerializer, VideoProgressSerializer, ResourceSerializer
+from assignments.serializers import AssignmentSerializer, QuizSerializer
 from .permissions import IsTeacherOfCourse, IsTeacherOfChapterCourse, IsTeacherOfLessonChapterCourse
 from django.contrib.auth.decorators import login_required
 
@@ -92,6 +95,65 @@ class CourseViewSet(viewsets.ModelViewSet):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    @action(detail=True, methods=['get'])
+    def completed_lessons_count(self, request, pk=None):
+        if request.user.is_authenticated:
+            course = self.get_object()
+            completed_lessons_count = request.user.completed_lessons.filter(
+                lesson__chapter__course=course
+            ).count()
+            completed_lessons = CompletedLesson.objects.filter(user=request.user, lesson__chapter__course=course)
+            completed_lesson_ids = [completed_lesson.lesson.id for completed_lesson in completed_lessons]
+            context = {
+                'completed_lessons_count': completed_lessons_count,
+                'completed_lesson_ids': completed_lesson_ids,
+            }
+            return Response(context)
+        else:
+            return Response({'message': 'Invalid request method.'}, status=400)
+
+    @action(detail=False, methods=['post'])
+    def mark_lesson_as_complete(self, request):
+        if request.method != 'POST':
+            return Response({'message': 'Invalid request method.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            data = json.loads(request.body.decode('utf-8'))
+            lesson_id = data.get('lesson_id')
+        except json.JSONDecodeError:
+            return Response({'message': 'Invalid JSON data.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        if not lesson_id:
+            return Response({'message': 'Missing lesson ID.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            lesson = Lesson.objects.get(pk=lesson_id)
+        except Lesson.DoesNotExist:
+            return Response({'message': 'Lesson not found.'}, status=status.HTTP_404_NOT_FOUND)
+
+        user = request.user
+
+        # Check if the lesson is already marked as complete for the user
+        if CompletedLesson.objects.filter(user=user, lesson=lesson).exists():
+            return Response({'message': 'Lesson is already marked as complete.'}, status=status.HTTP_200_OK)
+
+        # Mark the lesson as complete for the user
+        completed_lesson = CompletedLesson(user=user, lesson=lesson)
+        completed_lesson.save()
+
+        # Calculate the completion percentage for the course
+        course = lesson.chapter.course
+        total_lessons = Lesson.objects.filter(chapter__course=course).count()
+        total_quizzes = course.total_quizzes()
+        completed_lessons = user.completed_lessons.filter(lesson__chapter__course=course).count()
+        completed_quizzes = user.completed_quizzes(course)
+        completion_percentage = round(((completed_lessons + completed_quizzes) / (total_lessons + total_quizzes)) * 100)
+
+        return Response({
+            'message': 'Lesson marked as complete successfully.',
+            'completed_lessons_count': completed_lessons,
+            'completion_percentage': completion_percentage
+        }, status=status.HTTP_200_OK)
 class CreateChapterView(LoginRequiredMixin, generic.CreateView):
     model = Chapter
     form_class = CreateChapterForm
@@ -416,6 +478,132 @@ class CourseDetail(generic.DetailView):
         return context
 
 
+class CourseDetailAPI(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, pk):
+        try:
+            course = get_object_or_404(Course, pk=pk)
+        except Course.DoesNotExist:
+            return Response({'message': 'Course not found.'}, status=status.HTTP_404_NOT_FOUND)
+
+        user = request.user
+
+        completed_lesson_ids = []
+        chapters = Chapter.objects.filter(course=course)
+
+        chapters_with_lessons = []
+        chapters_with_lessons_and_quizzes = {}
+        chapters_with_completion = []
+        completed_chapter_ids = []
+
+        for chapter in chapters:
+            lessons = Lesson.objects.filter(chapter=chapter)
+            lesson_count = lessons.count()
+            chapters_with_lessons.append((chapter, lessons))
+            quizzes = Quiz.objects.filter(chapter=chapter)
+            chapters_with_lessons_and_quizzes[chapter] = {
+                'lessons': lessons,
+                'quizzes': quizzes,
+                'lesson_count': lesson_count,
+            }
+
+        assignments = Assignment.objects.filter(course=pk)
+        resources = Resource.objects.filter(course=pk)
+
+        total_lessons = Lesson.objects.filter(chapter__course=course).count()
+        total_quizzes = course.total_quizzes()
+        completed_quizzes_count = 0
+        lesson_count = 0
+        completion_status = False
+        completed_courses = []
+
+        if total_lessons > 0 and request.user.is_authenticated:
+            completed_lessons = CompletedLesson.objects.filter(user=user, lesson__chapter__course=course).count()
+            completed_lessons1 = CompletedLesson.objects.filter(user=user, lesson__chapter__course=course)
+            completed_lesson_ids = [completed_lesson.lesson.id for completed_lesson in completed_lessons1]
+            completed_chapter_ids = [completed_lesson.lesson.chapter.id for completed_lesson in completed_lessons1]
+
+            for chapter in chapters:
+                lessons = Lesson.objects.filter(chapter=chapter)
+                quizzes = Quiz.objects.filter(chapter=chapter)
+                lesson_count = lessons.count()
+                quiz_count = quizzes.count()
+                completed_quizzes = CompletedQuiz.objects.filter(user=user, quiz__chapter__course=course).values_list('quiz_id', flat=True)
+                completed_quizzes_ids = set(completed_quizzes)
+
+                is_completed = all(
+                    ((chapter.id in completed_chapter_ids and completed_chapter_ids.count(chapter.id) == lesson_count) and
+                    (quiz.id in completed_quizzes_ids and len(completed_quizzes_ids.intersection([quiz.id])) == 1))
+                    for quiz in quizzes
+                )
+
+                chapter_info = {
+                    'chapter_id': chapter.id,
+                    'lessons': lessons,
+                    'quizzes': quizzes,
+                    'is_completed': is_completed,
+                }
+
+                if is_completed:
+                    chapters_with_completion.append(chapter_info)
+
+            total_chapters = Chapter.objects.filter(course=course).count()
+            completed_chapters_count = sum(1 for chapter_info in chapters_with_completion if chapter_info['is_completed'])
+
+            if total_chapters == completed_chapters_count:
+                completed_courses.append(course)
+
+            completed_quizzes_count = len(completed_quizzes) if completed_quizzes else 0
+            completed_lessons = CompletedLesson.objects.filter(user=user, lesson__chapter__course=course).count()
+
+            if total_lessons + total_quizzes == completed_lessons + completed_quizzes_count:
+                completion_status = True
+            else:
+                completion_status = False
+
+            completion_percentage = round(((completed_lessons + completed_quizzes_count) / (total_lessons + total_quizzes)) * 100)
+        else:
+            completed_lessons = 0
+            completed_quizzes = 0
+            completion_percentage = 0
+
+        if completion_percentage >= 100 and not CompletedCourse.objects.filter(user=user, course=course).exists():
+            try:
+                completedcourse = CompletedCourse(user=user, course=course)
+                completedcourse.save()
+            except IntegrityError:
+                pass
+
+        context = {
+            'assignments': AssignmentSerializer(assignments, many=True).data,
+            'resources': ResourceSerializer(resources, many=True).data,
+            'chapters_with_lessons': [{
+                'chapter': ChapterSerializer(chapter).data,
+                'lessons': LessonSerializer(lessons, many=True).data
+            } for chapter, lessons in chapters_with_lessons],
+            'chapters_with_lessons_and_quizzes': [{
+                'chapter': ChapterSerializer(chapter).data,
+                'lessons': LessonSerializer(data['lessons'], many=True).data,
+                'quizzes': QuizSerializer(data['quizzes'], many=True).data,
+                'lesson_count': data['lesson_count']
+            } for chapter, data in chapters_with_lessons_and_quizzes.items()],
+            'total_lessons': total_lessons,
+            'completed_lessons': completed_lessons,
+            'course_id': course.pk,
+            'completed_lesson_ids': completed_lesson_ids,
+            'completed_quizzes': completed_quizzes,
+            'completed_quizzes_count': completed_quizzes_count,
+            'completion_percentage': completion_percentage,
+            'completed_chapter_ids': completed_chapter_ids,
+            'lesson_count': lesson_count,
+            'chapters_with_completion': chapters_with_completion,
+            'completion_status': completion_status,
+            'completed_courses': CompletedCourseSerializer(completed_courses, many=True).data,
+        }
+
+        return Response(context, status=status.HTTP_200_OK)
+
 # class ListCourse(generic.ListView):
 #     model = Course
 #     # template_name = 'courses/course_list.html'
@@ -648,32 +836,32 @@ def mark_lesson_as_complete(request):
 
     return JsonResponse({'message': 'Lesson marked as complete successfully.', 'completed_lessons_count': completed_lessons, 'completion_percentage': completion_percentage}, status=200)
 
-class MarkLessonAsCompleteAPI(APIView):
-    def post(self, request, format=None):
-        lesson_id = request.data.get('lesson_id')
-        if not lesson_id:
-            return Response({'message': 'Missing lesson ID.'}, status=status.HTTP_400_BAD_REQUEST)
+# class MarkLessonAsCompleteAPI(APIView):
+#     def post(self, request, format=None):
+#         lesson_id = request.data.get('lesson_id')
+#         if not lesson_id:
+#             return Response({'message': 'Missing lesson ID.'}, status=status.HTTP_400_BAD_REQUEST)
 
-        lesson = get_object_or_404(Lesson, pk=lesson_id)
+#         lesson = get_object_or_404(Lesson, pk=lesson_id)
 
-        if CompletedLesson.objects.filter(user=request.user, lesson=lesson).exists():
-            return Response({'message': 'Lesson is already marked as complete.'}, status=status.HTTP_200_OK)
+#         if CompletedLesson.objects.filter(user=request.user, lesson=lesson).exists():
+#             return Response({'message': 'Lesson is already marked as complete.'}, status=status.HTTP_200_OK)
 
-        CompletedLesson.objects.create(user=request.user, lesson=lesson)
+#         CompletedLesson.objects.create(user=request.user, lesson=lesson)
 
-        # Calculate the completion percentage for the course
-        course = lesson.chapter.course
-        total_lessons = Lesson.objects.filter(chapter__course=course).count()
-        total_quizzes = course.total_quizzes()
-        completed_lessons = request.user.completed_lessons.filter(lesson__chapter__course=course).count()
-        completed_quizzes = request.user.completed_quizzes(course)
+#         # Calculate the completion percentage for the course
+#         course = lesson.chapter.course
+#         total_lessons = Lesson.objects.filter(chapter__course=course).count()
+#         total_quizzes = course.total_quizzes()
+#         completed_lessons = request.user.completed_lessons.filter(lesson__chapter__course=course).count()
+#         completed_quizzes = request.user.completed_quizzes(course)
 
-        completion_percentage = (completed_lessons + completed_quizzes/ (total_lessons + total_quizzes)) * 100
+#         completion_percentage = (completed_lessons + completed_quizzes/ (total_lessons + total_quizzes)) * 100
 
-        return Response({
-            'message': 'Lesson marked as complete successfully.',
-            'completion_percentage': completion_percentage,
-        }, status=status.HTTP_200_OK)
+#         return Response({
+#             'message': 'Lesson marked as complete successfully.',
+#             'completion_percentage': completion_percentage,
+#         }, status=status.HTTP_200_OK)
 @csrf_protect
 def update_video_progress(request):
     if request.method == 'POST':
@@ -721,7 +909,50 @@ def update_video_progress(request):
 
     return JsonResponse({'message': 'Invalid request method.'}, status=400)
 
+class UpdateVideoProgressAPI(APIView):
+    def post(self, request):
+        serializer = VideoProgressSerializer(data=request.data)
+        if serializer.is_valid():
+            video_id = serializer.validated_data.get('video_id')
+            progress = serializer.validated_data.get('progress')
+
+            try:
+                video_lesson = VideoLesson.objects.get(video_lesson_id=video_id)
+                video_progress, created = VideoProgress.objects.get_or_create(video_lesson=video_lesson, user=request.user)
+
+                if float(progress) > 75 and not video_progress.status:
+                    video_progress.status = True
+                    video_progress.progress = progress
+                    video_progress.save()
+
+                    response_data = {
+                        'message': 'Video progress updated successfully.',
+                        'status': video_progress.status,
+                    }
+
+                    return Response(response_data, status=status.HTTP_200_OK)
+                else:
+                    response_data = {
+                        'message': 'Video progress not updated.',
+                        'status': video_progress.status,
+                    }
+
+                    return Response(response_data, status=status.HTTP_200_OK)
+
+            except VideoLesson.DoesNotExist:
+                return Response({'message': 'Video lesson not found.'}, status=status.HTTP_404_NOT_FOUND)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 def achievements(request):
     completed_courses = CompletedCourse.objects.filter(user=request.user)
     print(completed_courses)
     return render(request, 'courses/achievements.html', {'completed_courses': completed_courses})
+
+class AchievementsAPI(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        completed_courses = CompletedCourse.objects.filter(user=request.user)
+        serializer = CompletedCourseSerializer(completed_courses, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
