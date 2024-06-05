@@ -9,6 +9,7 @@ import Dashboard from './Dashboard';
 import Homepage from './Homepage';
 import Profile from './Profile';
 import CourseForm from './components/courseComponents/CourseForm';
+import ChapterForm from './components/courseComponents/ChapterForm';
 
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
         <Route path="reset_password/" element={<Reset_Password />} />
         <Route path="profile/" element={<Profile/>}/>
         <Route path="create-course/" element={<CourseForm />} />
+        <Route path="create-chapter/" element={<ChapterForm />} />
       </Routes>
     </Router>
   );

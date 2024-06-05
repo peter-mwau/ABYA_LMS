@@ -1,6 +1,7 @@
 // src/components/CourseForm.js
 import React, { useState } from 'react';
 import axios from 'axios';
+import Navbar from '../../Navbar';
 
 const CourseForm = () => {
   const [formData, setFormData] = useState({
@@ -52,6 +53,8 @@ const CourseForm = () => {
   };
 
   return (
+    <div>
+            <Navbar />
     <div className="max-w-2xl mx-auto mt-10">
       <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
         <div className="mb-4">
@@ -103,6 +106,7 @@ const CourseForm = () => {
           </button>
         </div>
       </form>
+    </div>
     </div>
   );
 };
