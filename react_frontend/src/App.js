@@ -8,6 +8,8 @@ import Reset_Password from './Reset_Password';
 import Dashboard from './Dashboard';
 import Homepage from './Homepage';
 import Profile from './Profile';
+import CourseForm from './components/courseComponents/CourseForm';
+
 
 function App() {
   return (
@@ -19,6 +21,7 @@ function App() {
         <Route path="register/" element={<Register />} />
         <Route path="reset_password/" element={<Reset_Password />} />
         <Route path="profile/" element={<Profile/>}/>
+        <Route path="create-course/" element={<CourseForm />} />
       </Routes>
     </Router>
   );
