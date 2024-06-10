@@ -1,14 +1,17 @@
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { Link } from 'react-router-dom'
 
-const SideNav = () => {
+const SideNav = ({ userType }) => {
 	const navigate = useNavigate();
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+	// const { userType } = this.props; // assuming userType is passed as a prop
 	const toggleDropdown = () => {
 		setIsDropdownOpen(!isDropdownOpen);
 	};
 
+	console.log('User Type: ', userType);
 	const logout = async (event) => {
 		event.preventDefault();
 		try {
@@ -26,6 +29,7 @@ const SideNav = () => {
 				}
 			);
 
+
 			console.log(response.data);
 			if (response.status === 200) {
 				// Remove the token from local storage
@@ -37,6 +41,7 @@ const SideNav = () => {
 		} catch (error) {
 			console.error("Error:", error);
 		}
+		
 	};
 
 	return (
@@ -85,6 +90,7 @@ const SideNav = () => {
 							</span>
 						</a>
 					</li>
+					{userType === 'Student' && 
 					<li>
 						<button
 							type="button"
@@ -158,6 +164,14 @@ const SideNav = () => {
 							</li>
 						</ul>
 					</li>
+					}
+					{userType === 'Teacher' && (
+        				<>
+          					<Link to="/create-course" className="text-gray-200 font-semibold">Create Course</Link>
+          					<Link to="/create-lesson">Create Lesson</Link>
+          					<Link to="/create-chapter">Create Chapter</Link>
+        				</>
+      				)}
 					<li>
 						<a
 							href="#me"

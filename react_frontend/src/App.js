@@ -38,11 +38,10 @@ function App() {
 				<Route path="register/" element={<Register />} />
 				<Route path="reset_password/" element={<Reset_Password />} />
 				<Route path="profile/" element={<Profile />} />
-        <Route path="create-course/" element={<CourseForm />} />
-        <Route path="create-chapter/" element={<ChapterForm />} />
-        <Route path="create-lesson/" element={<LessonForm />} />
-        <Route path="course-list/" element={<CourseList />} />
-
+        		<Route path="create-course/" element={<CourseForm />} />
+        		<Route path="create-chapter/" element={<ChapterForm />} />
+        		<Route path="create-lesson/" element={<LessonForm />} />
+        		<Route path="course-list/" element={<CourseList />} />
 			</Routes>
 		</>
 	);
