@@ -56,226 +56,207 @@ from rest_framework.renderers import TemplateHTMLRenderer
 #--------MODIFICATION INTO VIEWSET STAND-ALONE APIS (PETER MBUGUA)---------
 # Assignment viewset for CRUD operations
 
-class AsssignmentViewSet(viewsets.ModelViewSet):
+class AssignmentViewSet(viewsets.ModelViewSet):
     queryset = Assignment.objects.all()
     serializer_class = AssignmentSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [permissions.IsAuthenticated]
     
-    def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()
-        kwargs['user'] = self.request.user
-        return kwargs
-    @action(methods=['delete'], detail=True)
-    def delete_assignment(self):
-        return reverse_lazy('courses:list')
+    @action(detail=False, methods=['post'], url_path='create-assignment')
+    def create_assignment(self, request):
+        serializer = AssignmentSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(teacher=request.user)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 
 ChoiceFormSet = modelformset_factory(Choice, fields=('text', 'is_correct'), extra=4, max_num=4)
 
-    
- 
 class QuestionViewSet(viewsets.ModelViewSet):
     queryset = Question.objects.all()
     serializer_class = QuestionSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
-    def create(self, request, *args, **kwargs):
-        # Custom creation logic for questions with choices
-        question_form = QuestionForm(request.data)
-        if question_form.is_valid():
-            question = question_form.save(commit=False)
-            quiz_id = request.data.get('quiz_id')
-            question.quiz = get_object_or_404(Quiz, pk=quiz_id)
-            question.save()
+    @action(detail=False, methods=['post'], url_path='create-question/(?P<quiz_id>[^/.]+)')
+    def create_question(self, request, quiz_id=None):
+        quiz = get_object_or_404(Quiz, id=quiz_id)
+        question_data = request.data
+        question_data['quiz'] = quiz.id
+        
+        question_serializer = QuestionSerializer(data=question_data)
+        if question_serializer.is_valid():
+            question = question_serializer.save()
+            
+            choice_data = request.data.get('choices', [])
+            for choice in choice_data:
+                choice['question'] = question.id
+                choice_serializer = ChoiceSerializer(data=choice)
+                if choice_serializer.is_valid():
+                    choice_serializer.save()
+                else:
+                    return Response(choice_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            
+            return Response(question_serializer.data, status=status.HTTP_201_CREATED)
+        return Response(question_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-            choice_formset = ChoiceFormSet(request.data, queryset=Choice.objects.none())
-            if choice_formset.is_valid():
-                choices = choice_formset.save(commit=False)
-                for choice in choices:
-                    choice.question = question
-                    choice.save()
-                return Response({'status': 'question created'}, status=status.HTTP_201_CREATED)
-            else:
-                return Response(choice_formset.errors, status=status.HTTP_400_BAD_REQUEST)
-        else:
-            return Response(question_form.errors, status=status.HTTP_400_BAD_REQUEST)
+    @action(detail=False, methods=['post'], url_path='create-question-without-id')
+    def create_question_without_id(self, request):
+        question_data = request.data
+        quiz = get_object_or_404(Quiz, quiz_title=question_data.get('quiz_title'))
+        question_data['quiz'] = quiz.id
+        
+        question_serializer = QuestionSerializer(data=question_data)
+        if question_serializer.is_valid():
+            question = question_serializer.save()
+            
+            choice_data = request.data.get('choices', [])
+            for choice in choice_data:
+                choice['question'] = question.id
+                choice_serializer = ChoiceSerializer(data=choice)
+                if choice_serializer.is_valid():
+                    choice_serializer.save()
+                else:
+                    return Response(choice_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            
+            return Response(question_serializer.data, status=status.HTTP_201_CREATED)
+        return Response(question_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+class SubmitAssignmentViewSet(viewsets.ModelViewSet):
+    queryset = SubmitAssignment.objects.all()
+    serializer_class = SubmitAssignmentSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
-    @action(detail=False, methods=['post'])
-    def create_quiz(self, request):
-        # Custom action to create a quiz
-        quiz_form = QuizForm(request.data, user=request.user)
-        if quiz_form.is_valid():
-            quiz = quiz_form.save(commit=False)
-            quiz.teacher = request.user
-            quiz.save()
-            return Response({'quiz_id': quiz.id}, status=status.HTTP_201_CREATED)
-        else:
-            return Response(quiz_form.errors, status=status.HTTP_400_BAD_REQUEST)
+    def get_context_data(self, request, assignment_id):
+        assignment = get_object_or_404(Assignment, pk=assignment_id)
+        context = {
+            'duedate': assignment.due_date,
+            'time': timezone.now(),
+        }
+        return context
 
+    @action(detail=False, methods=['post'], url_path='submit-assignment')
+    def submit_assignment(self, request):
+        assignment_id = request.session.get('assignment')
+        if not assignment_id:
+            return Response({'error': 'Assignment ID is missing in the session.'}, status=status.HTTP_400_BAD_REQUEST)
 
+        context = self.get_context_data(request, assignment_id)
+        data = request.data.copy()
+        data['assignment_ques'] = assignment_id
+        data['author'] = request.user.id
+        
+        serializer = SubmitAssignmentSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class QuizSubmissionViewSet(viewsets.ModelViewSet):
+    queryset = QuizSubmission.objects.all()
+    serializer_class = QuizSubmissionSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    @action(detail=True, methods=['get'], url_path='results')
+    def get_results(self, request, pk=None):
+        submission = get_object_or_404(QuizSubmission, id=pk)
+        serializer = QuizSubmissionSerializer(submission)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
 class QuizViewSet(viewsets.ModelViewSet):
     queryset = Quiz.objects.all()
     serializer_class = QuizSerializer
-    
-    
+    permission_classes = [permissions.IsAuthenticated]
 
-class SubmitAssignmentViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = SubmitAssignment.objects.all()
-    serializer_class = SubmitAssignmentSerializer
-
-    def create(self, request, *args, **kwargs):
-        assignment_id = request.session.get('assignment')
-        assignment = get_object_or_404(Assignment, pk=assignment_id)
-        serializer = self.get_serializer(data=request.data)
-
+    @action(methods=['post'], detail=False ,url_path='create-quiz')
+    def create_quiz(self, request):
+        serializer = QuizSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save(
-                submitter=request.user,
-                assignment=assignment,
-                submitted_time=timezone.now()
-            )
+            serializer.save(teacher=request.user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
-        else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
-    @action(detail=True, methods=['post', 'put', 'patch'])
-    def perform_create(self, serializer):
-        assignment_id = self.request.session.get('assignment')
-        assignment = get_object_or_404(Assignment, pk=assignment_id)
-        serializer.save(submitter=self.request.user, assignment=assignment)
-    
-class SubmitQuizViewSet(viewsets.ModelViewSet):
-    queryset = QuizSubmission.objects.all()
-    serializer_class = QuizSubmissionSerializer
-    
-    
-    # def get_form_kwargs(self):
-    #     kwargs = super().get_form_kwargs()
-    #     kwargs['user'] = self.request.user
-    #     kwargs['quiz'] = Quiz.objects.get(id=self.kwargs['quiz_id'])
-    #     return kwargs
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['quiz'] = Quiz.objects.get(id=self.kwargs['quiz_id'])
-        return context
-    
-    @action(detail=True, methods=['post', 'put', 'patch'])
-    def form_valid(self, form):
-        quiz = Quiz.objects.get(id=self.kwargs['quiz_id'])
-        self.object = form.save(commit=False)
-        self.object.quiz = quiz
-        self.object.student = self.request.user
-        
-        score = 0
-        for question in quiz.question_set.all():
-            selected_choices = form.cleaned_data[f'question_{question.id}']
-            correct_choices = question.choice_set.filter(is_correct=True)
-            if set(selected_choices) == set(correct_choices):
-                score += 1
-        self.object.score = score
-        self.object.save()
-        
-        return redirect('quiz_results', submission_id=self.object.id) 
-
-    def create(self, request, *args, **kwargs):
-        quiz_id = request.data.get('quiz_id')
-        quiz = get_object_or_404(Quiz, pk=quiz_id)
-        answers = request.data.get('answers')  # Assuming answers are provided in the request
+    @action(detail=True, methods=['post'], url_path='submit')
+    def submit_quiz(self, request, pk=None):
+        quiz = get_object_or_404(Quiz, pk=pk)
+        user = request.user
+        data = request.data.get('answers', {})
 
         # Calculate score based on provided answers
-        score = self.calculate_score(quiz, answers)
+        score = self.calculate_score(quiz, data)
 
-        # Create or update the quiz submission
-        submission, created = QuizSubmission.objects.update_or_create(
-            student=request.user,
-            quiz=quiz,
-            defaults={'score': score}
-        )
-
-        # Check if the user passed the quiz and handle attempts
+        # Handle submission and attempts
+        submission, created = self.create_or_update_submission(user, quiz, score)
         self.handle_attempts(request, quiz, score)
 
-        # Serialize the submission instance and return the response
-        serializer = self.get_serializer(submission)
-        return Response(serializer.data, status=status.HTTP_201_CREATED if created else status.HTTP_200_OK)
+        # Check if the user passed the quiz
+        total_questions = quiz.question_set.count()
+        percentage_score = round((score / total_questions) * 100)
+        if percentage_score >= 75:
+            CompletedQuiz.objects.get_or_create(user=user, quiz=quiz)
 
-    @action(detail=True, methods=['get', 'post', 'put', 'patch'])
+        return Response(QuizSubmissionSerializer(submission).data, status=status.HTTP_201_CREATED if created else status.HTTP_200_OK)
+
+    @action(detail=True, methods=['get'], url_path='questions')
+    def list_questions(self, request, pk=None):
+        quiz = get_object_or_404(Quiz, pk=pk)
+        questions = quiz.question_set.all()
+        serializer = QuestionSerializer(questions, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
     def calculate_score(self, quiz, answers):
         score = 0
-        for question_id, value in answers.items():
-            question = get_object_or_404(Question, pk=question_id)
-            correct_choices = question.choice_set.filter(is_correct=True).values_list('id', flat=True)
-            if str(value) in map(str, correct_choices):
-                score += 1
+        for question_id, choice_id in answers.items():
+            try:
+                question = Question.objects.get(id=question_id, quiz=quiz)
+                choice = Choice.objects.get(id=choice_id, question=question)
+                if choice.is_correct:
+                    score += 1
+            except (Question.DoesNotExist, Choice.DoesNotExist):
+                continue
         return score
 
-    @action(detail=True, methods=['post', 'put', 'patch'])
+    def create_or_update_submission(self, user, quiz, score):
+        try:
+            with transaction.atomic():
+                submission, created = QuizSubmission.objects.get_or_create(
+                    student=user,
+                    quiz=quiz,
+                    defaults={'score': score}
+                )
+                if not created:
+                    submission.score = score
+                    submission.save()
+        except IntegrityError:
+            raise ValueError("Error saving submission.")
+        return submission, created
+
     def handle_attempts(self, request, quiz, score):
-        # Define the key for storing quiz attempts in the session
         quiz_session_key = f"quiz_attempts_{request.user.id}_{quiz.id}"
 
-        # Initialize attempts for the quiz if not already set
         if quiz_session_key not in request.session:
             request.session[quiz_session_key] = {
-                'attempts_left': 3,  # Total number of attempts allowed
-                'last_attempt_time': timezone.now().timestamp()  # Timestamp of the last attempt
+                'attempts_left': 3,
+                'last_attempt_time': timezone.now().timestamp()
             }
 
-        # Retrieve the quiz attempt data from the session
         quiz_attempts_data = request.session[quiz_session_key]
-
-        # Calculate the time passed since the last attempt
         last_attempt_time = timezone.datetime.fromtimestamp(quiz_attempts_data['last_attempt_time'], tz=timezone.get_current_timezone())
         time_since_last_attempt = timezone.now() - last_attempt_time
-
-        # Define the cooldown period
         cooldown_period = timedelta(hours=24)
 
-        # Check if the cooldown period has passed since the last attempt
         if time_since_last_attempt < cooldown_period:
-            # If within cooldown period, check if there are attempts left
             if quiz_attempts_data['attempts_left'] > 0:
-                # Decrement the attempts left
                 quiz_attempts_data['attempts_left'] -= 1
-                # Update the last attempt time
                 quiz_attempts_data['last_attempt_time'] = timezone.now().timestamp()
-                # Save the updated data back to the session
                 request.session[quiz_session_key] = quiz_attempts_data
             else:
-                # No attempts left, return an error message
-                messages.warning(request, "You have used all your attempts for this quiz. Please try again after the cooldown period.")
-                # You may want to raise an exception or return an appropriate response
+                raise PermissionError("No attempts left. Please try again after the cooldown period.")
         else:
-            # Cooldown period has passed, reset the attempts
             quiz_attempts_data['attempts_left'] = 3
             quiz_attempts_data['last_attempt_time'] = timezone.now().timestamp()
-            # Save the reset data back to the session
             request.session[quiz_session_key] = quiz_attempts_data
 
-        # Always save the session after modifying it
         request.session.save()
         
-        @action(detail=True, methods=['post'])
-        def grade_assignment(request, pk):
-            submission = get_object_or_404(SubmitAssignment, pk=pk)
-            if request.method=="POST":
-                form=GradeAssignmentForm(request.POST)
-                if form.is_valid():
-                    data = form.cleaned_data.get('grade')
-                    submission.grade_assignment(data)
-                    return redirect('assignments:submit_detail', pk=pk)
-            else:
-                form = GradeAssignmentForm()
-            return render(request, 'assignments/grade_form.html', {'pk':pk, 'form':form, 'submissions':submission})
-
-
-
-
-
-
-
-
 
 
 # -------------------OLD CODE-----------------------------

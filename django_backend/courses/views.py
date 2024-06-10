@@ -52,19 +52,19 @@ from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 
-class CreateCourse(LoginRequiredMixin, generic.CreateView):
-    fields = ('course_name', 'course_description')
-    model = Course
+# class CreateCourse(LoginRequiredMixin, generic.CreateView):
+#     fields = ('course_name', 'course_description')
+#     model = Course
 
-    def get(self, request,*args, **kwargs):
-        self.object = None
-        context_dict = self.get_context_data()
-        context_dict.update(user_type=self.request.user.user_type)
-        return self.render_to_response(context_dict)
+#     def get(self, request,*args, **kwargs):
+#         self.object = None
+#         context_dict = self.get_context_data()
+#         context_dict.update(user_type=self.request.user.user_type)
+#         return self.render_to_response(context_dict)
     
-    def form_valid(self, form):
-        form.instance.teacher = self.request.user
-        return super(CreateCourse, self).form_valid(form)
+#     def form_valid(self, form):
+#         form.instance.teacher = self.request.user
+#         return super(CreateCourse, self).form_valid(form)
 
 class CourseViewSet(viewsets.ModelViewSet):
     queryset = Course.objects.all()
@@ -154,24 +154,24 @@ class CourseViewSet(viewsets.ModelViewSet):
             'completed_lessons_count': completed_lessons,
             'completion_percentage': completion_percentage
         }, status=status.HTTP_200_OK)
-class CreateChapterView(LoginRequiredMixin, generic.CreateView):
-    model = Chapter
-    form_class = CreateChapterForm
-    template_name = 'courses/create_chapter.html'
+# class CreateChapterView(LoginRequiredMixin, generic.CreateView):
+#     model = Chapter
+#     form_class = CreateChapterForm
+#     template_name = 'courses/create_chapter.html'
     
-    def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()
-        kwargs.update({'user': self.request.user})
-        return kwargs
+#     def get_form_kwargs(self):
+#         kwargs = super().get_form_kwargs()
+#         kwargs.update({'user': self.request.user})
+#         return kwargs
     
     
-    def form_valid(self, form):
-        user_object = get_object_or_404(User, username=self.request.user.username)
-        form.instance.teacher = user_object
-        return super().form_valid(form)
-    def get_success_url(self):
-        url = reverse('courses:list')
-        return url
+#     def form_valid(self, form):
+#         user_object = get_object_or_404(User, username=self.request.user.username)
+#         form.instance.teacher = user_object
+#         return super().form_valid(form)
+#     def get_success_url(self):
+#         url = reverse('courses:list')
+#         return url
 class ChapterViewSet(viewsets.ModelViewSet):
     queryset = Chapter.objects.all()
     serializer_class = ChapterSerializer
@@ -194,36 +194,36 @@ class ChapterViewSet(viewsets.ModelViewSet):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-class CreateLessonView(LoginRequiredMixin, generic.CreateView):
-    form_class = CreateLessonForm
-    template_name = 'courses/create_lesson.html'
+# class CreateLessonView(LoginRequiredMixin, generic.CreateView):
+#     form_class = CreateLessonForm
+#     template_name = 'courses/create_lesson.html'
   
     
-    def get_from_kwargs(self):
-        kwargs = super().get_form_kwargs()
-        kwargs['user'] = self.request.user
-        return kwargs
-    def form_valid(self, form):
-        user_object = get_object_or_404(User, username=self.request.user.username)
-        form.instance.teacher = user_object
-        word_file = form.cleaned_data['word_file']
+#     def get_from_kwargs(self):
+#         kwargs = super().get_form_kwargs()
+#         kwargs['user'] = self.request.user
+#         return kwargs
+#     def form_valid(self, form):
+#         user_object = get_object_or_404(User, username=self.request.user.username)
+#         form.instance.teacher = user_object
+#         word_file = form.cleaned_data['word_file']
 
-        if word_file:
-            if hasattr(word_file, 'read'):
-                # File is in memory, read its content
-                content = word_file.read()
-                # Perform the Word to Markdown conversion
-                result = mammoth.convert_to_markdown(io.BytesIO(content))
-                form.instance.lesson_content = result.value
-            else:
-                # File is on disk, perform conversion as before
-                with open(word_file.path, 'rb') as docx_file:
-                    result = mammoth.convert_to_markdown(docx_file)
-                    form.instance.lesson_content = result.value
+#         if word_file:
+#             if hasattr(word_file, 'read'):
+#                 # File is in memory, read its content
+#                 content = word_file.read()
+#                 # Perform the Word to Markdown conversion
+#                 result = mammoth.convert_to_markdown(io.BytesIO(content))
+#                 form.instance.lesson_content = result.value
+#             else:
+#                 # File is on disk, perform conversion as before
+#                 with open(word_file.path, 'rb') as docx_file:
+#                     result = mammoth.convert_to_markdown(docx_file)
+#                     form.instance.lesson_content = result.value
 
-        return super().form_valid(form)
-    def get_success_url(self) -> str:
-        return reverse('courses:list')
+#         return super().form_valid(form)
+#     def get_success_url(self) -> str:
+#         return reverse('courses:list')
 class LessonViewSet(viewsets.ModelViewSet):
     queryset = Lesson.objects.all()
     serializer_class = LessonSerializer
@@ -261,221 +261,221 @@ class LessonViewSet(viewsets.ModelViewSet):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-class CourseDetail(generic.DetailView):
-    model = Course
+# class CourseDetail(generic.DetailView):
+#     model = Course
     
     
-    def get_context_data(self, **kwargs):
-         # Initialize user_profile
-        user_profile = None
-        try:
-            user_id = self.request.user.id
-            # Attempt to get user_profile
-            # user_profile = UserProfile.objects.get(user=self.request.user)
-            course = get_object_or_404(Course, pk=self.kwargs['pk'])
-        except Http404:
-            # Handle the case where UserProfile does not exist
-            pass
-            # Handle the case where the course does not exist
-            messages.error(self.request, 'Course not found.')
-            return HttpResponseRedirect(reverse('courses:list')) 
+#     def get_context_data(self, **kwargs):
+#          # Initialize user_profile
+#         user_profile = None
+#         try:
+#             user_id = self.request.user.id
+#             # Attempt to get user_profile
+#             # user_profile = UserProfile.objects.get(user=self.request.user)
+#             course = get_object_or_404(Course, pk=self.kwargs['pk'])
+#         except Http404:
+#             # Handle the case where UserProfile does not exist
+#             pass
+#             # Handle the case where the course does not exist
+#             messages.error(self.request, 'Course not found.')
+#             return HttpResponseRedirect(reverse('courses:list')) 
         
-        completed_lesson_ids = []
+#         completed_lesson_ids = []
         
-        # Get chapters related to the course
-        chapters = Chapter.objects.filter(course=course)
+#         # Get chapters related to the course
+#         chapters = Chapter.objects.filter(course=course)
 
-        # chapters_with_lessons = {}
+#         # chapters_with_lessons = {}
         
-        # Create a dictionary to store chapters and their related lessons
-        chapters_with_lessons = []
-        chapters_with_lessons_and_quizzes = {}
+#         # Create a dictionary to store chapters and their related lessons
+#         chapters_with_lessons = []
+#         chapters_with_lessons_and_quizzes = {}
 
-        # Initialize chapters_with_completion as an empty list
-        chapters_with_completion = []
+#         # Initialize chapters_with_completion as an empty list
+#         chapters_with_completion = []
 
-        # Initialize completed_chapter_ids as an empty list
-        completed_chapter_ids = []
+#         # Initialize completed_chapter_ids as an empty list
+#         completed_chapter_ids = []
 
         
-        for chapter in chapters:
-            # Get lessons related to the chapter
-            lessons = Lesson.objects.filter(chapter=chapter)
-            # get the count of lessons that exist in each chapter
-            lesson_count = lessons.count()
-            chapters_with_lessons.append((chapter, lessons))
+#         for chapter in chapters:
+#             # Get lessons related to the chapter
+#             lessons = Lesson.objects.filter(chapter=chapter)
+#             # get the count of lessons that exist in each chapter
+#             lesson_count = lessons.count()
+#             chapters_with_lessons.append((chapter, lessons))
             
-            quizzes = Quiz.objects.filter(chapter=chapter)
-            chapters_with_lessons_and_quizzes[chapter] = {
-                'lessons': lessons,
-                'quizzes': quizzes,
-                'lesson_count': lesson_count,
-            }
+#             quizzes = Quiz.objects.filter(chapter=chapter)
+#             chapters_with_lessons_and_quizzes[chapter] = {
+#                 'lessons': lessons,
+#                 'quizzes': quizzes,
+#                 'lesson_count': lesson_count,
+#             }
 
-            print("Lesson Count: ", lesson_count)
-            
-
-            
-        assignments = Assignment.objects.filter(course=self.kwargs['pk'])
-        resources = Resource.objects.filter(course=self.kwargs['pk'])
-
-        # Get the total number of lessons for the course
-        total_lessons = Lesson.objects.filter(chapter__course=course).count()
-        total_quizzes = course.total_quizzes()
-        completed_quizzes_count = 0
-        lesson_count = 0
-        completion_status = False
-        completed_courses = 0
-        # Handle the case where total_lessons is zero
-        if total_lessons > 0:
-            # Get the total number of completed lessons for the user in that course
-            if self.request.user.is_authenticated:
-                user_id = self.request.user.id
-                completed_lessons = CompletedLesson.objects.filter(user=user_id, lesson__chapter__course=course).count()
-
-                completed_lessons = CompletedLesson.objects.filter(user=user_id, lesson__chapter__course=course).aggregate(count=Count('id'))['count']
-
-
-
-                completion_percentage = round((completed_lessons / total_lessons) * 100)
-                print("Completed Lessons:", completed_lessons)
-
-                # Access and print the lesson IDs directly
-                completed_lessons1 = CompletedLesson.objects.filter(user=user_id, lesson__chapter__course=course)
-                completed_lesson_ids = [completed_lesson.lesson.id for completed_lesson in completed_lessons1]
-                print("Lesson IDs completed:", completed_lesson_ids)
-
-                # can i get the chapter ids
-                completed_chapter_ids = [completed_lesson.lesson.chapter.id for completed_lesson in completed_lessons1]
-                print("Chapter IDs completed:", completed_chapter_ids)
-
-                # Create a list to store chapter information including completion status
-                chapters_with_completion = []
-
-            # create a list of completed courses
-            completed_courses = []
-
-            completed_quizzes = []
+#             print("Lesson Count: ", lesson_count)
             
 
-            # Check if the chapter ID occurs in completed chapter IDs and the count matches the lesson count
-            for chapter in chapters:
-                lessons = Lesson.objects.filter(chapter=chapter)
-                # Get quizzes related to the chapter
-                quizzes = Quiz.objects.filter(chapter=chapter)
-                # get the count of lessons and quizzes that exist in each chapter
-                lesson_count = lessons.count()
-                quiz_count = quizzes.count()
-                # Get the completed quiz IDs from the completedquiz model
-                completed_quizzes = CompletedQuiz.objects.filter(user=user_id, quiz__chapter__course=course).values_list('quiz_id', flat=True)
+            
+#         assignments = Assignment.objects.filter(course=self.kwargs['pk'])
+#         resources = Resource.objects.filter(course=self.kwargs['pk'])
+
+#         # Get the total number of lessons for the course
+#         total_lessons = Lesson.objects.filter(chapter__course=course).count()
+#         total_quizzes = course.total_quizzes()
+#         completed_quizzes_count = 0
+#         lesson_count = 0
+#         completion_status = False
+#         completed_courses = 0
+#         # Handle the case where total_lessons is zero
+#         if total_lessons > 0:
+#             # Get the total number of completed lessons for the user in that course
+#             if self.request.user.is_authenticated:
+#                 user_id = self.request.user.id
+#                 completed_lessons = CompletedLesson.objects.filter(user=user_id, lesson__chapter__course=course).count()
+
+#                 completed_lessons = CompletedLesson.objects.filter(user=user_id, lesson__chapter__course=course).aggregate(count=Count('id'))['count']
+
+
+
+#                 completion_percentage = round((completed_lessons / total_lessons) * 100)
+#                 print("Completed Lessons:", completed_lessons)
+
+#                 # Access and print the lesson IDs directly
+#                 completed_lessons1 = CompletedLesson.objects.filter(user=user_id, lesson__chapter__course=course)
+#                 completed_lesson_ids = [completed_lesson.lesson.id for completed_lesson in completed_lessons1]
+#                 print("Lesson IDs completed:", completed_lesson_ids)
+
+#                 # can i get the chapter ids
+#                 completed_chapter_ids = [completed_lesson.lesson.chapter.id for completed_lesson in completed_lessons1]
+#                 print("Chapter IDs completed:", completed_chapter_ids)
+
+#                 # Create a list to store chapter information including completion status
+#                 chapters_with_completion = []
+
+#             # create a list of completed courses
+#             completed_courses = []
+
+#             completed_quizzes = []
+            
+
+#             # Check if the chapter ID occurs in completed chapter IDs and the count matches the lesson count
+#             for chapter in chapters:
+#                 lessons = Lesson.objects.filter(chapter=chapter)
+#                 # Get quizzes related to the chapter
+#                 quizzes = Quiz.objects.filter(chapter=chapter)
+#                 # get the count of lessons and quizzes that exist in each chapter
+#                 lesson_count = lessons.count()
+#                 quiz_count = quizzes.count()
+#                 # Get the completed quiz IDs from the completedquiz model
+#                 completed_quizzes = CompletedQuiz.objects.filter(user=user_id, quiz__chapter__course=course).values_list('quiz_id', flat=True)
                 
-                completed_quizzes_ids = set(completed_quizzes)
+#                 completed_quizzes_ids = set(completed_quizzes)
 
-                # Check if all lessons and quizzes in the chapter are completed
-                is_completed = all(
-                    ((chapter.id in completed_chapter_ids and completed_chapter_ids.count(chapter.id) == lesson_count) and
-                    (quiz.id in completed_quizzes_ids and len(completed_quizzes_ids.intersection([quiz.id])) == 1))
-                    for quiz in quizzes
-                )
-
-
+#                 # Check if all lessons and quizzes in the chapter are completed
+#                 is_completed = all(
+#                     ((chapter.id in completed_chapter_ids and completed_chapter_ids.count(chapter.id) == lesson_count) and
+#                     (quiz.id in completed_quizzes_ids and len(completed_quizzes_ids.intersection([quiz.id])) == 1))
+#                     for quiz in quizzes
+#                 )
 
 
 
-                chapter_info = {
-                    'chapter_id': chapter.id,
-                    'lessons': lessons,
-                    'quizzes': quizzes,
-                    'is_completed': is_completed,
-                }
 
-                if is_completed:
-                    chapters_with_completion.append(chapter_info)
 
-            # Check if the total number of chapters equals the number of completed chapters for each course
-            total_chapters = Chapter.objects.filter(course=course).count()
+#                 chapter_info = {
+#                     'chapter_id': chapter.id,
+#                     'lessons': lessons,
+#                     'quizzes': quizzes,
+#                     'is_completed': is_completed,
+#                 }
 
-            completed_chapters_count = sum(1 for chapter_info in chapters_with_completion if chapter_info['is_completed'])
-            print(f"Course: {course}, Total Chapters: {total_chapters}, Completed Chapters: {completed_chapters_count}")
+#                 if is_completed:
+#                     chapters_with_completion.append(chapter_info)
 
-            if total_chapters == completed_chapters_count:
-                completed_courses.append(course)
+#             # Check if the total number of chapters equals the number of completed chapters for each course
+#             total_chapters = Chapter.objects.filter(course=course).count()
 
-            print("Completed Courses:", completed_courses)
+#             completed_chapters_count = sum(1 for chapter_info in chapters_with_completion if chapter_info['is_completed'])
+#             print(f"Course: {course}, Total Chapters: {total_chapters}, Completed Chapters: {completed_chapters_count}")
+
+#             if total_chapters == completed_chapters_count:
+#                 completed_courses.append(course)
+
+#             print("Completed Courses:", completed_courses)
                    
 
-            print("Chapters with completion:", chapters_with_completion)
+#             print("Chapters with completion:", chapters_with_completion)
                 
             
  
-            # get the total number of quizzes for the course
-            total_quizzes = course.total_quizzes()
-            print("Total Quizzes:", total_quizzes)
+#             # get the total number of quizzes for the course
+#             total_quizzes = course.total_quizzes()
+#             print("Total Quizzes:", total_quizzes)
 
-            # get the completed quizzes
-            completed_quizzes = CompletedQuiz.objects.filter(user=user_id, quiz__chapter__course=course)
+#             # get the completed quizzes
+#             completed_quizzes = CompletedQuiz.objects.filter(user=user_id, quiz__chapter__course=course)
 
-            # Get the completed quiz IDs from the UserProfile
-            # completed_quizzes = user_profile.completed_quizzes.values_list('id', flat=True)
-            # completed_quizzes_ids = list(completed_quizzes)
-            # print("Completed Quizzeddds:", completed_quizzes_ids)
+#             # Get the completed quiz IDs from the UserProfile
+#             # completed_quizzes = user_profile.completed_quizzes.values_list('id', flat=True)
+#             # completed_quizzes_ids = list(completed_quizzes)
+#             # print("Completed Quizzeddds:", completed_quizzes_ids)
 
-            completed_quizzes_count = len(completed_quizzes) if completed_quizzes else 0
-            completed_lessons = CompletedLesson.objects.filter(user=user_id, lesson__chapter__course=course).count()
+#             completed_quizzes_count = len(completed_quizzes) if completed_quizzes else 0
+#             completed_lessons = CompletedLesson.objects.filter(user=user_id, lesson__chapter__course=course).count()
 
-            # calculate if a course is complete or not if the total_lessons + total_quizes == the sum of completed lessons + completed quizes          
-            if total_lessons + total_quizzes == completed_lessons + completed_quizzes_count:
-                completion_status = True
-            else:
-                completion_status = False
-            print("Completion Status:", completion_status)
+#             # calculate if a course is complete or not if the total_lessons + total_quizes == the sum of completed lessons + completed quizes          
+#             if total_lessons + total_quizzes == completed_lessons + completed_quizzes_count:
+#                 completion_status = True
+#             else:
+#                 completion_status = False
+#             print("Completion Status:", completion_status)
              
-            completion_percentage = round(((completed_lessons + completed_quizzes_count) / (total_lessons + total_quizzes)) * 100)
-            print("Completed Quizees Count:", completed_quizzes_count)
-            print("Completion Percentage:", completion_percentage)
-        else:
-            completed_lessons = 0
-            completed_quizzes = 0
-            completion_percentage = 0
+#             completion_percentage = round(((completed_lessons + completed_quizzes_count) / (total_lessons + total_quizzes)) * 100)
+#             print("Completed Quizees Count:", completed_quizzes_count)
+#             print("Completion Percentage:", completion_percentage)
+#         else:
+#             completed_lessons = 0
+#             completed_quizzes = 0
+#             completion_percentage = 0
         
-        if completion_percentage >= 100:
-            #this is how i choose to update to the db that a user has completed a course
-            # popup a congratulations window with instructions to generate/get your certificate
-            # Check if the user has already completed the course
-            if not CompletedCourse.objects.filter(user_id=user_id, course=course).exists():
-                # Create a new CompletedCourse instance only if it doesn't exist
-                try:
-                    completedcourse = CompletedCourse(user_id, course=course)
-                    completedcourse.save()
-                except IntegrityError:
-                    # Handle the case where the user has already completed the course
-                    messages.warning(self.request, 'You have already completed this course.')
+#         if completion_percentage >= 100:
+#             #this is how i choose to update to the db that a user has completed a course
+#             # popup a congratulations window with instructions to generate/get your certificate
+#             # Check if the user has already completed the course
+#             if not CompletedCourse.objects.filter(user_id=user_id, course=course).exists():
+#                 # Create a new CompletedCourse instance only if it doesn't exist
+#                 try:
+#                     completedcourse = CompletedCourse(user_id, course=course)
+#                     completedcourse.save()
+#                 except IntegrityError:
+#                     # Handle the case where the user has already completed the course
+#                     messages.warning(self.request, 'You have already completed this course.')
             
 
-        context = super(CourseDetail, self).get_context_data(**kwargs)
-        context['assignments'] = assignments
-        context['resources'] = resources
-        context['chapters_with_lessons'] = chapters_with_lessons 
-        # return chapter name and lesson name
-        context['chapters_with_lessons_and_quizzes'] = chapters_with_lessons_and_quizzes
-        context['total_lessons'] = total_lessons
-        context['completed_lessons'] = completed_lessons
-        context['course.pk'] = course
-        context['course_id'] = course.pk
-        # context['course_id'] = course.pk
-        context['completed_lesson_ids'] = completed_lesson_ids
-        # context['completed_lesson_ids_json'] = json.dumps(completed_lesson_ids)
-        context['completed_quizzes'] = completed_quizzes
-        context['completed_quizzes_count'] = completed_quizzes_count
-        context['completion_percentage'] = completion_percentage
-        context['completed_chapter_ids'] = completed_chapter_ids
-            # lesson_count
-        context['lesson_count'] = lesson_count
-        context['chapters_with_completion'] = chapters_with_completion
-        context['completion_status'] = completion_status
-        context['completed_courses'] = completed_courses
-        context['user_profile'] = user_profile
-        return context
+#         context = super(CourseDetail, self).get_context_data(**kwargs)
+#         context['assignments'] = assignments
+#         context['resources'] = resources
+#         context['chapters_with_lessons'] = chapters_with_lessons 
+#         # return chapter name and lesson name
+#         context['chapters_with_lessons_and_quizzes'] = chapters_with_lessons_and_quizzes
+#         context['total_lessons'] = total_lessons
+#         context['completed_lessons'] = completed_lessons
+#         context['course.pk'] = course
+#         context['course_id'] = course.pk
+#         # context['course_id'] = course.pk
+#         context['completed_lesson_ids'] = completed_lesson_ids
+#         # context['completed_lesson_ids_json'] = json.dumps(completed_lesson_ids)
+#         context['completed_quizzes'] = completed_quizzes
+#         context['completed_quizzes_count'] = completed_quizzes_count
+#         context['completion_percentage'] = completion_percentage
+#         context['completed_chapter_ids'] = completed_chapter_ids
+#             # lesson_count
+#         context['lesson_count'] = lesson_count
+#         context['chapters_with_completion'] = chapters_with_completion
+#         context['completion_status'] = completion_status
+#         context['completed_courses'] = completed_courses
+#         context['user_profile'] = user_profile
+#         return context
 
 
 class CourseDetailAPI(APIView):

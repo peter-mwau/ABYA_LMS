@@ -1,6 +1,7 @@
 // src/components/CourseForm.js
 import React, { useState } from 'react';
 import axios from 'axios';
+import Navbar from '../../Navbar';
 
 const CourseForm = () => {
   const [formData, setFormData] = useState({
@@ -33,7 +34,7 @@ const CourseForm = () => {
     data.append('course_description', formData.course_description);
     data.append('picture', formData.picture);
     try {
-      const response = await axios.post('http://localhost:8000/courses/create-course/', data, {
+      const response = await axios.post('http://localhost:8000/courses/courses/create-course/', data, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -52,6 +53,8 @@ const CourseForm = () => {
   };
 
   return (
+    <div>
+    
     <div className="max-w-2xl mx-auto mt-10">
       <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
         <div className="mb-4">
@@ -103,6 +106,7 @@ const CourseForm = () => {
           </button>
         </div>
       </form>
+    </div>
     </div>
   );
 };
