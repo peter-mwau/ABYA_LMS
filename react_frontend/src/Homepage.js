@@ -25,7 +25,7 @@ const Homepage = () => {
     };
 
     const sectionStyle = {
-        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.8)), url(${landingImage})`,
+        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.8)), url(${landingImage})`,
         backgroundRepeat: 'no-repeat',
         backgroundSize: 'cover',
         height: '100vh', // Adjust as needed
@@ -34,29 +34,30 @@ const Homepage = () => {
     return ( 
     <body class="bg-gray-200 text-white">
     <div id="landing" style={sectionStyle} class="w-full h-[100vh] mx-auto flex flex-col items-center justify-center bg-black bg-opacity-10">
-        <div class="h-[70px, auto] w-full p-2 flex flex-row relative my-auto space-x-[30%] container">
+        <div class="h-[70px, auto] w-full p-2 flex flex-row relative my-auto space-x-[30%] container lg:container lg:justify-center lg:items-center lg:mx-auto">
             <div class="items-start p-1 m-2">
-                {/* {% comment %} <img src="{% static 'django_lms/images/abya2.jpg' %}" class="rounded-full bg-cover"/> {% endcomment %} */}
-                <img width="500" height="500" src="https://abyauniversity.com/wp-content/uploads/2022/08/abya-university-resized.png" class="attachment-large size-large wp-image-3255" alt="" loading="lazy" srcset="https://abyauniversity.com/wp-content/uploads/2022/08/abya-university-resized.png 592w, https://abyauniversity.com/wp-content/uploads/2022/08/abya-university-resized-300x129.png 300w" sizes="(max-width: 592px) 100vw, 592px" />
+                <img width="400" height="400" src="https://abyauniversity.com/wp-content/uploads/2024/04/abya_logo.png" class="attachment-large size-large wp-image-3255" alt="" loading="lazy" srcset="https://abyauniversity.com/wp-content/uploads/2024/04/abya_logo.png 350w, https://abyauniversity.com/wp-content/uploads/2024/04/abya_logo-300x129.png 300w" sizes="(max-width: 592px) 100vw, 592px" />
             </div>
             <div class="lg:my-auto lg:flex text-white font-bold lg:items-end lg:mx-auto hidden space-x-3">
-                <a href="/" class="text-black bg-yellow-500 p-1 rounded-2xl hover:text-white hover:bg-yellow-400 hover:shadow-md transition duration-300 ease-in-out font-bold py-2 px-4">Home</a>
-                <a href="/login" class="text-white hover:text-cyan-950 hover:bg-yellow-400 hover:border-yellow-400 hover:p-2 hover:rounded-2xl hover:shadow-md hover:transition-transform hover:scale-105 transition duration-300 ease-in-out font-bold py-2 px-4">Login</a>
-                <a href="/register" class="text-white hover:text-cyan-950 hover:bg-yellow-400 hover:border-yellow-400 hover:p-2 hover:rounded-2xl hover:shadow-md hover:transition-transform hover:scale-105 transition duration-300 ease-in-out font-bold py-2 px-4">Register</a>
-                <a href="#about" class="text-white hover:text-cyan-950 hover:bg-yellow-400 hover:border-yellow-400 hover:p-2 hover:rounded-2xl hover:shadow-md hover:transition-transform hover:scale-105 transition duration-300 ease-in-out font-bold py-2 px-4">About</a>
-                <a href="#contact" class="text-white hover:text-cyan-950 hover:bg-yellow-400 hover:border-yellow-400 hover:p-2 hover:rounded-2xl hover:shadow-md hover:transition-transform hover:scale-105 transition duration-300 ease-in-out font-bold py-2 px-4">Contact</a>
+                <a href="/" class="text-yellow-400 text-xl p-1 rounded-2xl hover:text-white hover:shadow-md transition duration-300 ease-in-out font-bold py-2 px-4">Home</a>
+                <a href="/login" class="text-white  text-xl hover:text-yellow-400 hover:border-yellow-400 hover:rounded-2xl hover:shadow-md hover:transition-transform hover:scale-105 transition duration-300 ease-in-out font-bold py-2 px-4">Login</a>
+                <a href="/register" class="text-white  text-xl hover:text-yellow-400 hover:border-yellow-400 hover:rounded-2xl hover:shadow-md hover:transition-transform hover:scale-105 transition duration-300 ease-in-out font-bold py-2 px-4">Register</a>
+                <a href="#about" class="text-white  text-xl hover:text-yellow-400 hover:border-yellow-400 hover:rounded-2xl hover:shadow-md hover:transition-transform hover:scale-105 transition duration-300 ease-in-out font-bold py-2 px-4">About</a>
+                <a href="#contact" class="text-white  text-xl hover:text-yellow-400 hover:border-yellow-400 hover:rounded-2xl hover:shadow-md hover:transition-transform hover:scale-105 transition duration-300 ease-in-out font-bold py-2 px-4">Contact</a>
             </div>
             
         </div>
         <div class="index-image text-yellow-400">
             <div class="mx-auto items-center flex justify-center w-[80%] py-5">
-                <div class="flex flex-row my-auto space-x-4 w-auto">
-                <div class="items-start mx-auto justify-start my-auto m-3 space-x-5 w-1/2">
+                <div class="flex flex-row my-auto space-x-4 w-auto lg:gap-10">
+                <div class="items-start mx-auto justify-start my-auto m-3 space-x-5 w-1/2 lg:space-y-5">
                     <h1 class="text-5xl">Learning Management System</h1>
                     <p class="text-gray-100 ">Innovation. Creativity. Teamwork.</p>
                     <p class="bg-gray-100 bg-opacity-60 hover:text-cyan-950 hover:bg-opacity-80  rounded-md shadow-sm p-2 mt-2 hover:shadow-2xl w-auto"><a href="{% url 'courses:list' %}" class="mx-auto items-center justify-center flex text-xl font-serif font-semibold decoration-none hover:no-underline text-black ">View All Courses</a></p>
                 </div>
-                <div class="hidden lg:flex items-end justify-end my-auto"><img src="https://res.cloudinary.com/mhmd/image/upload/v1556834136/illus_kftyh4.png" alt="" class="img-fluid w-[600px]" /></div>
+                <div class="hidden lg:flex items-end justify-end my-auto">
+                    <img src="https://res.cloudinary.com/mhmd/image/upload/v1556834136/illus_kftyh4.png" alt="" class="img-fluid w-[600px]" />
+                </div>
                 </div>
             </div>
             <div class="bg-black bg-opacity-40 m-2 p-2 items-center justify-center flex mx-auto hover:cursor-pointer hover:translate-y-2 hover:delay-100 rounded-lg h-[200px] w-1/2 hover:bg-opacity-60 hover:text-yellow-400 hover:animate-pulse transition duration-300 ease-in-out">
@@ -92,7 +93,7 @@ const Homepage = () => {
         </div>
         <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-8">
             <div class="bg-transparent p-6 rounded-lg flex flex-row hover:cursor-pointer hover:shadow-md transition delay-200 ease-in-out">
-                <img src="https://thenounproject.com/api/private/icons/2797169/edit/?backgroundShape=SQUARE&backgroundShapeColor=%23000000&backgroundShapeOpacity=0&exportSize=752&flipX=false&flipY=false&foregroundColor=%23000000&foregroundOpacity=1&imageFormat=png&rotation=0" alt="Learn Together Icon" class="w-[150px] h-[150px] text-cyan-950 mr-2 my-auto" />
+                <img src="learn.png" alt="Learn Together Icon" class="w-[150px] h-[150px] text-cyan-950 mr-2 my-auto" />
                 <div class="flex flex-col my-auto">
                 <h3 class="text-xl font-semibold text-cyan-950 mb-2">Learn Together</h3>
                 <p class="text-gray-600">
@@ -101,7 +102,7 @@ const Homepage = () => {
                 </div>
             </div>
             <div class="bg-transparent p-6 rounded-lg flex flex-row hover:cursor-pointer hover:shadow-md transition delay-200 ease-in-out">
-                <img src="https://thenounproject.com/api/private/icons/4568402/edit/?backgroundShape=SQUARE&backgroundShapeColor=%23000000&backgroundShapeOpacity=0&exportSize=752&flipX=false&flipY=false&foregroundColor=%23000000&foregroundOpacity=1&imageFormat=png&rotation=0" alt="Available Icon" class="w-[150px] h-[150px] text-cyan-950 mr-2 my-auto" />
+                <img src="available.png" alt="Available Icon" class="w-[150px] h-[150px] text-cyan-950 mr-2 my-auto" />
                 <div class="flex flex-col my-auto">
                 <h3 class="text-xl font-semibold text-cyan-950 mb-2">Available from Anywhere Any Device</h3>
                 <p class="text-gray-600">
@@ -110,7 +111,7 @@ const Homepage = () => {
             </div>
             </div>
             <div class="bg-transparent p-6 rounded-lg flex flex-row hover:cursor-pointer hover:shadow-md transition delay-200 ease-in-out">
-                <img src="https://thenounproject.com/api/private/icons/1214792/edit/?backgroundShape=SQUARE&backgroundShapeColor=%23000000&backgroundShapeOpacity=0&exportSize=752&flipX=false&flipY=false&foregroundColor=%23000000&foregroundOpacity=1&imageFormat=png&rotation=0" alt="Available Icon" class="w-[150px] h-[150px] text-cyan-950 mr-2 my-auto" />
+                <img src="everywhere.png" alt="Available Icon" class="w-[150px] h-[150px] text-cyan-950 mr-2 my-auto" />
                 <div class="flex flex-col my-auto">
                     <h3 class="text-xl font-semibold text-cyan-950 mb-2">Access Mentors</h3>
                     <p class="text-gray-600">
@@ -119,7 +120,7 @@ const Homepage = () => {
                 </div>
             </div>
             <div class="bg-transparent p-6 rounded-lg flex flex-row hover:cursor-pointer hover:shadow-md transition delay-200 ease-in-out">
-                <img src="https://thenounproject.com/api/private/icons/2573072/edit/?backgroundShape=SQUARE&backgroundShapeColor=%23000000&backgroundShapeOpacity=0&exportSize=752&flipX=false&flipY=false&foregroundColor=%23000000&foregroundOpacity=1&imageFormat=png&rotation=0" alt="Available Icon" class="w-[150px] h-[150px] text-white mr-2 my-auto" />
+                <img src="fun.png" alt="Available Icon" class="w-[150px] h-[150px] text-white mr-2 my-auto" />
                 <div class="flex flex-col my-auto">
                 <h3 class="text-xl font-semibold text-cyan-950 mb-2">Fun & Easy to Follow Content</h3>
                 <p class="text-gray-600">
@@ -133,28 +134,28 @@ const Homepage = () => {
                 <p class="mx-auto items-center justify-center flex font-bold text-xl">Our Values</p>
                 <div class="mx-auto m-2 flex items-center justify-center max-w-[500px] h-auto flex-row flex-wrap ">
                     <div class="flex flex-col hover:cursor-pointer hover:bg-white transition delay-200 ease-in-out p-2">
-                        <img src="https://thenounproject.com/api/private/icons/6189049/edit/?backgroundShape=SQUARE&backgroundShapeColor=%23000000&backgroundShapeOpacity=0&exportSize=752&flipX=false&flipY=false&foregroundColor=%23000000&foregroundOpacity=1&imageFormat=png&rotation=0" alt="Available Icon" class="w-[100px] h-[100px] text-cyan-950 mr-2 my-auto" />
+                        <img src="innovation.png" alt="Available Icon" class="w-[100px] h-[100px] text-cyan-950 mr-2 my-auto" />
                         <p class="mx-auto items-center justify-center flex">Innovation</p>
                     </div>
                     <div class="flex flex-col hover:cursor-pointer hover:bg-white transition delay-200 ease-in-out p-2">
-                        <img src="https://thenounproject.com/api/private/icons/6186496/edit/?backgroundShape=SQUARE&backgroundShapeColor=%23000000&backgroundShapeOpacity=0&exportSize=752&flipX=false&flipY=false&foregroundColor=%23000000&foregroundOpacity=1&imageFormat=png&rotation=0" alt="Available Icon" class="w-[100px] h-[100px] text-cyan-950 mr-2 my-auto" />
+                        <img src="creativity.png" alt="Available Icon" class="w-[100px] h-[100px] text-cyan-950 mr-2 my-auto" />
                         <p class="mx-auto items-center justify-center flex">Creativity</p>
                     </div>
                     <div class="flex flex-col hover:cursor-pointer hover:bg-white transition delay-200 ease-in-out p-2">
-                        <img src="https://thenounproject.com/api/private/icons/5542179/edit/?backgroundShape=SQUARE&backgroundShapeColor=%23000000&backgroundShapeOpacity=0&exportSize=752&flipX=false&flipY=false&foregroundColor=%23000000&foregroundOpacity=1&imageFormat=png&rotation=0" alt="Available Icon" class="w-[100px] h-[100px] text-cyan-950 mr-2 my-auto" />
+                        <img src="teamwork.png" alt="Available Icon" class="w-[100px] h-[100px] text-cyan-950 mr-2 my-auto" />
                         <p class="mx-auto items-center justify-center flex">Teamwork</p>
                     </div>
                     <div class="flex flex-col hover:cursor-pointer hover:bg-white transition delay-200 ease-in-out p-2">
-                        <img src="https://thenounproject.com/api/private/icons/1612513/edit/?backgroundShape=SQUARE&backgroundShapeColor=%23000000&backgroundShapeOpacity=0&exportSize=752&flipX=false&flipY=false&foregroundColor=%23000000&foregroundOpacity=1&imageFormat=png&rotation=0" alt="Available Icon" class="w-[100px] h-[100px] text-cyan-950 mr-2 my-auto" />
+                        <img src="diversity.png" alt="Available Icon" class="w-[100px] h-[100px] text-cyan-950 mr-2 my-auto" />
                         <p class="mx-auto items-center justify-center flex">Diversity</p>
                     </div>
                     <div class="flex flex-col hover:cursor-pointer hover:bg-white transition delay-200 ease-in-out p-2">
-                        <img src="https://thenounproject.com/api/private/icons/5995805/edit/?backgroundShape=SQUARE&backgroundShapeColor=%23000000&backgroundShapeOpacity=0&exportSize=752&flipX=false&flipY=false&foregroundColor=%23000000&foregroundOpacity=1&imageFormat=png&rotation=0" alt="Available Icon" class="w-[100px] h-[100px] text-cyan-950 mr-2 my-auto" />
+                        <img src="integrity.png" alt="Available Icon" class="w-[100px] h-[100px] text-cyan-950 mr-2 my-auto" />
                         <p class="mx-auto items-center justify-center flex">Integrity</p>
                     </div>
                 </div>
             </div>
-            <div class="items-end bg-cyan-950 text-yellow-500 p-2 max-w-[500px] h-[400px] sm:p-2 sm:w-1/2 sm:h-[400px]">
+            <div class="items-end bg-cyan-950 text-yellow-500  lg:pt-10 p-2 max-w-[500px] h-[400px] sm:p-2 sm:w-1/2 sm:h-[400px]">
                 <span class="my-auto container">
                 <p class="mx-auto items-center justify-center flex font-bold text-xl">How can we Help You?</p>
                 <p class="items-center justify-center p-2 m-2 mx-auto flex text-white">Are you a university student and want to change the course of history? Do you want to be part of something bigger than yourself? If your answer is YES, then ABYA is the place for you! </p>
@@ -177,22 +178,22 @@ const Homepage = () => {
         <div class="m-2 p-2 mx-auto flex flex-col sm:flex-row md:flex-row sm:w-full">
             {/* <!-- Add your contact information or contact form here --> */}
             <div class="items-start left-5 my-auto sm:mx-auto">
-                <img width="700" height="654" src="https://abyauniversity.com/wp-content/uploads/2022/08/abya-university-resized.png" class="attachment-large size-large wp-image-3255" alt="" loading="lazy" srcset="https://abyauniversity.com/wp-content/uploads/2022/08/abya-university-resized.png 592w, https://abyauniversity.com/wp-content/uploads/2022/08/abya-university-resized-300x129.png 300w" sizes="(max-width: 592px) 100vw, 592px" />
+            <img width="400" height="400" src="https://abyauniversity.com/wp-content/uploads/2024/04/abya_logo.png" class="attachment-large size-large wp-image-3255" alt="" loading="lazy" srcset="https://abyauniversity.com/wp-content/uploads/2024/04/abya_logo.png 350w, https://abyauniversity.com/wp-content/uploads/2024/04/abya_logo-300x129.png 300w" sizes="(max-width: 592px) 100vw, 592px" />
             </div>
              {/* <!-- Quick Links --> */}
              <div class="w-full flex flex-col md:w-1/2 p-5 m-2 items-center my-auto sm:mx-auto sm:w-full sm:flex">
                 <h3 class="text-2xl font-semibold mb-4">Quick Links</h3>
                 <ul class="space-y-2">
                     <li><a href="#landing" class="hover:text-yellow-500 hover:cursor-pointer hover:no-underline">Home</a></li>
-                    <li><a href="#" class="hover:text-yellow-500 hover:cursor-pointer hover:no-underline">Courses</a></li>
+                    <li><a href="#rr" class="hover:text-yellow-500 hover:cursor-pointer hover:no-underline">Courses</a></li>
                     <li><a href="#about" class="hover:text-yellow-500 hover:cursor-pointer hover:no-underline">About Us</a></li>
                     <li><a href="#contact" class="hover:text-yellow-500 hover:cursor-pointer hover:no-underline">Contact Us</a></li>
                 </ul>
             </div>
-            <div class="w-full md:w-1/2 p-5 items-center m-2 my-auto sm:w-full">               
+            <div class="w-full md:w-1/2 p-5 m-2 my-auto  mx-auto items-center justify-center">               
                 {/* <!-- Contact Info --> */}
                 <div class="mt-6 md:mt-0">
-                    <div class="text-white p-6 rounded-lg h-full">
+                    <div class="text-white p-6 rounded-lg h-full  mx-auto items-center justify-center">
                         <p class="text-lg font-semibold">Contact Information</p>
                         <ul class="mt-4 space-y-2">
                             <li class="hover:text-yellow-500"><i class="fa fa-map-marker text-2xl p-2"></i>Crystal Business Plaza, Off Magadi Road, Rongai, Kenya</li>
@@ -200,16 +201,16 @@ const Homepage = () => {
                             <li class="hover:text-yellow-500"><i class="fa fa-envelope text-2xl p-2"></i>info@abyauniversity.com</li>
                         </ul>
                         <div class="flex flex-row text-white space-x-4 mt-4">
-                            <a href="https://www.linkedin.com/company/abya-africa" target="_blank" aria-label="LinkedIn" class="linkedin hover:text-yellow-500 transition delay-200 ease-in-out hover:-translate-y-1.5">
+                            <a href="#https://www.linkedin.com/company/abya-africa" target="_blank" aria-label="LinkedIn" class="linkedin hover:text-yellow-500 transition delay-200 ease-in-out hover:-translate-y-1.5">
                                 <i class="fab fa-linkedin fa-2x"></i>
                             </a>
-                            <a href="https://twitter.com/abyaafrica" target="_blank" aria-label="Twitter" class="twitter hover:text-yellow-500 transition delay-200 ease-in-out hover:-translate-y-1.5">
+                            <a href="#https://twitter.com/abyaafrica" target="_blank" aria-label="Twitter" class="twitter hover:text-yellow-500 transition delay-200 ease-in-out hover:-translate-y-1.5">
                                 <i class="fab fa-twitter fa-2x"></i>
                             </a>
-                            <a href="https://www.facebook.com/abyaafrica" target="_blank" aria-label="Facebook" class="facebook hover:text-yellow-500 transition delay-200 ease-in-out hover:-translate-y-1.5">
+                            <a href="#https://www.facebook.com/abyaafrica" target="_blank" aria-label="Facebook" class="facebook hover:text-yellow-500 transition delay-200 ease-in-out hover:-translate-y-1.5">
                                 <i class="fab fa-facebook fa-2x"></i>
                             </a>
-                            <a href="https://www.instagram.com/abyaafrica" target="_blank" aria-label="Instagram" class="instagram hover:text-yellow-500 transition delay-200 ease-in-out hover:-translate-y-1.5">
+                            <a href="#https://www.instagram.com/abyaafrica" target="_blank" aria-label="Instagram" class="instagram hover:text-yellow-500 transition delay-200 ease-in-out hover:-translate-y-1.5">
                                 <i class="fab fa-instagram fa-2x"></i>
                             </a>
                         </div>

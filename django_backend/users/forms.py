@@ -18,6 +18,8 @@ class UserCreateForm(UserCreationForm):
         self.fields['email'].label = "Email Address"
         self.fields['user_type'].label = "Register as:"
         self.fields['profile_image'].label = 'Profile Image'
+        self.fields['password1'].label = 'Password'
+        self.fields['password2'].label = 'Confirm Password'
     def try_save(self, request,commit=True):
         user = super().save(commit=False)
         user.save()

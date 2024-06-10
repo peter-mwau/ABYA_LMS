@@ -6,18 +6,46 @@ from django.utils.http import urlsafe_base64_decode as uid_decoder
 
 from users.models import Profile
 
+
+class ProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = ('user', 'bio')
+
+    # def to_representation(self, instance):
+    #     self.fields['user'] = UserCreateSerializer(read_only=True)
+    #     return super(ProfileSerializer, self).to_representation(instance)
 class UserCreateSerializer(serializers.ModelSerializer):
+    profile = ProfileSerializer(read_only=True)
     class Meta:
         model = get_user_model()
-        fields = ('username', 'first_name', 'last_name', 'email', 'password', 'user_type')
+        fields = ('username', 'first_name', 'last_name', 'email', 'password','user_type', 'profile')
         extra_kwargs = {'password': {'write_only': True}}
+    
+    def validate(self, data):
+        # if data['password'] != data['confirm_password']:
+        #     raise serializers.ValidationError({"password": "Password fields didn't match."})
+        
+        # Check if a user with the provided username or email already exists
+        username = data.get('username')
+        email = data.get('email')
+        if get_user_model().objects.filter(username=username).exists():
+            raise serializers.ValidationError({"username": "A user with this username already exists."})
+        if get_user_model().objects.filter(email=email).exists():
+            raise serializers.ValidationError({"email": "A user with this email already exists."})
+        
+        return data
 
     def create(self, validated_data):
-        print(validated_data)  # print validated data
+        # validated_data.pop('confirm_password')  # We don't need the confirm_password field anymore
         password = validated_data.pop('password')
         user = get_user_model().objects.create(**validated_data)
         user.set_password(password)
         user.save()
+
+        # Create a Profile for the user
+        Profile.objects.create(user=user)
+        
         return user
 
 class PasswordResetConfirmSerializer(serializers.Serializer):
@@ -42,11 +70,4 @@ class PasswordResetConfirmSerializer(serializers.Serializer):
         self.user.set_password(password)
         self.user.save()
         return self.user
-class ProfileSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Profile
-        fields = ('user', 'picture', 'bio')
 
-    def to_representation(self, instance):
-        self.fields['user'] = UserCreateSerializer(read_only=True)
-        return super(ProfileSerializer, self).to_representation(instance)
