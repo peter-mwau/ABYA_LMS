@@ -52,19 +52,19 @@ from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 
-class CreateCourse(LoginRequiredMixin, generic.CreateView):
-    fields = ('course_name', 'course_description')
-    model = Course
+# class CreateCourse(LoginRequiredMixin, generic.CreateView):
+#     fields = ('course_name', 'course_description')
+#     model = Course
 
-    def get(self, request,*args, **kwargs):
-        self.object = None
-        context_dict = self.get_context_data()
-        context_dict.update(user_type=self.request.user.user_type)
-        return self.render_to_response(context_dict)
+#     def get(self, request,*args, **kwargs):
+#         self.object = None
+#         context_dict = self.get_context_data()
+#         context_dict.update(user_type=self.request.user.user_type)
+#         return self.render_to_response(context_dict)
     
-    def form_valid(self, form):
-        form.instance.teacher = self.request.user
-        return super(CreateCourse, self).form_valid(form)
+#     def form_valid(self, form):
+#         form.instance.teacher = self.request.user
+#         return super(CreateCourse, self).form_valid(form)
 
 class CourseViewSet(viewsets.ModelViewSet):
     queryset = Course.objects.all()
@@ -154,24 +154,24 @@ class CourseViewSet(viewsets.ModelViewSet):
             'completed_lessons_count': completed_lessons,
             'completion_percentage': completion_percentage
         }, status=status.HTTP_200_OK)
-class CreateChapterView(LoginRequiredMixin, generic.CreateView):
-    model = Chapter
-    form_class = CreateChapterForm
-    template_name = 'courses/create_chapter.html'
+# class CreateChapterView(LoginRequiredMixin, generic.CreateView):
+#     model = Chapter
+#     form_class = CreateChapterForm
+#     template_name = 'courses/create_chapter.html'
     
-    def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()
-        kwargs.update({'user': self.request.user})
-        return kwargs
+#     def get_form_kwargs(self):
+#         kwargs = super().get_form_kwargs()
+#         kwargs.update({'user': self.request.user})
+#         return kwargs
     
     
-    def form_valid(self, form):
-        user_object = get_object_or_404(User, username=self.request.user.username)
-        form.instance.teacher = user_object
-        return super().form_valid(form)
-    def get_success_url(self):
-        url = reverse('courses:list')
-        return url
+#     def form_valid(self, form):
+#         user_object = get_object_or_404(User, username=self.request.user.username)
+#         form.instance.teacher = user_object
+#         return super().form_valid(form)
+#     def get_success_url(self):
+#         url = reverse('courses:list')
+#         return url
 class ChapterViewSet(viewsets.ModelViewSet):
     queryset = Chapter.objects.all()
     serializer_class = ChapterSerializer
@@ -194,36 +194,36 @@ class ChapterViewSet(viewsets.ModelViewSet):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-class CreateLessonView(LoginRequiredMixin, generic.CreateView):
-    form_class = CreateLessonForm
-    template_name = 'courses/create_lesson.html'
+# class CreateLessonView(LoginRequiredMixin, generic.CreateView):
+#     form_class = CreateLessonForm
+#     template_name = 'courses/create_lesson.html'
   
     
-    def get_from_kwargs(self):
-        kwargs = super().get_form_kwargs()
-        kwargs['user'] = self.request.user
-        return kwargs
-    def form_valid(self, form):
-        user_object = get_object_or_404(User, username=self.request.user.username)
-        form.instance.teacher = user_object
-        word_file = form.cleaned_data['word_file']
+#     def get_from_kwargs(self):
+#         kwargs = super().get_form_kwargs()
+#         kwargs['user'] = self.request.user
+#         return kwargs
+#     def form_valid(self, form):
+#         user_object = get_object_or_404(User, username=self.request.user.username)
+#         form.instance.teacher = user_object
+#         word_file = form.cleaned_data['word_file']
 
-        if word_file:
-            if hasattr(word_file, 'read'):
-                # File is in memory, read its content
-                content = word_file.read()
-                # Perform the Word to Markdown conversion
-                result = mammoth.convert_to_markdown(io.BytesIO(content))
-                form.instance.lesson_content = result.value
-            else:
-                # File is on disk, perform conversion as before
-                with open(word_file.path, 'rb') as docx_file:
-                    result = mammoth.convert_to_markdown(docx_file)
-                    form.instance.lesson_content = result.value
+#         if word_file:
+#             if hasattr(word_file, 'read'):
+#                 # File is in memory, read its content
+#                 content = word_file.read()
+#                 # Perform the Word to Markdown conversion
+#                 result = mammoth.convert_to_markdown(io.BytesIO(content))
+#                 form.instance.lesson_content = result.value
+#             else:
+#                 # File is on disk, perform conversion as before
+#                 with open(word_file.path, 'rb') as docx_file:
+#                     result = mammoth.convert_to_markdown(docx_file)
+#                     form.instance.lesson_content = result.value
 
-        return super().form_valid(form)
-    def get_success_url(self) -> str:
-        return reverse('courses:list')
+#         return super().form_valid(form)
+#     def get_success_url(self) -> str:
+#         return reverse('courses:list')
 class LessonViewSet(viewsets.ModelViewSet):
     queryset = Lesson.objects.all()
     serializer_class = LessonSerializer

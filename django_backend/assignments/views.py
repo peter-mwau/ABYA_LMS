@@ -32,7 +32,11 @@ import requests
 from datetime import datetime, timedelta
 from django.contrib.sessions.models import Session
 from django.utils import timezone
-
+from rest_framework import viewsets
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import action
+from rest_framework.response import Response
+from .serializers import QuizSerializer, QuestionSerializer, AssignmentSerializer, SubmitAssignmentSerializer, QuizSubmissionSerializer, ChoiceSerializer, CompletedQuizSerializer
 
 # Create your views here.    
 class CreateAssignment(LoginRequiredMixin, generic.CreateView):
@@ -45,6 +49,18 @@ class CreateAssignment(LoginRequiredMixin, generic.CreateView):
         return kwargs
 
 ChoiceFormSet = modelformset_factory(Choice, fields=('text', 'is_correct'), extra=4, max_num=4)
+
+class QuizViewSet(viewsets.ModelViewSet):
+    queryset = Quiz.objects.all()
+    serializer_class = QuizSerializer
+    permission_classes = [IsAuthenticated]
+
+    @action(methods=['post'], detail=False ,url_path='create-quiz')
+    def create_quiz(self, request, pk=None):
+        quiz = Quiz.objects.create(teacher=request.user)
+        serializer = QuizSerializer(quiz)
+        return Response(serializer.data)
+
 
 class CreateQuestionView(LoginRequiredMixin, generic.CreateView):
     template_name = 'assignments/create_question.html'
@@ -78,7 +94,6 @@ class CreateQuestionView(LoginRequiredMixin, generic.CreateView):
         return super().form_valid(form)
     def get_success_url(self):
         return reverse('assignments:create_question', kwargs={'quiz_id': self.kwargs['quiz_id']})
-
 
 class CreateQuestionViewWithoutId(LoginRequiredMixin, generic.CreateView):
     template_name = 'assignments/create_question.html'
