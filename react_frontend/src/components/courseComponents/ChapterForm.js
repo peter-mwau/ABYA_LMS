@@ -70,7 +70,6 @@ const ChapterForm = () => {
 
   return (
     <div>
-        <Navbar />
     
     <div className="max-w-2xl mx-auto mt-10">
       <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
