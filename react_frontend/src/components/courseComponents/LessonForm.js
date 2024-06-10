@@ -1,39 +1,39 @@
-// src/components/ChapterForm.js
+// src/components/LessonForm.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Navbar from '../../Navbar';
 
-const ChapterForm = () => {
+const LessonForm = () => {
   const [formData, setFormData] = useState({
-    chapter_name: '',
-    chapter_description: '',
+    lesson_title: '',
+    lesson_description: '',
     course: '',
-    chapter_quiz: ''
+    chapter: '',
   });
+  const [wordFile, setWordFile] = useState(null);
   const [courses, setCourses] = useState([]);
-  const [quizzes, setQuizzes] = useState([]);
+  const [chapters, setChapters] = useState([]);
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
     fetchCourses();
-    fetchQuizzes();
+    fetchChapters();
   }, []);
 
   const fetchCourses = async () => {
     try {
-      const response = await axios.get('/api/courses/');
+      const response = await axios.get('http://localhost:8000/courses/courses');
       setCourses(response.data);
     } catch (error) {
       console.error('Error fetching courses', error);
     }
   };
 
-  const fetchQuizzes = async () => {
+  const fetchChapters = async () => {
     try {
-      const response = await axios.get('/api/quizzes/');
-      setQuizzes(response.data);
+      const response = await axios.get('http://localhost:8000/courses/chapters/');
+      setChapters(response.data);
     } catch (error) {
-      console.error('Error fetching quizzes', error);
+      console.error('Error fetching chapters', error);
     }
   };
 
@@ -45,21 +45,35 @@ const ChapterForm = () => {
     });
   };
 
+  const handleFileChange = (e) => {
+    setWordFile(e.target.files[0]);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const formDataToSend = new FormData();
+    formDataToSend.append('lesson_title', formData.lesson_title);
+    formDataToSend.append('lesson_description', formData.lesson_description);
+    formDataToSend.append('course', formData.course);
+    formDataToSend.append('chapter', formData.chapter);
+    if (wordFile) {
+      formDataToSend.append('word_file', wordFile);
+    }
+
     try {
-      const response = await axios.post('http://localhost:8000/courses/chapters/create-chapter/', formData, {
+      const response = await axios.post('http://localhost:8000/courses/lessons/create-lesson/', formDataToSend, {
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'multipart/form-data',
         },
       });
       setFormData({
-        chapter_name: '',
-        chapter_description: '',
+        lesson_title: '',
+        lesson_description: '',
         course: '',
-        chapter_quiz: ''
+        chapter: '',
       });
+      setWordFile(null);
       setErrors({});
     } catch (error) {
       if (error.response && error.response.data) {
@@ -69,37 +83,34 @@ const ChapterForm = () => {
   };
 
   return (
-    <div>
-        <Navbar />
-    
     <div className="max-w-2xl mx-auto mt-10">
       <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="chapter_name">
-            Chapter Name
+          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="lesson_title">
+            Lesson Title
           </label>
           <input
             type="text"
-            name="chapter_name"
-            id="chapter_name"
-            value={formData.chapter_name}
+            name="lesson_title"
+            id="lesson_title"
+            value={formData.lesson_title}
             onChange={handleChange}
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           />
-          {errors.chapter_name && <p className="text-red-500 text-xs italic">{errors.chapter_name}</p>}
+          {errors.lesson_title && <p className="text-red-500 text-xs italic">{errors.lesson_title}</p>}
         </div>
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="chapter_description">
-            Chapter Description
+          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="lesson_description">
+            Lesson Description
           </label>
           <textarea
-            name="chapter_description"
-            id="chapter_description"
-            value={formData.chapter_description}
+            name="lesson_description"
+            id="lesson_description"
+            value={formData.lesson_description}
             onChange={handleChange}
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           />
-          {errors.chapter_description && <p className="text-red-500 text-xs italic">{errors.chapter_description}</p>}
+          {errors.lesson_description && <p className="text-red-500 text-xs italic">{errors.lesson_description}</p>}
         </div>
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="course">
@@ -120,35 +131,47 @@ const ChapterForm = () => {
           {errors.course && <p className="text-red-500 text-xs italic">{errors.course}</p>}
         </div>
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="chapter_quiz">
-            Chapter Quiz
+          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="chapter">
+            Chapter
           </label>
           <select
-            name="chapter_quiz"
-            id="chapter_quiz"
-            value={formData.chapter_quiz}
+            name="chapter"
+            id="chapter"
+            value={formData.chapter}
             onChange={handleChange}
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           >
-            <option value="">Select Quiz</option>
-            {quizzes.map(quiz => (
-              <option key={quiz.id} value={quiz.id}>{quiz.title}</option>
+            <option value="">Select Chapter</option>
+            {chapters.map(chapter => (
+              <option key={chapter.id} value={chapter.id}>{chapter.chapter_name}</option>
             ))}
           </select>
-          {errors.chapter_quiz && <p className="text-red-500 text-xs italic">{errors.chapter_quiz}</p>}
+          {errors.chapter && <p className="text-red-500 text-xs italic">{errors.chapter}</p>}
+        </div>
+        <div className="mb-4">
+          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="word_file">
+            Upload Word File
+          </label>
+          <input
+            type="file"
+            name="word_file"
+            id="word_file"
+            onChange={handleFileChange}
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          />
+          {errors.word_file && <p className="text-red-500 text-xs italic">{errors.word_file}</p>}
         </div>
         <div className="flex items-center justify-between">
           <button
             type="submit"
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
           >
-            Create Chapter
+            Create Lesson
           </button>
         </div>
       </form>
     </div>
-    </div>
   );
 };
 
-export default ChapterForm;
+export default LessonForm;

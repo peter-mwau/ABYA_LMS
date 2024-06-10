@@ -10,6 +10,8 @@ import Homepage from './Homepage';
 import Profile from './Profile';
 import CourseForm from './components/courseComponents/CourseForm';
 import ChapterForm from './components/courseComponents/ChapterForm';
+import LessonForm from './components/courseComponents/LessonForm';
+import CourseList from './components/courseComponents/CourseList';
 
 
 function App() {
@@ -24,6 +26,9 @@ function App() {
         <Route path="profile/" element={<Profile/>}/>
         <Route path="create-course/" element={<CourseForm />} />
         <Route path="create-chapter/" element={<ChapterForm />} />
+        <Route path="create-lesson/" element={<LessonForm />} />
+        <Route path="course-list/" element={<CourseList />} />
+
       </Routes>
     </Router>
   );
