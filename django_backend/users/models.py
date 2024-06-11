@@ -10,7 +10,7 @@ class User(AbstractUser):
         (2, 'Teacher')
     )
 
-    user_type = models.PositiveIntegerField(choices=USER_TYPE_CHOICES, default=1)
+    user_type = models.PositiveIntegerField(choices=USER_TYPE_CHOICES)
     groups = models.ManyToManyField(
         Group,
         related_name="custom_user_set",
