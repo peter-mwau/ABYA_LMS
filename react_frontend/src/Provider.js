@@ -1,18 +1,18 @@
-import { ThemeProvider} from './ThemeSwitcher'
+import { ThemeProvider } from "./ThemeSwitcher";
 // import { Children } from "react";
 import { useState, useEffect } from "react";
-import { UserContext } from './contexts/userContext';
+import { UserContext } from "./contexts/userContext";
 import axios from "axios";
 
 export default function Providers({ children }) {
-    const [mounted, setMounted] = useState(false);
-    const [user, setUser] = useState(null);
-    const [isLoading, setIsLoading] = useState(true);
-    
-    useEffect(() => {
-        setMounted(true);
+	const [mounted, setMounted] = useState(false);
+	const [user, setUser] = useState(null);
+	const [isLoading, setIsLoading] = useState(true);
 
-        const fetchProfile = async () => {
+	useEffect(() => {
+		setMounted(true);
+
+		const fetchProfile = async () => {
 			const userToken = localStorage.getItem("userToken");
 			console.log(userToken);
 			try {
@@ -33,23 +33,26 @@ export default function Providers({ children }) {
 				setIsLoading(false);
 			}
 		};
-        fetchProfile();
-    }, []);
+		fetchProfile();
+	}, []);
 
-    if(!mounted) {
-        return <>{children}</>
-    }
+	if (!mounted) {
+		return <>{children}</>;
+	}
 
-    if (!user) {
+	if (!user) {
 		return <div>Loading...</div>;
 	}
 	if (isLoading) {
 		return <div>Loading...</div>;
 	}
-    
-    return <ThemeProvider attribute="class">
-            <UserContext.Provider value={{ user, setUser }}>
-                {children}
-                </UserContext.Provider>
-            </ThemeProvider>
-    }
+	console.log(user);
+
+	return (
+		<ThemeProvider attribute="class">
+			<UserContext.Provider value={{ user, setUser }}>
+				{children}
+			</UserContext.Provider>
+		</ThemeProvider>
+	);
+}
