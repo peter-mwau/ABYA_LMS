@@ -54,12 +54,12 @@ const CourseForm = () => {
   };
 
   return (
-    <div>
+    <>
     
-    <div className="max-w-2xl mx-auto mt-10">
-      <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+    <div className="mx-auto mt-10 md:w-[62%] md:mr-[50px] text-cyan-950 lg:mx-auto">
+      <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 dark:bg-gray-900">
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="course_name">
+          <label className="block text-gray-700 text-lg font-bold mb-2 dark:text-gray-100" htmlFor="course_name">
             Course Name
           </label>
           <input
@@ -68,12 +68,12 @@ const CourseForm = () => {
             id="course_name"
             value={formData.course_name}
             onChange={handleChange}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="bg-gray-100 appearance-none border-none rounded dark:bg-gray-700 dark:text-gray-50 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           />
           {errors.course_name && <p className="text-red-500 text-xs italic">{errors.course_name}</p>}
         </div>
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="course_description">
+          <label className="block text-gray-700 text-lg font-bold mb-2 dark:text-gray-100" htmlFor="course_description">
             Course Description
           </label>
           <textarea
@@ -81,12 +81,12 @@ const CourseForm = () => {
             id="course_description"
             value={formData.course_description}
             onChange={handleChange}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="bg-gray-100 appearance-none border-none dark:bg-gray-700 dark:text-gray-50 outline-none rounded w-full h-[150px] py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           />
           {errors.course_description && <p className="text-red-500 text-xs italic">{errors.course_description}</p>}
         </div>
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="picture">
+          <label className="block text-gray-700 dark:text-gray-100 text-lg font-bold mb-2" htmlFor="picture">
             Course Picture
           </label>
           <input
@@ -94,21 +94,21 @@ const CourseForm = () => {
             name="picture"
             id="picture"
             onChange={handleFileChange}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="appearance-none border-none rounded w-full py-2 px-3 text-gray-900 dark:text-gray-100 leading-tight focus:outline-none focus:shadow-outline"
           />
           {errors.picture && <p className="text-red-500 text-xs italic">{errors.picture}</p>}
         </div>
         <div className="flex items-center justify-between">
           <button
             type="submit"
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            className="bg-cyan-950 dark:bg-gray-300 dark:text-cyan-950 hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
           >
             Create Course
           </button>
         </div>
       </form>
     </div>
-    </div>
+    </>
   );
 };
 

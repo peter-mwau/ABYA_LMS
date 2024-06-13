@@ -84,10 +84,10 @@ const LessonForm = () => {
   };
 
   return (
-    <div className="max-w-2xl mx-auto mt-10">
-      <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+    <div className="mx-auto mt-10">
+      <form onSubmit={handleSubmit} className="bg-white w-[90%] mx-auto md:mr-[10px] lg:mr-[90px] shadow-md rounded px-8 pt-6 pb-8 mb-4 text-cyan-950 dark:bg-gray-900 md:w-[80%] md:ml-[60px] lg:w-[60%] lg:ml-[400px]">
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="lesson_title">
+          <label className="block dark:text-gray-100 text-gray-700 text-lg font-bold mb-2" htmlFor="lesson_title">
             Lesson Title
           </label>
           <input
@@ -96,12 +96,12 @@ const LessonForm = () => {
             id="lesson_title"
             value={formData.lesson_title}
             onChange={handleChange}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="appearance-none border-none bg-gray-100 dark:bg-gray-700 dark:text-gray-50 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           />
           {errors.lesson_title && <p className="text-red-500 text-xs italic">{errors.lesson_title}</p>}
         </div>
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="lesson_description">
+          <label className="block dark:text-gray-100 text-gray-700 text-lg font-bold mb-2" htmlFor="lesson_description">
             Lesson Description
           </label>
           <textarea
@@ -109,12 +109,12 @@ const LessonForm = () => {
             id="lesson_description"
             value={formData.lesson_description}
             onChange={handleChange}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="appearance-none border-none bg-gray-100 dark:bg-gray-700 dark:text-gray-50 h-[200px] rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           />
           {errors.lesson_description && <p className="text-red-500 text-xs italic">{errors.lesson_description}</p>}
         </div>
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="course">
+          <label className="block dark:text-gray-100 text-gray-700 text-lg font-bold mb-2" htmlFor="course">
             Course
           </label>
           <select
@@ -122,7 +122,7 @@ const LessonForm = () => {
             id="course"
             value={formData.course}
             onChange={handleChange}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="appearance-none border-none bg-gray-100 dark:bg-gray-700 dark:text-gray-50 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           >
             <option value="">Select Course</option>
             {courses.map(course => (
@@ -132,7 +132,7 @@ const LessonForm = () => {
           {errors.course && <p className="text-red-500 text-xs italic">{errors.course}</p>}
         </div>
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="chapter">
+          <label className="block dark:text-gray-100 text-gray-700 text-lg font-bold mb-2" htmlFor="chapter">
             Chapter
           </label>
           <select
@@ -140,7 +140,7 @@ const LessonForm = () => {
             id="chapter"
             value={formData.chapter}
             onChange={handleChange}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="appearance-none border-none bg-gray-100 dark:bg-gray-700 dark:text-gray-50 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           >
             <option value="">Select Chapter</option>
             {chapters.map(chapter => (
@@ -150,7 +150,7 @@ const LessonForm = () => {
           {errors.chapter && <p className="text-red-500 text-xs italic">{errors.chapter}</p>}
         </div>
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="word_file">
+          <label className="block dark:text-gray-100 text-gray-700 text-lg font-bold mb-2" htmlFor="word_file">
             Upload Word File
           </label>
           <input
@@ -158,14 +158,14 @@ const LessonForm = () => {
             name="word_file"
             id="word_file"
             onChange={handleFileChange}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="appearance-none  border-none dark:text-gray-300 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           />
           {errors.word_file && <p className="text-red-500 text-xs italic">{errors.word_file}</p>}
         </div>
         <div className="flex items-center justify-between">
           <button
             type="submit"
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            className="bg-cyan-950 dark:text-cyan-950 hover:bg-yellow-500 dark:bg-gray-200 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
           >
             Create Lesson
           </button>
