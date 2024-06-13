@@ -65,6 +65,7 @@ const LessonForm = () => {
       const response = await axios.post('http://localhost:8000/courses/lessons/create-lesson/', formDataToSend, {
         headers: {
           'Content-Type': 'multipart/form-data',
+          Authorization: `Token ${localStorage.getItem('userToken')}`,
         },
       });
       setFormData({
