@@ -78,10 +78,10 @@ const ChapterForm = () => {
   return (
     <div>
     
-    <div className="max-w-2xl mx-auto mt-10">
-      <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+    <div className="mx-auto mt-10 w-[90%] md:w-[70%] md:mr-[10px] lg:w-full lg:mr-[90px]">
+      <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 text-cyan-950 dark:bg-gray-900 md:w-[80%] md:ml-[60px] lg:w-[60%] lg:ml-[400px]">
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="chapter_name">
+          <label className="block text-gray-700 dark:text-gray-100 text-lg font-bold mb-2" htmlFor="chapter_name">
             Chapter Name
           </label>
           <input
@@ -90,12 +90,12 @@ const ChapterForm = () => {
             id="chapter_name"
             value={formData.chapter_name}
             onChange={handleChange}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="appearance-none border-none bg-gray-100 dark:bg-gray-700 dark:text-gray-50 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           />
           {errors.chapter_name && <p className="text-red-500 text-xs italic">{errors.chapter_name}</p>}
         </div>
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="chapter_description">
+          <label className="block text-gray-700 text-lg dark:text-gray-100 font-bold mb-2" htmlFor="chapter_description">
             Chapter Description
           </label>
           <textarea
@@ -103,12 +103,12 @@ const ChapterForm = () => {
             id="chapter_description"
             value={formData.chapter_description}
             onChange={handleChange}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="appearance-none  border-none bg-gray-100 h-[120px] dark:bg-gray-700 dark:text-gray-50 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           />
           {errors.chapter_description && <p className="text-red-500 text-xs italic">{errors.chapter_description}</p>}
         </div>
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="course">
+          <label className="block text-gray-700 text-lg dark:text-gray-100 font-bold mb-2" htmlFor="course">
             Course
           </label>
           <select
@@ -116,7 +116,7 @@ const ChapterForm = () => {
             id="course"
             value={formData.course}
             onChange={handleChange}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="appearance-none  border-none bg-gray-100 dark:bg-gray-700 dark:text-gray-50  rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           >
             <option value="">Select Course</option>
             {courses.map(course => (
@@ -126,7 +126,7 @@ const ChapterForm = () => {
           {errors.course && <p className="text-red-500 text-xs italic">{errors.course}</p>}
         </div>
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="chapter_quiz">
+          <label className="block text-gray-700 dark:text-gray-100 text-lg font-bold mb-2" htmlFor="chapter_quiz">
             Chapter Quiz
           </label>
           <select
@@ -134,7 +134,7 @@ const ChapterForm = () => {
             id="chapter_quiz"
             value={formData.chapter_quiz}
             onChange={handleChange}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="appearance-none  border-none bg-gray-100 dark:bg-gray-700 dark:text-gray-50 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           >
             <option value="">Select Quiz</option>
             {quizzes.map(quiz => (
@@ -146,7 +146,7 @@ const ChapterForm = () => {
         <div className="flex items-center justify-between">
           <button
             type="submit"
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            className="bg-cyan-950 dark:text-cyan-950 hover:bg-yellow-500 dark:bg-gray-200 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
           >
             Create Chapter
           </button>

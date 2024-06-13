@@ -58,10 +58,10 @@ const SideNav = () => {
 	return (
 		<aside
 			id="sidebar-multi-level-sidebar"
-			class="fixed top-[130px] left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
+			class="fixed top-[130px] md:top-[170px] lg:top-[130px] left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
 			aria-label="Sidebar"
 		>
-			<div class="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800 rounded-r-xl">
+			<div class="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-900 rounded-r-xl">
 				<ul class="space-y-2 font-medium">
 					<li>
 						<a
