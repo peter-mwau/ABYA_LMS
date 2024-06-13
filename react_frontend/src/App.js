@@ -22,7 +22,6 @@ import CourseList from "./components/courseComponents/CourseList";
 import CourseForm from "./components/courseComponents/CourseForm";
 import { UserContext } from "./contexts/userContext";
 import Providers from "./Provider";
-import Providers from "./Provider";
 
 function App() {
 	const location = useLocation();
