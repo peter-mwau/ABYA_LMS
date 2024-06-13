@@ -21,6 +21,7 @@ import LessonForm from "./components/courseComponents/LessonForm";
 import CourseList from "./components/courseComponents/CourseList";
 import CourseForm from "./components/courseComponents/CourseForm";
 import { UserContext } from "./contexts/userContext";
+import Providers from "./Provider";
 
 function App() {
 	const location = useLocation();
@@ -34,6 +35,7 @@ function App() {
 					<Navbar /> <SideNav userDetails={userDetails} />
 				</>
 			)}
+			<Providers>
 			<Routes>
 				<Route path="/" element={<Homepage />} />
 				<Route path="/login" element={<Login />} />
@@ -46,6 +48,7 @@ function App() {
         		<Route path="create-lesson/" element={<LessonForm />} />
         		<Route path="course-list/" element={<CourseList />} />
 			</Routes>
+		</Providers>
 		</>
 	);
 }

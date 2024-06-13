@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from 'react';
+
+import { useContext } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { UserContext } from './contexts/userContext';
 
 
 function Navbar() {
     // const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [darkMode, setDarkMode] = useState(false);
-    // const [userProfile, setUserProfile] = useState(null);
+    const { user } = useContext(UserContext);
     const navigate = useNavigate();
-    const [user, updateUser] = useState(null);
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
     const baseUrl = 'http://localhost:8000/users';
 
     useEffect(() => {
@@ -20,40 +22,8 @@ function Navbar() {
         document.body.classList.remove('dark');
       }
 
-    // const userToken = localStorage.getItem('userToken');
-    // console.log(userToken);
-    // // Fetch user profile details
-    // fetch('http://localhost:8000/users/profile/', {
-    //   headers: {
-    //     'Authorization': `Token ${userToken}`
-    //   }
-    // })
-    //   .then(response => response.json())
-    //   .then(data => updateUser(data))
-    //   .catch(error => console.error('Error:', error));
   }, [darkMode]);
 
-  useEffect(() => {
-    const fetchProfile = async () => {
-      const userToken = localStorage.getItem('userToken');
-      console.log(userToken);
-      try {
-        const response = await axios.get('http://localhost:8000/users/profile/', {
-          headers: {
-              'Authorization': `Token ${userToken}`
-          },
-        });
-        updateUser(response.data);
-        console.log(user);
-        setIsLoading(false);
-      } catch (error) {
-        console.error('Failed to fetch profile:', error);
-        setIsLoading(false);
-      }
-    };
-
-    fetchProfile();
-  }, []);
 
   if (isLoading) {
     return <div>Loading...</div>;

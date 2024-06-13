@@ -6,12 +6,20 @@ const CourseList = () => {
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        const response = await axios.get('http://localhost:8000/courses/courses/list-courses/');
+        const userToken = localStorage.getItem('userToken')
+        console.log(userToken);
+        const response = await axios.get('http://localhost:8000/courses/courses/list-courses/', 
+          {
+            headers: {
+              Authorization: `Token ${userToken}`,
+            },
+          }
+        );
         setCourses(response.data);
+        console.log(response.data);
         setLoading(false);
       } catch (err) {
         setError(err.response ? err.response.data : 'Error fetching courses');
