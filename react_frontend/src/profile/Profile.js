@@ -1,12 +1,8 @@
-import React, { useContext, useEffect, useState } from "react";
-// import axios from "axios";
+import React, { useContext, useState } from "react";
 import illustration from "../images/illustration.jpg";
 import background from "../images/background.jpg";
 import ProfileForm from "./ProfileForm";
 import { UserContext } from "../contexts/userContext";
-// import { Link } from 'react-router-dom';
-// import Footer from '../components/Footer';
-// import Navbar from './Navbar';
 
 const Profile = () => {
 	const { user } = useContext(UserContext);
@@ -15,9 +11,6 @@ const Profile = () => {
 	if (!user) {
 		return <div>Loading...</div>;
 	}
-	// if (isLoading) {
-	// 	return <div>Loading...</div>;
-	// }
 	const baseUrl = "http://localhost:8000/users";
 
 	return (
@@ -25,7 +18,7 @@ const Profile = () => {
 			{isEditing ? (
 				<ProfileForm user={user} setIsEditing={setIsEditing} />
 			) : (
-				<div className="border rounded-xl mt-4 overflow-y-hidden relative md:ml-[20%] w-[78%] bg-transparent md:h-[80vh] text-cyan-900">
+				<div className="md:border rounded-xl mt-4 md:overflow-y-hidden relative md:ml-[20%] w-full md:w-[78%] bg-transparent md:h-[80vh] text-cyan-900">
 					<img
 						src={background}
 						alt="bg"
@@ -48,11 +41,11 @@ const Profile = () => {
 								<p className="font-medium text-slate-700">@{user?.username}</p>
 								<p className="font-medium">{user?.email}</p>
 							</section>
-							<p className="text-sm text-black font-bold py-2 px-12 bg-slate-100 rounded-2xl">
+							<p className="text-sm text-black font-bold py-2 px-6 md:px-12 bg-slate-100 rounded-2xl">
 								{user.user_type}
 							</p>
 						</aside>
-						<section className="flex space-x-4 my-4">
+						<section className="flex space-x-4 md:justify-normal justify-between my-4">
 							<button
 								className="bg-slate-600 px-8 py-2 text-white rounded-3xl"
 								onClick={() => setIsEditing(true)}
@@ -63,7 +56,7 @@ const Profile = () => {
 								Settings
 							</button>
 						</section>
-						<aside className="flex justify-between items-center space-x-3 mt-8">
+						<aside className="md:flex justify-between items-center md:space-x-3 mt-8">
 							<div className="bg-slate-100 flex-1 rounded-xl p-4">
 								<h3 className="font-semibold text-lg text-black">Bio</h3>
 								<p className="text-black my-2">
@@ -72,7 +65,7 @@ const Profile = () => {
 										: "Oops! No bio yet"}
 								</p>
 							</div>
-							<div className="bg-slate-100 flex-1 rounded-xl p-4 ">
+							<div className="bg-slate-100 flex-1 rounded-xl p-4 my-2">
 								<h3 className="font-semibold text-lg text-black">
 									Ready to {user?.user_type === "Student" ? "learn" : "teach"}
 								</h3>
@@ -88,144 +81,7 @@ const Profile = () => {
 								<p className="text-black my-2">Keep your profile updated</p>
 							</div>
 						</aside>
-						{/* <div className="flex space-x-10 items-center my-3">
-							
-							<p className="w-14 right-28 text-xs rounded-3xl py-1 px-3 text-green-500 border border-green-400 items-center">
-								{user.isactive && `active`}
-							</p>
-						</div> */}
-						{/* <p>{user.bio !== null ? user.bio : "Your short bio stays here!"}</p> */}
-						{/* <section className="w-[38%] mt-5">
-						<p className="font-semibold">Name</p>
-						<p className="px-2 py-4 bg-slate-100 text-lg rounded-lg">
-							{user.firstname} {user.lastname}
-						</p>
-
-						<p className="mt-4 font-semibold">Member since</p>
-						<p className="px-2 py-4 bg-slate-100 text-lg rounded-lg">
-							{user?.datejoined.slice(0, 11)}
-						</p>
-
-						<button
-							type="submit"
-							className="py-4 px-40 mt-10 font-semibold hover:bg-slate-700 border cursor-pointer border-slate-700 hover:text-white rounded-lg transition-all duration-300"
-						>
-							Edit
-						</button>
-					</section> */}
 					</div>
-
-					{/* <div className=" shadow-cyan-950 p-5 rounded-md lg:w-[70%] lg:items-center lg:justify-center lg:mx-auto">
-						<h2 className="text-center p-4 font-semibold text-2xl uppercase lg:pb-[40px]">
-							Profile Details
-						</h2>
-						<div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:gap-4 lg:justify-evenly lg:w-[80%] lg:mx-auto">
-							<p>
-								Username:{" "}
-								{isEditing ? (
-									<input
-										name="username"
-										value={user.username}
-										onChange={handleInputChange}
-										className="border-gray-500 border-2 rounded-md p-2"
-									/>
-								) : (
-									user.username
-								)}
-							</p>
-							<p>
-								First Name:{" "}
-								{isEditing ? (
-									<input
-										name="firstname"
-										value={user.firstname}
-										onChange={handleInputChange}
-										className="border-gray-500 border-2 rounded-md p-2"
-									/>
-								) : (
-									user.firstname
-								)}
-							</p>
-							<p>
-								Last Name:{" "}
-								{isEditing ? (
-									<input
-										name="lastname"
-										value={user.lastname}
-										onChange={handleInputChange}
-										className="border-gray-500 border-2 rounded-md p-2"
-									/>
-								) : (
-									user.lastname
-								)}
-							</p>
-							<p>
-								Email:{" "}
-								{isEditing ? (
-									<input
-										name="email"
-										value={user.email}
-										onChange={handleInputChange}
-										className="border-gray-500 border-2 rounded-md p-2"
-									/>
-								) : (
-									user.email
-								)}
-							</p>
-							<p>Is Superuser: {user.issuperuser ? "Yes" : "No"}</p>
-							<p>Is Staff: {user.isstaff ? "Yes" : "No"}</p>
-							<p>Date Joined:{user.datejoined}</p>
-							<p>Last Login: {user.lastlogin}</p>
-							<p>Is Active: {user.isactive ? "Yes" : "No"}</p>
-							<p>User Type: {user.user_type}</p>
-							<p>
-								Phone Number:{" "}
-								{isEditing ? (
-									<input
-										name="phone"
-										type="number"
-										value={user ? user.phone : ""}
-										onChange={handleInputChange}
-										className="border-gray-500 border-2 rounded-md p-2"
-									/>
-								) : (
-									"+254 " + user.phone
-								)}
-							</p>
-							<p>
-								Bio:{" "}
-								{isEditing ? (
-									<textarea
-										name="bio"
-										value={user ? user.bio : ""}
-										onChange={handleInputChange}
-										className="border-gray-500 border-2 rounded-md p-2"
-									/>
-								) : (
-									user.bio
-								)}
-							</p>
-							<p>
-								Avatar:{" "}
-								{isEditing ? (
-									<input
-										type="file"
-										name="avatar"
-										onChange={handleImageChange}
-										className="rounded-md p-2"
-									/>
-								) : (
-									user.avatar
-								)}
-							</p>
-						</div>
-						<button
-							className="bg-cyan-950 hover:bg-yellow-500 text-white uppercase hover:cursor-pointer p-2 items-center justify-center mx-auto w-[70%] rounded-md font-semibold flex mt-[80px]"
-							onClick={isEditing ? handleSave : handleEdit}
-						>
-							{isEditing ? "Save" : "Edit"}
-						</button>
-					</div> */}
 				</div>
 			)}
 		</>

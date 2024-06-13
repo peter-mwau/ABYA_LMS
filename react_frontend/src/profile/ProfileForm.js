@@ -4,10 +4,10 @@ import userImg from "../images/user.png";
 import userProfileImg from "../images/profile.png";
 import axios from "axios";
 import edit from "../images/edit.png";
+import mail from "../images/mail.png";
 
-const ProfileForm = ({ user, setIsEditing }) => {
+const ProfileForm = ({ user }) => {
 	const [userDetails, setUserDetails] = useState(user);
-	// const [userProfile, updateProfile] = useState(null);
 	const baseUrl = "http://localhost:8000/users";
 
 	useEffect(() => {
@@ -18,15 +18,12 @@ const ProfileForm = ({ user, setIsEditing }) => {
 		const { name, value } = e.target;
 		setUserDetails({ ...userDetails, [name]: value });
 	};
-	console.log(userDetails);
 
 	const handleImageChange = (e) => {
 		const file = e.target.files[0];
 
 		file && setUserDetails({ ...userDetails, avatar: file });
 	};
-	console.log(userDetails.avatar instanceof File);
-	let dataForm = null;
 
 	const handleSubmit = async () => {
 		const userToken = localStorage.getItem("userToken");
@@ -56,25 +53,20 @@ const ProfileForm = ({ user, setIsEditing }) => {
 			);
 			console.log("Response:", response.data);
 			setUserDetails(response.data);
-
-			// if (response.status === 200) {
-			// 	setUserDetails(response.data);
-			// 	console.log("User: ", userDetails);
-			// 	setIsEditing(false);
-			// 	window.location.reload();
-			// }
 		} catch (error) {
 			console.error("Failed to update user data:", error);
 		}
 	};
-	console.log("Edited changes:", userDetails);
-	// useEffect(() => [dataForm]);
-	console.log(dataForm);
+
+	const deviceWidth = window.innerWidth;
 
 	return (
-		<div className=" md:ml-[20%] w-3/4 flex items-center justify-between space-x-4">
-			<form className="w-2/4 rounded-lg mt-4" onSubmit={handleSubmit}>
-				<aside className="flex items-center space-x-14">
+		<div className="w-auto p-5 md:p-0 md:ml-[20%] md:w-3/4 md:flex items-center justify-between space-x-4">
+			<form
+				className="w-[100%] md:w-2/4 rounded-lg mt-4"
+				onSubmit={handleSubmit}
+			>
+				<aside className="flex items-center space-x-20 md:space-x-14">
 					<img
 						src={
 							userDetails && userDetails.avatar
@@ -82,9 +74,9 @@ const ProfileForm = ({ user, setIsEditing }) => {
 								: illustration
 						}
 						alt="illustration"
-						className="w-32 h-32 rounded-full"
+						className="w-24 h-24 md:w-32 md:h-32 rounded-full"
 					/>
-					<label className="cursor-pointer tracking-wide bg-slate-100 text-lg font-semibold px-16 py-4 rounded-lg">
+					<label className="cursor-pointer tracking-wide bg-slate-100 text-base font-semibold px-10 md:px-16 py-4 rounded-lg">
 						Upload photo
 						<input
 							type="file"
@@ -99,7 +91,7 @@ const ProfileForm = ({ user, setIsEditing }) => {
 						type="text"
 						placeholder="username"
 						name="username"
-						// value={userDetails?.firstname || ""}
+						value={userDetails?.username || ""}
 						onChange={handleInputChange}
 					/>
 					<img
@@ -112,15 +104,20 @@ const ProfileForm = ({ user, setIsEditing }) => {
 						type="text"
 						placeholder="email"
 						name="email"
-						// value={userDetails?.firstname || ""}
+						value={userDetails?.email || ""}
 						onChange={handleInputChange}
+					/>
+					<img
+						src={mail}
+						alt="user"
+						className="absolute top-24 left-3 w-5 h-5 opacity-70 "
 					/>
 					<textarea
 						// cols={3}
 						rows={3}
 						name="bio"
 						placeholder="Short bio..."
-						className="resize-none my-3 pl-12 py-3 bg-slate-50 border-slate-300 rounded-lg md:w-[77%] focus:outline-none"
+						className="resize-none my-3 pl-12 py-3 bg-slate-50 border-slate-300 rounded-lg w-full md:w-[77%] focus:outline-none"
 					></textarea>
 					<img
 						src={userProfileImg}
@@ -128,13 +125,15 @@ const ProfileForm = ({ user, setIsEditing }) => {
 						className="absolute top-40 w-5 h-5 left-3 opacity-70"
 					/>
 				</aside>
-				<button className="w-[77%] bg-slate-600 py-4 rounded-lg text-white font-bold tracking-wide">
+				<button className="w-full md:w-[77%] bg-slate-600 py-4 rounded-lg text-white font-bold tracking-wide">
 					Save Changes
 				</button>
 			</form>
-			<aside className="w-[50%]">
-				<img src={edit} alt="edit illustration" />
-			</aside>
+			{deviceWidth > 425 && (
+				<aside className="w-[50%] flex-none">
+					<img src={edit} alt="edit illustration" />
+				</aside>
+			)}
 		</div>
 	);
 };
