@@ -49,6 +49,8 @@ const CourseList = () => {
               <h2 className="text-xl font-bold mb-2">{course.course_name}</h2>
               <p className="text-gray-700">{course.course_description}</p>
               <p className="text-sm text-gray-500">Teacher: {course.teacher.username}</p>
+              {/* course picture field */}
+              <img src={course.picture} alt={course.course_name} className="w-full h-48 object-cover mt-4" />
             </li>
           ))}
         </ul>
