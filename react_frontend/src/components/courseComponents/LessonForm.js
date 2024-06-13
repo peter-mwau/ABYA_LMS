@@ -21,7 +21,13 @@ const LessonForm = () => {
 
   const fetchCourses = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/courses/courses');
+      const response = await axios.get('http://localhost:8000/courses/courses',
+        {
+          headers: {
+            Authorization: `Token ${localStorage.getItem('userToken')}`,
+          },
+        }
+      );
       setCourses(response.data);
     } catch (error) {
       console.error('Error fetching courses', error);
@@ -30,7 +36,12 @@ const LessonForm = () => {
 
   const fetchChapters = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/courses/chapters/');
+      const response = await axios.get('http://localhost:8000/courses/chapters/', 
+        {
+          headers: {
+            Authorization: `Token ${localStorage.getItem('userToken')}`,
+          },}
+      );
       setChapters(response.data);
     } catch (error) {
       console.error('Error fetching chapters', error);

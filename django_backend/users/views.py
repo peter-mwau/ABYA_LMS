@@ -167,7 +167,7 @@ class UserDataView(APIView):
             'user_type': user_type_str,
 
         }
-        print(data)
+        # print(data)
         return Response(data)
     parser_classes = (MultiPartParser, FormParser)
 

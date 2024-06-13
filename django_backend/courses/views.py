@@ -73,10 +73,14 @@ class CourseViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, methods=['post'], url_path='create-course')
     def create_course(self, request):
-        serializer = CourseSerializer(data=request.data)
+        # Update request data to include the teacher field
+        data = request.data.copy()
+        data['teacher'] = request.user.id
+        serializer = CourseSerializer(data=data)
         if serializer.is_valid():
             serializer.save(teacher=request.user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+        print(serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     @action(detail=False, methods=['get'], url_path='list-courses')
@@ -181,8 +185,7 @@ class ChapterViewSet(viewsets.ModelViewSet):
     def create_chapter(self, request):
         serializer = ChapterSerializer(data=request.data)
         if serializer.is_valid():
-            user_object = get_object_or_404(User, username=request.user.username)
-            serializer.save(teacher=user_object)
+            chapter = serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
@@ -249,7 +252,7 @@ class LessonViewSet(viewsets.ModelViewSet):
                         result = mammoth.convert_to_markdown(docx_file)
                         serializer.validated_data['lesson_content'] = result.value
 
-            serializer.save(teacher=user_object)
+            serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     

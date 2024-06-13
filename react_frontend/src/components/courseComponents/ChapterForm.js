@@ -21,7 +21,13 @@ const ChapterForm = () => {
 
   const fetchCourses = async () => {
     try {
-      const response = await axios.get('/api/courses/');
+      const response = await axios.get('http://localhost:8000/courses/courses/', 
+      {
+        headers: {
+          Authorization: `Token ${localStorage.getItem('userToken')}`,
+        },
+      }
+      );
       setCourses(response.data);
     } catch (error) {
       console.error('Error fetching courses', error);
