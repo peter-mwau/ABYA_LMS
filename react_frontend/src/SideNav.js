@@ -7,18 +7,17 @@ import { UserContext } from "./contexts/userContext";
 const SideNav = () => {
 	const navigate = useNavigate();
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-	const [isLoading, setIsLoading] = useState(true);
-
+	const [isLoading, setIsLoading] = useState(false);
 	const userDetails = useContext(UserContext);
 	const toggleDropdown = () => {
 		setIsDropdownOpen(!isDropdownOpen);
 	};
 
-	useEffect(() => {
-		if (userDetails?.user) {
-			setIsLoading(false);
-		}
-	}, [userDetails]);
+	// useEffect(() => {
+	// 	if (userDetails?.user) {
+	// 		setIsLoading(false);
+	// 	}
+	// }, [userDetails]);
 
 	if (isLoading) {
 		// Render a loading spinner or some other placeholder content
