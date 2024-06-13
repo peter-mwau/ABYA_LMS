@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import illustration from "./images/illustration.jpg";
@@ -12,6 +12,7 @@ function Navbar() {
 	const [user, updateUser] = useState(null);
 	const [isLoading, setIsLoading] = useState(true);
 	const baseUrl = "http://localhost:8000/users";
+	console.log(user);
 
 	useEffect(() => {
 		if (darkMode) {
@@ -19,18 +20,6 @@ function Navbar() {
 		} else {
 			document.body.classList.remove("dark");
 		}
-
-		// const userToken = localStorage.getItem('userToken');
-		// console.log(userToken);
-		// // Fetch user profile details
-		// fetch('http://localhost:8000/users/profile/', {
-		//   headers: {
-		//     'Authorization': `Token ${userToken}`
-		//   }
-		// })
-		//   .then(response => response.json())
-		//   .then(data => updateUser(data))
-		//   .catch(error => console.error('Error:', error));
 	}, [darkMode]);
 
 	useEffect(() => {
@@ -47,7 +36,6 @@ function Navbar() {
 					}
 				);
 				updateUser(response.data);
-				console.log(user);
 				setIsLoading(false);
 			} catch (error) {
 				console.error("Failed to fetch profile:", error);
@@ -142,10 +130,10 @@ function Navbar() {
 					>
 						<div class="px-4 py-3">
 							<span class="block text-sm text-gray-900 dark:text-white">
-								{user.username}
+								@{user?.username}
 							</span>
 							<span class="block text-sm  text-gray-500 truncate dark:text-gray-400">
-								{user.email}
+								{user?.email}
 							</span>
 						</div>
 						<ul class="py-2" aria-labelledby="user-menu-button">

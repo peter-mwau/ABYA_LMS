@@ -11,100 +11,6 @@ import { UserContext } from "../contexts/userContext";
 const Profile = () => {
 	const { user } = useContext(UserContext);
 	const [isEditing, setIsEditing] = useState(false);
-	// console.log(user);
-	// useEffect(() => {
-	// 	const fetchProfile = async () => {
-	// 		const userToken = localStorage.getItem("userToken");
-	// 		console.log(userToken);
-	// 		try {
-	// 			const response = await axios.get(
-	// 				"http://localhost:8000/users/profile/",
-	// 				{
-	// 					headers: {
-	// 						Authorization: `Token ${userToken}`,
-	// 					},
-	// 				}
-	// 			);
-	// 			updateUser(response.data);
-	// 			console.log("Fetched data:", response.data);
-	// 			// console.log('Fetched profile:', response.data.profile);
-	// 			updateProfile(response.data.profile);
-	// 			setIsLoading(false);
-	// 		} catch (error) {
-	// 			console.error("Failed to fetch profile:", error);
-	// 			setIsLoading(false);
-	// 		}
-	// 	};
-
-	// 	fetchProfile();
-	// }, []);
-
-	// const handleImageChange = (event) => {
-	// 	const file = event.target.files[0];
-
-	// 	if (file) {
-	// 		updateProfile({
-	// 			...profile,
-	// 			avatar: file,
-	// 		});
-	// 	}
-	// };
-
-	// console.log("Current profile:", profile);
-
-	// const handleInputChange = (event) => {
-	// 	const { name, value } = event.target;
-
-	// 	if (name in user) {
-	// 		updateUser({
-	// 			...user,
-	// 			[name]: value,
-	// 		});
-	// 	} else if (profile && name in profile) {
-	// 		updateProfile({
-	// 			...profile,
-	// 			[name]: value,
-	// 		});
-	// 	}
-	// };
-
-	// const handleEdit = () => {
-	// 	setIsEditing(true);
-	// };
-
-	// const handleSave = async () => {
-	// 	const userToken = localStorage.getItem("userToken");
-	// 	const formData = new FormData();
-
-	// 	for (const key in user) {
-	// 		formData.append(key, user[key]);
-	// 	}
-
-	// 	if (profile && profile.avatar instanceof File) {
-	// 		formData.append("avatar", profile.avatar);
-	// 	}
-
-	// 	try {
-	// 		const response = await axios.put(
-	// 			"http://localhost:8000/users/profile/",
-	// 			formData,
-	// 			{
-	// 				headers: {
-	// 					Authorization: `Token ${userToken}`,
-	// 				},
-	// 			}
-	// 		);
-
-	// 		if (response.status === 200) {
-	// 			updateUser(response.data);
-	// 			console.log("Userr: ", user);
-	// 			setIsEditing(false);
-	// 			window.location.reload();
-	// 		}
-	// 	} catch (error) {
-	// 		console.error("Failed to update user data:", error);
-	// 	}
-	// };
 
 	if (!user) {
 		return <div>Loading...</div>;
@@ -117,13 +23,13 @@ const Profile = () => {
 	return (
 		<>
 			{isEditing ? (
-				<ProfileForm user={user} />
+				<ProfileForm user={user} setIsEditing={setIsEditing} />
 			) : (
 				<div className="border rounded-xl mt-4 overflow-y-hidden relative md:ml-[20%] w-[78%] bg-transparent md:h-[80vh] text-cyan-900">
 					<img
 						src={background}
 						alt="bg"
-						className="h-[60%] w-full -mt-40 -z-10 relative opacity-80"
+						className="h-[60%] w-full -mt-40 -z-10 relative opacity-80 rounded-t-xl"
 					/>
 					<div className="px-10">
 						{/* user profile photo */}
@@ -132,15 +38,15 @@ const Profile = () => {
 								user && user.avatar ? `${baseUrl}${user.avatar}` : illustration
 							}
 							alt="avatar"
-							className="w-28 h-28 -mt-16 rounded-2xl border-slate-400 border-4"
+							className="w-28 h-28 -mt-16 rounded-full ring-4 ring-white"
 						/>
 						<aside className="flex justify-between items-center mt-4">
 							<section>
 								<p className="font-bold text-black text-2xl capitalize">
 									{user?.firstname} {user?.lastname}
 								</p>
+								<p className="font-medium text-slate-700">@{user?.username}</p>
 								<p className="font-medium">{user?.email}</p>
-								{user.phone === null && <p>{user?.phone}</p>}
 							</section>
 							<p className="text-sm text-black font-bold py-2 px-12 bg-slate-100 rounded-2xl">
 								{user.user_type}
@@ -148,7 +54,7 @@ const Profile = () => {
 						</aside>
 						<section className="flex space-x-4 my-4">
 							<button
-								className="bg-slate-800 px-8 py-2 text-white rounded-3xl"
+								className="bg-slate-600 px-8 py-2 text-white rounded-3xl"
 								onClick={() => setIsEditing(true)}
 							>
 								Edit Profile
@@ -158,6 +64,14 @@ const Profile = () => {
 							</button>
 						</section>
 						<aside className="flex justify-between items-center space-x-3 mt-8">
+							<div className="bg-slate-100 flex-1 rounded-xl p-4">
+								<h3 className="font-semibold text-lg text-black">Bio</h3>
+								<p className="text-black my-2">
+									{typeof user.bio === typeof "null"
+										? user.bio
+										: "Oops! No bio yet"}
+								</p>
+							</div>
 							<div className="bg-slate-100 flex-1 rounded-xl p-4 ">
 								<h3 className="font-semibold text-lg text-black">
 									Ready to {user?.user_type === "Student" ? "learn" : "teach"}
@@ -168,10 +82,7 @@ const Profile = () => {
 										: "Upload courses for students."}
 								</p>
 							</div>
-							<div className="bg-slate-100 flex-1 rounded-xl p-4">
-								<h3 className="font-semibold text-lg text-black">Update</h3>
-								<p className="text-black my-2">Keep your profile updated</p>
-							</div>
+
 							<div className="bg-slate-100 flex-1 rounded-xl p-4">
 								<h3 className="font-semibold text-lg text-black">Update</h3>
 								<p className="text-black my-2">Keep your profile updated</p>

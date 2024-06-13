@@ -25,7 +25,7 @@ export default function Providers({ children }) {
 					}
 				);
 				console.log("Fetched data:", response.data);
-				// console.log('Fetched profile:', response.data.profile);
+				console.log("Response:", response);
 				setUser(response.data);
 				setIsLoading(false);
 			} catch (error) {
