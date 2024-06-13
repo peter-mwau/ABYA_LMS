@@ -52,6 +52,7 @@ const ChapterForm = () => {
       const response = await axios.post('http://localhost:8000/courses/chapters/create-chapter/', formData, {
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Token ${localStorage.getItem('userToken')}`,
         },
       });
       setFormData({
