@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
-
-import { useContext } from 'react';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import illustration from "./images/illustration.jpg";import { UserContext } from './contexts/userContext';
+import illustration from "./images/illustration.jpg";
+import { UserContext } from './contexts/userContext';
 
 
 function Navbar() {
