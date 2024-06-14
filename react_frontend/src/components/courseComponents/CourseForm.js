@@ -1,9 +1,11 @@
 // src/components/CourseForm.js
 import React, { useState } from 'react';
 import axios from 'axios';
-import Navbar from '../../Navbar';
+// import Navbar from '../../Navbar';
 
 const CourseForm = () => {
+  const [successMessage, setSuccessMessage] = useState('');
+
   const [formData, setFormData] = useState({
     course_name: '',
     course_description: '',
@@ -46,6 +48,7 @@ const CourseForm = () => {
         picture: null,
       });
       setErrors({});
+      setSuccessMessage('Course created successfully!');
     } catch (error) {
       if (error.response && error.response.data) {
         setErrors(error.response.data);
@@ -58,6 +61,7 @@ const CourseForm = () => {
     
     <div className="mx-auto mt-10 md:w-[62%] md:mr-[50px] text-cyan-950 lg:mx-auto">
       <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 dark:bg-gray-900">
+      {successMessage && <div className='text-green-400 font-light'>{successMessage}</div>}
         <div className="mb-4">
           <label className="block text-gray-700 text-lg font-bold mb-2 dark:text-gray-100" htmlFor="course_name">
             Course Name

@@ -1,9 +1,11 @@
 // src/components/ChapterForm.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Navbar from '../../Navbar';
+// import Navbar from '../../Navbar';
 
 const ChapterForm = () => {
+  const [successMessage, setSuccessMessage] = useState('');
+
   const [formData, setFormData] = useState({
     chapter_name: '',
     chapter_description: '',
@@ -68,6 +70,7 @@ const ChapterForm = () => {
         chapter_quiz: ''
       });
       setErrors({});
+      setSuccessMessage('Chapter created successfully!');
     } catch (error) {
       if (error.response && error.response.data) {
         setErrors(error.response.data);
@@ -80,6 +83,7 @@ const ChapterForm = () => {
     
     <div className="mx-auto mt-10 w-[90%] md:w-[70%] md:mr-[10px] lg:w-full lg:mr-[90px]">
       <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 text-cyan-950 dark:bg-gray-900 md:w-[80%] md:ml-[60px] lg:w-[60%] lg:ml-[400px]">
+      {successMessage && <div className='text-green-400 font-light'>{successMessage}</div>}
         <div className="mb-4">
           <label className="block text-gray-700 dark:text-gray-100 text-lg font-bold mb-2" htmlFor="chapter_name">
             Chapter Name
