@@ -47,7 +47,7 @@ const Profile = () => {
 						</aside>
 						<section className="flex space-x-4 md:justify-normal justify-between my-4">
 							<button
-								className="bg-slate-600 px-8 py-2 text-white rounded-3xl"
+								className="bg-slate-500 px-8 py-2 text-white rounded-3xl"
 								onClick={() => setIsEditing(true)}
 							>
 								Edit Profile
