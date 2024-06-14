@@ -9,6 +9,7 @@ import mail from "../images/mail.png";
 const ProfileForm = ({ user }) => {
 	const [userDetails, setUserDetails] = useState(user);
 	const baseUrl = "http://localhost:8000/users";
+	const [image, setImage] = useState(null);
 
 	useEffect(() => {
 		user && setUserDetails(user);
@@ -21,6 +22,7 @@ const ProfileForm = ({ user }) => {
 
 	const handleImageChange = (e) => {
 		const file = e.target.files[0];
+		setImage(URL.createObjectURL(file));
 
 		file && setUserDetails({ ...userDetails, avatar: file });
 	};
@@ -69,8 +71,10 @@ const ProfileForm = ({ user }) => {
 				<aside className="flex items-center space-x-20 md:space-x-14">
 					<img
 						src={
-							userDetails && userDetails.avatar
-								? `${baseUrl}${userDetails.avatar}`
+							image
+								? image
+								: user?.avatar
+								? `${baseUrl}${user.avatar}`
 								: illustration
 						}
 						alt="illustration"
@@ -125,7 +129,7 @@ const ProfileForm = ({ user }) => {
 						className="absolute top-40 w-5 h-5 left-3 opacity-70"
 					/>
 				</aside>
-				<button className="w-full md:w-[77%] bg-slate-600 py-4 rounded-lg text-white font-bold tracking-wide">
+				<button className="w-full md:w-[77%] bg-slate-500 py-4 rounded-lg text-white font-bold tracking-wide">
 					Save Changes
 				</button>
 			</form>

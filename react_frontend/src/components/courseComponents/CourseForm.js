@@ -1,114 +1,120 @@
 // src/components/CourseForm.js
-import React, { useState } from 'react';
-import axios from 'axios';
-import Navbar from '../../Navbar';
+import React, { useState } from "react";
+import axios from "axios";
+import upload from "../../images/upload.png";
 
 const CourseForm = () => {
-  const [formData, setFormData] = useState({
-    course_name: '',
-    course_description: '',
-    picture: null,
-  });
-  const [errors, setErrors] = useState({});
+	const [image, setImage] = useState(null);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
+	const [formData, setFormData] = useState({
+		course_name: "",
+		course_description: "",
+		picture: null,
+	});
+	const [errors, setErrors] = useState({});
 
-  const handleFileChange = (e) => {
-    setFormData({
-      ...formData,
-      picture: e.target.files[0],
-    });
-  };
+	const handleChange = (e) => {
+		const { name, value } = e.target;
+		setFormData({
+			...formData,
+			[name]: value,
+		});
+	};
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+	const handleFileChange = (e) => {
+		setFormData({
+			...formData,
+			picture: e.target.files[0],
+		});
+		setImage(URL.createObjectURL(e.target.files[0]));
+	};
 
-    const data = new FormData();
-    data.append('course_name', formData.course_name);
-    data.append('course_description', formData.course_description);
-    data.append('picture', formData.picture);
-    try {
-      const response = await axios.post('http://localhost:8000/courses/courses/create-course/', data, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-      setFormData({
-        course_name: '',
-        course_description: '',
-        picture: null,
-      });
-      setErrors({});
-    } catch (error) {
-      if (error.response && error.response.data) {
-        setErrors(error.response.data);
-      }
-    }
-  };
+	const handleSubmit = async (e) => {
+		e.preventDefault();
+		const userToken = localStorage.getItem("userToken");
 
-  return (
-    <div>
-    
-    <div className="max-w-2xl mx-auto mt-10">
-      <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="course_name">
-            Course Name
-          </label>
-          <input
-            type="text"
-            name="course_name"
-            id="course_name"
-            value={formData.course_name}
-            onChange={handleChange}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          />
-          {errors.course_name && <p className="text-red-500 text-xs italic">{errors.course_name}</p>}
-        </div>
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="course_description">
-            Course Description
-          </label>
-          <textarea
-            name="course_description"
-            id="course_description"
-            value={formData.course_description}
-            onChange={handleChange}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          />
-          {errors.course_description && <p className="text-red-500 text-xs italic">{errors.course_description}</p>}
-        </div>
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="picture">
-            Course Picture
-          </label>
-          <input
-            type="file"
-            name="picture"
-            id="picture"
-            onChange={handleFileChange}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          />
-          {errors.picture && <p className="text-red-500 text-xs italic">{errors.picture}</p>}
-        </div>
-        <div className="flex items-center justify-between">
-          <button
-            type="submit"
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-          >
-            Create Course
-          </button>
-        </div>
-      </form>
-    </div>
-    </div>
-  );
+		const data = new FormData();
+		data.append("course_name", formData.course_name);
+		data.append("course_description", formData.course_description);
+		data.append("picture", formData.picture);
+		try {
+			const response = await axios.post(
+				"http://localhost:8000/courses/courses/create-course/",
+				data,
+				{
+					headers: {
+						Authorization: `Token ${userToken}`,
+						"Content-Type": "multipart/form-data",
+					},
+				}
+			);
+			setFormData({
+				course_name: "",
+				course_description: "",
+				picture: null,
+			});
+			setErrors({});
+		} catch (error) {
+			if (error.response && error.response.data) {
+				setErrors(error.response.data);
+			}
+		}
+	};
+
+	return (
+		<div className="py-2 max-w-2xl md:ml-[20%] mt-4 flex flex-row-reverse md:flex-row space-x-7">
+			<form onSubmit={handleSubmit} className=" rounded w-[50%]">
+				<input
+					type="text"
+					name="course_name"
+					id="course_name"
+					value={formData.course_name}
+					onChange={handleChange}
+					placeholder="course title"
+					className="border rounded-lg w-full p-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+				/>
+
+				<textarea
+					name="course_description"
+					id="course_description"
+					value={formData.course_description}
+					onChange={handleChange}
+					rows={3}
+					placeholder="course description"
+					className="my-5  border rounded-lg resize-none w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+				/>
+
+				<button
+					type="submit"
+					className="bg-slate-500 w-full text-white font-bold py-3 rounded-lg focus:outline-none focus:shadow-outline"
+				>
+					Create Course
+				</button>
+			</form>
+			<div>
+				<label className="cursor-pointer tracking-wide bg-slate-100 ">
+					<aside
+						className={`${
+							image && "py-4 bg-gray-50"
+						} border rounded-lg p-10 text-center`}
+					>
+						<img
+							src={image ? image : upload}
+							alt="upload icon"
+							className={`${
+								image && "w-40 border-slate-600 h-40 ml-0"
+							} w-20 h-20 ml-6 rounded`}
+						/>
+						<p className="font-semibold my-4">
+							{image ? "Change" : "Choose"} course image
+						</p>
+
+						<input type="file" className="hidden" onChange={handleFileChange} />
+					</aside>
+				</label>
+			</div>
+		</div>
+	);
 };
 
 export default CourseForm;
