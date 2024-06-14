@@ -3,8 +3,10 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const LessonForm = () => {
+  const [successMessage, setSuccessMessage] = useState('');
+
   const [formData, setFormData] = useState({
-    lesson_title: '',
+    lesson_name: '',
     lesson_description: '',
     course: '',
     chapter: '',
@@ -64,7 +66,7 @@ const LessonForm = () => {
     e.preventDefault();
 
     const formDataToSend = new FormData();
-    formDataToSend.append('lesson_title', formData.lesson_title);
+    formDataToSend.append('lesson_name', formData.lesson_name);
     formDataToSend.append('lesson_description', formData.lesson_description);
     formDataToSend.append('course', formData.course);
     formDataToSend.append('chapter', formData.chapter);
@@ -80,13 +82,14 @@ const LessonForm = () => {
         },
       });
       setFormData({
-        lesson_title: '',
+        lesson_name: '',
         lesson_description: '',
         course: '',
         chapter: '',
       });
       setWordFile(null);
       setErrors({});
+      setSuccessMessage('Lesson created successfully!');
     } catch (error) {
       if (error.response && error.response.data) {
         setErrors(error.response.data);
@@ -97,15 +100,16 @@ const LessonForm = () => {
   return (
     <div className="mx-auto mt-10">
       <form onSubmit={handleSubmit} className="bg-white w-[90%] mx-auto md:mr-[10px] lg:mr-[90px] shadow-md rounded px-8 pt-6 pb-8 mb-4 text-cyan-950 dark:bg-gray-900 md:w-[80%] md:ml-[60px] lg:w-[60%] lg:ml-[400px]">
+      {successMessage && <div className='text-green-400 font-light'>{successMessage}</div>}
         <div className="mb-4">
-          <label className="block dark:text-gray-100 text-gray-700 text-lg font-bold mb-2" htmlFor="lesson_title">
+          <label className="block dark:text-gray-100 text-gray-700 text-lg font-bold mb-2" htmlFor="lesson_name">
             Lesson Title
           </label>
           <input
             type="text"
-            name="lesson_title"
-            id="lesson_title"
-            value={formData.lesson_title}
+            name="lesson_name"
+            id="lesson_name"
+            value={formData.lesson_name}
             onChange={handleChange}
             className="appearance-none border-none bg-gray-100 dark:bg-gray-700 dark:text-gray-50 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           />
