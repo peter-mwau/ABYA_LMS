@@ -6,6 +6,8 @@ const CourseList = () => {
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const baseUrl = "http://localhost:8000/courses";
+  
   useEffect(() => {
     const fetchCourses = async () => {
       try {
@@ -19,7 +21,7 @@ const CourseList = () => {
           }
         );
         setCourses(response.data);
-        console.log(response.data);
+        console.log("Courses: ",response.data);
         setLoading(false);
       } catch (err) {
         setError(err.response ? err.response.data : 'Error fetching courses');
@@ -38,19 +40,19 @@ const CourseList = () => {
     return <div>Error: {error.message}</div>;
   }
   return (
-    <div className="max-w-4xl mx-auto mt-10">
-      <h1 className="text-2xl font-bold mb-4">Courses</h1>
+    <div className="mx-auto mt-10 lg:w-[90%]">
+      <h1 className="text-2xl font-bold mb-4 md:ml-[275px] text-center text-cyan-950">My Courses</h1>
       {courses.length === 0 ? (
         <div>No courses available at the moment.</div>
       ) : (
-        <ul className="space-y-4">
+        <ul className="gap-3 container md:w-[60%] md:ml-[275px] lg:ml-[285px] lg:grid lg:grid-cols-3 lg:w-[80%]">
           {courses.map((course) => (
-            <li key={course.id} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-              <h2 className="text-xl font-bold mb-2">{course.course_name}</h2>
-              <p className="text-gray-700">{course.course_description}</p>
-              <p className="text-sm text-gray-500">Teacher: {course.teacher.username}</p>
-              {/* course picture field */}
-              <img src={course.picture} alt={course.course_name} className="w-full h-48 object-cover mt-4" />
+            <li key={course.id} className="bg-white rounded px-8 pt-6 pb-8 mb-4 w-full dark:bg-gray-800">
+              <img src={`${baseUrl}${course.picture}`} alt={course.course_name} className="w-full h-48 object-cover mt-4 rounded-md"/>
+              <h2 className="text-xl font-bold mb-2 pt-2">{course.course_name}</h2>
+              {/* <p className="text-gray-700 h-[150px]">{course.course_description}</p> */}
+              <p className="text-gray-700 line-clamp-3">{course.course_description}</p>
+              <p className="text-sm text-gray-500">Teacher: {course.teacher}</p>    
             </li>
           ))}
         </ul>

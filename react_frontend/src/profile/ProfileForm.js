@@ -122,6 +122,7 @@ const ProfileForm = ({ user }) => {
 						name="bio"
 						placeholder="Short bio..."
 						className="resize-none my-3 pl-12 py-3 bg-slate-50 border-slate-300 rounded-lg w-full md:w-[77%] focus:outline-none"
+						onChange={handleInputChange}
 					></textarea>
 					<img
 						src={userProfileImg}

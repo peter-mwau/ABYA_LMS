@@ -18,7 +18,7 @@ const Profile = () => {
 			{isEditing ? (
 				<ProfileForm user={user} setIsEditing={setIsEditing} />
 			) : (
-				<div className="md:border rounded-xl mt-4 md:overflow-y-hidden relative md:ml-[20%] w-full md:w-[78%] bg-transparent md:h-[80vh] text-cyan-900">
+				<div className="md:border rounded-lg mt-4 md:overflow-y-hidden relative md:ml-[20%] w-full md:w-[78%] bg-transparent md:h-[80vh] text-cyan-900 lg:w-[60%]">
 					<img
 						src={background}
 						alt="bg"

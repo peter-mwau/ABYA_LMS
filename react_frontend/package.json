@@ -13,6 +13,7 @@
     "react-router-dom": "^6.21.0",
     "react-scripts": "5.0.1",
     "styled-components": "^6.1.11",
+    "tailwindcss-line-clamp": "^1.0.5",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
