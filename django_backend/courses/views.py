@@ -76,6 +76,7 @@ class CourseViewSet(viewsets.ModelViewSet):
         # Update request data to include the teacher field
         data = request.data.copy()
         data['teacher'] = request.user.id
+        # data['teacher'] = request.user
         serializer = CourseSerializer(data=data)
         if serializer.is_valid():
             serializer.save(teacher=request.user)

@@ -1,15 +1,17 @@
 // src/components/CourseForm.js
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import axios from "axios";
 import upload from "../../images/upload.png";
+import { UserContext } from "../../contexts/userContext";
 
 const CourseForm = () => {
 	const [image, setImage] = useState(null);
-
+	const userDetails = useContext(UserContext);
 	const [formData, setFormData] = useState({
 		course_name: "",
 		course_description: "",
 		picture: null,
+		teacher: '',
 	});
 	const [errors, setErrors] = useState({});
 
@@ -20,6 +22,8 @@ const CourseForm = () => {
 			[name]: value,
 		});
 	};
+
+	console.log("User details: ", userDetails.user);
 
 	const handleFileChange = (e) => {
 		setFormData({
@@ -37,6 +41,12 @@ const CourseForm = () => {
 		data.append("course_name", formData.course_name);
 		data.append("course_description", formData.course_description);
 		data.append("picture", formData.picture);
+		data.append("userToken", userToken);
+		data.append("teacher", 
+			userDetails && userDetails.user 
+				? `${userDetails.user.firstname || ''} ${userDetails.user.lastname || ''}` 
+				: ''
+		);
 		try {
 			const response = await axios.post(
 				"http://localhost:8000/courses/courses/create-course/",
@@ -44,7 +54,7 @@ const CourseForm = () => {
 				{
 					headers: {
 						"Content-Type": "multipart/form-data",
-						Authorization: `Token ${localStorage.getItem("userToken")}`,
+						Authorization: `Token ${userToken}`,
 					},
 				}
 			);
@@ -52,6 +62,7 @@ const CourseForm = () => {
 				course_name: "",
 				course_description: "",
 				picture: null,
+				teacher: "",
 			});
 			setErrors({});
 		} catch (error) {
