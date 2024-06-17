@@ -11,7 +11,9 @@ const CourseForm = () => {
 		course_name: "",
 		course_description: "",
 		picture: null,
-		teacher: '',
+		teacher: userDetails && userDetails.user 
+		? `${userDetails.user.firstname || ''} ${userDetails.user.lastname || ''}` 
+		: ''
 	});
 	const [errors, setErrors] = useState({});
 
@@ -62,7 +64,9 @@ const CourseForm = () => {
 				course_name: "",
 				course_description: "",
 				picture: null,
-				teacher: "",
+				teacher: userDetails && userDetails.user 
+				? `${userDetails.user.firstname || ''} ${userDetails.user.lastname || ''}` 
+				: '',
 			});
 			setErrors({});
 		} catch (error) {
@@ -73,8 +77,8 @@ const CourseForm = () => {
 	};
 
 	return (
-		<div className="py-2 max-w-2xl md:ml-[20%] mt-4 flex flex-row-reverse md:flex-row space-x-7">
-			<form onSubmit={handleSubmit} className=" rounded w-[50%]">
+		<div className="py-2 mx-auto items-center justify-center md:ml-[35%] lg:ml-[0%] mt-4 flex flex-row-reverse md:flex-row space-x-7 container gap-2">
+			<form onSubmit={handleSubmit} className=" rounded w-[50%] lg:w-[30%]">
 				<input
 					type="text"
 					name="course_name"
@@ -124,6 +128,14 @@ const CourseForm = () => {
 					</aside>
 				</label>
 			</div>
+			<a href="/create-chapter" className="">
+				<button className="bg-slate-500 absolute mt-[290px] md:relative md:ml-0 mr-0 w-auto px-2 rounded-3xl flex flex-row text-white font-bold py-3  focus:outline-none focus:shadow-outline gap-2 lg:absolute lg:ml-[40px]">
+					<svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+  						<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 7.757v8.486M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+					</svg>
+					<span className="text-gray-800 dark:text-white">Add Chapter</span>
+				</button>
+			</a>
 		</div>
 	);
 };
