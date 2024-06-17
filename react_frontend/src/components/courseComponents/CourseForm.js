@@ -1,10 +1,11 @@
 // src/components/CourseForm.js
-import React, { useState, useContext } from "react";
+import React, { useContext, useState } from "react";
 import axios from "axios";
 import upload from "../../images/upload.png";
+import { CourseContext } from "./CreateCourse";
 import { UserContext } from "../../contexts/userContext";
 
-const CourseForm = () => {
+const CourseForm = ({ step}) => {
 	const [image, setImage] = useState(null);
 	const userDetails = useContext(UserContext);
 	const [formData, setFormData] = useState({
@@ -15,6 +16,8 @@ const CourseForm = () => {
 		? `${userDetails.user.firstname || ''} ${userDetails.user.lastname || ''}` 
 		: ''
 	});
+	const { setCourse } = useContext(CourseContext);
+
 	const [errors, setErrors] = useState({});
 
 	const handleChange = (e) => {
@@ -77,8 +80,13 @@ const CourseForm = () => {
 	};
 
 	return (
-		<div className="py-2 mx-auto items-center justify-center md:ml-[35%] lg:ml-[0%] mt-4 flex flex-row-reverse md:flex-row space-x-7 container gap-2">
-			<form onSubmit={handleSubmit} className=" rounded w-[50%] lg:w-[30%]">
+		<form
+			onSubmit={handleSubmit}
+			className="flex md:space-x-10 justify-between rounded w-full"
+		>
+			<div className="mt-5 w-2/3">
+				<p className="font-bold text-2xl mb-10">{step.title}</p>
+
 				<input
 					type="text"
 					name="course_name"
@@ -86,9 +94,8 @@ const CourseForm = () => {
 					value={formData.course_name}
 					onChange={handleChange}
 					placeholder="course title"
-					className="border rounded-lg w-full p-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+					className="my-2 border rounded-lg w-full p-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
 				/>
-
 				<textarea
 					name="course_description"
 					id="course_description"
@@ -96,47 +103,37 @@ const CourseForm = () => {
 					onChange={handleChange}
 					rows={3}
 					placeholder="course description"
-					className="my-5  border rounded-lg resize-none w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+					className="my-10 w-full border rounded-lg resize-none py-4 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
 				/>
-
-				<button
-					type="submit"
-					className="bg-slate-500 w-full text-white font-bold py-3 rounded-lg focus:outline-none focus:shadow-outline"
-				>
-					Create Course
-				</button>
-			</form>
-			<div>
-				<label className="cursor-pointer tracking-wide bg-slate-100 ">
-					<aside
-						className={`${
-							image && "py-4 bg-gray-50"
-						} border rounded-lg p-10 text-center`}
-					>
-						<img
-							src={image ? image : upload}
-							alt="upload icon"
-							className={`${
-								image && "w-40 border-slate-600 h-40 ml-0"
-							} w-20 h-20 ml-6 rounded`}
-						/>
-						<p className="font-semibold my-4">
-							{image ? "Change" : "Choose"} course image
-						</p>
-
-						<input type="file" className="hidden" onChange={handleFileChange} />
-					</aside>
-				</label>
 			</div>
-			<a href="/create-chapter" className="">
-				<button className="bg-slate-500 absolute mt-[290px] md:relative md:ml-0 mr-0 w-auto px-2 rounded-3xl flex flex-row text-white font-bold py-3  focus:outline-none focus:shadow-outline gap-2 lg:absolute lg:ml-[40px]">
-					<svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-  						<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 7.757v8.486M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
-					</svg>
-					<span className="text-gray-800 dark:text-white">Add Chapter</span>
-				</button>
-			</a>
-		</div>
+
+			<label className="cursor-pointer ml-[20%] w-2/5 rounded-lg tracking-wide mt-12 text-center ">
+				<aside
+					className={`${
+						image && "py-4 bg-gray-50"
+					} rounded-lg p-10 text-center items-center border border-dashed`}
+				>
+					<img
+						src={image ? image : upload}
+						alt="upload icon"
+						className={`${
+							image && "w-40 border-slate-600 h-40 ml-0"
+						} w-20 h-20 ml-6 rounded`}
+					/>
+					<p className="font-semibold my-4">
+						{image ? "Change" : "Choose"} course image
+					</p>
+
+					<input type="file" className="hidden" onChange={handleFileChange} />
+				</aside>
+			</label>
+			{/* <button
+				type="submit"
+				className="bg-slate-500 w-full text-white font-bold py-3 rounded-lg focus:outline-none focus:shadow-outline mt-4"
+			>
+				Create Course
+			</button> */}
+		</form>
 	);
 };
 
