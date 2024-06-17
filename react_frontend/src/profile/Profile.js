@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import illustration from "../images/illustration.jpg";
-import background from "../images/background.jpg";
+import background from "../images/sidebg.jpg";
 import ProfileForm from "./ProfileForm";
 import { UserContext } from "../contexts/userContext";
 
@@ -18,11 +18,11 @@ const Profile = () => {
 			{isEditing ? (
 				<ProfileForm user={user} setIsEditing={setIsEditing} />
 			) : (
-				<div className="md:border rounded-lg mt-4 md:overflow-y-hidden relative md:ml-[20%] w-full md:w-[78%] bg-transparent md:h-[80vh] text-cyan-900 lg:w-[60%]">
+				<div className="md:border rounded-xl mt-4 md:overflow-y-hidden relative md:ml-[20%] w-full md:w-[78%] bg-transparent md:h-[80vh] text-cyan-900 ">
 					<img
 						src={background}
 						alt="bg"
-						className="h-[60%] w-full -mt-40 -z-10 relative opacity-80 rounded-t-xl"
+						className="h-[60%] w-full -mt-40 -z-10 relative opacity-40 rounded-t-3xl"
 					/>
 					<div className="px-10">
 						{/* user profile photo */}
@@ -31,7 +31,7 @@ const Profile = () => {
 								user && user.avatar ? `${baseUrl}${user.avatar}` : illustration
 							}
 							alt="avatar"
-							className="w-28 h-28 -mt-16 rounded-full ring-4 ring-white"
+							className="w-28 h-28 -mt-16 rounded-full ring-2 md:ring-8 ring-white"
 						/>
 						<aside className="flex justify-between items-center mt-4">
 							<section>
