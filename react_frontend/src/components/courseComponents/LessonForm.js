@@ -188,17 +188,7 @@ const LessonForm = ({ courseName }) => {
 					<p className="text-red-500 text-xs italic">{errors.word_file}</p>
 				)}
 			</div>
-
-			{/* <div className="flex items-center justify-between">
-				<button
-					type="submit"
-					className="bg-cyan-950 dark:text-cyan-950 hover:bg-yellow-500 dark:bg-gray-200 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-				>
-					Create Lesson
-				</button>
-			</div> */}
 		</form>
-		// </div>
 	);
 };
 
