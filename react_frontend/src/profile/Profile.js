@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import illustration from "../images/illustration.jpg";
-import background from "../images/background.jpg";
+import background from "../images/sidebg.jpg";
 import ProfileForm from "./ProfileForm";
 import { UserContext } from "../contexts/userContext";
 

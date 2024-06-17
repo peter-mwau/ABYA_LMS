@@ -1,16 +1,13 @@
 // src/components/CourseForm.js
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import axios from "axios";
 import upload from "../../images/upload.png";
+import { CourseContext } from "./CreateCourse";
 
-const CourseForm = () => {
+const CourseForm = ({ step, formData, setFormData }) => {
 	const [image, setImage] = useState(null);
+	const { setCourse } = useContext(CourseContext);
 
-	const [formData, setFormData] = useState({
-		course_name: "",
-		course_description: "",
-		picture: null,
-	});
 	const [errors, setErrors] = useState({});
 
 	const handleChange = (e) => {
@@ -62,8 +59,13 @@ const CourseForm = () => {
 	};
 
 	return (
-		<div className="py-2 max-w-2xl md:ml-[20%] mt-4 flex flex-row-reverse md:flex-row space-x-7">
-			<form onSubmit={handleSubmit} className=" rounded w-[50%]">
+		<form
+			onSubmit={handleSubmit}
+			className="flex md:space-x-10 justify-between rounded w-full"
+		>
+			<div className="mt-5 w-2/3">
+				<p className="font-bold text-2xl mb-10">{step.title}</p>
+
 				<input
 					type="text"
 					name="course_name"
@@ -71,9 +73,8 @@ const CourseForm = () => {
 					value={formData.course_name}
 					onChange={handleChange}
 					placeholder="course title"
-					className="border rounded-lg w-full p-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+					className="my-2 border rounded-lg w-full p-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
 				/>
-
 				<textarea
 					name="course_description"
 					id="course_description"
@@ -81,39 +82,37 @@ const CourseForm = () => {
 					onChange={handleChange}
 					rows={3}
 					placeholder="course description"
-					className="my-5  border rounded-lg resize-none w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+					className="my-10 w-full border rounded-lg resize-none py-4 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
 				/>
-
-				<button
-					type="submit"
-					className="bg-slate-500 w-full text-white font-bold py-3 rounded-lg focus:outline-none focus:shadow-outline"
-				>
-					Create Course
-				</button>
-			</form>
-			<div>
-				<label className="cursor-pointer tracking-wide bg-slate-100 ">
-					<aside
-						className={`${
-							image && "py-4 bg-gray-50"
-						} border rounded-lg p-10 text-center`}
-					>
-						<img
-							src={image ? image : upload}
-							alt="upload icon"
-							className={`${
-								image && "w-40 border-slate-600 h-40 ml-0"
-							} w-20 h-20 ml-6 rounded`}
-						/>
-						<p className="font-semibold my-4">
-							{image ? "Change" : "Choose"} course image
-						</p>
-
-						<input type="file" className="hidden" onChange={handleFileChange} />
-					</aside>
-				</label>
 			</div>
-		</div>
+
+			<label className="cursor-pointer ml-[20%] w-2/5 rounded-lg tracking-wide mt-12 text-center ">
+				<aside
+					className={`${
+						image && "py-4 bg-gray-50"
+					} rounded-lg p-10 text-center items-center border border-dashed`}
+				>
+					<img
+						src={image ? image : upload}
+						alt="upload icon"
+						className={`${
+							image && "w-40 border-slate-600 h-40 ml-0"
+						} w-20 h-20 ml-6 rounded`}
+					/>
+					<p className="font-semibold my-4">
+						{image ? "Change" : "Choose"} course image
+					</p>
+
+					<input type="file" className="hidden" onChange={handleFileChange} />
+				</aside>
+			</label>
+			{/* <button
+				type="submit"
+				className="bg-slate-500 w-full text-white font-bold py-3 rounded-lg focus:outline-none focus:shadow-outline mt-4"
+			>
+				Create Course
+			</button> */}
+		</form>
 	);
 };
 
