@@ -8,7 +8,7 @@ const SideNav = () => {
 	const navigate = useNavigate();
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
-	const userDetails = useContext(UserContext);
+	const { user } = useContext(UserContext);
 	const toggleDropdown = () => {
 		setIsDropdownOpen(!isDropdownOpen);
 	};
@@ -18,13 +18,14 @@ const SideNav = () => {
 	// 		setIsLoading(false);
 	// 	}
 	// }, [userDetails]);
+	console.log(user);
 
 	if (isLoading) {
 		// Render a loading spinner or some other placeholder content
 		return <div>Loading...</div>;
 	}
 
-	console.log("User Details: ", userDetails?.user);
+	// console.log("User Details: ", userDetails?.user);
 	const logout = async (event) => {
 		event.preventDefault();
 		try {
@@ -101,7 +102,7 @@ const SideNav = () => {
 							</span>
 						</a>
 					</li>
-					{userDetails.user.user_type === "Student" && (
+					{user?.user_type === "Student" && (
 						<li>
 							<button
 								type="button"
@@ -176,7 +177,7 @@ const SideNav = () => {
 							</ul>
 						</li>
 					)}
-					{userDetails.user.user_type === "Teacher" && (
+					{user?.user_type === "Teacher" && (
 						<>
 							<ul className="flex flex-col gap-y-3 dark:text-gray-100">
 								<Link

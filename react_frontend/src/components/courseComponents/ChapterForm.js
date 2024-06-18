@@ -1,9 +1,10 @@
 // src/components/ChapterForm.js
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import Navbar from "../../Navbar";
+import right_arrows from "../../images/right-arrows.png";
+import add from "../../images/add.png";
 
-const ChapterForm = () => {
+const ChapterForm = ({ chapterCount, setChapterCount, courseName }) => {
 	const [formData, setFormData] = useState({
 		chapter_name: "",
 		chapter_description: "",
@@ -83,9 +84,26 @@ const ChapterForm = () => {
 	return (
 		<form
 			onSubmit={handleSubmit}
-			className="h-full justify-between rounded w-full"
+			className="h-full justify-between rounded w-full md:flex md:space-x-2"
 		>
-			<div className="w-[70%] md:ml-40">
+			<div className="w-full md:w-1/2 relative mb-5">
+				<p className="font-bold text-2xl mb-3 ">{courseName}</p>
+				<aside className="flex space-x-3 w-3/5 text-gray-400">
+					<p className="font-bold">Chapter {chapterCount}</p>
+					<img
+						src={right_arrows}
+						alt="right arrow"
+						className="w-10 h-7 opacity-40"
+					/>
+				</aside>
+				<img
+					src={add}
+					alt="add"
+					className="absolute md:relative top-10 right-0 w-7 h-7 md:w-10 md:h-10 md:mt-20 opacity-30 cursor-pointer"
+					onClick={() => setChapterCount(chapterCount + 1)}
+				/>
+			</div>
+			<div className="w-full md:w-[70%]">
 				<input
 					type="text"
 					name="chapter_name"

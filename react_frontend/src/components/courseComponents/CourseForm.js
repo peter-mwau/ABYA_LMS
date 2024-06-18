@@ -40,7 +40,6 @@ const CourseForm = ({ step}) => {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		const userToken = localStorage.getItem("userToken");
 
 		const data = new FormData();
 		data.append("course_name", formData.course_name);
@@ -82,9 +81,9 @@ const CourseForm = ({ step}) => {
 	return (
 		<form
 			onSubmit={handleSubmit}
-			className="flex md:space-x-10 justify-between rounded w-full"
+			className="md:flex md:space-x-10 justify-between rounded w-full"
 		>
-			<div className="mt-5 w-2/3">
+			<div className="-mt-4 md:mt-5 md:w-2/3">
 				<p className="font-bold text-2xl mb-10">{step.title}</p>
 
 				<input
@@ -94,7 +93,7 @@ const CourseForm = ({ step}) => {
 					value={formData.course_name}
 					onChange={handleChange}
 					placeholder="course title"
-					className="my-2 border rounded-lg w-full p-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+					className="mb-2 border rounded-lg w-full p-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
 				/>
 				<textarea
 					name="course_description"
@@ -103,7 +102,7 @@ const CourseForm = ({ step}) => {
 					onChange={handleChange}
 					rows={3}
 					placeholder="course description"
-					className="my-10 w-full border rounded-lg resize-none py-4 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+					className="my-2 md:my-10 w-full border rounded-lg resize-none py-4 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
 				/>
 			</div>
 
