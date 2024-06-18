@@ -4,6 +4,7 @@ import axios from "axios";
 import right_arrows from "../../images/right-arrows.png";
 import add from "../../images/add.png";
 
+
 const ChapterForm = ({ chapterCount, setChapterCount, courseName }) => {
 	const [formData, setFormData] = useState({
 		chapter_name: "",
@@ -14,11 +15,12 @@ const ChapterForm = ({ chapterCount, setChapterCount, courseName }) => {
 	const [courses, setCourses] = useState([]);
 	const [quizzes, setQuizzes] = useState([]);
 	const [errors, setErrors] = useState({});
-
+	const [isChapterCreated, setIsChapterCreated] = useState(false);
 	useEffect(() => {
 		fetchCourses();
 		fetchQuizzes();
 	}, []);
+	const [successMessage, setSuccessMessage] = useState("");
 
 	const fetchCourses = async () => {
 		try {
@@ -67,6 +69,7 @@ const ChapterForm = ({ chapterCount, setChapterCount, courseName }) => {
 					},
 				}
 			);
+			const chapterName = formData.chapter_name; // Save the chapter name
 			setFormData({
 				chapter_name: "",
 				chapter_description: "",
@@ -74,6 +77,8 @@ const ChapterForm = ({ chapterCount, setChapterCount, courseName }) => {
 				chapter_quiz: "",
 			});
 			setErrors({});
+			setIsChapterCreated(true);
+			setSuccessMessage(`${chapterName} created successfully`); // Use the saved chapter name
 		} catch (error) {
 			if (error.response && error.response.data) {
 				setErrors(error.response.data);
@@ -86,8 +91,10 @@ const ChapterForm = ({ chapterCount, setChapterCount, courseName }) => {
 			onSubmit={handleSubmit}
 			className="h-full justify-between rounded w-full md:flex md:space-x-2"
 		>
+
 			<div className="w-full md:w-1/2 relative mb-5">
 				<p className="font-bold text-2xl mb-3 ">{courseName}</p>
+        {successMessage && <p className="text-green-400 font-normal">{successMessage}</p>}
 				<aside className="flex space-x-3 w-3/5 text-gray-400">
 					<p className="font-bold">Chapter {chapterCount}</p>
 					<img
@@ -104,6 +111,10 @@ const ChapterForm = ({ chapterCount, setChapterCount, courseName }) => {
 				/>
 			</div>
 			<div className="w-full md:w-[70%]">
+
+			<div className="w-[70%] md:ml-40">
+			<p className="font-bold text-2xl mb-10">CREATE CHAPTER</p>
+
 				<input
 					type="text"
 					name="chapter_name"
@@ -133,10 +144,10 @@ const ChapterForm = ({ chapterCount, setChapterCount, courseName }) => {
 				</p>
 			)} */}
 				{/* </div> */}
-				{/* <div className="mb-4">
-          <label className="block text-gray-700 text-lg dark:text-gray-100 font-bold mb-2" htmlFor="course">
+				<div className="mb-4">
+          {/* <label className="block text-gray-700 text-lg dark:text-gray-100 font-bold mb-2" htmlFor="course">
             Course
-          </label>
+          </label> */}
           <select
             name="course"
             id="course"
@@ -150,7 +161,7 @@ const ChapterForm = ({ chapterCount, setChapterCount, courseName }) => {
             ))}
           </select>
           {errors.course && <p className="text-red-500 text-xs italic">{errors.course}</p>}
-        </div> */}
+        </div>
 				{/* <div className="mb-4"> */}
 				{/* <label
 					className="block text-gray-700 dark:text-gray-100 text-lg font-bold mb-2"
@@ -163,8 +174,7 @@ const ChapterForm = ({ chapterCount, setChapterCount, courseName }) => {
 					id="chapter_quiz"
 					value={formData.chapter_quiz}
 					onChange={handleChange}
-					className="my-2 border rounded-lg w-full p-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-				>
+					className="appearance-none  border-none bg-gray-100 dark:bg-gray-700 dark:text-gray-50  rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-2">
 					<option value="">Select Quiz</option>
 					{quizzes.map((quiz) => (
 						<option key={quiz.id} value={quiz.id}>
@@ -176,14 +186,21 @@ const ChapterForm = ({ chapterCount, setChapterCount, courseName }) => {
 					<p className="text-red-500 text-xs italic">{errors.chapter_quiz}</p>
 				)}
 				{/* </div> */}
-				{/* <div className="flex items-center justify-between">
-          <button
-            type="submit"
-            className="bg-cyan-950 dark:text-cyan-950 hover:bg-yellow-500 dark:bg-gray-200 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-          >
-            Create Chapter
-          </button>
-        </div> */}
+				<div className="flex items-center justify-between">
+    				{isChapterCreated ? (
+        			<button
+            			type="submit"
+            			className="bg-cyan-950 dark:text-cyan-950 hover:bg-yellow-500 dark:bg-gray-200 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+            			Add Chapter
+        			</button>
+    				) : (
+        			<button
+            			type="submit"
+            			className="bg-cyan-950 dark:text-cyan-950 hover:bg-yellow-500 dark:bg-gray-200 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+            			Create Chapter
+        			</button>
+    				)}
+				</div>
 			</div>
 		</form>
 	);
