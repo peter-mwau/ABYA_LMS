@@ -4,7 +4,7 @@ import axios from "axios";
 
 const LessonForm = ({ courseName }) => {
 	const [formData, setFormData] = useState({
-		lesson_title: "",
+		lesson_name: "",
 		lesson_description: "",
 		course: courseName ? courseName : "",
 		chapter: "",
@@ -13,6 +13,8 @@ const LessonForm = ({ courseName }) => {
 	const [courses, setCourses] = useState([]);
 	const [chapters, setChapters] = useState([]);
 	const [errors, setErrors] = useState({});
+	const [isLessonCreated, setIsLessonCreated] = useState(false);
+	const [successMessage, setSuccessMessage] = useState("");
 
 	useEffect(() => {
 		fetchCourses();
@@ -80,7 +82,7 @@ const LessonForm = ({ courseName }) => {
 		e.preventDefault();
 
 		const formDataToSend = new FormData();
-		formDataToSend.append("lesson_title", formData.lesson_title);
+		formDataToSend.append("lesson_name", formData.lesson_name);
 		formDataToSend.append("lesson_description", formData.lesson_description);
 		formDataToSend.append("course", formData.course);
 		formDataToSend.append("chapter", formData.chapter);
@@ -99,14 +101,17 @@ const LessonForm = ({ courseName }) => {
 					},
 				}
 			);
+			const lessonName = formData.lesson_name; // Save the lesson name
 			setFormData({
-				lesson_title: "",
+				lesson_name: "",
 				lesson_description: "",
 				course: "",
 				chapter: "",
 			});
 			setWordFile(null);
 			setErrors({});
+			setIsLessonCreated(true);
+			setSuccessMessage(`${lessonName} created successfully`); // Use the saved lesson name
 		} catch (error) {
 			if (error.response && error.response.data) {
 				setErrors(error.response.data);
@@ -120,17 +125,19 @@ const LessonForm = ({ courseName }) => {
 			className="h-full justify-between rounded w-full"
 		>
 			<div className="w-[70%] md:ml-40">
+			<p className="font-bold text-2xl mb-10">CREATE LESSON</p>
+			{successMessage && <p className="text-green-400 font-normal">{successMessage}</p>}
 				<input
 					type="text"
-					name="lesson_title"
-					id="lesson_title"
-					value={formData.lesson_title}
+					name="lesson_name"
+					id="lesson_name"
+					value={formData.lesson_name}
 					onChange={handleChange}
 					placeholder="lesson title"
 					className="my-2 border rounded-lg w-full p-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
 				/>
 
-				{/* <aside className="flex w-full space-x-4">
+				<aside className="flex w-full space-x-4">
 					<select
 						name="course"
 						id="course"
@@ -160,7 +167,7 @@ const LessonForm = ({ courseName }) => {
 							</option>
 						))}
 					</select>
-				</aside> */}
+				</aside>
 
 				<textarea
 					name="lesson_description"
@@ -187,6 +194,21 @@ const LessonForm = ({ courseName }) => {
 				{errors.word_file && (
 					<p className="text-red-500 text-xs italic">{errors.word_file}</p>
 				)}
+				<div className="flex items-center justify-between">
+    				{isLessonCreated ? (
+        			<button
+            			type="submit"
+            			className="bg-cyan-950 dark:text-cyan-950 hover:bg-yellow-500 dark:bg-gray-200 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+            			Add Lesson
+        			</button>
+    				) : (
+        			<button
+            			type="submit"
+            			className="bg-cyan-950 dark:text-cyan-950 hover:bg-yellow-500 dark:bg-gray-200 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+            			Create Lesson
+        			</button>
+    				)}
+				</div>
 			</div>
 		</form>
 	);

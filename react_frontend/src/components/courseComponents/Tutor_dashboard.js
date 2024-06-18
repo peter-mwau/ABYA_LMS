@@ -54,7 +54,7 @@ const Tutor_dashboard = () => {
               <p className="text-gray-700 line-clamp-3 dark:text-gray-300 p-2">{course.course_description}</p>
               <div className='flex gap-2 flex-row pt-4 pb-2'>
               <p className="text-sm text-gray-500 py-3 p-2">Enrolled: {course.teacher}</p> 
-                <button className="dark:bg-slate-500 dark:text-white bg-gray-200 text-cyan-950 hover:shadow-lg font-bold py-2 px-4 rounded-3xl focus:outline-none focus:shadow-outline">Edit Course</button>
+                <a href="/update-course" className="dark:bg-slate-500 dark:text-white bg-gray-200 text-cyan-950 hover:shadow-lg font-bold py-2 px-4 rounded-3xl focus:outline-none focus:shadow-outline">Edit Course</a>
               </div>   
             </li>
           ))}

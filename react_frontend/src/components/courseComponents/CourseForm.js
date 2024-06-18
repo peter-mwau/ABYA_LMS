@@ -8,6 +8,7 @@ import { UserContext } from "../../contexts/userContext";
 const CourseForm = ({ step}) => {
 	const [image, setImage] = useState(null);
 	const userDetails = useContext(UserContext);
+	const [success, setSuccessMessage] = useState("");
 	const [formData, setFormData] = useState({
 		course_name: "",
 		course_description: "",
@@ -63,6 +64,7 @@ const CourseForm = ({ step}) => {
 					},
 				}
 			);
+			const courseName = formData.course_name; // Save the course name
 			setFormData({
 				course_name: "",
 				course_description: "",
@@ -72,6 +74,7 @@ const CourseForm = ({ step}) => {
 				: '',
 			});
 			setErrors({});
+			setSuccessMessage(`${courseName} created successfully`); // Use the saved course name
 		} catch (error) {
 			if (error.response && error.response.data) {
 				setErrors(error.response.data);
@@ -80,13 +83,10 @@ const CourseForm = ({ step}) => {
 	};
 
 	return (
-		<form
-			onSubmit={handleSubmit}
-			className="flex md:space-x-10 justify-between rounded w-full"
-		>
+		<form onSubmit={handleSubmit} className="flex md:space-x-10 justify-between rounded w-full">
 			<div className="mt-5 w-2/3">
 				<p className="font-bold text-2xl mb-10">{step.title}</p>
-
+				{success && <p className="text-green-400 font-normal">{success}</p>}
 				<input
 					type="text"
 					name="course_name"
@@ -127,12 +127,12 @@ const CourseForm = ({ step}) => {
 					<input type="file" className="hidden" onChange={handleFileChange} />
 				</aside>
 			</label>
-			{/* <button
+			<button
 				type="submit"
-				className="bg-slate-500 w-full text-white font-bold py-3 rounded-lg focus:outline-none focus:shadow-outline mt-4"
-			>
+				className="bg-cyan-950 dark:text-cyan-950 absolute mt-[350px] hover:bg-yellow-500 dark:bg-gray-200 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
 				Create Course
-			</button> */}
+			</button>
+			
 		</form>
 	);
 };
