@@ -8,7 +8,7 @@ const SideNav = () => {
 	const navigate = useNavigate();
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
-	const userDetails = useContext(UserContext);
+	const { user } = useContext(UserContext);
 	const toggleDropdown = () => {
 		setIsDropdownOpen(!isDropdownOpen);
 	};
@@ -24,7 +24,7 @@ const SideNav = () => {
 		return <div>Loading...</div>;
 	}
 
-	console.log("User Details: ", userDetails?.user);
+	console.log("User Details: ", user?.user);
 	const logout = async (event) => {
 		event.preventDefault();
 		try {

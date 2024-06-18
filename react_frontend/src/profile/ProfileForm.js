@@ -5,11 +5,13 @@ import userProfileImg from "../images/profile.png";
 import axios from "axios";
 import edit from "../images/edit.png";
 import mail from "../images/mail.png";
+import { useNavigate } from "react-router-dom";
 
 const ProfileForm = ({ user }) => {
 	const [userDetails, setUserDetails] = useState(user);
 	const baseUrl = "http://localhost:8000/users";
 	const [image, setImage] = useState(null);
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		user && setUserDetails(user);
@@ -27,14 +29,14 @@ const ProfileForm = ({ user }) => {
 		file && setUserDetails({ ...userDetails, avatar: file });
 	};
 
-	const handleSubmit = async () => {
+	const handleSubmit = async (e) => {
+		// e.preventDefault();
 		const userToken = localStorage.getItem("userToken");
 		const formData = new FormData();
 
 		for (const key in userDetails) {
 			formData.append(key, userDetails[key]);
 		}
-		console.log(formData);
 
 		if (userDetails && userDetails.avatar instanceof File) {
 			formData.append("avatar", userDetails.avatar);
@@ -53,7 +55,8 @@ const ProfileForm = ({ user }) => {
 					},
 				}
 			);
-			console.log("Response:", response.data);
+			console.log(response.status);
+			// navigate("profile/");
 			setUserDetails(response.data);
 		} catch (error) {
 			console.error("Failed to update user data:", error);

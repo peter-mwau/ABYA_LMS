@@ -1,8 +1,9 @@
-// src/components/LessonForm.js
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import right_arrows from "../../images/right-arrows.png";
+import add from "../../images/add.png";
 
-const LessonForm = ({ courseName }) => {
+const LessonForm = ({ courseName, lessonCount, setLessonCount }) => {
 	const [formData, setFormData] = useState({
 		lesson_name: "",
 		lesson_description: "",
@@ -61,7 +62,7 @@ const LessonForm = ({ courseName }) => {
 		});
 	};
 
-	// const extNames = ["image/jpeg", "image/png"];
+	//Checks the file extension types when user is adding new file
 	const handleFileChange = (e) => {
 		const file = e.target.files[0];
 		const allowedFileTypes = [
@@ -78,6 +79,7 @@ const LessonForm = ({ courseName }) => {
 			setWordFile(file);
 		}
 	};
+
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 
@@ -122,11 +124,28 @@ const LessonForm = ({ courseName }) => {
 	return (
 		<form
 			onSubmit={handleSubmit}
-			className="h-full justify-between rounded w-full"
-		>
-			<div className="w-[70%] md:ml-40">
+			className="h-full justify-between rounded w-full md:flex md:space-x-3">
+			<div className="w-full md:w-1/2 relative mb-5">
+				<p className="font-bold text-2xl mb-3 ">{courseName}</p>
+				<aside className="flex space-x-3 w-3/5 text-gray-400">
+					<p className="font-bold">Chapter {lessonCount}</p>
+					<img
+						src={right_arrows}
+						alt="right arrow"
+						className="w-10 h-7 opacity-40"
+					/>
+				</aside>
+				<img
+					src={add}
+					alt="add"
+					className="absolute md:relative top-10 right-0 w-7 h-7 md:w-10 md:h-10 md:mt-20 opacity-30 cursor-pointer"
+					onClick={() => setLessonCount(lessonCount + 1)}
+				/>
+			</div>
+			<div className="w-full md:w-[70%]">
 			<p className="font-bold text-2xl mb-10">CREATE LESSON</p>
 			{successMessage && <p className="text-green-400 font-normal">{successMessage}</p>}
+
 				<input
 					type="text"
 					name="lesson_name"
