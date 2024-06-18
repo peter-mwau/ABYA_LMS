@@ -10,6 +10,7 @@ class Course(models.Model):
     course_name = models.CharField(max_length=200)
     course_description = models.TextField()
     teacher = models.ForeignKey(User, related_name="course", on_delete=models.CASCADE)
+    teacher_name = models.CharField(max_length=100, null=True)
     students = models.ManyToManyField(User, through='Enrollment', related_name="student_course")
     picture = models.ImageField(upload_to="course_pictures", null=True, blank=True)
 

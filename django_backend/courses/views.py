@@ -47,6 +47,7 @@ from resources.serializers import VideoLessonSerializer, VideoProgressSerializer
 from assignments.serializers import AssignmentSerializer, QuizSerializer
 from .permissions import IsTeacherOfCourse, IsTeacherOfChapterCourse, IsTeacherOfLessonChapterCourse
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 
 
 # Create your views here.
@@ -71,21 +72,36 @@ class CourseViewSet(viewsets.ModelViewSet):
     serializer_class = CourseSerializer
     permission_classes = [permissions.IsAuthenticated]
 
+    def get_user(self):
+        return User.objects.get(id=self.request.user.id)
+
     @action(detail=False, methods=['post'], url_path='create-course')
     def create_course(self, request):
+        # Get the user object
+        user = self.get_user()
         # Update request data to include the teacher field
         data = request.data.copy()
         data['teacher'] = request.user.id
+        data['teacher_name'] = f"{user.first_name} {user.last_name}"
         serializer = CourseSerializer(data=data)
         if serializer.is_valid():
             serializer.save(teacher=request.user)
+            print("teacher: ", request.user)
+            print("request: ", request.user.id)
+            print("data details: ", data)
+            print("User: ",user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         print(serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     @action(detail=False, methods=['get'], url_path='list-courses')
     def list_courses(self, request):
-        queryset = self.get_queryset()
+        user = self.get_user()
+        teacher_name = f"{user.first_name} {user.last_name}"
+        if user.user_type == 2:
+            queryset = self.get_queryset().filter(Q(teacher_name=teacher_name) & Q(teacher=user))
+        else:
+            queryset = self.get_queryset()
         serializer = CourseSerializer(queryset, many=True)
         if not queryset:
             return Response({'message': 'No courses available at the moment.'}, status=204)
