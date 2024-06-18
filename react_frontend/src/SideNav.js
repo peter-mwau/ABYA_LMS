@@ -13,19 +13,11 @@ const SideNav = () => {
 		setIsDropdownOpen(!isDropdownOpen);
 	};
 
-	// useEffect(() => {
-	// 	if (userDetails?.user) {
-	// 		setIsLoading(false);
-	// 	}
-	// }, [userDetails]);
-	console.log(user);
-
 	if (isLoading) {
 		// Render a loading spinner or some other placeholder content
 		return <div>Loading...</div>;
 	}
 
-	// console.log("User Details: ", userDetails?.user);
 	const logout = async (event) => {
 		event.preventDefault();
 		try {

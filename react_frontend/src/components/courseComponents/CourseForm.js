@@ -5,16 +5,19 @@ import upload from "../../images/upload.png";
 import { CourseContext } from "./CreateCourse";
 import { UserContext } from "../../contexts/userContext";
 
-const CourseForm = ({ step}) => {
+const CourseForm = ({ step }) => {
 	const [image, setImage] = useState(null);
 	const userDetails = useContext(UserContext);
 	const [formData, setFormData] = useState({
 		course_name: "",
 		course_description: "",
 		picture: null,
-		teacher: userDetails && userDetails.user 
-		? `${userDetails.user.firstname || ''} ${userDetails.user.lastname || ''}` 
-		: ''
+		teacher:
+			userDetails && userDetails.user
+				? `${userDetails.user.firstname || ""} ${
+						userDetails.user.lastname || ""
+				  }`
+				: "",
 	});
 	const { setCourse } = useContext(CourseContext);
 
@@ -40,16 +43,20 @@ const CourseForm = ({ step}) => {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
+		const userToken = localStorage.getItem("userToken");
 
 		const data = new FormData();
 		data.append("course_name", formData.course_name);
 		data.append("course_description", formData.course_description);
 		data.append("picture", formData.picture);
 		data.append("userToken", userToken);
-		data.append("teacher", 
-			userDetails && userDetails.user 
-				? `${userDetails.user.firstname || ''} ${userDetails.user.lastname || ''}` 
-				: ''
+		data.append(
+			"teacher",
+			userDetails && userDetails.user
+				? `${userDetails.user.firstname || ""} ${
+						userDetails.user.lastname || ""
+				  }`
+				: ""
 		);
 		try {
 			const response = await axios.post(
@@ -66,9 +73,12 @@ const CourseForm = ({ step}) => {
 				course_name: "",
 				course_description: "",
 				picture: null,
-				teacher: userDetails && userDetails.user 
-				? `${userDetails.user.firstname || ''} ${userDetails.user.lastname || ''}` 
-				: '',
+				teacher:
+					userDetails && userDetails.user
+						? `${userDetails.user.firstname || ""} ${
+								userDetails.user.lastname || ""
+						  }`
+						: "",
 			});
 			setErrors({});
 		} catch (error) {
