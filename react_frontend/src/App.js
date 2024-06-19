@@ -19,11 +19,11 @@ import SideNav from "./SideNav";
 import ChapterForm from "./components/courseComponents/ChapterForm";
 import LessonForm from "./components/courseComponents/LessonForm";
 import CourseList from "./components/courseComponents/CourseList";
-import CourseForm from "./components/courseComponents/CourseForm";
 import QuizForm from "./components/QuizComponents/QuizForm";
 import { UserContext } from "./contexts/userContext";
 import Providers from "./Provider";
 import CreateCourse from "./components/courseComponents/CreateCourse";
+import CourseContent from "./components/courseComponents/CourseContent";
 import QuestionForm from "./components/QuizComponents/QuestionForm";
 
 function App() {
@@ -49,6 +49,7 @@ function App() {
 				<Route path="create-chapter/" element={<ChapterForm />} />
 				<Route path="create-lesson/" element={<LessonForm />} />
 				<Route path="course-list/" element={<CourseList />} />
+				<Route path="course/:courseId" element={<CourseContent />} />
 				<Route path="create-quiz" element={<QuizForm />} />
 				<Route path="create-question" element={<QuestionForm />} />
 			</Routes>

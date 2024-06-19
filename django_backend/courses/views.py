@@ -618,7 +618,7 @@ class CourseDetailAPI(APIView):
             'lesson_count': lesson_count,
             'chapters_with_completion': chapters_with_completion,
             'completion_status': completion_status,
-            'completed_courses': CompletedCourseSerializer(completed_courses, many=True).data,
+            'completed_courses': completed_courses,
         }
 
         return Response(context, status=status.HTTP_200_OK)
