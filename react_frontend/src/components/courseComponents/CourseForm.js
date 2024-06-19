@@ -5,16 +5,20 @@ import upload from "../../images/upload.png";
 import { CourseContext } from "./CreateCourse";
 import { UserContext } from "../../contexts/userContext";
 
-const CourseForm = ({ step}) => {
+const CourseForm = ({ step }) => {
 	const [image, setImage] = useState(null);
 	const userDetails = useContext(UserContext);
+	const [success, setSuccessMessage] = useState("");
 	const [formData, setFormData] = useState({
 		course_name: "",
 		course_description: "",
 		picture: null,
-		teacher: userDetails && userDetails.user 
-		? `${userDetails.user.firstname || ''} ${userDetails.user.lastname || ''}` 
-		: ''
+		teacher:
+			userDetails && userDetails.user
+				? `${userDetails.user.firstname || ""} ${
+						userDetails.user.lastname || ""
+				  }`
+				: "",
 	});
 	const { setCourse } = useContext(CourseContext);
 
@@ -47,10 +51,13 @@ const CourseForm = ({ step}) => {
 		data.append("course_description", formData.course_description);
 		data.append("picture", formData.picture);
 		data.append("userToken", userToken);
-		data.append("teacher", 
-			userDetails && userDetails.user 
-				? `${userDetails.user.firstname || ''} ${userDetails.user.lastname || ''}` 
-				: ''
+		data.append(
+			"teacher",
+			userDetails && userDetails.user
+				? `${userDetails.user.firstname || ""} ${
+						userDetails.user.lastname || ""
+				  }`
+				: ""
 		);
 		try {
 			const response = await axios.post(
@@ -63,15 +70,20 @@ const CourseForm = ({ step}) => {
 					},
 				}
 			);
+			const courseName = formData.course_name; // Save the course name
 			setFormData({
 				course_name: "",
 				course_description: "",
 				picture: null,
-				teacher: userDetails && userDetails.user 
-				? `${userDetails.user.firstname || ''} ${userDetails.user.lastname || ''}` 
-				: '',
+				teacher:
+					userDetails && userDetails.user
+						? `${userDetails.user.firstname || ""} ${
+								userDetails.user.lastname || ""
+						  }`
+						: "",
 			});
 			setErrors({});
+			setSuccessMessage(`${courseName} created successfully`); // Use the saved course name
 		} catch (error) {
 			if (error.response && error.response.data) {
 				setErrors(error.response.data);
@@ -82,11 +94,12 @@ const CourseForm = ({ step}) => {
 	return (
 		<form
 			onSubmit={handleSubmit}
-			className="flex md:space-x-10 justify-between rounded w-full"
+			className="md:flex md:space-x-10 justify-between rounded w-full"
 		>
-			<div className="mt-5 w-2/3">
-				<p className="font-bold text-2xl mb-10">{step.title}</p>
+			<div className="-mt-4 md:mt-5 md:w-2/3">
 
+				<p className="font-bold text-2xl mb-10">{step.title}</p>
+				{success && <p className="text-green-400 font-normal">{success}</p>}
 				<input
 					type="text"
 					name="course_name"
@@ -94,7 +107,7 @@ const CourseForm = ({ step}) => {
 					value={formData.course_name}
 					onChange={handleChange}
 					placeholder="course title"
-					className="my-2 border rounded-lg w-full p-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+					className="mb-2 border rounded-lg w-full p-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
 				/>
 				<textarea
 					name="course_description"
@@ -103,7 +116,7 @@ const CourseForm = ({ step}) => {
 					onChange={handleChange}
 					rows={3}
 					placeholder="course description"
-					className="my-10 w-full border rounded-lg resize-none py-4 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+					className="my-2 md:my-10 w-full border rounded-lg resize-none py-4 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
 				/>
 			</div>
 
@@ -127,12 +140,12 @@ const CourseForm = ({ step}) => {
 					<input type="file" className="hidden" onChange={handleFileChange} />
 				</aside>
 			</label>
-			{/* <button
+			<button
 				type="submit"
-				className="bg-slate-500 w-full text-white font-bold py-3 rounded-lg focus:outline-none focus:shadow-outline mt-4"
-			>
+				className="bg-cyan-950 dark:text-cyan-950 absolute mt-[350px] hover:bg-yellow-500 dark:bg-gray-200 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
 				Create Course
-			</button> */}
+			</button>
+			
 		</form>
 	);
 };

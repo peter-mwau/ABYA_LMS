@@ -8,7 +8,7 @@ const SideNav = () => {
 	const navigate = useNavigate();
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
-	const userDetails = useContext(UserContext);
+	const { user } = useContext(UserContext);
 	const toggleDropdown = () => {
 		setIsDropdownOpen(!isDropdownOpen);
 	};
@@ -24,7 +24,7 @@ const SideNav = () => {
 		return <div>Loading...</div>;
 	}
 
-	console.log("User Details: ", userDetails?.user);
+	console.log("User Details: ", user?.user);
 	const logout = async (event) => {
 		event.preventDefault();
 		try {
@@ -65,7 +65,7 @@ const SideNav = () => {
 				<ul class="space-y-2 font-medium">
 					<li>
 						<a
-							href="/Course-list"
+							href="/dashboard"
 							class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
 						>
 							<svg
@@ -101,7 +101,45 @@ const SideNav = () => {
 							</span>
 						</a>
 					</li>
-					{userDetails.user.user_type === "Student" && (
+					<li>
+						<a
+							href="/Course-list"
+							class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+							<svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+  									<path fill-rule="evenodd" d="M8 12.732A1.99 1.99 0 0 1 7 13H3v6a2 2 0 0 0 2 2h7a2 2 0 0 0 2-2h-2a4 4 0 0 1-4-4v-2.268ZM7 11V7.054a2 2 0 0 0-1.059.644l-2.46 2.87A2 2 0 0 0 3.2 11H7Z" clip-rule="evenodd"/>
+  									<path fill-rule="evenodd" d="M14 3.054V7h-3.8c.074-.154.168-.3.282-.432l2.46-2.87A2 2 0 0 1 14 3.054ZM16 3v4a2 2 0 0 1-2 2h-4v6a2 2 0 0 0 2 2h7a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-3Z" clip-rule="evenodd"/>
+							</svg>
+
+							<span class="flex-1 ms-3 whitespace-nowrap">Courses</span>
+						</a>
+						<Link
+							to="/create-quiz"
+							className="dark:hover:bg-gray-700 pl-10 p-2 hover:bg-gray-100 rounded-md flex flex-row gap-3"
+							>
+							<svg
+								className="w-6 h-6 text-gray-800 dark:text-white"
+								aria-hidden="true"
+								xmlns="http://www.w3.org/2000/svg"
+								width="24"
+								height="24"
+								fill="currentColor"
+								viewBox="0 0 24 24"
+							>
+								<path
+								fillRule="evenodd"
+								d="M8 7V2.221a2 2 0 0 0-.5.365L3.586 6.5a2 2 0 0 0-.365.5H8Zm2 0V2h7a2 2 0 0 1 2 2v.126a5.087 5.087 0 0 0-4.74 1.368v.001l-6.642 6.642a3 3 0 0 0-.82 1.532l-.74 3.692a3 3 0 0 0 3.53 3.53l3.694-.738a3 3 0 0 0 1.532-.82L19 15.149V20a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9h5a2 2 0 0 0 2-2Z"
+								clipRule="evenodd"
+								/>
+								<path
+								fillRule="evenodd"
+								d="M17.447 8.08a1.087 1.087 0 0 1 1.187.238l.002.001a1.088 1.088 0 0 1 0 1.539l-.377.377-1.54-1.542.373-.374.002-.001c.1-.102.22-.182.353-.237Zm-2.143 2.027-4.644 4.644-.385 1.924 1.925-.385 4.644-4.642-1.54-1.54Zm2.56-4.11a3.087 3.087 0 0 0-2.187.909l-6.645 6.645a1 1 0 0 0-.274.51l-.739 3.693a1 1 0 0 0 1.177 1.176l3.693-.738a1 1 0 0 0 .51-.274l6.65-6.646a3.088 3.088 0 0 0-2.185-5.275Z"
+								clipRule="evenodd"
+								/>
+							</svg>
+							Create Quiz
+						</Link>
+					</li>
+					{/* {userDetails.user.user_type === "Student" && (
 						<li>
 							<button
 								type="button"
@@ -251,7 +289,7 @@ const SideNav = () => {
 								</Link>
 							</ul>
 						</>
-					)}
+					)} */}
 					<li>
 						<a
 							href="#me"

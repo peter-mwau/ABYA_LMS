@@ -107,7 +107,7 @@ class CourseViewSet(viewsets.ModelViewSet):
             return Response({'message': 'No courses available at the moment.'}, status=204)
         return Response(serializer.data, status=200)
     
-    @action(detail=True, methods=['put'], permission_classes=[IsTeacherOfCourse])
+    @action(detail=True, methods=['put'], permission_classes=[IsTeacherOfCourse], url_path='update-course')
     def update_course(self, request, pk=None):
         course = self.get_object()
         serializer = CourseSerializer(course, data=request.data)
