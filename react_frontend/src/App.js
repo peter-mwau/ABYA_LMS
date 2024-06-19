@@ -19,7 +19,6 @@ import SideNav from "./SideNav";
 import ChapterForm from "./components/courseComponents/ChapterForm";
 import LessonForm from "./components/courseComponents/LessonForm";
 import CourseList from "./components/courseComponents/CourseList";
-import CourseForm from "./components/courseComponents/CourseForm";
 import QuizForm from "./components/courseComponents/QuizForm";
 import { UserContext } from "./contexts/userContext";
 import Providers from "./Provider";
