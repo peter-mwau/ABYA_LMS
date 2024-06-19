@@ -9,6 +9,8 @@ const CourseDetail = () => {
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error loading course details.</p>;
 
+  
+
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-3xl font-bold mb-4">{courseData.course_id}</h1>

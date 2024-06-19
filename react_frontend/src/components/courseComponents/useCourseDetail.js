@@ -16,6 +16,7 @@ export const useCourseDetail = (courseId) => {
     )
       .then(response => {
         setCourseData(response.data);
+        console.log("Response: ", response.data);
         console.log(response.data);
         setLoading(false);
       })
