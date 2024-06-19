@@ -111,8 +111,6 @@ const ChapterForm = ({ chapterCount, setChapterCount, courseName }) => {
 				/>
 			</div>
 			<div className="w-full md:w-[70%]">
-
-			<div className="w-[70%] md:ml-40">
 			<p className="font-bold text-2xl mb-10">CREATE CHAPTER</p>
 
 				<input

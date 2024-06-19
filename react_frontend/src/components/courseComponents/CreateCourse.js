@@ -21,8 +21,7 @@ const CreateCourse = () => {
 		course_description: "",
 		picture: null,
 	});
-	// handles form submit after details of course are filled in
-	const handleFinish = () => {};
+
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
@@ -43,9 +42,9 @@ const CreateCourse = () => {
 		navigate('/Course-list');
 	};
 
-	const handlePrevious = () => {
-		setPageId(pageId.slice(0, -1));
-	};
+	// const handlePrevious = () => {
+	// 	setPageId(pageId.slice(0, -1));
+	// };
 
 	const handleNext = () => {
 		setPageId((prevPageId) => {
@@ -113,7 +112,7 @@ const CreateCourse = () => {
 					</ul>
 
 					
-					<div className="flex justify-between items-center mt-10 lg:absolute lg
+					{/* <div className="flex justify-between items-center mt-10 lg:absolute lg
 					bottom-5 lg:right-16 lg:gap-2">
     					{pageId.length > 1 && (
         				<button
@@ -135,7 +134,7 @@ const CreateCourse = () => {
         						Submit
     						</button>
 							)}
-					</div>
+					</div> */}
 				</div>
 				<div className="p-10 md:w-[70%]">
 					{pageId.length === 1 && (
@@ -175,7 +174,7 @@ const CreateCourse = () => {
 					<li>
 						<button
 							className="md:absolute bottom-5 right-16 text-black bg-gray-300 hover:bg-slate-600 transition-all duration-300 px-8 py-2 md:py-3 rounded-lg font-semibold tracking-wide hover:text-white"
-							onClick={pageId.length === 3 ? handleFinish : handleNext}
+							onClick={pageId.length === 3 ? handleSubmit : handleNext}
 						>
 							{pageId.length < 3 ? "Next Step" : "Finish"}
 						</button>
