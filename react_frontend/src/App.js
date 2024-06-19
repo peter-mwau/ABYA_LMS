@@ -23,6 +23,7 @@ import CourseForm from "./components/courseComponents/CourseForm";
 import { UserContext } from "./contexts/userContext";
 import Providers from "./Provider";
 import CreateCourse from "./components/courseComponents/CreateCourse";
+import CourseContent from "./components/courseComponents/CourseContent";
 
 function App() {
 	const location = useLocation();
@@ -47,6 +48,7 @@ function App() {
 				<Route path="create-chapter/" element={<ChapterForm />} />
 				<Route path="create-lesson/" element={<LessonForm />} />
 				<Route path="course-list/" element={<CourseList />} />
+				<Route path="course/:courseId" element={<CourseContent />} />
 			</Routes>
 		</Providers>
 	);

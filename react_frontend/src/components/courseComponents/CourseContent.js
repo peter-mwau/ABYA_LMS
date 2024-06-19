@@ -24,7 +24,9 @@ const CourseDetail = () => {
               <h4 className="text-lg font-semibold">Lessons</h4>
               {chapter.lessons.map((lesson) => (
                 <div key={lesson.id} className="ml-4 mt-2">
-                  <p className="text-gray-800">{lesson.name}</p>
+                  <h5 className="text-gray-800">{lesson.lesson_name}</h5>
+                  <p className="text-gray-700">{lesson.lesson_content}</p>
+
                 </div>
               ))}
             </div>
