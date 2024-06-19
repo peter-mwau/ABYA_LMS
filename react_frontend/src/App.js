@@ -20,6 +20,7 @@ import ChapterForm from "./components/courseComponents/ChapterForm";
 import LessonForm from "./components/courseComponents/LessonForm";
 import CourseList from "./components/courseComponents/CourseList";
 import CourseForm from "./components/courseComponents/CourseForm";
+import QuizForm from "./components/courseComponents/QuizForm";
 import { UserContext } from "./contexts/userContext";
 import Providers from "./Provider";
 import CreateCourse from "./components/courseComponents/CreateCourse";
@@ -47,6 +48,7 @@ function App() {
 				<Route path="create-chapter/" element={<ChapterForm />} />
 				<Route path="create-lesson/" element={<LessonForm />} />
 				<Route path="course-list/" element={<CourseList />} />
+				<Route path="create-quiz" element={<QuizForm />} />
 			</Routes>
 		</Providers>
 	);
