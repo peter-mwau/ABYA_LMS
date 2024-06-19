@@ -84,7 +84,7 @@ const QuizForm = () => {
                 quiz_title: '',
                 quiz_description: '',
             });
-            navigate('/dashboard');
+            navigate('/create-question');
         } catch (error) {
             console.error('Error creating quiz:', error);
             if (error.response && error.response.data) {
