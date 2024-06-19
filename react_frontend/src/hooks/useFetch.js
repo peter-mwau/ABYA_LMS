@@ -17,7 +17,7 @@ const useFetch = (url) => {
 					},
 				});
 				setCourses(response.data);
-				console.log("Courses: ", response.data);
+				console.log("Courses: ", response);
 				setIsLoading(false);
 			} catch (err) {
 				setIsError(err.response ? err.response.data : "Error fetching courses");
