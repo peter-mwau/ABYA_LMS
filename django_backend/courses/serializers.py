@@ -17,6 +17,7 @@ class LessonSerializer(serializers.ModelSerializer):
         model = Lesson
         fields = '__all__'
 
+
 class EnrollmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Enrollment
@@ -30,4 +31,4 @@ class CompletedLessonSerializer(serializers.ModelSerializer):
 class CompletedCourseSerializer(serializers.ModelSerializer):
     class Meta:
         model = CompletedCourse
-        fields = '__all__'
+        fields = ['user', 'course', 'completed_at']
