@@ -16,8 +16,8 @@ import Homepage from "./Homepage";
 import Profile from "./profile/Profile";
 import Navbar from "./Navbar";
 import SideNav from "./SideNav";
-import ChapterForm from "./components/courseComponents/ChapterForm";
-import LessonForm from "./components/courseComponents/LessonForm";
+// import ChapterForm from "./components/courseComponents/ChapterForm";
+// import LessonForm from "./components/courseComponents/LessonForm";
 import CourseList from "./components/courseComponents/CourseList";
 import QuizForm from "./components/QuizComponents/QuizForm";
 import { UserContext } from "./contexts/userContext";
@@ -46,8 +46,8 @@ function App() {
 				{/* <Route path="reset_password/" element={<Reset_Password />} /> */}
 				<Route path="profile/" element={<Profile />} />
 				<Route path="create-course/" element={<CreateCourse />} />
-				<Route path="create-chapter/" element={<ChapterForm />} />
-				<Route path="create-lesson/" element={<LessonForm />} />
+				{/* <Route path="create-chapter/" element={<ChapterForm />} />
+				<Route path="create-lesson/" element={<LessonForm />} /> */}
 				<Route path="course-list/" element={<CourseList />} />
 				<Route path="course/:courseId" element={<CourseContent />} />
 				<Route path="create-quiz" element={<QuizForm />} />
