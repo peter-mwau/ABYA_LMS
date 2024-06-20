@@ -1,6 +1,7 @@
 import { UserContext } from "../../contexts/userContext";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { Link } from 'react-router-dom';
 
 const CourseCard = ({ courses, baseUrl }) => {
 	const { user } = useContext(UserContext);
@@ -10,6 +11,7 @@ const CourseCard = ({ courses, baseUrl }) => {
 			? navigate("/create-course/")
 			: navigate("course-list");
 	};
+
 	return (
 		<div className="md:grid md:grid-cols-3 gap-12 px-5 ">
 			{courses.length ? (
@@ -57,6 +59,10 @@ const CourseCard = ({ courses, baseUrl }) => {
 									</button>
 								</li>
 							</ul>
+
+							<Link to={`/course/${course.id}`} className="px-5 py-2 border rounded-full w-full md:w-1/3 my-3 bg-slate-400">
+								View Course
+							</Link>
 						</section>
 					</div>
 				))
