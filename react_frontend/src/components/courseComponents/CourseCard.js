@@ -1,8 +1,10 @@
 import { UserContext } from "../../contexts/userContext";
 import { useContext } from "react";
+import { Link } from 'react-router-dom';
 
 const CourseCard = ({ courses, baseUrl }) => {
 	const { user } = useContext(UserContext);
+	
 	return (
 		<div className="md:grid md:grid-cols-3 gap-5 px-5">
 			{courses.length ? (
@@ -27,6 +29,9 @@ const CourseCard = ({ courses, baseUrl }) => {
 							<button className="px-5 py-2 border rounded-full w-full md:w-1/3 my-3 bg-slate-400">
 								{user.user_type === "Teacher" ? "Edit course" : "Enroll"}
 							</button>
+							<Link to={`/course/${course.id}`} className="px-5 py-2 border rounded-full w-full md:w-1/3 my-3 bg-slate-400">
+								View Course
+							</Link>
 						</section>
 					</div>
 				))

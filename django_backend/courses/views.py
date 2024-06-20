@@ -503,6 +503,8 @@ class CourseDetailAPI(APIView):
     def get(self, request, pk):
         try:
             course = get_object_or_404(Course, pk=pk)
+            course_name = course.course_name
+            course_description = course.course_description
         except Course.DoesNotExist:
             return Response({'message': 'Course not found.'}, status=status.HTTP_404_NOT_FOUND)
 
@@ -515,6 +517,7 @@ class CourseDetailAPI(APIView):
         chapters_with_lessons_and_quizzes = {}
         chapters_with_completion = []
         completed_chapter_ids = []
+        
 
         for chapter in chapters:
             lessons = Lesson.objects.filter(chapter=chapter)
@@ -619,6 +622,8 @@ class CourseDetailAPI(APIView):
             'chapters_with_completion': chapters_with_completion,
             'completion_status': completion_status,
             'completed_courses': completed_courses,
+            'course_name': course_name,
+            'course_description': course_description,
         }
 
         return Response(context, status=status.HTTP_200_OK)
