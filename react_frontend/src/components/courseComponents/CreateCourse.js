@@ -2,7 +2,9 @@ import { createContext, useState } from "react";
 import CourseForm from "./CourseForm";
 import LessonForm from "./LessonForm";
 import ChapterForm from "./ChapterForm";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
+import right_arrow from "../../images/right-arrow.png";
+import left_arrow from "../../images/left-arrow.png";
 
 export const CourseContext = createContext();
 
@@ -12,9 +14,9 @@ const CreateCourse = () => {
 	const [isEmpty, setIsEmpty] = useState(false);
 	const [chapterCount, setChapterCount] = useState(1);
 	const [lessonCount, setLessonCount] = useState(1);
-	const [error, setErrors] = useState('');
+	const [error, setErrors] = useState("");
 	const navigate = useNavigate();
-	const [successMessage, setSuccessMessage] = useState('');
+	const [successMessage, setSuccessMessage] = useState("");
 
 	const [formData, setFormData] = useState({
 		course_name: "",
@@ -22,12 +24,11 @@ const CreateCourse = () => {
 		picture: null,
 	});
 
-
 	const handleSubmit = async (event) => {
 		event.preventDefault();
-	
+
 		// Code to create the course...
-	
+
 		// After the course is successfully created:
 		const courseName = formData.course_name; // Save the course name
 		setFormData({
@@ -37,9 +38,9 @@ const CreateCourse = () => {
 		});
 		setErrors({});
 		setSuccessMessage(`${courseName} created successfully`); // Use the saved course name
-	
+
 		// Navigate to the dashboard
-		navigate('/Course-list');
+		navigate("/Course-list");
 	};
 
 	// const handlePrevious = () => {
@@ -110,31 +111,6 @@ const CreateCourse = () => {
 							</li>
 						))}
 					</ul>
-
-					
-					{/* <div className="flex justify-between items-center mt-10 lg:absolute lg
-					bottom-5 lg:right-16 lg:gap-2">
-    					{pageId.length > 1 && (
-        				<button
-            				className=" text-black bg-gray-300 hover:bg-slate-600 transition-all duration-300 px-8 py-3 rounded-lg font-semibold tracking-wide hover:text-white"
-            				onClick={handlePrevious}>
-            				Previous Step
-        				</button>
-    					)}
-    					{pageId.length < 3 ? (
-    						<button
-        						className=" text-black bg-gray-300 hover:bg-slate-600 transition-all duration-300 px-8 py-3 rounded-lg font-semibold tracking-wide hover:text-white"
-        						onClick={handleNext}>
-        						Next Step
-    						</button>
-							) : (
-    						<button
-        						className=" text-black bg-gray-300 hover:bg-slate-600 transition-all duration-300 px-8 py-3 rounded-lg font-semibold tracking-wide hover:text-white"
-        						onClick={handleSubmit}>
-        						Submit
-    						</button>
-							)}
-					</div> */}
 				</div>
 				<div className="p-10 md:w-[70%]">
 					{pageId.length === 1 && (
@@ -164,20 +140,30 @@ const CreateCourse = () => {
 					<li>
 						{pageId.length > 1 && (
 							<button
-								className="md:absolute bottom-5 md:left-[36%] text-black border border-slate-600 hover:bg-slate-600 transition-all duration-300 px-8 py-2 md:py-3 rounded-lg font-semibold tracking-wide hover:text-white"
+								className="md:absolute bottom-5 left-[35%]  hover:bg-gray-100 transition-all duration-300 p-4 md:py-3 rounded-full font-semibold tracking-wide hover:text-white"
 								onClick={handlePrevious}
 							>
-								Previous
+								<img
+									src={left_arrow}
+									alt="previous"
+									className="w-6 h-6 opacity-50"
+								/>
 							</button>
 						)}
 					</li>
 					<li>
-						<button
-							className="md:absolute bottom-5 right-16 text-black bg-gray-300 hover:bg-slate-600 transition-all duration-300 px-8 py-2 md:py-3 rounded-lg font-semibold tracking-wide hover:text-white"
-							onClick={pageId.length === 3 ? handleSubmit : handleNext}
-						>
-							{pageId.length < 3 ? "Next Step" : "Finish"}
-						</button>
+						{pageId.length < 3 && (
+							<button
+								className="md:absolute bottom-5 right-16 bg-gray-100 hover:bg-gray-300 transition-all duration-300 p-4 md:py-3 rounded-full font-semibold tracking-wide hover:text-white"
+								onClick={pageId.length === 3 ? handleSubmit : handleNext}
+							>
+								<img
+									src={right_arrow}
+									alt="next"
+									className="w-6 h-6 opacity-50"
+								/>
+							</button>
+						)}
 					</li>
 				</ul>
 			</div>
