@@ -58,11 +58,11 @@ const CourseCard = ({ courses, baseUrl }) => {
 										{user.user_type === "Teacher" ? "Edit course" : "Enroll"}
 									</button>
 								</li>
+								<Link to={`/course/${course.id}`} className="px-5 py-2 border rounded-full w-full md:w-1/3 my-3 bg-slate-400">
+									View Course
+								</Link>
 							</ul>
 
-							<Link to={`/course/${course.id}`} className="px-5 py-2 border rounded-full w-full md:w-1/3 my-3 bg-slate-400">
-								View Course
-							</Link>
 						</section>
 					</div>
 				))
