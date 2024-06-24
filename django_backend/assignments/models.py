@@ -6,7 +6,7 @@ from django.utils import timezone
 from django.core.validators import MaxValueValidator, MinValueValidator
 import os
 from django.conf import settings
-from django.contrib.auth.models import User
+from users.models import User
 from django.conf import settings
 
 
@@ -29,6 +29,7 @@ class Quiz(models.Model):
     chapter = models.ForeignKey(Chapter, related_name="chapter_quizzes", on_delete=models.CASCADE)
     quiz_title = models.CharField(max_length=200, unique=True)
     quiz_description = models.TextField()
+    teacher = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="teacher_quizzes")
 
     def __str__(self):
         return self.quiz_title
