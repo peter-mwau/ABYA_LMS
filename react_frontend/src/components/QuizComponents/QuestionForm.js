@@ -89,12 +89,10 @@ const QuizQuestion = () => {
         formDataToSend.append('quiz_title', formData.quiz_id); // Ensure formData.quiz is the quiz ID (an integer)
         formDataToSend.append('question_text', formData.question_text);
     
+        // Append choices and correct_choices
         formData.choices.forEach((choice, index) => {
-            formDataToSend.append(`choices[${index}]`, choice);
-        });
-    
-        formData.correct_choices.forEach((choice, index) => {
-            formDataToSend.append(`correct_choices[${index}]`, choice);
+            formDataToSend.append(`choices[${index}].text`, choice); // Append choice text
+            formDataToSend.append(`choices[${index}].is_correct`, formData.correct_choices.includes(choice)); // Set is_correct based on correctness
         });
     
         try {
@@ -108,6 +106,21 @@ const QuizQuestion = () => {
                     },
                 }
             );
+    
+            setFormData({
+                ...formData,
+                question_text: '',
+                choices: ['', '', '', ''],
+                correct_choices: [],
+            });
+            console.log('question data', formData);
+        } catch (error) {
+            console.error('Error creating question:', error);
+            if (error.response && error.response.data) {
+                console.error('Server response:', error.response.data);
+            }
+        }
+    };
     
             setFormData({
                 ...formData,
