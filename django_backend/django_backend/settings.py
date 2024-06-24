@@ -73,7 +73,7 @@ MIDDLEWARE = [
 ]
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
@@ -142,6 +142,16 @@ DATABASES = {
     }
 }
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'abya_database',
+#         'USER': 'root',
+#         'PASSWORD': 'password',
+#         'HOST': 'localhost',
+#         'PORT': '3306'
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators

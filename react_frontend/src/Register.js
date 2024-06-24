@@ -8,7 +8,7 @@ function Register() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [userType, setUserType] = useState('');
+  const [user_type, setUser_type] = useState('');
   // const [error, setError] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
   const [successMessage, setSuccessMessage] = useState(null);
@@ -30,7 +30,7 @@ function Register() {
       last_name: lastName,
       email: email,
       password: password,
-      userType: Number(userType),
+      user_type: Number(user_type),
     })
     .then((response) => {
       // Redirect the user to the login page
@@ -93,7 +93,7 @@ function Register() {
                 </div>
                 <div>
                   <label htmlFor="usertype" className="block mb-2 text-sm font-medium text-gray-600 dark:text-white">User type</label>
-                    <select value={userType} onChange={(e) => setUserType(e.target.value)} name="usertype" id="usertype" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                    <select value={user_type} onChange={(e) => setUser_type(e.target.value)} name="usertype" id="usertype" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
                       <option value="">Select user type</option>
                       <option value="1">Student</option>
                       <option value="2">Teacher</option>
