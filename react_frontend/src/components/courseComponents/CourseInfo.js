@@ -3,12 +3,14 @@ import { useParams } from 'react-router-dom';
 import { useCourseDetail } from './useCourseDetail';
 import { UserContext } from '../../contexts/userContext';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const CourseInfo = () => {
   const { courseId } = useParams();
   const { courseData, loading, error } = useCourseDetail(courseId);
   const { user } = useContext(UserContext);
   const [isEnrolled, setIsEnrolled] = useState(false);
+  const navigate = useNavigate();
   
 
   const unenrollCourse = async () => {
@@ -51,12 +53,14 @@ const CourseInfo = () => {
         });
         setIsEnrolled(true)
         console.log("Response: ", response);
+        
   
       if (!response.ok) throw new Error('Failed to enroll');
   
       const data = await response.json();
       console.log('Enrollment success:', data);
       alert("Successfully enrolled")
+      // navigate(`/course/${courseId}`);
       // Update component state here to reflect enrollment status
     } catch (error) {
       console.error('Enrollment error:', error);
@@ -88,6 +92,11 @@ const CourseInfo = () => {
       <button onClick={handleEnrollClick} className='bg-cyan-950 hover:bg-yellow-500 rounded dark:bg-gray-200 dark:text-gray-900 font-semibold text-gray-200 p-2 my-3 hover:cursor-pointer lg:mt-[100px'>
         {isEnrolled ? 'Unenroll' : 'Enroll'}
       </button>
+      {isEnrolled && (
+      <button onClick={() => navigate(`/course/${courseId}`)} className='bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded ml-4'>
+        More Info
+      </button>
+    )}
     </div>
     </div>
     </>
