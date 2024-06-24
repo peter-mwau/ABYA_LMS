@@ -2,7 +2,6 @@
 import React, { useContext, useState } from "react";
 import axios from "axios";
 import upload from "../../images/upload.png";
-import { CourseContext } from "./CreateCourse";
 import { UserContext } from "../../contexts/userContext";
 
 const CourseForm = () => {
@@ -20,7 +19,6 @@ const CourseForm = () => {
 				  }`
 				: "",
 	});
-	const { setCourse } = useContext(CourseContext);
 
 	const [errors, setErrors] = useState({});
 
