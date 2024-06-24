@@ -112,7 +112,7 @@ const SideNav = () => {
 
 							<span class="flex-1 ms-3 whitespace-nowrap">Courses</span>
 						</a>
-						{/* <Link
+						<Link
 							to="/create-quiz"
 							className="dark:hover:bg-gray-700 pl-10 p-2 hover:bg-gray-100 rounded-md flex flex-row gap-3"
 							>
@@ -137,7 +137,7 @@ const SideNav = () => {
 								/>
 							</svg>
 							Create Quiz
-						</Link> */}
+						</Link>
 					</li>
 					{/* {userDetails.user.user_type === "Student" && (
 						<li>

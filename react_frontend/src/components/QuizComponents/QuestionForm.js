@@ -96,15 +96,16 @@ const QuizQuestion = () => {
         });
     
         try {
+            const userToken = localStorage.getItem('userToken')
+            console.log("User token: ", userToken);
             const response = await axios.post(
                 `http://localhost:8000/assignments/questions/create-question/${formData.quiz}/`,
                 formDataToSend,
                 {
                     headers: {
-                        'Content-Type': 'multipart/form-data',
-                        Authorization: `Token ${localStorage.getItem('userToken')}`,
+                      Authorization: `Token ${userToken}`,
                     },
-                }
+                  }
             );
     
             setFormData({
@@ -122,21 +123,7 @@ const QuizQuestion = () => {
         }
     };
     
-            setFormData({
-                ...formData,
-                question_text: '',
-                choices: ['', '', '', ''],
-                correct_choices: [],
-            });
-            console.log('question data', formData)
-    
-        } catch (error) {
-            console.error('Error creating question:', error);
-            if (error.response && error.response.data) {
-                console.error('Server response:', error.response.data);
-            }
-        }
-    };
+
          
     
     const handleFinish = () => {
@@ -254,6 +241,7 @@ const QuizQuestion = () => {
             </form>
         </div>
     );
-};
+}
+
 
 export default QuizQuestion;
