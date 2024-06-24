@@ -80,9 +80,12 @@ class QuestionViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=['post'], url_path='create-question/(?P<quiz_id>[^/.]+)')
     def create_question(self, request, quiz_id=None):
         quiz = get_object_or_404(Quiz, id=quiz_id)
-        question_data = request.data
-        question_data['quiz'] = quiz.id
-        
+        question_data = request.data.copy()
+        question_data['quiz_title'] = quiz.id
+        print('quiz data', quiz_id)
+        print('question data', question_data)
+    
+
         question_serializer = QuestionSerializer(data=question_data)
         if question_serializer.is_valid():
             question = question_serializer.save()
@@ -90,6 +93,7 @@ class QuestionViewSet(viewsets.ModelViewSet):
             choice_data = request.data.get('choices', [])
             for choice in choice_data:
                 choice['question'] = question.id
+                print('Choice data', choice)
                 choice_serializer = ChoiceSerializer(data=choice)
                 if choice_serializer.is_valid():
                     choice_serializer.save()

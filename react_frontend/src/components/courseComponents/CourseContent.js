@@ -2,7 +2,7 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import { useCourseDetail } from './useCourseDetail';
 
-const CourseDetail = () => {
+const CourseContent = () => {
   const { courseId } = useParams();
   const { courseData, loading, error } = useCourseDetail(courseId);
 
@@ -27,6 +27,7 @@ const CourseDetail = () => {
                   <h5 className="text-gray-800 font-semibold text-xl">{`Lesson ${lessonIndex + 1}: ${lesson.lesson_name}`}</h5>
                   <p className="text-gray-700  dark:text-gray-300">{lesson.lesson_content}</p>
                   <p className='my-2 text-yellow-500'>Video: {lesson.video}</p>
+                  <button className='bg-cyan-950 text-gray-200 rounded hover:bg-yellow-500 p-2 font-semibold'>Mark as Read</button>
                 </div>
               ))}
             </div>
@@ -54,4 +55,4 @@ const CourseDetail = () => {
   );
 };
 
-export default CourseDetail;
+export default CourseContent;
