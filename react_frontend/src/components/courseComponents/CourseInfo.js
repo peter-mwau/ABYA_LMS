@@ -1,48 +1,70 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useCourseDetail } from './useCourseDetail';
 import { UserContext } from '../../contexts/userContext';
-import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 const CourseInfo = () => {
   const { courseId } = useParams();
   const { courseData, loading, error } = useCourseDetail(courseId);
   const { user } = useContext(UserContext);
   const [isEnrolled, setIsEnrolled] = useState(false);
+  
 
-  // useEffect(() => {
-  //   // Placeholder for checking enrollment status
-  //   const enrolled = checkIfUserIsEnrolled(user, courseId); // Implement this function based on your logic
-  //   setIsEnrolled(enrolled);
-  // }, [user, courseId]);
+  const unenrollCourse = async () => {
+    try {
+      const userToken = localStorage.getItem('userToken')
+      const response = await axios.post(`http://localhost:8000/courses/unenroll/${courseId}/`, {},
+        {
+          headers: {
+            'Authorization': `Token ${userToken}`,
+          },
+        });
+  
+      if (!response.ok) {
+        throw new Error('Failed to unenroll from the course');
+      }
+  
+      // Handle successful unenrollment
+      alert('Successfully unenrolled from the course');
+      setIsEnrolled(false);
+    } catch (error) {
+      console.error('Error unenrolling from the course:', error);
+      alert('Error unenrolling from the course');
+    }
+  };
 
-  // const enrollToCourse = async (courseId) => {
-  //   // Implement API call for enrollment
-  // };
+  const handleEnrollClick = async () => {
+    if (isEnrolled) {
+      unenrollCourse();
+    }
+    else {
+   
+    try {
+      const userToken = localStorage.getItem('userToken')
+      console.log("Retrieved token:", userToken);
+      const response = await axios.post(`http://localhost:8000/courses/enroll/${courseId}/`, {},
+        {
+          headers: {
+            'Authorization': `Token ${userToken}`,
+          },
+        });
+        setIsEnrolled(true)
+        console.log("Response: ", response);
+  
+      if (!response.ok) throw new Error('Failed to enroll');
+  
+      const data = await response.json();
+      console.log('Enrollment success:', data);
+      alert("Successfully enrolled")
+      // Update component state here to reflect enrollment status
+    } catch (error) {
+      console.error('Enrollment error:', error);
+    }
+  };
+  };
+  
 
-  // const unenrollFromCourse = async (courseId) => {
-  //   // Implement API call for unenrollment
-  // };
-
-  // const enroll = async () => {
-  //   console.log("Enrolling user...");
-  //   try {
-  //     await enrollToCourse(courseId);
-  //     setIsEnrolled(true);
-  //   } catch (error) {
-  //     console.error("Enrollment failed", error);
-  //   }
-  // };
-
-  // const unenroll = async () => {
-  //   console.log("Unenrolling user...");
-  //   try {
-  //     await unenrollFromCourse(courseId);
-  //     setIsEnrolled(false);
-  //   } catch (error) {
-  //     console.error("Unenrollment failed", error);
-  //   }
-  // };
 
   console.log("Course Info: ",courseData);
   console.log("User: ", user);
@@ -62,9 +84,10 @@ const CourseInfo = () => {
       <p className='mt-2'>Number of Chapters: <spam className="font-bold px-2">{numberOfChapters}</spam></p>
       <p>Number of Lessons: <spam className="font-bold px-2">{numberOfLessons}</spam></p>
       <p>Course Creator: <spam className="font-bold px-2">{courseData.course_creator}</spam></p>
-      <Link to={`/course/${courseId}`} className='bg-cyan-950 hover:bg-yellow-500 rounded dark:bg-gray-200 dark:text-gray-900 font-semibold text-gray-200 p-2 my-3 hover:cursor-pointer lg:mt-[100px'>
+      <p>Enrollment Status: <span className="font-bold px-2">{isEnrolled ? 'Enrolled' : 'Not Enrolled'}</span></p>
+      <button onClick={handleEnrollClick} className='bg-cyan-950 hover:bg-yellow-500 rounded dark:bg-gray-200 dark:text-gray-900 font-semibold text-gray-200 p-2 my-3 hover:cursor-pointer lg:mt-[100px'>
         {isEnrolled ? 'Unenroll' : 'Enroll'}
-      </Link>
+      </button>
     </div>
     </div>
     </>
