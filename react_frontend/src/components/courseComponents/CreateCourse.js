@@ -2,50 +2,15 @@ import { createContext, useState } from "react";
 import CourseForm from "./CourseForm";
 import LessonForm from "./LessonForm";
 import ChapterForm from "./ChapterForm";
-import { useNavigate } from "react-router-dom";
 import right_arrow from "../../images/right-arrow.png";
 import left_arrow from "../../images/left-arrow.png";
+import QuizForm from "../QuizComponents/QuizForm";
 
 export const CourseContext = createContext();
 
 const CreateCourse = () => {
 	const [pageId, setPageId] = useState([1]);
 	const [course, setCourse] = useState({});
-	const [isEmpty, setIsEmpty] = useState(false);
-	const [chapterCount, setChapterCount] = useState(1);
-	const [lessonCount, setLessonCount] = useState(1);
-	const [error, setErrors] = useState("");
-	const navigate = useNavigate();
-	const [successMessage, setSuccessMessage] = useState("");
-
-	const [formData, setFormData] = useState({
-		course_name: "",
-		course_description: "",
-		picture: null,
-	});
-
-	const handleSubmit = async (event) => {
-		event.preventDefault();
-
-		// Code to create the course...
-
-		// After the course is successfully created:
-		const courseName = formData.course_name; // Save the course name
-		setFormData({
-			course_name: "",
-			course_description: "",
-			picture: null,
-		});
-		setErrors({});
-		setSuccessMessage(`${courseName} created successfully`); // Use the saved course name
-
-		// Navigate to the dashboard
-		navigate("/Course-list");
-	};
-
-	// const handlePrevious = () => {
-	// 	setPageId(pageId.slice(0, -1));
-	// };
 
 	const handleNext = () => {
 		setPageId((prevPageId) => {
@@ -79,6 +44,11 @@ const CreateCourse = () => {
 		{
 			id: 3,
 			name: "STEP 3",
+			title: "CREATE QUIZ",
+		},
+		{
+			id: 4,
+			name: "STEP 4",
 			title: "CREATE LESSON",
 		},
 	];
@@ -113,28 +83,10 @@ const CreateCourse = () => {
 					</ul>
 				</div>
 				<div className="p-10 md:w-[70%]">
-					{pageId.length === 1 && (
-						<CourseForm
-							step={steps[0]}
-							formData={formData}
-							setFormData={setFormData}
-							handleNext={handleNext}
-						/>
-					)}
-					{pageId.length === 2 && (
-						<ChapterForm
-							chapterCount={chapterCount}
-							setChapterCount={setChapterCount}
-							courseName={formData?.course_name || ""}
-						/>
-					)}
-					{pageId.length === 3 && (
-						<LessonForm
-							courseName={formData?.course_name || ""}
-							lessonCount={lessonCount}
-							setLessonCount={setLessonCount}
-						/>
-					)}
+					{pageId.length === 1 && <CourseForm />}
+					{pageId.length === 2 && <ChapterForm />}
+					{pageId.length === 3 && <QuizForm />}
+					{pageId.length === 4 && <LessonForm />}
 				</div>
 				<ul className="flex justify-between mx-3 mb-2">
 					<li>
@@ -152,10 +104,10 @@ const CreateCourse = () => {
 						)}
 					</li>
 					<li>
-						{pageId.length < 3 && (
+						{pageId.length < 4 && (
 							<button
 								className="md:absolute bottom-5 right-16 bg-gray-100 hover:bg-gray-300 transition-all duration-300 p-4 md:py-3 rounded-full font-semibold tracking-wide hover:text-white"
-								onClick={pageId.length === 3 ? handleSubmit : handleNext}
+								onClick={handleNext}
 							>
 								<img
 									src={right_arrow}

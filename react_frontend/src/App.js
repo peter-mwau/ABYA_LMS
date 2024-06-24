@@ -25,6 +25,7 @@ import Providers from "./Provider";
 import CreateCourse from "./components/courseComponents/CreateCourse";
 import CourseContent from "./components/courseComponents/CourseContent";
 import QuestionForm from "./components/QuizComponents/QuestionForm";
+import CourseInfo from "./components/courseComponents/CourseInfo";
 
 function App() {
 	const location = useLocation();
@@ -52,6 +53,7 @@ function App() {
 				<Route path="course/:courseId" element={<CourseContent />} />
 				<Route path="create-quiz" element={<QuizForm />} />
 				<Route path="create-question" element={<QuestionForm />} />
+				<Route path="course-info/:courseId" element={<CourseInfo />} />
 			</Routes>
 		</Providers>
 	);

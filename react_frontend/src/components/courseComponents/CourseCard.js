@@ -1,7 +1,8 @@
 import { UserContext } from "../../contexts/userContext";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
+import editIcon from "../../images/editIcon.png";
 
 const CourseCard = ({ courses, baseUrl }) => {
 	const { user } = useContext(UserContext);
@@ -27,10 +28,12 @@ const CourseCard = ({ courses, baseUrl }) => {
 								className="w-full rounded-xl h-40 object-cover"
 							/>
 						</section>
-						<section className="md:p-4 mt-5 md:mt-2 rounded-b-2xl md:w-full w-3/5">
-							{/* <p className="text-gray-600 font-semibold text-sm">
-								{course.students.length} students
-							</p> */}
+						<section className="md:p-4 mt-2 md:w-full w-3/5">
+							{user?.user_type === "Teacher" && (
+								<p className="text-sm text-gray-500 py-3 p-2">
+									{course.teacher} enrolled
+								</p>
+							)}
 							<h2 className="text-lg font-semibold">{course.course_name}</h2>
 
 							<p className="truncate text-gray-700 dark:text-gray-300 font-semibold">
@@ -39,30 +42,27 @@ const CourseCard = ({ courses, baseUrl }) => {
 							<p className="text-sm text-gray-500">
 								course by {course.teacher_name}
 							</p>
-							<ul className="flex gap-1 pr-2 mt-4 md:mt-2 items-center justify-between">
-								{user?.user_type === "Teacher" && (
+							<ul className="flex gap-1 pr-2 mt-4 md:my-4 md:mt-5 items-center justify-between">
+								<li>
+									<Link
+										to={`/course-info/${course.id}`}
+										className="px-7 py-2 border font-semibold text-cyan-950 rounded-full w-full md:w-1/3 my-3 bg-gray-200"
+									>
+										view
+									</Link>
+								</li>
+								{user.user_type === "Teacher" && (
 									<li>
-										<p className="text-sm text-gray-500 py-3 p-2">
-											{course.teacher} enrolled
-										</p>
+										<Link to="/update-course">
+											<img
+												src={editIcon}
+												alt="edit"
+												className="w-7 h-7 opacity-60"
+											/>
+										</Link>
 									</li>
 								)}
-								<li>
-									<button
-										className="px-5 py-2 border rounded-full font-bold my-3 text-cyan-950 bg-gray-200"
-										onClick={() =>
-											user?.user_type === "Teacher" &&
-											navigate("/update-course")
-										}
-									>
-										{user.user_type === "Teacher" ? "Edit course" : "Enroll"}
-									</button>
-								</li>
-								<Link to={`/course/${course.id}`} className="px-5 py-2 border rounded-full w-full md:w-1/3 my-3 bg-slate-400">
-									View Course
-								</Link>
 							</ul>
-
 						</section>
 					</div>
 				))
@@ -73,7 +73,7 @@ const CourseCard = ({ courses, baseUrl }) => {
 						className="py-3 ml-7 px-6 border border-slate-500 rounded-md my-4"
 						onClick={handleNavigate}
 					>
-						{user?.user_type === "Teacher" ? "Add course" : "View courses"}
+						{user?.user_type === "Teacher" ? "Add course" : "view"}
 					</button>
 				</div>
 			)}

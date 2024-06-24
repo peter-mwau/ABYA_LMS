@@ -1,10 +1,8 @@
 // src/components/ChapterForm.js
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import right_arrows from "../../images/right-arrows.png";
-import add from "../../images/add.png";
 
-const ChapterForm = ({ chapterCount, setChapterCount, courseName }) => {
+const ChapterForm = () => {
 	const [formData, setFormData] = useState({
 		chapter_name: "",
 		chapter_description: "",
@@ -162,14 +160,8 @@ const ChapterForm = ({ chapterCount, setChapterCount, courseName }) => {
 							<p className="text-red-500 text-xs italic">{errors.course}</p>
 						)}
 					</div>
-					{/* <div className="mb-4"> */}
-					{/* <label
-						className="block text-gray-700 dark:text-gray-100 text-lg font-bold mb-2"
-						htmlFor="chapter_quiz"
-					>
-						Chapter Quiz
-					</label> */}
-					<select
+					{/* Cpmmented the quiz form for later implementation */}
+					{/* <select
 						name="chapter_quiz"
 						id="chapter_quiz"
 						value={formData.chapter_quiz}
@@ -182,7 +174,7 @@ const ChapterForm = ({ chapterCount, setChapterCount, courseName }) => {
 								{quiz.title}
 							</option>
 						))}
-					</select>
+					</select> */}
 					{errors.chapter_quiz && (
 						<p className="text-red-500 text-xs italic">{errors.chapter_quiz}</p>
 					)}
