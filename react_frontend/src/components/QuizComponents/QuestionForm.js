@@ -121,24 +121,6 @@ const QuizQuestion = () => {
             }
         }
     };
-    
-            setFormData({
-                ...formData,
-                question_text: '',
-                choices: ['', '', '', ''],
-                correct_choices: [],
-            });
-            console.log('question data', formData)
-    
-        } catch (error) {
-            console.error('Error creating question:', error);
-            if (error.response && error.response.data) {
-                console.error('Server response:', error.response.data);
-            }
-        }
-    };
-         
-    
     const handleFinish = () => {
         navigate('/dashboard');
     };

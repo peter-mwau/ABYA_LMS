@@ -58,7 +58,7 @@ class Choice(models.Model):
     is_correct = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.text
+        return self.text 
 
 class QuizSubmission(models.Model):
     student = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='quiz', on_delete=models.CASCADE)
