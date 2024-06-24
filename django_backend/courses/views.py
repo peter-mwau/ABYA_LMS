@@ -722,27 +722,56 @@ class CourseInfoAPI(RetrieveAPIView):
 #             messages.success(self.request, 'You have unenrolled from the course.')
 #         return super().get(self.request, *args, **kwargs)
     
-class EnrollCourseAPI(APIView):
-    def post(self, request, pk, format=None):
-        course = get_object_or_404(Course, pk=pk)
-        enrollment, created = Enrollment.objects.get_or_create(student=request.user, course=course)
-        if created:
-            return Response({'detail': 'You are now enrolled in the course.'}, status=status.HTTP_201_CREATED)
-        else:
-            return Response({'detail': 'You are already enrolled in the course.'}, status=status.HTTP_208_ALREADY_REPORTED)
+# class EnrollCourseAPI(APIView):
+#     def post(self, request, pk, format=None):
+#         course = get_object_or_404(Course, pk=pk)
+#         enrollment, created = Enrollment.objects.get_or_create(student=request.user, course=course)
+#         if created:
+#             return Response({'detail': 'You are now enrolled in the course.'}, status=status.HTTP_201_CREATED)
+#         else:
+#             return Response({'detail': 'You are already enrolled in the course.'}, status=status.HTTP_208_ALREADY_REPORTED)
 
-class UnenrollCourseAPI(APIView):
-    def post(self, request, pk, format=None):
+# class UnenrollCourseAPI(APIView):
+#     def post(self, request, pk, format=None):
+#         try:
+#             enrollment = Enrollment.objects.get(student=request.user, course__pk=pk)
+#         except Enrollment.DoesNotExist:
+#             return Response({'detail': 'You are not enrolled in this course.'}, status=status.HTTP_404_NOT_FOUND)
+#         else:
+#             with transaction.atomic():
+#                 enrollment.delete()
+#             return Response({'detail': 'You have unenrolled from the course.'}, status=status.HTTP_204_NO_CONTENT)
+
+
+class EnrollCourseViewSet(viewsets.ModelViewSet):
+    queryset = Enrollment.objects.all()
+    permission_classes = [IsAuthenticated]
+    serializer_class = EnrollmentSerializer
+    
+    @action(methods=['get', 'post'], detail=False)
+    def enroll(self, request):
+        serializer = EnrollmentSerializer(data=request.data)
+        if serializer.is_valid():
+            if request.user.is_authenticated and request.user.user_type == 1:
+                serializer.save(student=request.user)
+                return Response({'detail': 'You are now enrolled in the course.'}, status=status.HTTP_201_CREATED)
+            else:
+                return Response({'detail': 'You are currently not registered as a Student on the platform.'}, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response({'detail': 'Your request was not processed at the moment.', 'errors': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+        
+    
+    @action(methods=['post'], detail=False)
+    def unenroll(self, request):
         try:
-            enrollment = Enrollment.objects.get(student=request.user, course__pk=pk)
+            enrollment = Enrollment.objects.get(student=request.user)
+            enrollment.delete()
+            return Response({'detail': 'You have been unenrolled from the course.'}, status=status.HTTP_200_OK)
         except Enrollment.DoesNotExist:
-            return Response({'detail': 'You are not enrolled in this course.'}, status=status.HTTP_404_NOT_FOUND)
-        else:
-            with transaction.atomic():
-                enrollment.delete()
-            return Response({'detail': 'You have unenrolled from the course.'}, status=status.HTTP_204_NO_CONTENT)
+            return Response({'detail': 'You were not enrolled in any course.'}, status=status.HTTP_400_BAD_REQUEST)
 
-   
+
+
 def certificate_view(request, course_id):
     user = request.user
     course = get_object_or_404(Course, pk=course_id)
