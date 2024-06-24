@@ -45,7 +45,7 @@ const CourseCard = ({ courses, baseUrl }) => {
 							<ul className="flex gap-1 pr-2 mt-4 md:my-4 md:mt-5 items-center justify-between">
 								<li>
 									<Link
-										to={`/course/${course.id}`}
+										to={`/course-info/${course.id}`}
 										className="px-7 py-2 border font-semibold text-cyan-950 rounded-full w-full md:w-1/3 my-3 bg-gray-200"
 									>
 										view
