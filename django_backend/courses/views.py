@@ -505,6 +505,7 @@ class CourseDetailAPI(APIView):
             course = get_object_or_404(Course, pk=pk)
             course_name = course.course_name
             course_description = course.course_description
+            course_creator = course.teacher_name
         except Course.DoesNotExist:
             return Response({'message': 'Course not found.'}, status=status.HTTP_404_NOT_FOUND)
 
@@ -624,6 +625,7 @@ class CourseDetailAPI(APIView):
             'completed_courses': completed_courses,
             'course_name': course_name,
             'course_description': course_description,
+            'course_creator': course_creator,
         }
 
         return Response(context, status=status.HTTP_200_OK)
@@ -723,20 +725,21 @@ class CourseInfoAPI(RetrieveAPIView):
 class EnrollCourseAPI(APIView):
     def post(self, request, pk, format=None):
         course = get_object_or_404(Course, pk=pk)
-        try:
-            Enrollment.objects.create(student=request.user, course=course)
-        except:
-            return Response({'detail': 'You are already enrolled in the course.'}, status=status.HTTP_400_BAD_REQUEST)
-        else:
+        enrollment, created = Enrollment.objects.get_or_create(student=request.user, course=course)
+        if created:
             return Response({'detail': 'You are now enrolled in the course.'}, status=status.HTTP_201_CREATED)
+        else:
+            return Response({'detail': 'You are already enrolled in the course.'}, status=status.HTTP_208_ALREADY_REPORTED)
+
 class UnenrollCourseAPI(APIView):
     def post(self, request, pk, format=None):
         try:
-            enrollment = Enrollment.objects.filter(student=request.user, course__pk=pk).get()
+            enrollment = Enrollment.objects.get(student=request.user, course__pk=pk)
         except Enrollment.DoesNotExist:
-            return Response({'detail': 'You are not enrolled in this course.'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'detail': 'You are not enrolled in this course.'}, status=status.HTTP_404_NOT_FOUND)
         else:
-            enrollment.delete()
+            with transaction.atomic():
+                enrollment.delete()
             return Response({'detail': 'You have unenrolled from the course.'}, status=status.HTTP_204_NO_CONTENT)
 
    

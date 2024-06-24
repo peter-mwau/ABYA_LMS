@@ -24,7 +24,7 @@ urlpatterns = [
     # path('all/', views.ListCourseAPI.as_view(), name="list"),
     # path('course_info/<int:pk>/', views.CourseInfoView.as_view(), name='course_info'),
     path('course_info/<int:pk>/', views.CourseInfoAPI.as_view(), name='course_info'),
-    # re_path(r'^enroll/(?P<pk>[-\w]+)/$', views.EnrollCourse.as_view(), name='enroll'),
+    path('^enroll/(?P<pk>[-\w]+)/$', views.EnrollCourseAPI.as_view(), name='enroll'),
     # re_path(r'^unenroll/(?P<pk>[-\w]+)/$', views.UnenrollCourse.as_view(), name='unenroll'),path('enroll-course/<int:pk>/', views.EnrollCourseAPI.as_view(), name='enroll-course-api'),
 
     path('unenroll-course/<int:pk>/', views.UnenrollCourseAPI.as_view(), name='unenroll-course-api'),
