@@ -2,10 +2,12 @@ import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../contexts/userContext";
+import { quizContext } from "../../App";
 
 const QuizForm = () => {
 	const navigate = useNavigate();
 	const userDetails = useContext(UserContext);
+	const { setQuiz } = useContext(quizContext);
 
 	const [formData, setFormData] = useState({
 		course: "",
@@ -13,6 +15,7 @@ const QuizForm = () => {
 		quiz_title: "",
 		quiz_description: "",
 	});
+	console.log(formData);
 
 	const [courses, setCourses] = useState([]);
 	const [chapters, setChapters] = useState([]);
@@ -87,6 +90,7 @@ const QuizForm = () => {
 					},
 				}
 			);
+			setQuiz(formData);
 
 			setFormData({
 				course: "",
