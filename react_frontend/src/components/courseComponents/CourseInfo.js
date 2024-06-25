@@ -88,10 +88,12 @@ const CourseInfo = () => {
       <p className='mt-2'>Number of Chapters: <spam className="font-bold px-2">{numberOfChapters}</spam></p>
       <p>Number of Lessons: <spam className="font-bold px-2">{numberOfLessons}</spam></p>
       <p>Course Creator: <spam className="font-bold px-2">{courseData.course_creator}</spam></p>
-      <p>Enrollment Status: <span className="font-bold px-2">{isEnrolled ? 'Enrolled' : 'Not Enrolled'}</span></p>
+      
+      {user.user_type ==="Student" && (
       <button onClick={handleEnrollClick} className='bg-cyan-950 hover:bg-yellow-500 rounded dark:bg-gray-200 dark:text-gray-900 font-semibold text-gray-200 p-2 my-3 hover:cursor-pointer lg:mt-[100px'>
         {isEnrolled ? 'Unenroll' : 'Enroll'}
       </button>
+      )}
       {isEnrolled && (
       <button onClick={() => navigate(`/course/${courseId}`)} className='bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded ml-4'>
         More Info
