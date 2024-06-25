@@ -42,7 +42,7 @@ from rest_framework import status
 from rest_framework.generics import ListAPIView, RetrieveAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
-from .serializers import CourseSerializer, ChapterSerializer, LessonSerializer, CompletedLessonSerializer, CompletedCourseSerializer 
+from .serializers import CourseSerializer, ChapterSerializer, LessonSerializer, CompletedLessonSerializer, CompletedCourseSerializer, EnrollmentSerializer
 from resources.serializers import VideoLessonSerializer, VideoProgressSerializer, ResourceSerializer
 from assignments.serializers import AssignmentSerializer, QuizSerializer
 from .permissions import IsTeacherOfCourse, IsTeacherOfChapterCourse, IsTeacherOfLessonChapterCourse
@@ -742,7 +742,36 @@ class UnenrollCourseAPI(APIView):
                 enrollment.delete()
             return Response({'detail': 'You have unenrolled from the course.'}, status=status.HTTP_204_NO_CONTENT)
 
-   
+
+# class EnrollCourseViewSet(viewsets.ModelViewSet):
+#     queryset = Enrollment.objects.all()
+#     permission_classes = [IsAuthenticated]
+#     serializer_class = EnrollmentSerializer
+    
+#     @action(methods=['post'], detail=True, url_path='enroll/(?P<course_id>\d+)')
+#     def enroll(self, request, course_id=None):
+#         serializer = EnrollmentSerializer(data=request.data)
+#         if serializer.is_valid():
+#             if request.user.user_type == 1:
+#                 serializer.save(student=request.user, course_id=course_id)
+#                 return Response({'detail': 'You are now enrolled in the course.'}, status=status.HTTP_201_CREATED)
+#             else:
+#                 return Response({'detail': 'You are currently not registered as a Student on the platform.'}, status=status.HTTP_400_BAD_REQUEST)
+#         else:
+#             return Response({'detail': 'Your request was not processed at the moment.', 'errors': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+        
+    
+#     @action(methods=['post'], detail=False)
+#     def unenroll(self, request):
+#         try:
+#             enrollment = Enrollment.objects.get(student=request.user)
+#             enrollment.delete()
+#             return Response({'detail': 'You have been unenrolled from the course.'}, status=status.HTTP_200_OK)
+#         except Enrollment.DoesNotExist:
+#             return Response({'detail': 'You were not enrolled in any course.'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+
 def certificate_view(request, course_id):
     user = request.user
     course = get_object_or_404(Course, pk=course_id)

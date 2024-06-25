@@ -11,6 +11,7 @@ router = routers.DefaultRouter()
 router.register(r'courses', views.CourseViewSet)
 router.register(r'chapters', views.ChapterViewSet)
 router.register(r'lessons', views.LessonViewSet)
+# router.register(r'enroll', views.EnrollCourseViewSet)
 
 app_name = "courses"
 
@@ -24,10 +25,12 @@ urlpatterns = [
     # path('all/', views.ListCourseAPI.as_view(), name="list"),
     # path('course_info/<int:pk>/', views.CourseInfoView.as_view(), name='course_info'),
     path('course_info/<int:pk>/', views.CourseInfoAPI.as_view(), name='course_info'),
-    path('^enroll/(?P<pk>[-\w]+)/$', views.EnrollCourseAPI.as_view(), name='enroll'),
-    # re_path(r'^unenroll/(?P<pk>[-\w]+)/$', views.UnenrollCourse.as_view(), name='unenroll'),path('enroll-course/<int:pk>/', views.EnrollCourseAPI.as_view(), name='enroll-course-api'),
-
-    path('unenroll-course/<int:pk>/', views.UnenrollCourseAPI.as_view(), name='unenroll-course-api'),
+    path('enroll/<int:pk>/', views.EnrollCourseAPI.as_view(), name='enroll'),
+    
+    path('unenroll/<int:pk>/', views.UnenrollCourseAPI.as_view(), name='unenroll'),
+    # path('enroll-course/<int:pk>/', views.EnrollCourseAPI.as_view(), name='enroll-course-api'),
+    # path('enroll-course/<int:pk>/', views.EnrollCourseViewSet.as_view({"post": "enroll-course"}), name='enroll-course-api'),
+    # path('unenroll-course/<int:pk>/', views.UnenrollCourseAPI.as_view(), name='unenroll-course-api'),
     # path('create_chapter/', views.CreateChapterView.as_view(), name='create_chapter'),
     # path('create_lesson/', views.CreateLessonView.as_view(), name='create_lesson'),
     
