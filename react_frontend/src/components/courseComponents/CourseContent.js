@@ -6,6 +6,10 @@ const CourseContent = () => {
   const { courseId } = useParams();
   const { courseData, loading, error } = useCourseDetail(courseId);
 
+  const HandleMarkAsRead = () =>{
+    
+  }
+
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error loading course details.</p>;
 
