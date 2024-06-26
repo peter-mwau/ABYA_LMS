@@ -57,6 +57,7 @@ function App() {
 					<Route path="create-lesson/" element={<LessonForm />} /> */}
 					<Route path="course-list/" element={<CourseList />} />
 					<Route path="course/:courseId" element={<CourseContent />} />
+					<Route path="course-info/:courseId" element={<CourseInfo/>} />
 					<Route path="create-quiz" element={<QuizForm />} />
 					<Route path="create-question" element={<QuestionForm />} />
 					<Route path="course-info/:courseId" element={<CourseInfo/>} />
