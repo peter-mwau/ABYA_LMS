@@ -46,7 +46,7 @@ class CompletedQuiz(models.Model):
 #     completed_quizzes = models.ManyToManyField(Quiz, related_name='completed_by_users', blank=True)
 
 class Question(models.Model):
-    quiz_title = models.ForeignKey(Quiz, on_delete=models.CASCADE)
+    quiz_title = models.ForeignKey(Quiz, on_delete=models.CASCADE, related_name="question_set")
     question_text = models.TextField()
 
     def __str__(self):
