@@ -46,7 +46,7 @@ class CompletedQuiz(models.Model):
 #     completed_quizzes = models.ManyToManyField(Quiz, related_name='completed_by_users', blank=True)
 
 class Question(models.Model):
-    quiz_title = models.ForeignKey(Quiz, on_delete=models.CASCADE)
+    quiz_title = models.ForeignKey(Quiz, on_delete=models.CASCADE, related_name="question_set")
     question_text = models.TextField()
 
     def __str__(self):
@@ -58,7 +58,7 @@ class Choice(models.Model):
     is_correct = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.text
+        return self.text 
 
 class QuizSubmission(models.Model):
     student = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='quiz', on_delete=models.CASCADE)

@@ -11,6 +11,10 @@ const CourseContent = () => {
 
   const totalProgress = Object.values(progress).reduce((acc, curr) => acc + curr, 0) / Object.keys(progress).length || 0;
 
+  const HandleMarkAsRead = () =>{
+    
+  }
+
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error loading course details.</p>;
 
