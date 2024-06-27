@@ -33,13 +33,13 @@ from datetime import datetime, timedelta
 from django.contrib.sessions.models import Session
 from django.utils import timezone
 from rest_framework import viewsets
-from assignments.serializers import AssignmentSerializer, QuestionSerializer, QuizSerializer, QuizSubmissionSerializer, SubmitAssignmentSerializer, ChoiceSerializer
+from assignments.serializers import AssignmentSerializer, QuestionSerializer, QuizSerializer, QuizSubmissionSerializer, SubmitAssignmentSerializer, ChoiceSerializer, DetailedQuizSerializer
 from rest_framework import permissions
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.renderers import TemplateHTMLRenderer
-
+from rest_framework.views import APIView
 
 # Create your views here.    
 # class CreateAssignment(LoginRequiredMixin, generic.CreateView):
@@ -287,7 +287,15 @@ class QuizViewSet(viewsets.ModelViewSet):
             request.session[quiz_session_key] = quiz_attempts_data
 
         request.session.save()
-        
+
+class FetchQuizDataView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request, pk):
+        quiz = get_object_or_404(Quiz, pk=pk)
+        serializer = DetailedQuizSerializer(quiz)
+        print(serializer.data)
+        return Response(serializer.data)        
 
 
 # -------------------OLD CODE-----------------------------
