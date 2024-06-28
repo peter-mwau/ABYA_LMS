@@ -1,4 +1,4 @@
-import React, {useState, useContext} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import { useParams } from 'react-router-dom';
 import { useCourseDetail } from './useCourseDetail';
 import axios from 'axios';
@@ -10,6 +10,28 @@ const CourseContent = () => {
   const { courseData, loading, error } = useCourseDetail(courseId);
   const [progress, setProgress] = useState({});
   const { user } = useContext(UserContext)
+  const completionPercentage = courseData?.completion_percentage ?? 'Loading...';
+  const courseName = courseData?.course_name ?? 'Loading...';
+  const [showCongratsPopup, setShowCongratsPopup] = useState(false);
+
+  useEffect(() => {
+    if (completionPercentage === 100) {
+      setShowCongratsPopup(true);
+      alert("Congratulations! You've completed all lessons.");
+    }
+  }, [completionPercentage]);
+
+  const handleClosePopup = () => {
+    setShowCongratsPopup(false);
+  };
+
+  const handleClaimCertificate = () => {
+    // Logic to claim the certificate
+    console.log("Certificate claimed");
+    setShowCongratsPopup(false);
+  };
+
+  console.log("Percentage: ", completionPercentage);
 
   const [completedLessons, setCompletedLessons] = useState({});
 
@@ -21,7 +43,7 @@ const CourseContent = () => {
   // get the total number of lessons
 //   const totalLessons = courseData.chapters_with_lessons.reduce((acc, curr) => acc + curr.lessons.length, 0);
 //   console.log("Total lessons: ", totalLessons);
-
+  const progressBarPercentage = completionPercentage;
   const totalProgress = Object.values(progress).reduce((acc, curr) => acc + curr, 0) / Object.keys(progress).length || 0;
 
 
@@ -98,12 +120,15 @@ const CourseContent = () => {
     <div className=" mx-auto p-4 text-cyan-950 dark:bg-gray-800 dark:text-gray-100 md:pl-[270px] md:m-0 lg:mx-auto  lg:h-[100vh] lg:px-[500px]">
       <h1 className="text-3xl font-bold mb-4 px-2">{courseData.course_name}</h1>
       {user.user_type === "Student" && (
-      <div className="bg-gray-200 rounded-full h-2.5 dark:bg-gray-700 my-2">
-        <div
-          className="bg-blue-600 h-2.5 rounded-full"
-          style={{ width: `${totalProgress * 100}%` }}
-        ></div>
-      </div>
+      // <div className="bg-gray-200 rounded-full h-2.5 dark:bg-gray-700 my-2">
+      //   <div
+      //     className="bg-blue-600 h-2.5 rounded-full"
+      //     style={{ width: `${totalProgress * 100}%` }}
+      //   ></div>
+      // </div>
+      <div className="progress-bar bg-yellow-400 rounded-xl h-4" style={{width: `${progressBarPercentage}%`}}>
+    <span className='text-white font-semibold text-center mx-auto pb-1 text-sm items-center justify-center flex my-auto'>{progressBarPercentage}%</span>
+  </div>
       )}
       <p className='text-justify p-2 dark:text-gray-300'>{courseData.course_description}</p>
       <div className="mb-6">
@@ -137,6 +162,22 @@ const CourseContent = () => {
   </div>
 ))}
       </div>
+
+      {showCongratsPopup && (
+        <div id="popup" className="absolute z-50 inset-0 items-center justify-center bg-black bg-opacity-40 overflow-auto">
+        <div className="relative bg-cyan-950 text-white lg:w-[30%] w-[380px] h-[400px] lg:h-[40%] mt-[200px] rounded-lg p-4 mx-auto my-auto lg:flex lg:items-center lg:justify-center flex-col" style={{background: `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/congratulations.jpg')`}}>
+            <h2 className="text-2xl font-bold mb-4 flex mx-auto justify-center items-center">Congratulations!</h2>
+            <p>You have successfully completed the <span className="text-yellow-400">{ courseName }</span> course.</p>
+            <p>Click the "Generate Certificate" button to access your Certificate.</p>
+            <div className="flex mx-auto space-x-2 mt-[120px] items-center justify-center">
+                    <button onClick={handleClaimCertificate} id="generateCertificate" class="bg-yellow-500 text-white rounded-lg px-4 py-2 mt-4 hover:bg-yellow-400">
+                        Claim Certificate
+                    </button> 
+                <button onClick={handleClosePopup} id="closePopup" class="bg-yellow-500 text-white rounded-lg px-4 py-2 mt-4 hover:bg-yellow-400">Close</button>
+            </div>
+        </div>
+    </div>
+      )}
 
 
       <div className="mb-6">

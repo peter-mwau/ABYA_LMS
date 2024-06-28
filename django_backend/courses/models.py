@@ -72,7 +72,7 @@ class Enrollment(models.Model):
 
 # 5. Model to handle completed lessons
 class CompletedLesson(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='completed_lessons')
     lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE)
     completed_at = models.DateTimeField(auto_now_add=True)
     enrollment = models.ForeignKey(Enrollment, on_delete=models.CASCADE, blank=True)
