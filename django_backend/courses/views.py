@@ -125,15 +125,15 @@ class CourseViewSet(viewsets.ModelViewSet):
             completed_lessons = CompletedLesson.objects.filter(user=request.user, lesson__chapter__course=course)
             completed_lesson_ids = [completed_lesson.lesson.id for completed_lesson in completed_lessons]
             context = {
-            'completed_lessons_count': completed_lessons_count,
-            'completed_lesson_ids': completed_lesson_ids,
+                'completed_lessons_count': completed_lessons_count,
+                'completed_lesson_ids': completed_lesson_ids,
             }
             return Response(context)
         else:
             return Response({'message': 'Invalid request method.'}, status=400)
 
 
-    @action(detail=False, methods=['post'])
+    @action(detail=False, methods=['post'], url_path='mark-lesson-as-complete')
     def mark_lesson_as_complete(self, request):
         """
         Handling completion of a lesson
@@ -143,6 +143,7 @@ class CourseViewSet(viewsets.ModelViewSet):
 
         try:
             data = json.loads(request.body.decode('utf-8'))
+            print("data: ", data)
             lesson_id = data.get('lesson_id')
         except json.JSONDecodeError:
             return Response({'message': 'Invalid JSON data.'}, status=status.HTTP_400_BAD_REQUEST)
@@ -156,13 +157,14 @@ class CourseViewSet(viewsets.ModelViewSet):
             return Response({'message': 'Lesson not found.'}, status=status.HTTP_404_NOT_FOUND)
 
         user = request.user
-
+        Enrollment = Enrollment.objects.filter(student=user, course=lesson.chapter.course)
+        print("Enrollment: ", Enrollment)
         # Check if the lesson is already marked as complete for the user
         if CompletedLesson.objects.filter(user=user, lesson=lesson).exists():
             return Response({'message': 'Lesson is already marked as complete.'}, status=status.HTTP_200_OK)
 
         # Mark the lesson as complete for the user
-        completed_lesson = CompletedLesson(user=user, lesson=lesson)
+        completed_lesson = CompletedLesson(user=user, lesson=lesson, enrollment=Enrollment)
         completed_lesson.save()
 
         # Calculate the completion percentage for the course
@@ -170,13 +172,14 @@ class CourseViewSet(viewsets.ModelViewSet):
         total_lessons = Lesson.objects.filter(chapter__course=course).count()
         total_quizzes = course.total_quizzes()
         completed_lessons = user.completed_lessons.filter(lesson__chapter__course=course).count()
-        completed_quizzes = user.completed_quizzes.filter(quiz__chapter__course=course).count
+        completed_quizzes = user.completed_quizzes(course)
         completion_percentage = round(((completed_lessons + completed_quizzes) / (total_lessons + total_quizzes)) * 100)
 
         return Response({
-        'message': 'Lesson marked as complete successfully.',
-        'completed_lessons_count': completed_lessons,
-        'completion_percentage': completion_percentage
+            'message': 'Lesson marked as complete successfully.',
+            'completed_lessons_count': completed_lessons,
+            'completion_percentage': completion_percentage
+
         }, status=status.HTTP_200_OK)
 
 
@@ -198,17 +201,17 @@ class ChapterViewSet(viewsets.ModelViewSet):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-@action(detail=True, methods=['put'], permission_classes=[IsTeacherOfChapterCourse])
-def update_chapter(self, request, pk=None):
-    """
-    Handling modifications on a chapter
-    """
-    chapter = self.get_object()
-    serializer = ChapterSerializer(chapter, data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    @action(detail=True, methods=['put'], permission_classes=[IsTeacherOfChapterCourse])
+    def update_chapter(self, request, pk=None):
+        """
+        Handling modifications on a chapter
+        """
+        chapter = self.get_object()
+        serializer = ChapterSerializer(chapter, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 # 3. Lesson endpoint
@@ -245,17 +248,17 @@ class LessonViewSet(viewsets.ModelViewSet):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-@action(detail=True, methods=['put'], permission_classes=[IsTeacherOfLessonChapterCourse])
-def update_lesson(self, request, pk=None):
-    """
-    Handling modification of a lesson
-    """
-    lesson = self.get_object()
-    serializer = LessonSerializer(lesson, data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    @action(detail=True, methods=['put'], permission_classes=[IsTeacherOfLessonChapterCourse])
+    def update_lesson(self, request, pk=None):
+        """
+        Handling modification of a lesson
+        """
+        lesson = self.get_object()
+        serializer = LessonSerializer(lesson, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 # 4. Endpoint dedicated to show a course detail page

@@ -1,6 +1,7 @@
 import React, {useState, useContext} from 'react';
 import { useParams } from 'react-router-dom';
 import { useCourseDetail } from './useCourseDetail';
+import axios from 'axios';
 import { UserContext } from '../../contexts/userContext';
 import { Link } from 'react-router-dom';
 
@@ -9,20 +10,50 @@ const CourseContent = () => {
   const { courseData, loading, error } = useCourseDetail(courseId);
   const [progress, setProgress] = useState({});
   const { user } = useContext(UserContext)
+
+  const [completedLessons, setCompletedLessons] = useState({});
+
   const { quizId } = useParams();
   // const { quiz } = useContext(QuizDetail);
 
   // console.log("Quiz detail: ", quiz);
 
   // get the total number of lessons
-  const totalLessons = courseData.chapters_with_lessons.reduce((acc, curr) => acc + curr.lessons.length, 0);
-  console.log("Total lessons: ", totalLessons);
+//   const totalLessons = courseData.chapters_with_lessons.reduce((acc, curr) => acc + curr.lessons.length, 0);
+//   console.log("Total lessons: ", totalLessons);
 
   const totalProgress = Object.values(progress).reduce((acc, curr) => acc + curr, 0) / Object.keys(progress).length || 0;
 
-  const HandleMarkAsRead = () =>{
-    
-  }
+
+  const HandleMarkAsRead = async (lessonId, chapterIndex, totalLessons) => {
+    try {
+      const response = await axios.post(
+        'http://localhost:8000/courses/courses/mark-lesson-as-complete/',
+        { lesson_id: lessonId },
+        {
+          headers: {
+            'Authorization': `Token ${localStorage.getItem('userToken')}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+  
+      if (response.status === 200) {
+        setCompletedLessons(prev => ({ ...prev, [lessonId]: true }));
+        
+        // Update progress for the chapter
+        const chapterProgress = ((progress[chapterIndex] || 0) + 1) / totalLessons;
+        setProgress(prev => ({
+          ...prev,
+          [chapterIndex]: chapterProgress
+        }));
+  
+        console.log(response.data.message);
+      }
+    } catch (error) {
+      console.error('Error marking lesson as complete:', error);
+    }
+  };
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error loading course details.</p>;
@@ -36,6 +67,7 @@ const CourseContent = () => {
         [chapterIndex]: chapterProgress
       });
     };
+
 
     courseData.chapters_with_lessons_and_quizzes.forEach(chapterWithLessonsAndQuizzes => {
       const chapterId = chapterWithLessonsAndQuizzes.chapter.id;
@@ -88,15 +120,24 @@ const CourseContent = () => {
           <h5 className="text-gray-800 font-semibold text-xl">{`Lesson ${lessonIndex + 1}: ${lesson.lesson_name}`}</h5>
           <p className="text-gray-700  dark:text-gray-300">{lesson.lesson_content}</p>
           <p className='my-2 text-yellow-500'>Video: {lesson.video}</p>
-          {user.user_type === "Student" && (
-          <button onClick={markAsRead} className='bg-cyan-950 text-gray-200 rounded hover:bg-yellow-500 p-2 font-semibold'>Mark as Read</button>
-          )}
+          {user.user_type === "Student" && !completedLessons[lesson.id] && (
+                      <button 
+                        onClick={() => HandleMarkAsRead(lesson.id, index, chapter.lessons.length)} 
+                        className='bg-cyan-950 text-gray-200 rounded hover:bg-yellow-500 p-2 font-semibold'
+                      >
+                        Mark as Read
+                      </button>
+                    )}
+                    {completedLessons[lesson.id] && (
+                      <p className="text-green-500">Lesson completed!</p>
+                    )}
         </div>
       ))}
     </div>
   </div>
 ))}
       </div>
+
 
       <div className="mb-6">
         <h2 className="text-2xl font-semibold mb-2">Quizzes</h2>
