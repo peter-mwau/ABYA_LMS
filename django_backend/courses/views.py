@@ -133,7 +133,7 @@ class CourseViewSet(viewsets.ModelViewSet):
             return Response({'message': 'Invalid request method.'}, status=400)
 
 
-    @action(detail=False, methods=['post'])
+    @action(detail=False, methods=['post'], url_path='mark-lesson-as-complete')
     def mark_lesson_as_complete(self, request):
         """
         Handling completion of a lesson
@@ -143,6 +143,7 @@ class CourseViewSet(viewsets.ModelViewSet):
 
         try:
             data = json.loads(request.body.decode('utf-8'))
+            print("data: ", data)
             lesson_id = data.get('lesson_id')
         except json.JSONDecodeError:
             return Response({'message': 'Invalid JSON data.'}, status=status.HTTP_400_BAD_REQUEST)
@@ -156,13 +157,14 @@ class CourseViewSet(viewsets.ModelViewSet):
             return Response({'message': 'Lesson not found.'}, status=status.HTTP_404_NOT_FOUND)
 
         user = request.user
-
+        Enrollment = Enrollment.objects.filter(student=user, course=lesson.chapter.course)
+        print("Enrollment: ", Enrollment)
         # Check if the lesson is already marked as complete for the user
         if CompletedLesson.objects.filter(user=user, lesson=lesson).exists():
             return Response({'message': 'Lesson is already marked as complete.'}, status=status.HTTP_200_OK)
 
         # Mark the lesson as complete for the user
-        completed_lesson = CompletedLesson(user=user, lesson=lesson)
+        completed_lesson = CompletedLesson(user=user, lesson=lesson, enrollment=Enrollment)
         completed_lesson.save()
 
         # Calculate the completion percentage for the course
