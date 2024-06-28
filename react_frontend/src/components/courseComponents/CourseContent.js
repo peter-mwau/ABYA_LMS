@@ -59,7 +59,7 @@ const CourseContent = () => {
     }
 
   return (
-    <div className=" mx-auto p-4 text-cyan-950 dark:bg-gray-800 dark:text-gray-100 md:pl-[270px] md:m-0 lg:mx-auto lg:px-[500px]">
+    <div className=" mx-auto p-4 text-cyan-950 dark:bg-gray-800 dark:text-gray-100 md:pl-[270px] md:m-0 lg:mx-auto  lg:h-[100vh] lg:px-[500px]">
       <h1 className="text-3xl font-bold mb-4 px-2">{courseData.course_name}</h1>
       {user.user_type === "Student" && (
       <div className="bg-gray-200 rounded-full h-2.5 dark:bg-gray-700 my-2">

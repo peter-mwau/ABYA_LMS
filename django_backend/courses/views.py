@@ -85,99 +85,99 @@ class CourseViewSet(viewsets.ModelViewSet):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-@action(detail=False, methods=['get'], url_path='list-courses')
-def list_courses(self, request):
-    """
-    Handling listing of a course available in the site
-    """
-    user = self.get_user()
-    teacher_name = f"{user.first_name} {user.last_name}"
-    if user.user_type == 2:
-        queryset = self.get_queryset().filter(Q(teacher_name=teacher_name) & Q(teacher=user))
-    else:
-        queryset = self.get_queryset()
-    serializer = CourseSerializer(queryset, many=True)
-    if not queryset:
-        return Response({'message': 'No courses available at the moment.'}, status=204)
-    return Response(serializer.data, status=200)
+    @action(detail=False, methods=['get'], url_path='list-courses')
+    def list_courses(self, request):
+        """
+        Handling listing of a course available in the site
+        """
+        user = self.get_user()
+        teacher_name = f"{user.first_name} {user.last_name}"
+        if user.user_type == 2:
+            queryset = self.get_queryset().filter(Q(teacher_name=teacher_name) & Q(teacher=user))
+        else:
+            queryset = self.get_queryset()
+        serializer = CourseSerializer(queryset, many=True)
+        if not queryset:
+            return Response({'message': 'No courses available at the moment.'}, status=204)
+        return Response(serializer.data, status=200)
 
 
-@action(detail=True, methods=['put'], permission_classes=[IsTeacherOfCourse], url_path='update-course')
-def update_course(self, request, pk=None):
-    """
-    Handling modification of a course that already exists
-    """
-    course = self.get_object()
-    serializer = CourseSerializer(course, data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-@action(detail=True, methods=['get'])
-def completed_lessons_count(self, request, pk=None):
-    if request.user.is_authenticated:
+    @action(detail=True, methods=['put'], permission_classes=[IsTeacherOfCourse], url_path='update-course')
+    def update_course(self, request, pk=None):
+        """
+        Handling modification of a course that already exists
+        """
         course = self.get_object()
-        completed_lessons_count = request.user.completed_lessons.filter(
-            lesson__chapter__course=course
-        ).count()
-        completed_lessons = CompletedLesson.objects.filter(user=request.user, lesson__chapter__course=course)
-        completed_lesson_ids = [completed_lesson.lesson.id for completed_lesson in completed_lessons]
-        context = {
+        serializer = CourseSerializer(course, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+    @action(detail=True, methods=['get'])
+    def completed_lessons_count(self, request, pk=None):
+        if request.user.is_authenticated:
+            course = self.get_object()
+            completed_lessons_count = request.user.completed_lessons.filter(
+                lesson__chapter__course=course
+            ).count()
+            completed_lessons = CompletedLesson.objects.filter(user=request.user, lesson__chapter__course=course)
+            completed_lesson_ids = [completed_lesson.lesson.id for completed_lesson in completed_lessons]
+            context = {
             'completed_lessons_count': completed_lessons_count,
             'completed_lesson_ids': completed_lesson_ids,
-        }
-        return Response(context)
-    else:
-        return Response({'message': 'Invalid request method.'}, status=400)
+            }
+            return Response(context)
+        else:
+            return Response({'message': 'Invalid request method.'}, status=400)
 
 
-@action(detail=False, methods=['post'])
-def mark_lesson_as_complete(self, request):
-    """
-    Handling completion of a lesson
-    """
-    if request.method != 'POST':
-        return Response({'message': 'Invalid request method.'}, status=status.HTTP_400_BAD_REQUEST)
+    @action(detail=False, methods=['post'])
+    def mark_lesson_as_complete(self, request):
+        """
+        Handling completion of a lesson
+        """
+        if request.method != 'POST':
+            return Response({'message': 'Invalid request method.'}, status=status.HTTP_400_BAD_REQUEST)
 
-    try:
-        data = json.loads(request.body.decode('utf-8'))
-        lesson_id = data.get('lesson_id')
-    except json.JSONDecodeError:
-        return Response({'message': 'Invalid JSON data.'}, status=status.HTTP_400_BAD_REQUEST)
+        try:
+            data = json.loads(request.body.decode('utf-8'))
+            lesson_id = data.get('lesson_id')
+        except json.JSONDecodeError:
+            return Response({'message': 'Invalid JSON data.'}, status=status.HTTP_400_BAD_REQUEST)
 
-    if not lesson_id:
-        return Response({'message': 'Missing lesson ID.'}, status=status.HTTP_400_BAD_REQUEST)
+        if not lesson_id:
+            return Response({'message': 'Missing lesson ID.'}, status=status.HTTP_400_BAD_REQUEST)
 
-    try:
-        lesson = Lesson.objects.get(pk=lesson_id)
-    except Lesson.DoesNotExist:
-        return Response({'message': 'Lesson not found.'}, status=status.HTTP_404_NOT_FOUND)
+        try:
+            lesson = Lesson.objects.get(pk=lesson_id)
+        except Lesson.DoesNotExist:
+            return Response({'message': 'Lesson not found.'}, status=status.HTTP_404_NOT_FOUND)
 
-    user = request.user
+        user = request.user
 
-    # Check if the lesson is already marked as complete for the user
-    if CompletedLesson.objects.filter(user=user, lesson=lesson).exists():
-        return Response({'message': 'Lesson is already marked as complete.'}, status=status.HTTP_200_OK)
+        # Check if the lesson is already marked as complete for the user
+        if CompletedLesson.objects.filter(user=user, lesson=lesson).exists():
+            return Response({'message': 'Lesson is already marked as complete.'}, status=status.HTTP_200_OK)
 
-    # Mark the lesson as complete for the user
-    completed_lesson = CompletedLesson(user=user, lesson=lesson)
-    completed_lesson.save()
+        # Mark the lesson as complete for the user
+        completed_lesson = CompletedLesson(user=user, lesson=lesson)
+        completed_lesson.save()
 
-    # Calculate the completion percentage for the course
-    course = lesson.chapter.course
-    total_lessons = Lesson.objects.filter(chapter__course=course).count()
-    total_quizzes = course.total_quizzes()
-    completed_lessons = user.completed_lessons.filter(lesson__chapter__course=course).count()
-    completed_quizzes = user.completed_quizzes(course)
-    completion_percentage = round(((completed_lessons + completed_quizzes) / (total_lessons + total_quizzes)) * 100)
+        # Calculate the completion percentage for the course
+        course = lesson.chapter.course
+        total_lessons = Lesson.objects.filter(chapter__course=course).count()
+        total_quizzes = course.total_quizzes()
+        completed_lessons = user.completed_lessons.filter(lesson__chapter__course=course).count()
+        completed_quizzes = user.completed_quizzes.filter(quiz__chapter__course=course).count
+        completion_percentage = round(((completed_lessons + completed_quizzes) / (total_lessons + total_quizzes)) * 100)
 
-    return Response({
+        return Response({
         'message': 'Lesson marked as complete successfully.',
         'completed_lessons_count': completed_lessons,
         'completion_percentage': completion_percentage
-    }, status=status.HTTP_200_OK)
+        }, status=status.HTTP_200_OK)
 
 
 # 2. Endpoint for accessing chapter data
@@ -271,6 +271,7 @@ class CourseDetailAPI(APIView):
             course_name = course.course_name
             course_description = course.course_description
             course_creator = course.teacher_name
+            enrollments = Enrollment.objects.filter(course=course).values('student_id', 'course_id')
         except Course.DoesNotExist:
             return Response({'message': 'Course not found.'}, status=status.HTTP_404_NOT_FOUND)
 
@@ -394,6 +395,7 @@ class CourseDetailAPI(APIView):
             'course_name': course_name,
             'course_description': course_description,
             'course_creator': course_creator,
+            'enrollments': list(enrollments),
         }
 
         return Response(context, status=status.HTTP_200_OK)
