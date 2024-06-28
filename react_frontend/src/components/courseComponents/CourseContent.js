@@ -80,15 +80,7 @@ const CourseContent = () => {
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error loading course details.</p>;
 
-    // Function to handle marking a lesson as read
-    const markAsRead = (chapterIndex, lessonIndex, totalLessons) => {
-      // Update progress for the chapter
-      const chapterProgress = ((progress[chapterIndex] || 0) + 1) / totalLessons;
-      setProgress({
-        ...progress,
-        [chapterIndex]: chapterProgress
-      });
-    };
+  
 
 
     courseData.chapters_with_lessons_and_quizzes.forEach(chapterWithLessonsAndQuizzes => {
@@ -115,6 +107,7 @@ const CourseContent = () => {
       console.log("Chapter ID: ", chapterId);
       return quizId;
     }
+    
 
   return (
     <div className=" mx-auto p-4 text-cyan-950 dark:bg-gray-800 dark:text-gray-100 md:pl-[270px] md:m-0 lg:mx-auto  lg:h-[100vh] lg:px-[500px]">
@@ -126,9 +119,11 @@ const CourseContent = () => {
       //     style={{ width: `${totalProgress * 100}%` }}
       //   ></div>
       // </div>
-      <div className="progress-bar bg-yellow-400 rounded-xl h-4" style={{width: `${progressBarPercentage}%`}}>
-    <span className='text-white font-semibold text-center mx-auto pb-1 text-sm items-center justify-center flex my-auto'>{progressBarPercentage}%</span>
-  </div>
+      <div className="relative bg-gray-200 rounded-xl h-4 dark:bg-gray-700">
+        <div className={`absolute left-0 top-0 h-4 rounded-xl ${progressBarPercentage > 0 ? 'bg-yellow-400' : ''}`} style={{ width: `${Math.max(progressBarPercentage, 5)}%` }}>
+          <span className='text-white font-semibold text-center w-full flex items-center justify-center h-full'>{progressBarPercentage}%</span>
+        </div>
+    </div>
       )}
       <p className='text-justify p-2 dark:text-gray-300'>{courseData.course_description}</p>
       <div className="mb-6">
