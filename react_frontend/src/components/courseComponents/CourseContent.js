@@ -14,6 +14,10 @@ const CourseContent = () => {
 
   // console.log("Quiz detail: ", quiz);
 
+  // get the total number of lessons
+  const totalLessons = courseData.chapters_with_lessons.reduce((acc, curr) => acc + curr.lessons.length, 0);
+  console.log("Total lessons: ", totalLessons);
+
   const totalProgress = Object.values(progress).reduce((acc, curr) => acc + curr, 0) / Object.keys(progress).length || 0;
 
   const HandleMarkAsRead = () =>{

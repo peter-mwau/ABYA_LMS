@@ -9,7 +9,7 @@ const CourseInfo = () => {
   const { courseId } = useParams();
   const { courseData, loading, error } = useCourseDetail(courseId);
   const { user } = useContext(UserContext);
-  const [isEnrolled, setIsEnrolled] = useState(null);
+  const [isEnrolled, setIsEnrolled] = useState(false);
   const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState('');
   
@@ -21,10 +21,10 @@ const CourseInfo = () => {
     }
   }, [courseData, user]);
 
-  useEffect(() => {
-    console.log("Enrollment status updated: ", isEnrolled);
-  }, [isEnrolled]);
-  console.log("Enrollment status1: ", isEnrolled);
+  // useEffect(() => {
+  //   console.log("Enrollment status updated: ", isEnrolled);
+  // }, [isEnrolled]);
+  // console.log("Enrollment status1: ", isEnrolled);
 
   const enrollCourse = async () => {
     try {
@@ -98,13 +98,13 @@ const CourseInfo = () => {
       
       {user.user_type ==="Student" && (
       // {
-        isEnrolled !== null && (
+        // isEnrolled !== null && (
           isEnrolled ? (
             <button className='bg-red-600 dark:bg-red-600 dark:text-white text-gray-100 p-2 rounded my-2 font-semibold' onClick={unenrollCourse}>Unenroll</button>
           ) : (
             <button className='bg-cyan-950 text-gray-100 p-1 rounded my-2 font-semibold dark:bg-gray-200 dark:text-cyan-950' onClick={enrollCourse}>Enroll</button>
           )
-        )
+        // )
       // }
       )}
       
