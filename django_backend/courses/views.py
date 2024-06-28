@@ -179,6 +179,7 @@ class CourseViewSet(viewsets.ModelViewSet):
             'message': 'Lesson marked as complete successfully.',
             'completed_lessons_count': completed_lessons,
             'completion_percentage': completion_percentage
+
         }, status=status.HTTP_200_OK)
 
 
@@ -273,6 +274,7 @@ class CourseDetailAPI(APIView):
             course_name = course.course_name
             course_description = course.course_description
             course_creator = course.teacher_name
+            enrollments = Enrollment.objects.filter(course=course).values('student_id', 'course_id')
         except Course.DoesNotExist:
             return Response({'message': 'Course not found.'}, status=status.HTTP_404_NOT_FOUND)
 
@@ -396,6 +398,7 @@ class CourseDetailAPI(APIView):
             'course_name': course_name,
             'course_description': course_description,
             'course_creator': course_creator,
+            'enrollments': list(enrollments),
         }
 
         return Response(context, status=status.HTTP_200_OK)
