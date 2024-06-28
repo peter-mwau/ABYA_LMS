@@ -174,7 +174,7 @@ class CourseViewSet(viewsets.ModelViewSet):
         total_lessons = Lesson.objects.filter(chapter__course=course).count()
         total_quizzes = course.total_quizzes()
         completed_lessons = user.completed_lessons.filter(lesson__chapter__course=course).count()
-        completed_quizzes = user.completed_quizzes(course)
+        # completed_quizzes = user.completed_quizzes(course)
         # completion_percentage = round(((completed_lessons + completed_quizzes) / (total_lessons + total_quizzes)) * 100)
         completion_percentage = round(((completed_lessons ) / (total_lessons)) * 100)
 
