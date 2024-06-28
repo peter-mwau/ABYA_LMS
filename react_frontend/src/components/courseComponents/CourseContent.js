@@ -10,6 +10,9 @@ const CourseContent = () => {
   const { courseData, loading, error } = useCourseDetail(courseId);
   const [progress, setProgress] = useState({});
   const { user } = useContext(UserContext)
+  const completionPercentage = courseData?.completion_percentage ?? 'Loading...';
+
+  console.log("Percentage: ", completionPercentage);
 
   const [completedLessons, setCompletedLessons] = useState({});
 
@@ -21,7 +24,7 @@ const CourseContent = () => {
   // get the total number of lessons
 //   const totalLessons = courseData.chapters_with_lessons.reduce((acc, curr) => acc + curr.lessons.length, 0);
 //   console.log("Total lessons: ", totalLessons);
-
+  const progressBarPercentage = completionPercentage;
   const totalProgress = Object.values(progress).reduce((acc, curr) => acc + curr, 0) / Object.keys(progress).length || 0;
 
 
@@ -98,12 +101,15 @@ const CourseContent = () => {
     <div className=" mx-auto p-4 text-cyan-950 dark:bg-gray-800 dark:text-gray-100 md:pl-[270px] md:m-0 lg:mx-auto  lg:h-[100vh] lg:px-[500px]">
       <h1 className="text-3xl font-bold mb-4 px-2">{courseData.course_name}</h1>
       {user.user_type === "Student" && (
-      <div className="bg-gray-200 rounded-full h-2.5 dark:bg-gray-700 my-2">
-        <div
-          className="bg-blue-600 h-2.5 rounded-full"
-          style={{ width: `${totalProgress * 100}%` }}
-        ></div>
-      </div>
+      // <div className="bg-gray-200 rounded-full h-2.5 dark:bg-gray-700 my-2">
+      //   <div
+      //     className="bg-blue-600 h-2.5 rounded-full"
+      //     style={{ width: `${totalProgress * 100}%` }}
+      //   ></div>
+      // </div>
+      <div className="progress-bar bg-yellow-400 rounded-xl h-4" style={{width: `${progressBarPercentage}%`}}>
+    <span className='text-white font-semibold text-center mx-auto pb-1 text-sm items-center justify-center flex my-auto'>{progressBarPercentage}%</span>
+  </div>
       )}
       <p className='text-justify p-2 dark:text-gray-300'>{courseData.course_description}</p>
       <div className="mb-6">
