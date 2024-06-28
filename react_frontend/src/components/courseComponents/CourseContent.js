@@ -1,4 +1,4 @@
-import React, {useState, useContext} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import { useParams } from 'react-router-dom';
 import { useCourseDetail } from './useCourseDetail';
 import axios from 'axios';
@@ -11,6 +11,25 @@ const CourseContent = () => {
   const [progress, setProgress] = useState({});
   const { user } = useContext(UserContext)
   const completionPercentage = courseData?.completion_percentage ?? 'Loading...';
+  const courseName = courseData?.course_name ?? 'Loading...';
+  const [showCongratsPopup, setShowCongratsPopup] = useState(false);
+
+  useEffect(() => {
+    if (completionPercentage === 100) {
+      setShowCongratsPopup(true);
+      alert("Congratulations! You've completed all lessons.");
+    }
+  }, [completionPercentage]);
+
+  const handleClosePopup = () => {
+    setShowCongratsPopup(false);
+  };
+
+  const handleClaimCertificate = () => {
+    // Logic to claim the certificate
+    console.log("Certificate claimed");
+    setShowCongratsPopup(false);
+  };
 
   console.log("Percentage: ", completionPercentage);
 
@@ -143,6 +162,22 @@ const CourseContent = () => {
   </div>
 ))}
       </div>
+
+      {showCongratsPopup && (
+        <div id="popup" className="absolute z-50 inset-0 items-center justify-center bg-black bg-opacity-40 overflow-auto">
+        <div className="relative bg-cyan-950 text-white lg:w-[30%] w-[380px] h-[400px] lg:h-[40%] mt-[200px] rounded-lg p-4 mx-auto my-auto lg:flex lg:items-center lg:justify-center flex-col" style={{background: `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/congratulations.jpg')`}}>
+            <h2 className="text-2xl font-bold mb-4 flex mx-auto justify-center items-center">Congratulations!</h2>
+            <p>You have successfully completed the <span className="text-yellow-400">{ courseName }</span> course.</p>
+            <p>Click the "Generate Certificate" button to access your Certificate.</p>
+            <div className="flex mx-auto space-x-2 mt-[120px] items-center justify-center">
+                    <button onClick={handleClaimCertificate} id="generateCertificate" class="bg-yellow-500 text-white rounded-lg px-4 py-2 mt-4 hover:bg-yellow-400">
+                        Claim Certificate
+                    </button> 
+                <button onClick={handleClosePopup} id="closePopup" class="bg-yellow-500 text-white rounded-lg px-4 py-2 mt-4 hover:bg-yellow-400">Close</button>
+            </div>
+        </div>
+    </div>
+      )}
 
 
       <div className="mb-6">
