@@ -38,3 +38,7 @@ class CompletedCourseSerializer(serializers.ModelSerializer):
     class Meta:
         model = CompletedCourse
         fields = ['user', 'course', 'completed_at']
+class CertificateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Certificate
+        fields = '__all__'
