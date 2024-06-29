@@ -64,4 +64,37 @@ npm start
 
 
 #### The React frontend should now be running at http://localhost:3000.
+
+### 3. Blockchaincerts_FatApi
+The repo is a smart contract for issuing and managing blockchain certificates
+
+## Requirements
+
+- FastAPI
+- Uvicorn
+- Other dependencies listed in `requirements.txt`
+
+## Installation
+
+### Clone the Repository
+```bash
+git clone https://github.com/Mickmacha/Blockchaincerts_FastApi.git
+cd Blockchaincerts_FastApi
+```
+
+### Create a Virtual Environment to manage dependencies
+python -m venv venv
+source venv/bin/activate  # On Windows use `venv\Scripts\activate`
+
+
+### Install Required dependenciess using Pip
+pip install -r requirements.txt
+
+### Running The FastApi Server
+uvicorn main:app --host 0.0.0.0 --port 8080
+
+
+
+
+
 #### Access the Django admin interface at http://localhost:8000/admin
