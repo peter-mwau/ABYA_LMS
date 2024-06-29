@@ -43,7 +43,7 @@ from rest_framework.generics import ListAPIView, RetrieveAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from .serializers import CourseSerializer, ChapterSerializer, LessonSerializer, CompletedLessonSerializer, \
-    CompletedCourseSerializer, EnrollmentSerializer
+    CompletedCourseSerializer, EnrollmentSerializer, CertificateSerializer
 from resources.serializers import VideoLessonSerializer, VideoProgressSerializer, ResourceSerializer
 from assignments.serializers import AssignmentSerializer, QuizSerializer
 from .permissions import IsTeacherOfCourse, IsTeacherOfChapterCourse, IsTeacherOfLessonChapterCourse
@@ -462,6 +462,53 @@ class UnenrollCourseAPI(APIView):
             return Response({'detail': 'You have unenrolled from the course.'}, status=status.HTTP_204_NO_CONTENT)
 
 
+class CertificateAPIView(APIView):
+    def post(self, request, course_id):
+        user = request.user
+        course = get_object_or_404(Course, pk=course_id)
+
+        try:
+            existing_certificate = Certificate.objects.get(user=user, course=course)
+            serializer = CertificateSerializer(existing_certificate)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except ObjectDoesNotExist:
+            first_name = user.first_name
+            last_name = user.last_name
+            full_name = f"{first_name} {last_name}"
+            course_name = course.course_name
+            issuer = "ABYA Africa"
+            now = datetime.datetime.now()
+            unixtime = calendar.timegm(now.utctimetuple())
+
+            certificate_response = {
+                "name": full_name,
+                "course": course_name,
+                "issuer": issuer,
+                "issuer_date": unixtime
+            }
+
+            if all(value is not None for value in certificate_response.values()):
+                certificate_data = send_certificate_request(
+                    certificate_response["name"],
+                    certificate_response["issuer"],
+                    certificate_response["issuer_date"]
+                )
+                print(certificate_data)
+
+                new_certificate = Certificate(
+                    user=user,
+                    course=course,
+                    name=certificate_data['name'],
+                    issuer=certificate_data["issuer"],
+                    issued_at=certificate_data["issue_date"],
+                    certificate_id=certificate_data["certificate_id"]
+                )
+                new_certificate.save()
+
+                serializer = CertificateSerializer(new_certificate)
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            else:
+                return Response({"error": "Incomplete certificate data"}, status=status.HTTP_400_BAD_REQUEST)
 # View that handles the certificate access and retrieval
 def certificate_view(request, course_id):
     """

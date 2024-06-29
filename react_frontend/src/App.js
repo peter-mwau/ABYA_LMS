@@ -28,6 +28,7 @@ import QuestionForm from "./components/QuizComponents/QuestionForm";
 import { createContext } from "react";
 import CourseInfo from "./components/courseComponents/CourseInfo";
 import QuizDetail from "./components/QuizComponents/QuizDetail";
+import Certificate from "./components/courseComponents/Certificate";
 
 export const quizContext = createContext([]);
 
@@ -62,6 +63,7 @@ function App() {
 					<Route path="create-question" element={<QuestionForm />} />
 					<Route path="course-info/:courseId" element={<CourseInfo/>} />
 					<Route path="quiz-detail/:quizId" element={<QuizDetail />} />
+					<Route path="certificate/:courseId/view" element={<Certificate />} />
 				</Routes>
 			</quizContext.Provider>
 		</Providers>

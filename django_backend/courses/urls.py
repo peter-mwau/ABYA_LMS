@@ -21,11 +21,13 @@ urlpatterns = [
     path('course_info/<int:pk>/', views.CourseInfoAPI.as_view(), name='course_info'),
     path('enroll/<int:pk>/', views.EnrollCourseAPI.as_view(), name='enroll'),
     path('unenroll/<int:pk>/', views.UnenrollCourseAPI.as_view(), name='unenroll'),
-    path('certificate/<int:course_id>/', views.certificate_view, name='certificate'),
+    path('certificate/<int:course_id>/', views.CertificateAPIView.as_view(), name='certificate-api'),
     path('video/progress/', views.UpdateVideoProgressAPI.as_view(), name='update_video_progress'),
     path('achievements/', views.AchievementsAPI.as_view(), name='achievements_api'),
+    path('certificate/<int:course_id>/', views.CertificateAPIView.as_view(), name='certificate-api'),
     path('verify_certificate/', views.verify_certificate, name='verify_certificate'),
     path('achievements/', views.achievements, name='achievements'),
+
 ]
 
 if settings.DEBUG:
