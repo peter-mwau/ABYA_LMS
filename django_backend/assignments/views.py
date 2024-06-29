@@ -33,13 +33,13 @@ from datetime import datetime, timedelta
 from django.contrib.sessions.models import Session
 from django.utils import timezone
 from rest_framework import viewsets
-from assignments.serializers import AssignmentSerializer, QuestionSerializer, QuizSerializer, QuizSubmissionSerializer, SubmitAssignmentSerializer, ChoiceSerializer
+from assignments.serializers import AssignmentSerializer, QuestionSerializer, QuizSerializer, QuizSubmissionSerializer, SubmitAssignmentSerializer, ChoiceSerializer, DetailedQuizSerializer
 from rest_framework import permissions
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.renderers import TemplateHTMLRenderer
-
+from rest_framework.views import APIView
 
 # Create your views here.    
 # class CreateAssignment(LoginRequiredMixin, generic.CreateView):
@@ -84,22 +84,30 @@ class QuestionViewSet(viewsets.ModelViewSet):
         question_data['quiz_title'] = quiz.id
         print('quiz data', quiz_id)
         print('question data', question_data)
-    
+        
+        
+        question_data = {
+            'quiz_title': quiz.id,
+            'question_text': request.data.get('question_text'),
+        }
 
         question_serializer = QuestionSerializer(data=question_data)
         if question_serializer.is_valid():
             question = question_serializer.save()
-            
-            choice_data = request.data.get('choices', [])
-            for choice in choice_data:
-                choice['question'] = question.id
-                print('Choice data', choice)
+
+            choice_data = request.data.getlist('choices', [])
+            print("Choice data", len(choice_data))
+            for i in range(4):# Assuming there are always 4 choices
+                choice_text = request.data.get(f'choices[{i}].text')
+                is_correct = request.data.get(f'choices[{i}].is_correct', 'false').lower() == 'true'
+
+                choice = {'question': question.id, 'text': choice_text, 'is_correct': is_correct}
                 choice_serializer = ChoiceSerializer(data=choice)
                 if choice_serializer.is_valid():
                     choice_serializer.save()
                 else:
                     return Response(choice_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-            
+
             return Response(question_serializer.data, status=status.HTTP_201_CREATED)
         return Response(question_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -114,16 +122,21 @@ class QuestionViewSet(viewsets.ModelViewSet):
             question = question_serializer.save()
             
             choice_data = request.data.get('choices', [])
-            for choice in choice_data:
-                choice['question'] = question.id
+            for i in range(4):# Assuming there are always 4 choices
+                choice_text = request.data.get(f'choices[{i}].text')
+                is_correct = request.data.get(f'choices[{i}].is_correct', 'false').lower() == 'true'
+
+                choice = {'question': question.id, 'text': choice_text, 'is_correct': is_correct}
                 choice_serializer = ChoiceSerializer(data=choice)
                 if choice_serializer.is_valid():
                     choice_serializer.save()
                 else:
                     return Response(choice_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-            
+
             return Response(question_serializer.data, status=status.HTTP_201_CREATED)
         return Response(question_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
 class SubmitAssignmentViewSet(viewsets.ModelViewSet):
     queryset = SubmitAssignment.objects.all()
     serializer_class = SubmitAssignmentSerializer
@@ -274,7 +287,15 @@ class QuizViewSet(viewsets.ModelViewSet):
             request.session[quiz_session_key] = quiz_attempts_data
 
         request.session.save()
-        
+
+class FetchQuizDataView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request, pk):
+        quiz = get_object_or_404(Quiz, pk=pk)
+        serializer = DetailedQuizSerializer(quiz)
+        print(serializer.data)
+        return Response(serializer.data)        
 
 
 # -------------------OLD CODE-----------------------------
