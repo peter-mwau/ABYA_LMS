@@ -626,11 +626,12 @@ const Homepage = () => {
                                         <div className="framer-by1oke"
                                             style={{
                                                 background: 'linear-gradient(180deg, rgb(66, 66, 20) 0%, rgb(51, 51, 20) 2.2552369263795087%, rgb(33, 33, 24) 100%)',
-                                                borderBottomLeftRadius: '18px',
-                                                borderBottomRightRadius: '18px',
+                                                borderBottomLeftRadius: '0px',
+                                                borderBottomRightRadius: '0px',
                                                 borderTopLeftRadius: '18px',
                                                 borderTopRightRadius: '18px'
                                             }}>
+
                                             <div className="framer-7crl6t"
                                                 style={{
                                                     borderBottomLeftRadius: '20px',
@@ -644,92 +645,112 @@ const Homepage = () => {
                                             </div>
                                             <div className="framer-1jdprhl"
                                                 style={{
+
                                                     outline: 'none',
                                                     display: 'flex',
+                                                    height: 'fit-content',
                                                     flexDirection: 'column',
                                                     justifyContent: 'flex-start',
                                                     flexShrink: 0,
+                                                    
                                                     '--extracted-a0htzi': 'var(--token-a3567fc0-2c6f-4fa8-ac8f-89ddd158e98d, rgb(255, 255, 255))',
                                                     '--framer-link-text-color': 'rgb(0, 153, 255)',
                                                     '--framer-link-text-decoration': 'underline',
                                                     transform: 'none'
                                                 }}
                                                 data-framer-component-type="RichTextContainer">
+                                                <img
+                                                    src="https://i.postimg.cc/y6n2C13G/2151480177.jpg"
+                                                    alt="Blockchain"
+                                                    style={{
+                                                        width: '100%',                                                        
+                                                        display: 'block',
+                                                        height: '50%',
+                                                        borderBottomLeftRadius: '18px',
+                                                        borderBottomRightRadius: '18px',
+                                                        borderTopLeftRadius: '18px',
+                                                        borderTopRightRadius: '18px'
+                                                    }}
+                                                />
                                                 <h3 style={{
+                                                    paddingTop: '20px',
                                                     '--font-selector': 'R0Y7VW5ib3VuZGVkLXJlZ3VsYXI=',
                                                     '--framer-font-family': '"Unbounded", "Unbounded Placeholder", sans-serif',
                                                     '--framer-font-size': '20px',
-                                                    '--framer-letter-spacing': '-0.1px',
+                                                    '--framer-letter-spacing': '0px',
                                                     '--framer-line-height': '1.3em',
                                                     '--framer-text-alignment': 'left',
                                                     '--framer-text-color': 'var(--extracted-a0htzi, var(--token-a3567fc0-2c6f-4fa8-ac8f-89ddd158e98d, rgb(255, 255, 255)))'
                                                 }} className="framer-text">Introduction to Blockchain Technology</h3>
-                                            </div>
-                                        </div>
-                                        <div className="framer-66bj2j"
-                                            style={{
-                                                outline: 'none',
-                                                display: 'flex',
-                                                flexDirection: 'column',
-                                                justifyContent: 'flex-start',
-                                                flexShrink: 0,
-                                                '--extracted-r6o4lv': 'var(--token-a3567fc0-2c6f-4fa8-ac8f-89ddd158e98d, rgb(255, 255, 255))',
-                                                '--framer-link-text-color': 'rgb(0, 153, 255)',
-                                                '--framer-link-text-decoration': 'underline',
-                                                opacity: 0.6,
-                                                transform: 'none'
-                                            }}
-                                            data-framer-component-type="RichTextContainer">
-                                            <p style={{
-                                                '--font-selector': 'RlM7U2F0b3NoaS1yZWd1bGFy',
-                                                '--framer-font-family': '"Satoshi", "Satoshi Placeholder", sans-serif',
-                                                '--framer-line-height': '1.5em',
-                                                '--framer-text-alignment': 'left',
-                                                '--framer-text-color': 'var(--extracted-r6o4lv, var(--token-a3567fc0-2c6f-4fa8-ac8f-89ddd158e98d, rgb(255, 255, 255)))'
-                                            }} className="framer-text">Explore the fundamentals of blockchain and its applications across various industries.
-                                            </p>
-                                        </div>
-                                        <div className="framer-13qejrz">
-                                            <div className="framer-13dint0"
-                                                style={{
-                                                    outline: 'none',
-                                                    display: 'flex',
-                                                    flexDirection: 'column',
-                                                    justifyContent: 'flex-start',
-                                                    flexShrink: 0,
-                                                    '--extracted-r6o4lv': 'var(--token-a8e28c9d-4ce6-4ad2-96a7-a1a12837bc97, rgb(254, 232, 76))',
-                                                    '--framer-link-text-color': 'rgb(0, 153, 255)',
-                                                    '--framer-link-text-decoration': 'underline',
-                                                    transform: 'none'
-                                                }}
-                                                data-framer-component-type="RichTextContainer">
-                                                <p style={{
-                                                    '--font-selector': 'R0Y7VW5ib3VuZGVkLXJlZ3VsYXI=',
-                                                    '--framer-font-family': '"Unbounded", "Unbounded Placeholder", sans-serif',
-                                                    '--framer-font-size': '12px',
-                                                    '--framer-letter-spacing': '-0.1px',
-                                                    '--framer-line-height': '2em',
-                                                    '--framer-text-alignment': 'left',
-                                                    '--framer-text-color': 'var(--extracted-r6o4lv, var(--token-a8e28c9d-4ce6-4ad2-96a7-a1a12837bc97, rgb(254, 232, 76)))',
-                                                    '--framer-text-transform': 'uppercase'
-                                                }} className="framer-text">Learn More</p>
-                                            </div>
-                                            <div className="framer-14dqekp" data-border="true"
-                                                style={{
-                                                    '--border-bottom-width': '1px',
-                                                    '--border-color': 'var(--token-a8e28c9d-4ce6-4ad2-96a7-a1a12837bc97, rgb(254, 232, 76))',
-                                                    '--border-left-width': '1px',
-                                                    '--border-right-width': '1px',
-                                                    '--border-style': 'solid',
-                                                    '--border-top-width': '1px',
-                                                    backgroundColor: 'rgba(0, 0, 0, 0)',
-                                                    borderBottomLeftRadius: '70px',
-                                                    borderBottomRightRadius: '70px',
-                                                    borderTopLeftRadius: '70px',
-                                                    borderTopRightRadius: '70px'
-                                                }}>
-                                                <div className="framer-zctru0-container">
-                                                    <div style={{ display: 'contents' }}></div>
+
+                                                <div className="framer-66bj2j"
+                                                    style={{
+                                                        paddingTop: '10px',
+                                                        outline: 'none',
+                                                        display: 'flex',
+                                                        flexDirection: 'column',
+                                                        justifyContent: 'flex-start',
+                                                        flexShrink: 0,
+                                                        '--extracted-r6o4lv': 'var(--token-a3567fc0-2c6f-4fa8-ac8f-89ddd158e98d, rgb(255, 255, 255))',
+                                                        '--framer-link-text-color': 'rgb(0, 153, 255)',
+                                                        '--framer-link-text-decoration': 'underline',
+                                                        opacity: 0.6,
+                                                        transform: 'none'
+                                                    }}
+                                                    data-framer-component-type="RichTextContainer">
+                                                    <p style={{
+                                                        '--font-selector': 'RlM7U2F0b3NoaS1yZWd1bGFy',
+                                                        '--framer-font-family': '"Satoshi", "Satoshi Placeholder", sans-serif',
+                                                        '--framer-line-height': '1.5em',
+                                                        '--framer-text-alignment': 'left',
+                                                        '--framer-text-color': 'var(--extracted-r6o4lv, var(--token-a3567fc0-2c6f-4fa8-ac8f-89ddd158e98d, rgb(255, 255, 255)))'
+                                                    }} className="framer-text">Explore the fundamentals of blockchain and its applications across various industries.
+                                                    </p>
+                                                </div>
+
+                                                <div className="framer-13qejrz">
+                                                    <div className="framer-13dint0"
+                                                        style={{
+                                                            outline: 'none',
+                                                            display: 'flex',
+                                                            flexDirection: 'column',
+                                                            justifyContent: 'flex-start',
+                                                            flexShrink: 0,
+                                                            '--extracted-r6o4lv': 'var(--token-a8e28c9d-4ce6-4ad2-96a7-a1a12837bc97, rgb(254, 232, 76))',
+                                                            '--framer-link-text-color': 'rgb(0, 153, 255)',
+                                                            '--framer-link-text-decoration': 'underline',
+                                                            transform: 'none'
+                                                        }}
+                                                        data-framer-component-type="RichTextContainer">
+                                                        <p style={{
+                                                            '--font-selector': 'R0Y7VW5ib3VuZGVkLXJlZ3VsYXI=',
+                                                            '--framer-font-family': '"Unbounded", "Unbounded Placeholder", sans-serif',
+                                                            '--framer-font-size': '12px',
+                                                            '--framer-letter-spacing': '-0.1px',
+                                                            '--framer-line-height': '2em',
+                                                            '--framer-text-alignment': 'left',
+                                                            '--framer-text-color': 'var(--extracted-r6o4lv, var(--token-a8e28c9d-4ce6-4ad2-96a7-a1a12837bc97, rgb(254, 232, 76)))',
+                                                            '--framer-text-transform': 'uppercase'
+                                                        }} className="framer-text">Learn More</p>
+                                                    </div>
+                                                    <div className="framer-14dqekp" data-border="true"
+                                                        style={{
+                                                            '--border-bottom-width': '2px',
+                                                            '--border-color': 'var(--token-a8e28c9d-4ce6-4ad2-96a7-a1a12837bc97, rgb(254, 232, 76))',
+                                                            '--border-left-width': '2px',
+                                                            '--border-right-width': '2px',
+                                                            '--border-style': 'solid',
+                                                            '--border-top-width': '2px',
+                                                            backgroundColor: 'rgba(0, 0, 0, 0)',
+                                                            borderBottomLeftRadius: '70px',
+                                                            borderBottomRightRadius: '70px',
+                                                            borderTopLeftRadius: '70px',
+                                                            borderTopRightRadius: '70px'
+                                                        }}>
+                                                        <div className="framer-zctru0-container">
+                                                            <div style={{ display: 'contents' }}></div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -762,8 +783,8 @@ const Homepage = () => {
                                     <div className="framer-by1oke"
                                         style={{
                                             background: 'linear-gradient(180deg, rgb(66, 66, 20) 0%, rgb(51, 51, 20) 2.2552369263795087%, rgb(33, 33, 24) 100%)',
-                                            borderBottomLeftRadius: '18px',
-                                            borderBottomRightRadius: '18px',
+                                            borderBottomLeftRadius: '0px',
+                                            borderBottomRightRadius: '0px',
                                             borderTopLeftRadius: '18px',
                                             borderTopRightRadius: '18px'
                                         }}>
@@ -791,7 +812,21 @@ const Homepage = () => {
                                                 transform: 'none'
                                             }}
                                             data-framer-component-type="RichTextContainer">
+                                            <img
+                                                src="https://i.postimg.cc/y6n2C13G/2151480177.jpg"
+                                                alt="Blockchain"
+                                                style={{
+                                                    width: '100%',                                                        
+                                                    display: 'block',
+                                                    height: '50%',
+                                                    borderBottomLeftRadius: '18px',
+                                                    borderBottomRightRadius: '18px',
+                                                    borderTopLeftRadius: '18px',
+                                                    borderTopRightRadius: '18px'
+                                                }}
+                                            />
                                             <h3 style={{
+                                                paddingTop: '20px',
                                                 '--font-selector': 'R0Y7VW5ib3VuZGVkLXJlZ3VsYXI=',
                                                 '--framer-font-family': '"Unbounded", "Unbounded Placeholder", sans-serif',
                                                 '--framer-font-size': '20px',
@@ -800,72 +835,75 @@ const Homepage = () => {
                                                 '--framer-text-alignment': 'left',
                                                 '--framer-text-color': 'var(--extracted-a0htzi, var(--token-a3567fc0-2c6f-4fa8-ac8f-89ddd158e98d, rgb(255, 255, 255)))'
                                             }} className="framer-text">Smart Contracts Development</h3>
-                                        </div>
-                                    </div>
-                                    <div className="framer-66bj2j"
-                                        style={{
-                                            outline: 'none',
-                                            display: 'flex',
-                                            flexDirection: 'column',
-                                            justifyContent: 'flex-start',
-                                            flexShrink: 0,
-                                            '--extracted-r6o4lv': 'var(--token-a3567fc0-2c6f-4fa8-ac8f-89ddd158e98d, rgb(255, 255, 255))',
-                                            '--framer-link-text-color': 'rgb(0, 153, 255)',
-                                            '--framer-link-text-decoration': 'underline',
-                                            opacity: 0.6,
-                                            transform: 'none'
-                                        }}
-                                        data-framer-component-type="RichTextContainer">
-                                        <p style={{
-                                            '--font-selector': 'RlM7U2F0b3NoaS1yZWd1bGFy',
-                                            '--framer-font-family': '"Satoshi", "Satoshi Placeholder", sans-serif',
-                                            '--framer-line-height': '1.5em',
-                                            '--framer-text-alignment': 'left',
-                                            '--framer-text-color': 'var(--extracted-r6o4lv, var(--token-a3567fc0-2c6f-4fa8-ac8f-89ddd158e98d, rgb(255, 255, 255)))'
-                                        }} className="framer-text">Learn how to design and deploy smart contracts on popular blockchain platforms.
-                                        </p>
-                                    </div>
-                                    <div className="framer-13qejrz">
-                                        <div className="framer-13dint0"
-                                            style={{
-                                                outline: 'none',
-                                                display: 'flex',
-                                                flexDirection: 'column',
-                                                justifyContent: 'flex-start',
-                                                flexShrink: 0,
-                                                '--extracted-r6o4lv': 'var(--token-a8e28c9d-4ce6-4ad2-96a7-a1a12837bc97, rgb(254, 232, 76))',
-                                                '--framer-link-text-color': 'rgb(0, 153, 255)',
-                                                '--framer-link-text-decoration': 'underline',
-                                                transform: 'none'
-                                            }}
-                                            data-framer-component-type="RichTextContainer">
-                                            <p style={{
-                                                '--font-selector': 'R0Y7VW5ib3VuZGVkLXJlZ3VsYXI=',
-                                                '--framer-font-family': '"Unbounded", "Unbounded Placeholder", sans-serif',
-                                                '--framer-font-size': '12px',
-                                                '--framer-letter-spacing': '-0.1px',
-                                                '--framer-line-height': '2em',
-                                                '--framer-text-alignment': 'left',
-                                                '--framer-text-color': 'var(--extracted-r6o4lv, var(--token-a8e28c9d-4ce6-4ad2-96a7-a1a12837bc97, rgb(254, 232, 76)))',
-                                                '--framer-text-transform': 'uppercase'
-                                            }} className="framer-text">Learn More</p>
-                                        </div>
-                                        <div className="framer-14dqekp" data-border="true"
-                                            style={{
-                                                '--border-bottom-width': '1px',
-                                                '--border-color': 'var(--token-a8e28c9d-4ce6-4ad2-96a7-a1a12837bc97, rgb(254, 232, 76))',
-                                                '--border-left-width': '1px',
-                                                '--border-right-width': '1px',
-                                                '--border-style': 'solid',
-                                                '--border-top-width': '1px',
-                                                backgroundColor: 'rgba(0, 0, 0, 0)',
-                                                borderBottomLeftRadius: '70px',
-                                                borderBottomRightRadius: '70px',
-                                                borderTopLeftRadius: '70px',
-                                                borderTopRightRadius: '70px'
-                                            }}>
-                                            <div className="framer-zctru0-container">
-                                                <div style={{ display: 'contents' }}></div>
+
+                                            <div className="framer-66bj2j"
+                                                style={{
+                                                    paddingTop: '10px',
+                                                    outline: 'none',
+                                                    display: 'flex',
+                                                    flexDirection: 'column',
+                                                    justifyContent: 'flex-start',
+                                                    flexShrink: 0,
+                                                    '--extracted-r6o4lv': 'var(--token-a3567fc0-2c6f-4fa8-ac8f-89ddd158e98d, rgb(255, 255, 255))',
+                                                    '--framer-link-text-color': 'rgb(0, 153, 255)',
+                                                    '--framer-link-text-decoration': 'underline',
+                                                    opacity: 0.6,
+                                                    transform: 'none'
+                                                }}
+                                                data-framer-component-type="RichTextContainer">
+                                                <p style={{
+                                                    '--font-selector': 'RlM7U2F0b3NoaS1yZWd1bGFy',
+                                                    '--framer-font-family': '"Satoshi", "Satoshi Placeholder", sans-serif',
+                                                    '--framer-line-height': '1.5em',
+                                                    '--framer-text-alignment': 'left',
+                                                    '--framer-text-color': 'var(--extracted-r6o4lv, var(--token-a3567fc0-2c6f-4fa8-ac8f-89ddd158e98d, rgb(255, 255, 255)))'
+                                                }} className="framer-text">Learn how to design and deploy smart contracts on popular blockchain platforms.
+                                                </p>
+                                            </div>
+
+                                            <div className="framer-13qejrz">
+                                                <div className="framer-13dint0"
+                                                    style={{
+                                                        outline: 'none',
+                                                        display: 'flex',
+                                                        flexDirection: 'column',
+                                                        justifyContent: 'flex-start',
+                                                        flexShrink: 0,
+                                                        '--extracted-r6o4lv': 'var(--token-a8e28c9d-4ce6-4ad2-96a7-a1a12837bc97, rgb(254, 232, 76))',
+                                                        '--framer-link-text-color': 'rgb(0, 153, 255)',
+                                                        '--framer-link-text-decoration': 'underline',
+                                                        transform: 'none'
+                                                    }}
+                                                    data-framer-component-type="RichTextContainer">
+                                                    <p style={{
+                                                        '--font-selector': 'R0Y7VW5ib3VuZGVkLXJlZ3VsYXI=',
+                                                        '--framer-font-family': '"Unbounded", "Unbounded Placeholder", sans-serif',
+                                                        '--framer-font-size': '12px',
+                                                        '--framer-letter-spacing': '-0.1px',
+                                                        '--framer-line-height': '2em',
+                                                        '--framer-text-alignment': 'left',
+                                                        '--framer-text-color': 'var(--extracted-r6o4lv, var(--token-a8e28c9d-4ce6-4ad2-96a7-a1a12837bc97, rgb(254, 232, 76)))',
+                                                        '--framer-text-transform': 'uppercase'
+                                                    }} className="framer-text">Learn More</p>
+                                                </div>
+                                                <div className="framer-14dqekp" data-border="true"
+                                                    style={{
+                                                        '--border-bottom-width': '2px',
+                                                        '--border-color': 'var(--token-a8e28c9d-4ce6-4ad2-96a7-a1a12837bc97, rgb(254, 232, 76))',
+                                                        '--border-left-width': '2px',
+                                                        '--border-right-width': '2px',
+                                                        '--border-style': 'solid',
+                                                        '--border-top-width': '2px',
+                                                        backgroundColor: 'rgba(0, 0, 0, 0)',
+                                                        borderBottomLeftRadius: '70px',
+                                                        borderBottomRightRadius: '70px',
+                                                        borderTopLeftRadius: '70px',
+                                                        borderTopRightRadius: '70px'
+                                                    }}>
+                                                    <div className="framer-zctru0-container">
+                                                        <div style={{ display: 'contents' }}></div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -898,8 +936,8 @@ const Homepage = () => {
                                     <div className="framer-by1oke"
                                         style={{
                                             background: 'linear-gradient(180deg, rgb(66, 66, 20) 0%, rgb(51, 51, 20) 2.2552369263795087%, rgb(33, 33, 24) 100%)',
-                                            borderBottomLeftRadius: '18px',
-                                            borderBottomRightRadius: '18px',
+                                            borderBottomLeftRadius: '0px',
+                                            borderBottomRightRadius: '0px',
                                             borderTopLeftRadius: '18px',
                                             borderTopRightRadius: '18px'
                                         }}>
@@ -927,7 +965,21 @@ const Homepage = () => {
                                                 transform: 'none'
                                             }}
                                             data-framer-component-type="RichTextContainer">
+                                            <img
+                                                src="https://i.postimg.cc/y6n2C13G/2151480177.jpg"
+                                                alt="Blockchain"
+                                                style={{
+                                                    width: '100%',                                                        
+                                                    display: 'block',
+                                                    height: '50%',
+                                                    borderBottomLeftRadius: '18px',
+                                                    borderBottomRightRadius: '18px',
+                                                    borderTopLeftRadius: '18px',
+                                                    borderTopRightRadius: '18px'
+                                                }}
+                                            />
                                             <h3 style={{
+                                                paddingTop: '20px',
                                                 '--font-selector': 'R0Y7VW5ib3VuZGVkLXJlZ3VsYXI=',
                                                 '--framer-font-family': '"Unbounded", "Unbounded Placeholder", sans-serif',
                                                 '--framer-font-size': '20px',
@@ -937,75 +989,77 @@ const Homepage = () => {
                                                 '--framer-text-color': 'var(--extracted-a0htzi, var(--token-a3567fc0-2c6f-4fa8-ac8f-89ddd158e98d, rgb(255, 255, 255)))'
                                             }}
                                             className="framer-text">Blockchain for Business</h3>
-                                        </div>
-                                    </div>
-                                    <div className="framer-66bj2j"
-                                        style={{
-                                            outline: 'none',
-                                            display: 'flex',
-                                            flexDirection: 'column',
-                                            justifyContent: 'flex-start',
-                                            flexShrink: 0,
-                                            '--extracted-r6o4lv': 'var(--token-a3567fc0-2c6f-4fa8-ac8f-89ddd158e98d, rgb(255, 255, 255))',
-                                            '--framer-link-text-color': 'rgb(0, 153, 255)',
-                                            '--framer-link-text-decoration': 'underline',
-                                            opacity: '0.6',
-                                            transform: 'none'
-                                        }}
-                                        data-framer-component-type="RichTextContainer">
-                                        <p style={{
-                                            '--font-selector': 'RlM7U2F0b3NoaS1yZWd1bGFy',
-                                            '--framer-font-family': '"Satoshi", "Satoshi Placeholder", sans-serif',
-                                            '--framer-line-height': '1.5em',
-                                            '--framer-text-alignment': 'left',
-                                            '--framer-text-color': 'var(--extracted-r6o4lv, var(--token-a3567fc0-2c6f-4fa8-ac8f-89ddd158e98d, rgb(255, 255, 255)))'
-                                        }}
-                                        className="framer-text">Understand how blockchain can revolutionize business operations and strategies.
-                                        </p>
-                                    </div>
-                                    <div className="framer-13qejrz">
-                                        <div className="framer-13dint0"
-                                            style={{
-                                                outline: 'none',
-                                                display: 'flex',
-                                                flexDirection: 'column',
-                                                justifyContent: 'flex-start',
-                                                flexShrink: 0,
-                                                '--extracted-r6o4lv': 'var(--token-a8e28c9d-4ce6-4ad2-96a7-a1a12837bc97, rgb(254, 232, 76))',
-                                                '--framer-link-text-color': 'rgb(0, 153, 255)',
-                                                '--framer-link-text-decoration': 'underline',
-                                                transform: 'none'
-                                            }}
-                                            data-framer-component-type="RichTextContainer">
-                                            <p style={{
-                                                '--font-selector': 'R0Y7VW5ib3VuZGVkLXJlZ3VsYXI=',
-                                                '--framer-font-family': '"Unbounded", "Unbounded Placeholder", sans-serif',
-                                                '--framer-font-size': '12px',
-                                                '--framer-letter-spacing': '-0.1px',
-                                                '--framer-line-height': '2em',
-                                                '--framer-text-alignment': 'left',
-                                                '--framer-text-color': 'var(--extracted-r6o4lv, var(--token-a8e28c9d-4ce6-4ad2-96a7-a1a12837bc97, rgb(254, 232, 76)))',
-                                                '--framer-text-transform': 'uppercase'
-                                            }}
-                                            className="framer-text">Learn More</p>
-                                        </div>
-                                        <div className="framer-14dqekp" data-border="true"
-                                            style={{
-                                                '--border-bottom-width': '1px',
-                                                '--border-color': 'var(--token-a8e28c9d-4ce6-4ad2-96a7-a1a12837bc97, rgb(254, 232, 76))',
-                                                '--border-left-width': '1px',
-                                                '--border-right-width': '1px',
-                                                '--border-style': 'solid',
-                                                '--border-top-width': '1px',
-                                                backgroundColor: 'rgba(0, 0, 0, 0)',
-                                                borderBottomLeftRadius: '70px',
-                                                borderBottomRightRadius: '70px',
-                                                borderTopLeftRadius: '70px',
-                                                borderTopRightRadius: '70px',
-                                                transform: 'none'
-                                            }}>
-                                            <div className="framer-zctru0-container">
-                                                <div style={{ display: 'contents' }}></div>
+
+                                            <div className="framer-66bj2j"
+                                                style={{
+                                                    paddingTop: '10px',
+                                                    outline: 'none',
+                                                    display: 'flex',
+                                                    flexDirection: 'column',
+                                                    justifyContent: 'flex-start',
+                                                    flexShrink: 0,
+                                                    '--extracted-r6o4lv': 'var(--token-a3567fc0-2c6f-4fa8-ac8f-89ddd158e98d, rgb(255, 255, 255))',
+                                                    '--framer-link-text-color': 'rgb(0, 153, 255)',
+                                                    '--framer-link-text-decoration': 'underline',
+                                                    opacity: '0.6',
+                                                    transform: 'none'
+                                                }}
+                                                data-framer-component-type="RichTextContainer">
+                                                <p style={{
+                                                    '--font-selector': 'RlM7U2F0b3NoaS1yZWd1bGFy',
+                                                    '--framer-font-family': '"Satoshi", "Satoshi Placeholder", sans-serif',
+                                                    '--framer-line-height': '1.5em',
+                                                    '--framer-text-alignment': 'left',
+                                                    '--framer-text-color': 'var(--extracted-r6o4lv, var(--token-a3567fc0-2c6f-4fa8-ac8f-89ddd158e98d, rgb(255, 255, 255)))'
+                                                }}
+                                                className="framer-text">Understand how blockchain can revolutionize business operations and strategies.
+                                                </p>
+                                            </div>
+                                            <div className="framer-13qejrz">
+                                                <div className="framer-13dint0"
+                                                    style={{
+                                                        outline: 'none',
+                                                        display: 'flex',
+                                                        flexDirection: 'column',
+                                                        justifyContent: 'flex-start',
+                                                        flexShrink: 0,
+                                                        '--extracted-r6o4lv': 'var(--token-a8e28c9d-4ce6-4ad2-96a7-a1a12837bc97, rgb(254, 232, 76))',
+                                                        '--framer-link-text-color': 'rgb(0, 153, 255)',
+                                                        '--framer-link-text-decoration': 'underline',
+                                                        transform: 'none'
+                                                    }}
+                                                    data-framer-component-type="RichTextContainer">
+                                                    <p style={{
+                                                        '--font-selector': 'R0Y7VW5ib3VuZGVkLXJlZ3VsYXI=',
+                                                        '--framer-font-family': '"Unbounded", "Unbounded Placeholder", sans-serif',
+                                                        '--framer-font-size': '12px',
+                                                        '--framer-letter-spacing': '-0.1px',
+                                                        '--framer-line-height': '2em',
+                                                        '--framer-text-alignment': 'left',
+                                                        '--framer-text-color': 'var(--extracted-r6o4lv, var(--token-a8e28c9d-4ce6-4ad2-96a7-a1a12837bc97, rgb(254, 232, 76)))',
+                                                        '--framer-text-transform': 'uppercase'
+                                                    }}
+                                                    className="framer-text">Learn More</p>
+                                                </div>
+                                                <div className="framer-14dqekp" data-border="true"
+                                                    style={{
+                                                        '--border-bottom-width': '2px',
+                                                        '--border-color': 'var(--token-a8e28c9d-4ce6-4ad2-96a7-a1a12837bc97, rgb(254, 232, 76))',
+                                                        '--border-left-width': '2px',
+                                                        '--border-right-width': '2px',
+                                                        '--border-style': 'solid',
+                                                        '--border-top-width': '2px',
+                                                        backgroundColor: 'rgba(0, 0, 0, 0)',
+                                                        borderBottomLeftRadius: '70px',
+                                                        borderBottomRightRadius: '70px',
+                                                        borderTopLeftRadius: '70px',
+                                                        borderTopRightRadius: '70px',
+                                                        transform: 'none'
+                                                    }}>
+                                                    <div className="framer-zctru0-container">
+                                                        <div style={{ display: 'contents' }}></div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -1038,8 +1092,8 @@ const Homepage = () => {
                                     <div className="framer-by1oke"
                                         style={{
                                             background: 'linear-gradient(180deg, rgb(66, 66, 20) 0%, rgb(51, 51, 20) 2.2552369263795087%, rgb(33, 33, 24) 100%)',
-                                            borderBottomLeftRadius: '18px',
-                                            borderBottomRightRadius: '18px',
+                                            borderBottomLeftRadius: '0px',
+                                            borderBottomRightRadius: '0px',
                                             borderTopLeftRadius: '18px',
                                             borderTopRightRadius: '18px'
                                         }}>
@@ -1067,7 +1121,21 @@ const Homepage = () => {
                                                 transform: 'none'
                                             }}
                                             data-framer-component-type="RichTextContainer">
+                                            <img
+                                                src="https://i.postimg.cc/y6n2C13G/2151480177.jpg"
+                                                alt="Blockchain"
+                                                style={{
+                                                    width: '100%',                                                        
+                                                    display: 'block',
+                                                    height: '50%',
+                                                    borderBottomLeftRadius: '18px',
+                                                    borderBottomRightRadius: '18px',
+                                                    borderTopLeftRadius: '18px',
+                                                    borderTopRightRadius: '18px'
+                                                }}
+                                            />
                                             <h3 style={{
+                                                paddingTop: '20px',
                                                 '--font-selector': 'R0Y7VW5ib3VuZGVkLXJlZ3VsYXI=',
                                                 '--framer-font-family': '"Unbounded", "Unbounded Placeholder", sans-serif',
                                                 '--framer-font-size': '20px',
@@ -1076,75 +1144,77 @@ const Homepage = () => {
                                                 '--framer-text-alignment': 'left',
                                                 '--framer-text-color': 'var(--extracted-a0htzi, var(--token-a3567fc0-2c6f-4fa8-ac8f-89ddd158e98d, rgb(255, 255, 255)))'
                                             }} className="framer-text">Cryptocurrency and Digital Assets</h3>
-                                        </div>
-                                    </div>
-                                    <div className="framer-66bj2j"
-                                        style={{
-                                            outline: 'none',
-                                            display: 'flex',
-                                            flexDirection: 'column',
-                                            justifyContent: 'flex-start',
-                                            flexShrink: 0,
-                                            '--extracted-r6o4lv': 'var(--token-a3567fc0-2c6f-4fa8-ac8f-89ddd158e98d, rgb(255, 255, 255))',
-                                            '--framer-link-text-color': 'rgb(0, 153, 255)',
-                                            '--framer-link-text-decoration': 'underline',
-                                            opacity: '0.6',
-                                            transform: 'none'
-                                        }}
-                                        data-framer-component-type="RichTextContainer">
-                                        <p style={{
-                                            '--font-selector': 'RlM7U2F0b3NoaS1yZWd1bGFy',
-                                            '--framer-font-family': '"Satoshi", "Satoshi Placeholder", sans-serif',
-                                            '--framer-line-height': '1.5em',
-                                            '--framer-text-alignment': 'left',
-                                            '--framer-text-color': 'var(--extracted-r6o4lv, var(--token-a3567fc0-2c6f-4fa8-ac8f-89ddd158e98d, rgb(255, 255, 255)))'
-                                        }} className="framer-text">Dive into the world of cryptocurrencies, including Bitcoin, Ethereum, and emerging digital assets.
-                                        </p>
-                                    </div>
-                                    <div className="framer-13qejrz">
-                                        <div className="framer-13dint0"
-                                            style={{
-                                                outline: 'none',
-                                                display: 'flex',
-                                                flexDirection: 'column',
-                                                justifyContent: 'flex-start',
-                                                flexShrink: 0,
-                                                '--extracted-r6o4lv': 'var(--token-a8e28c9d-4ce6-4ad2-96a7-a1a12837bc97, rgb(254, 232, 76))',
-                                                '--framer-link-text-color': 'rgb(0, 153, 255)',
-                                                '--framer-link-text-decoration': 'underline',
-                                                transform: 'none'
-                                            }}
-                                            data-framer-component-type="RichTextContainer">
-                                            <p style={{
-                                                '--font-selector': 'R0Y7VW5ib3VuZGVkLXJlZ3VsYXI=',
-                                                '--framer-font-family': '"Unbounded", "Unbounded Placeholder", sans-serif',
-                                                '--framer-font-size': '12px',
-                                                '--framer-letter-spacing': '-0.1px',
-                                                '--framer-line-height': '2em',
-                                                '--framer-text-alignment': 'left',
-                                                '--framer-text-color': 'var(--extracted-r6o4lv, var(--token-a8e28c9d-4ce6-4ad2-96a7-a1a12837bc97, rgb(254, 232, 76)))',
-                                                '--framer-text-transform': 'uppercase'
-                                            }} className="framer-text">Learn More</p>
-                                        </div>
-                                        <div className="framer-14dqekp" data-border="true"
-                                            style={{
-                                                '--border-bottom-width': '1px',
-                                                '--border-color': 'var(--token-a8e28c9d-4ce6-4ad2-96a7-a1a12837bc97, rgb(254, 232, 76))',
-                                                '--border-left-width': '1px',
-                                                '--border-right-width': '1px',
-                                                '--border-style': 'solid',
-                                                '--border-top-width': '1px',
-                                                backgroundColor: 'rgba(0, 0, 0, 0)',
-                                                borderBottomLeftRadius: '70px',
-                                                borderBottomRightRadius: '70px',
-                                                borderTopLeftRadius: '70px',
-                                                borderTopRightRadius: '70px',
-                                                transform: 'none'
-                                            }}>
-                                            <div className="framer-zctru0-container">
-                                                <div style={{ display: 'contents' }}></div>
+
+                                            <div className="framer-66bj2j"
+                                                style={{
+                                                    paddingTop: '10px',
+                                                    outline: 'none',
+                                                    display: 'flex',
+                                                    flexDirection: 'column',
+                                                    justifyContent: 'flex-start',
+                                                    flexShrink: 0,
+                                                    '--extracted-r6o4lv': 'var(--token-a3567fc0-2c6f-4fa8-ac8f-89ddd158e98d, rgb(255, 255, 255))',
+                                                    '--framer-link-text-color': 'rgb(0, 153, 255)',
+                                                    '--framer-link-text-decoration': 'underline',
+                                                    opacity: '0.6',
+                                                    transform: 'none'
+                                                }}
+                                                data-framer-component-type="RichTextContainer">
+                                                <p style={{
+                                                    '--font-selector': 'RlM7U2F0b3NoaS1yZWd1bGFy',
+                                                    '--framer-font-family': '"Satoshi", "Satoshi Placeholder", sans-serif',
+                                                    '--framer-line-height': '1.5em',
+                                                    '--framer-text-alignment': 'left',
+                                                    '--framer-text-color': 'var(--extracted-r6o4lv, var(--token-a3567fc0-2c6f-4fa8-ac8f-89ddd158e98d, rgb(255, 255, 255)))'
+                                                }} className="framer-text">Dive into the world of cryptocurrencies, including Bitcoin, Ethereum, and emerging digital assets.
+                                                </p>
                                             </div>
-                                        </div>
+                                            <div className="framer-13qejrz">
+                                                <div className="framer-13dint0"
+                                                    style={{
+                                                        outline: 'none',
+                                                        display: 'flex',
+                                                        flexDirection: 'column',
+                                                        justifyContent: 'flex-start',
+                                                        flexShrink: 0,
+                                                        '--extracted-r6o4lv': 'var(--token-a8e28c9d-4ce6-4ad2-96a7-a1a12837bc97, rgb(254, 232, 76))',
+                                                        '--framer-link-text-color': 'rgb(0, 153, 255)',
+                                                        '--framer-link-text-decoration': 'underline',
+                                                        transform: 'none'
+                                                    }}
+                                                    data-framer-component-type="RichTextContainer">
+                                                    <p style={{
+                                                        '--font-selector': 'R0Y7VW5ib3VuZGVkLXJlZ3VsYXI=',
+                                                        '--framer-font-family': '"Unbounded", "Unbounded Placeholder", sans-serif',
+                                                        '--framer-font-size': '12px',
+                                                        '--framer-letter-spacing': '-0.1px',
+                                                        '--framer-line-height': '2em',
+                                                        '--framer-text-alignment': 'left',
+                                                        '--framer-text-color': 'var(--extracted-r6o4lv, var(--token-a8e28c9d-4ce6-4ad2-96a7-a1a12837bc97, rgb(254, 232, 76)))',
+                                                        '--framer-text-transform': 'uppercase'
+                                                    }} className="framer-text">Learn More</p>
+                                                </div>
+                                                <div className="framer-14dqekp" data-border="true"
+                                                    style={{
+                                                        '--border-bottom-width': '2px',
+                                                        '--border-color': 'var(--token-a8e28c9d-4ce6-4ad2-96a7-a1a12837bc97, rgb(254, 232, 76))',
+                                                        '--border-left-width': '2px',
+                                                        '--border-right-width': '2px',
+                                                        '--border-style': 'solid',
+                                                        '--border-top-width': '2px',
+                                                        backgroundColor: 'rgba(0, 0, 0, 0)',
+                                                        borderBottomLeftRadius: '70px',
+                                                        borderBottomRightRadius: '70px',
+                                                        borderTopLeftRadius: '70px',
+                                                        borderTopRightRadius: '70px',
+                                                        transform: 'none'
+                                                    }}>
+                                                    <div className="framer-zctru0-container">
+                                                        <div style={{ display: 'contents' }}></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div> 
                                     </div>
                                 </a>
                             </div>
@@ -1175,8 +1245,8 @@ const Homepage = () => {
                                     <div className="framer-by1oke"
                                         style={{
                                             background: 'linear-gradient(180deg, rgb(66, 66, 20) 0%, rgb(51, 51, 20) 2.2552369263795087%, rgb(33, 33, 24) 100%)',
-                                            borderBottomLeftRadius: '18px',
-                                            borderBottomRightRadius: '18px',
+                                            borderBottomLeftRadius: '0px',
+                                            borderBottomRightRadius: '0px',
                                             borderTopLeftRadius: '18px',
                                             borderTopRightRadius: '18px'
                                         }}>
@@ -1204,7 +1274,21 @@ const Homepage = () => {
                                                 transform: 'none'
                                             }}
                                             data-framer-component-type="RichTextContainer">
+                                            <img
+                                                src="https://i.postimg.cc/y6n2C13G/2151480177.jpg"
+                                                alt="Blockchain"
+                                                style={{
+                                                    width: '100%',                                                        
+                                                    display: 'block',
+                                                    height: '50%',
+                                                    borderBottomLeftRadius: '18px',
+                                                    borderBottomRightRadius: '18px',
+                                                    borderTopLeftRadius: '18px',
+                                                    borderTopRightRadius: '18px'
+                                                }}
+                                            />
                                             <h3 style={{
+                                                paddingTop: '20px',
                                                 '--font-selector': 'R0Y7VW5ib3VuZGVkLXJlZ3VsYXI=',
                                                 '--framer-font-family': '"Unbounded", "Unbounded Placeholder", sans-serif',
                                                 '--framer-font-size': '20px',
@@ -1213,76 +1297,77 @@ const Homepage = () => {
                                                 '--framer-text-alignment': 'left',
                                                 '--framer-text-color': 'var(--extracted-a0htzi, var(--token-a3567fc0-2c6f-4fa8-ac8f-89ddd158e98d, rgb(255, 255, 255)))'
                                             }}
-                                                className="framer-text">Blockchain Security</h3>
-                                        </div>
-                                    </div>
-                                    <div className="framer-66bj2j"
-                                        style={{
-                                            outline: 'none',
-                                            display: 'flex',
-                                            flexDirection: 'column',
-                                            justifyContent: 'flex-start',
-                                            flexShrink: 0,
-                                            '--extracted-r6o4lv': 'var(--token-a3567fc0-2c6f-4fa8-ac8f-89ddd158e98d, rgb(255, 255, 255))',
-                                            '--framer-link-text-color': 'rgb(0, 153, 255)',
-                                            '--framer-link-text-decoration': 'underline',
-                                            opacity: 0.6,
-                                            transform: 'none'
-                                        }}
-                                        data-framer-component-type="RichTextContainer">
-                                        <p style={{
-                                            '--font-selector': 'RlM7U2F0b3NoaS1yZWd1bGFy',
-                                            '--framer-font-family': '"Satoshi", "Satoshi Placeholder", sans-serif',
-                                            '--framer-line-height': '1.5em',
-                                            '--framer-text-alignment': 'left',
-                                            '--framer-text-color': 'var(--extracted-r6o4lv, var(--token-a3567fc0-2c6f-4fa8-ac8f-89ddd158e98d, rgb(255, 255, 255)))'
-                                        }}
-                                            className="framer-text">Master the techniques to secure blockchain networks and protect against vulnerabilities.
-                                        </p>
-                                    </div>
-                                    <div className="framer-13qejrz">
-                                        <div className="framer-13dint0"
-                                            style={{
-                                                outline: 'none',
-                                                display: 'flex',
-                                                flexDirection: 'column',
-                                                justifyContent: 'flex-start',
-                                                flexShrink: 0,
-                                                '--extracted-r6o4lv': 'var(--token-a8e28c9d-4ce6-4ad2-96a7-a1a12837bc97, rgb(254, 232, 76))',
-                                                '--framer-link-text-color': 'rgb(0, 153, 255)',
-                                                '--framer-link-text-decoration': 'underline',
-                                                transform: 'none'
-                                            }}
-                                            data-framer-component-type="RichTextContainer">
-                                            <p style={{
-                                                '--font-selector': 'R0Y7VW5ib3VuZGVkLXJlZ3VsYXI=',
-                                                '--framer-font-family': '"Unbounded", "Unbounded Placeholder", sans-serif',
-                                                '--framer-font-size': '12px',
-                                                '--framer-letter-spacing': '-0.1px',
-                                                '--framer-line-height': '2em',
-                                                '--framer-text-alignment': 'left',
-                                                '--framer-text-color': 'var(--extracted-r6o4lv, var(--token-a8e28c9d-4ce6-4ad2-96a7-a1a12837bc97, rgb(254, 232, 76)))',
-                                                '--framer-text-transform': 'uppercase'
-                                            }}
-                                                className="framer-text">Learn More
-                                            </p>
-                                        </div>
-                                        <div className="framer-14dqekp" data-border="true"
-                                            style={{
-                                                '--border-bottom-width': '1px',
-                                                '--border-color': 'var(--token-a8e28c9d-4ce6-4ad2-96a7-a1a12837bc97, rgb(254, 232, 76))',
-                                                '--border-left-width': '1px',
-                                                '--border-right-width': '1px',
-                                                '--border-style': 'solid',
-                                                '--border-top-width': '1px',
-                                                backgroundColor: 'rgba(0, 0, 0, 0)',
-                                                borderBottomLeftRadius: '70px',
-                                                borderBottomRightRadius: '70px',
-                                                borderTopLeftRadius: '70px',
-                                                borderTopRightRadius: '70px'
-                                            }}>
-                                            <div className="framer-zctru0-container">
-                                                <div style={{ display: 'contents' }}></div>
+                                            className="framer-text">Blockchain Security</h3>
+                                            <div className="framer-66bj2j"
+                                                style={{
+                                                    paddingTop: '10px',
+                                                    outline: 'none',
+                                                    display: 'flex',
+                                                    flexDirection: 'column',
+                                                    justifyContent: 'flex-start',
+                                                    flexShrink: 0,
+                                                    '--extracted-r6o4lv': 'var(--token-a3567fc0-2c6f-4fa8-ac8f-89ddd158e98d, rgb(255, 255, 255))',
+                                                    '--framer-link-text-color': 'rgb(0, 153, 255)',
+                                                    '--framer-link-text-decoration': 'underline',
+                                                    opacity: 0.6,
+                                                    transform: 'none'
+                                                }}
+                                                data-framer-component-type="RichTextContainer">
+                                                <p style={{
+                                                    '--font-selector': 'RlM7U2F0b3NoaS1yZWd1bGFy',
+                                                    '--framer-font-family': '"Satoshi", "Satoshi Placeholder", sans-serif',
+                                                    '--framer-line-height': '1.5em',
+                                                    '--framer-text-alignment': 'left',
+                                                    '--framer-text-color': 'var(--extracted-r6o4lv, var(--token-a3567fc0-2c6f-4fa8-ac8f-89ddd158e98d, rgb(255, 255, 255)))'
+                                                }}
+                                                    className="framer-text">Master the techniques to secure blockchain networks and protect against vulnerabilities.
+                                                </p>
+                                            </div>
+                                            <div className="framer-13qejrz">
+                                                <div className="framer-13dint0"
+                                                    style={{
+                                                        outline: 'none',
+                                                        display: 'flex',
+                                                        flexDirection: 'column',
+                                                        justifyContent: 'flex-start',
+                                                        flexShrink: 0,
+                                                        '--extracted-r6o4lv': 'var(--token-a8e28c9d-4ce6-4ad2-96a7-a1a12837bc97, rgb(254, 232, 76))',
+                                                        '--framer-link-text-color': 'rgb(0, 153, 255)',
+                                                        '--framer-link-text-decoration': 'underline',
+                                                        transform: 'none'
+                                                    }}
+                                                    data-framer-component-type="RichTextContainer">
+                                                    <p style={{
+                                                        '--font-selector': 'R0Y7VW5ib3VuZGVkLXJlZ3VsYXI=',
+                                                        '--framer-font-family': '"Unbounded", "Unbounded Placeholder", sans-serif',
+                                                        '--framer-font-size': '12px',
+                                                        '--framer-letter-spacing': '-0.1px',
+                                                        '--framer-line-height': '2em',
+                                                        '--framer-text-alignment': 'left',
+                                                        '--framer-text-color': 'var(--extracted-r6o4lv, var(--token-a8e28c9d-4ce6-4ad2-96a7-a1a12837bc97, rgb(254, 232, 76)))',
+                                                        '--framer-text-transform': 'uppercase'
+                                                    }}
+                                                        className="framer-text">Learn More
+                                                    </p>
+                                                </div>
+                                                <div className="framer-14dqekp" data-border="true"
+                                                    style={{
+                                                        '--border-bottom-width': '2px',
+                                                        '--border-color': 'var(--token-a8e28c9d-4ce6-4ad2-96a7-a1a12837bc97, rgb(254, 232, 76))',
+                                                        '--border-left-width': '2px',
+                                                        '--border-right-width': '2px',
+                                                        '--border-style': 'solid',
+                                                        '--border-top-width': '2px',
+                                                        backgroundColor: 'rgba(0, 0, 0, 0)',
+                                                        borderBottomLeftRadius: '70px',
+                                                        borderBottomRightRadius: '70px',
+                                                        borderTopLeftRadius: '70px',
+                                                        borderTopRightRadius: '70px'
+                                                    }}>
+                                                    <div className="framer-zctru0-container">
+                                                        <div style={{ display: 'contents' }}></div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -1315,8 +1400,8 @@ const Homepage = () => {
                                     <div className="framer-by1oke"
                                         style={{
                                             background: 'linear-gradient(180deg, rgb(66, 66, 20) 0%, rgb(51, 51, 20) 2.2552369263795087%, rgb(33, 33, 24) 100%)',
-                                            borderBottomLeftRadius: '18px',
-                                            borderBottomRightRadius: '18px',
+                                            borderBottomLeftRadius: '0px',
+                                            borderBottomRightRadius: '0px',
                                             borderTopLeftRadius: '18px',
                                             borderTopRightRadius: '18px'
                                         }}>
@@ -1344,7 +1429,21 @@ const Homepage = () => {
                                                 transform: 'none'
                                             }}
                                             data-framer-component-type="RichTextContainer">
+                                            <img
+                                                src="https://i.postimg.cc/y6n2C13G/2151480177.jpg"
+                                                alt="Blockchain"
+                                                style={{
+                                                    width: '100%',                                                        
+                                                    display: 'block',
+                                                    height: '50%',
+                                                    borderBottomLeftRadius: '18px',
+                                                    borderBottomRightRadius: '18px',
+                                                    borderTopLeftRadius: '18px',
+                                                    borderTopRightRadius: '18px'
+                                                }}
+                                            />
                                             <h3 style={{
+                                                paddingTop: '20px',
                                                 '--font-selector': 'R0Y7VW5ib3VuZGVkLXJlZ3VsYXI=',
                                                 '--framer-font-family': '"Unbounded", "Unbounded Placeholder", sans-serif',
                                                 '--framer-font-size': '20px',
@@ -1354,75 +1453,76 @@ const Homepage = () => {
                                                 '--framer-text-color': 'var(--extracted-a0htzi, var(--token-a3567fc0-2c6f-4fa8-ac8f-89ddd158e98d, rgb(255, 255, 255)))'
                                             }}
                                             className="framer-text">Decentralized Applications (DApps)</h3>
-                                        </div>
-                                    </div>
-                                    <div className="framer-66bj2j"
-                                        style={{
-                                            outline: 'none',
-                                            display: 'flex',
-                                            flexDirection: 'column',
-                                            justifyContent: 'flex-start',
-                                            flexShrink: 0,
-                                            '--extracted-r6o4lv': 'var(--token-a3567fc0-2c6f-4fa8-ac8f-89ddd158e98d, rgb(255, 255, 255))',
-                                            '--framer-link-text-color': 'rgb(0, 153, 255)',
-                                            '--framer-link-text-decoration': 'underline',
-                                            opacity: 0.6,
-                                            transform: 'none'
-                                        }}
-                                        data-framer-component-type="RichTextContainer">
-                                        <p style={{
-                                            '--font-selector': 'RlM7U2F0b3NoaS1yZWd1bGFy',
-                                            '--framer-font-family': '"Satoshi", "Satoshi Placeholder", sans-serif',
-                                            '--framer-line-height': '1.5em',
-                                            '--framer-text-alignment': 'left',
-                                            '--framer-text-color': 'var(--extracted-r6o4lv, var(--token-a3567fc0-2c6f-4fa8-ac8f-89ddd158e98d, rgb(255, 255, 255)))'
-                                        }}
-                                        className="framer-text">Gain hands-on experience in building and deploying decentralized applications.
-                                        </p>
-                                    </div>
-                                    <div className="framer-13qejrz">
-                                        <div className="framer-13dint0"
-                                            style={{
-                                                outline: 'none',
-                                                display: 'flex',
-                                                flexDirection: 'column',
-                                                justifyContent: 'flex-start',
-                                                flexShrink: 0,
-                                                '--extracted-r6o4lv': 'var(--token-a8e28c9d-4ce6-4ad2-96a7-a1a12837bc97, rgb(254, 232, 76))',
-                                                '--framer-link-text-color': 'rgb(0, 153, 255)',
-                                                '--framer-link-text-decoration': 'underline',
-                                                transform: 'none'
-                                            }}
-                                            data-framer-component-type="RichTextContainer">
-                                            <p style={{
-                                                '--font-selector': 'R0Y7VW5ib3VuZGVkLXJlZ3VsYXI=',
-                                                '--framer-font-family': '"Unbounded", "Unbounded Placeholder", sans-serif',
-                                                '--framer-font-size': '12px',
-                                                '--framer-letter-spacing': '-0.1px',
-                                                '--framer-line-height': '2em',
-                                                '--framer-text-alignment': 'left',
-                                                '--framer-text-color': 'var(--extracted-r6o4lv, var(--token-a8e28c9d-4ce6-4ad2-96a7-a1a12837bc97, rgb(254, 232, 76)))',
-                                                '--framer-text-transform': 'uppercase'
-                                            }}
-                                            className="framer-text">Learn More</p>
-                                        </div>
-                                        <div className="framer-14dqekp" data-border="true"
-                                            style={{
-                                                '--border-bottom-width': '1px',
-                                                '--border-color': 'var(--token-a8e28c9d-4ce6-4ad2-96a7-a1a12837bc97, rgb(254, 232, 76))',
-                                                '--border-left-width': '1px',
-                                                '--border-right-width': '1px',
-                                                '--border-style': 'solid',
-                                                '--border-top-width': '1px',
-                                                backgroundColor: 'rgba(0, 0, 0, 0)',
-                                                borderBottomLeftRadius: '70px',
-                                                borderBottomRightRadius: '70px',
-                                                borderTopLeftRadius: '70px',
-                                                borderTopRightRadius: '70px',
-                                                transform: 'none'
-                                            }}>
-                                            <div className="framer-zctru0-container">
-                                                <div style={{ display: 'contents' }}></div>
+                                            <div className="framer-66bj2j"
+                                                style={{
+                                                    paddingTop: '10px',
+                                                    outline: 'none',
+                                                    display: 'flex',
+                                                    flexDirection: 'column',
+                                                    justifyContent: 'flex-start',
+                                                    flexShrink: 0,
+                                                    '--extracted-r6o4lv': 'var(--token-a3567fc0-2c6f-4fa8-ac8f-89ddd158e98d, rgb(255, 255, 255))',
+                                                    '--framer-link-text-color': 'rgb(0, 153, 255)',
+                                                    '--framer-link-text-decoration': 'underline',
+                                                    opacity: 0.6,
+                                                    transform: 'none'
+                                                }}
+                                                data-framer-component-type="RichTextContainer">
+                                                <p style={{
+                                                    '--font-selector': 'RlM7U2F0b3NoaS1yZWd1bGFy',
+                                                    '--framer-font-family': '"Satoshi", "Satoshi Placeholder", sans-serif',
+                                                    '--framer-line-height': '1.5em',
+                                                    '--framer-text-alignment': 'left',
+                                                    '--framer-text-color': 'var(--extracted-r6o4lv, var(--token-a3567fc0-2c6f-4fa8-ac8f-89ddd158e98d, rgb(255, 255, 255)))'
+                                                }}
+                                                className="framer-text">Gain hands-on experience in building and deploying decentralized applications.
+                                                </p>
+                                            </div>
+                                            <div className="framer-13qejrz">
+                                                <div className="framer-13dint0"
+                                                    style={{
+                                                        outline: 'none',
+                                                        display: 'flex',
+                                                        flexDirection: 'column',
+                                                        justifyContent: 'flex-start',
+                                                        flexShrink: 0,
+                                                        '--extracted-r6o4lv': 'var(--token-a8e28c9d-4ce6-4ad2-96a7-a1a12837bc97, rgb(254, 232, 76))',
+                                                        '--framer-link-text-color': 'rgb(0, 153, 255)',
+                                                        '--framer-link-text-decoration': 'underline',
+                                                        transform: 'none'
+                                                    }}
+                                                    data-framer-component-type="RichTextContainer">
+                                                    <p style={{
+                                                        '--font-selector': 'R0Y7VW5ib3VuZGVkLXJlZ3VsYXI=',
+                                                        '--framer-font-family': '"Unbounded", "Unbounded Placeholder", sans-serif',
+                                                        '--framer-font-size': '12px',
+                                                        '--framer-letter-spacing': '-0.1px',
+                                                        '--framer-line-height': '2em',
+                                                        '--framer-text-alignment': 'left',
+                                                        '--framer-text-color': 'var(--extracted-r6o4lv, var(--token-a8e28c9d-4ce6-4ad2-96a7-a1a12837bc97, rgb(254, 232, 76)))',
+                                                        '--framer-text-transform': 'uppercase'
+                                                    }}
+                                                    className="framer-text">Learn More</p>
+                                                </div>
+                                                <div className="framer-14dqekp" data-border="true"
+                                                    style={{
+                                                        '--border-bottom-width': '2px',
+                                                        '--border-color': 'var(--token-a8e28c9d-4ce6-4ad2-96a7-a1a12837bc97, rgb(254, 232, 76))',
+                                                        '--border-left-width': '2px',
+                                                        '--border-right-width': '2px',
+                                                        '--border-style': 'solid',
+                                                        '--border-top-width': '2px',
+                                                        backgroundColor: 'rgba(0, 0, 0, 0)',
+                                                        borderBottomLeftRadius: '70px',
+                                                        borderBottomRightRadius: '70px',
+                                                        borderTopLeftRadius: '70px',
+                                                        borderTopRightRadius: '70px',
+                                                        transform: 'none'
+                                                    }}>
+                                                    <div className="framer-zctru0-container">
+                                                        <div style={{ display: 'contents' }}></div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
