@@ -379,7 +379,7 @@ const Homepage = () => {
                                         letterSpacing: '0.33em',
                                         lineHeight: '27.9px',
                                         color: 'var(--token-a8e28c9d-4ce6-4ad2-96a7-a1a12837bc97, rgb(235, 184, 29))'
-                                    }} className="framer-text">Learning Made Easy</h3>
+                                    }} className="framer-text">ABYA University</h3>
                                 </div>
                                 <div className="framer-48pvrc" data-framer-name="Building a Learner-Driven Future" style={{
                                     outline: 'none',
@@ -415,7 +415,7 @@ const Homepage = () => {
                                         letterSpacing: '0.02em',
                                         lineHeight: '27.9px',
                                         color: 'rgb(179, 179, 179)'
-                                    }} className="framer-text">Digital & Decentralized Learning Platform that runs on the power of Blockchain Technology.</p>
+                                    }} className="framer-text">Discover the world of blockchain technology through comprehensive courses, expert-led training, and hands-on experience.</p>
                                 </div>
                                 <div className="framer-1iiqcub" data-framer-name="Spacer" name="Spacer"></div>
                                 <div className="framer-1rgc4ax-container">
@@ -663,7 +663,7 @@ const Homepage = () => {
                                                     '--framer-line-height': '1.3em',
                                                     '--framer-text-alignment': 'left',
                                                     '--framer-text-color': 'var(--extracted-a0htzi, var(--token-a3567fc0-2c6f-4fa8-ac8f-89ddd158e98d, rgb(255, 255, 255)))'
-                                                }} className="framer-text">Introduction to Blockchain</h3>
+                                                }} className="framer-text">Introduction to Blockchain Technology</h3>
                                             </div>
                                         </div>
                                         <div className="framer-66bj2j"
@@ -686,7 +686,7 @@ const Homepage = () => {
                                                 '--framer-line-height': '1.5em',
                                                 '--framer-text-alignment': 'left',
                                                 '--framer-text-color': 'var(--extracted-r6o4lv, var(--token-a3567fc0-2c6f-4fa8-ac8f-89ddd158e98d, rgb(255, 255, 255)))'
-                                            }} className="framer-text">Blockchain is a decentralized, distributed ledger technology that securely records transactions across many computers. Its transparent and tamper-proof nature ensures that once data is recorded, it cannot be altered without altering subsequent blocks, providing a high level of security and trust.
+                                            }} className="framer-text">Explore the fundamentals of blockchain and its applications across various industries.
                                             </p>
                                         </div>
                                         <div className="framer-13qejrz">
@@ -799,7 +799,7 @@ const Homepage = () => {
                                                 '--framer-line-height': '1.3em',
                                                 '--framer-text-alignment': 'left',
                                                 '--framer-text-color': 'var(--extracted-a0htzi, var(--token-a3567fc0-2c6f-4fa8-ac8f-89ddd158e98d, rgb(255, 255, 255)))'
-                                            }} className="framer-text">How Blockchain Works</h3>
+                                            }} className="framer-text">Smart Contracts Development</h3>
                                         </div>
                                     </div>
                                     <div className="framer-66bj2j"
@@ -822,7 +822,7 @@ const Homepage = () => {
                                             '--framer-line-height': '1.5em',
                                             '--framer-text-alignment': 'left',
                                             '--framer-text-color': 'var(--extracted-r6o4lv, var(--token-a3567fc0-2c6f-4fa8-ac8f-89ddd158e98d, rgb(255, 255, 255)))'
-                                        }} className="framer-text">Blockchain works by grouping transactions into blocks and chaining them together in a chronological order. Each block contains a cryptographic hash of the previous block, transaction data, and a timestamp. This ensures the integrity of the data, as any alteration would disrupt the entire chain.
+                                        }} className="framer-text">Learn how to design and deploy smart contracts on popular blockchain platforms.
                                         </p>
                                     </div>
                                     <div className="framer-13qejrz">
@@ -936,7 +936,7 @@ const Homepage = () => {
                                                 '--framer-text-alignment': 'left',
                                                 '--framer-text-color': 'var(--extracted-a0htzi, var(--token-a3567fc0-2c6f-4fa8-ac8f-89ddd158e98d, rgb(255, 255, 255)))'
                                             }}
-                                            className="framer-text">Benefits of Blockchain</h3>
+                                            className="framer-text">Blockchain for Business</h3>
                                         </div>
                                     </div>
                                     <div className="framer-66bj2j"
@@ -960,7 +960,8 @@ const Homepage = () => {
                                             '--framer-text-alignment': 'left',
                                             '--framer-text-color': 'var(--extracted-r6o4lv, var(--token-a3567fc0-2c6f-4fa8-ac8f-89ddd158e98d, rgb(255, 255, 255)))'
                                         }}
-                                        className="framer-text">Blockchain offers numerous benefits including enhanced security, improved transparency, and reduced costs. Its decentralized nature eliminates the need for intermediaries, reducing transaction fees and processing times. Additionally, the immutable ledger ensures data accuracy and reliability.</p>
+                                        className="framer-text">Understand how blockchain can revolutionize business operations and strategies.
+                                        </p>
                                     </div>
                                     <div className="framer-13qejrz">
                                         <div className="framer-13dint0"
@@ -1074,7 +1075,7 @@ const Homepage = () => {
                                                 '--framer-line-height': '1.3em',
                                                 '--framer-text-alignment': 'left',
                                                 '--framer-text-color': 'var(--extracted-a0htzi, var(--token-a3567fc0-2c6f-4fa8-ac8f-89ddd158e98d, rgb(255, 255, 255)))'
-                                            }} className="framer-text">Applications of Blockchain</h3>
+                                            }} className="framer-text">Cryptocurrency and Digital Assets</h3>
                                         </div>
                                     </div>
                                     <div className="framer-66bj2j"
@@ -1097,7 +1098,8 @@ const Homepage = () => {
                                             '--framer-line-height': '1.5em',
                                             '--framer-text-alignment': 'left',
                                             '--framer-text-color': 'var(--extracted-r6o4lv, var(--token-a3567fc0-2c6f-4fa8-ac8f-89ddd158e98d, rgb(255, 255, 255)))'
-                                        }} className="framer-text">Blockchain technology extends beyond cryptocurrencies. It is used in various industries such as finance, supply chain management, healthcare, and real estate. For instance, blockchain can enhance supply chain transparency, streamline medical records, and simplify property transactions.</p>
+                                        }} className="framer-text">Dive into the world of cryptocurrencies, including Bitcoin, Ethereum, and emerging digital assets.
+                                        </p>
                                     </div>
                                     <div className="framer-13qejrz">
                                         <div className="framer-13dint0"
@@ -1211,7 +1213,7 @@ const Homepage = () => {
                                                 '--framer-text-alignment': 'left',
                                                 '--framer-text-color': 'var(--extracted-a0htzi, var(--token-a3567fc0-2c6f-4fa8-ac8f-89ddd158e98d, rgb(255, 255, 255)))'
                                             }}
-                                                className="framer-text">Future of Blockchain</h3>
+                                                className="framer-text">Blockchain Security</h3>
                                         </div>
                                     </div>
                                     <div className="framer-66bj2j"
@@ -1235,7 +1237,7 @@ const Homepage = () => {
                                             '--framer-text-alignment': 'left',
                                             '--framer-text-color': 'var(--extracted-r6o4lv, var(--token-a3567fc0-2c6f-4fa8-ac8f-89ddd158e98d, rgb(255, 255, 255)))'
                                         }}
-                                            className="framer-text">The future of blockchain is promising, with continuous advancements and increasing adoption across various sectors. Innovations like smart contracts, decentralized finance (DeFi), and non-fungible tokens (NFTs) are expanding blockchain’s capabilities, paving the way for a more decentralized and secure digital world.
+                                            className="framer-text">Master the techniques to secure blockchain networks and protect against vulnerabilities.
                                         </p>
                                     </div>
                                     <div className="framer-13qejrz">
@@ -1351,7 +1353,7 @@ const Homepage = () => {
                                                 '--framer-text-alignment': 'left',
                                                 '--framer-text-color': 'var(--extracted-a0htzi, var(--token-a3567fc0-2c6f-4fa8-ac8f-89ddd158e98d, rgb(255, 255, 255)))'
                                             }}
-                                            className="framer-text">Blockchain Security</h3>
+                                            className="framer-text">Decentralized Applications (DApps)</h3>
                                         </div>
                                     </div>
                                     <div className="framer-66bj2j"
@@ -1375,7 +1377,7 @@ const Homepage = () => {
                                             '--framer-text-alignment': 'left',
                                             '--framer-text-color': 'var(--extracted-r6o4lv, var(--token-a3567fc0-2c6f-4fa8-ac8f-89ddd158e98d, rgb(255, 255, 255)))'
                                         }}
-                                        className="framer-text">Blockchain technology is renowned for its robust security features. It uses cryptographic algorithms to secure data and relies on consensus mechanisms like Proof of Work (PoW) and Proof of Stake (PoS) to validate transactions.
+                                        className="framer-text">Gain hands-on experience in building and deploying decentralized applications.
                                         </p>
                                     </div>
                                     <div className="framer-13qejrz">
@@ -2235,7 +2237,8 @@ const Homepage = () => {
                                         borderTopLeftRadius: '20px',
                                         borderTopRightRadius: '20px',
                                         WebkitBackdropFilter: 'blur(5px)'
-                                    }}>
+                                    }}
+                                    >
                                     <div className="framer-w1r94z-container">
                                         <div style={{ display: 'contents' }}></div>
                                     </div>
@@ -2490,28 +2493,28 @@ const Homepage = () => {
                         <div class="framer-1oj1k3b-container">
                             <ul class="logogrid">
                                 <li class="logogrid__item">
-                                    <img src="https://upload.wikimedia.org/wikipedia/commons/c/ce/Coca-Cola_logo.svg" class="logogrid__img" alt="Coca Cola" />
+                                    <img src="https://i.postimg.cc/fLHyXnMV/radiyal.png" class="logogrid__img" alt="Coca Cola" />
                                 </li>
                                 <li class="logogrid__item">
-                                    <img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" class="logogrid__img" alt="Google" />
+                                    <img src="https://i.postimg.cc/W3JpDDYH/acme.png" class="logogrid__img" alt="Google" />
                                 </li>
                                 <li class="logogrid__item">
-                                    <img src="https://upload.wikimedia.org/wikipedia/commons/6/69/Airbnb_Logo_B%C3%A9lo.svg" class="logogrid__img" alt="AirBnB" />
+                                    <img src="https://i.postimg.cc/HLnkgvwH/amara.png" class="logogrid__img" alt="AirBnB" />
                                 </li>
                                 <li class="logogrid__item">
-                                    <img src="https://upload.wikimedia.org/wikipedia/commons/2/26/Spotify_logo_with_text.svg" class="logogrid__img" alt="Spotify" />
+                                    <img src="https://i.postimg.cc/hGtfGtqk/code-lab.png" class="logogrid__img" alt="Spotify" />
                                 </li>
                                 <li class="logogrid__item">
-                                    <img src="https://upload.wikimedia.org/wikipedia/de/f/f9/Guinness_Logo.svg" class="logogrid__img" alt="Guinness" />
+                                    <img src="https://i.postimg.cc/CM3B40j8/fox-hub.png" class="logogrid__img" alt="Guinness" />
                                 </li>
                                 <li class="logogrid__item">
-                                    <img src="https://upload.wikimedia.org/wikipedia/commons/9/92/Audi-Logo_2016.svg" class="logogrid__img" alt="Audi" />
+                                    <img src="https://i.postimg.cc/R0g4p7y8/hex-lab.png" class="logogrid__img" alt="Audi" />
                                 </li>
                                 <li class="logogrid__item">
-                                    <img src="https://upload.wikimedia.org/wikipedia/commons/a/a6/Logo_NIKE.svg" class="logogrid__img" alt="Nike" />
+                                    <img src="https://i.postimg.cc/QtVs2BrM/hexa.png" class="logogrid__img" alt="Nike" />
                                 </li>
                                 <li class="logogrid__item">
-                                    <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg" class="logogrid__img" alt="Netflix" />
+                                    <img src="https://i.postimg.cc/LsD8KKYx/lightai.png" class="logogrid__img" alt="Netflix" />
                                 </li>
                             </ul>
                         </div>
@@ -2708,9 +2711,8 @@ const Homepage = () => {
                                                             <img src="https://imgpanda.com/upload/ib/3T9Coa4eFQ.png" alt="" />
                                                         </div>
                                                         <div className="testimonial-detail">
-                                                            <img src="https://imgpanda.com/upload/ib/07fXcY3EIH.png" alt="Company Logo" />
-                                                            <p>Their team are easy to work with and helped me make amazing websites in a short amount of time. Thanks guys for all your hard work. Trust us we looked for a very long time.</p>
-                                                            <span>Herman miller, Monday</span>
+                                                            <p>"The courses at Abya University have been instrumental in advancing my career in blockchain technology. The practical projects and expert guidance provided me with the confidence and skills needed to excel in this field."</p>
+                                                            <span>Peter Kyale, Blockchain Developer</span>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -2721,9 +2723,9 @@ const Homepage = () => {
                                                             <img src="https://imgpanda.com/upload/ib/EG2hj3Ch4z.png" alt="" />
                                                         </div>
                                                         <div className="testimonial-detail">
-                                                            <img src="https://imgpanda.com/upload/ib/VUrKtb4s8h.png" alt="Company Logo" />
-                                                            <p>Their team are easy to work with and helped me make amazing websites in a short amount of time. Thanks guys for all your hard work. Trust us we looked for a very long time.</p>
-                                                            <span>Matthew taylor, invision</span>
+                                                            
+                                                            <p>"Abya University's LMS offers a comprehensive and engaging learning experience. The community support and resources available have been invaluable in my learning journey."</p>
+                                                            <span>Matthew taylor, Entrepreneur</span>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -2734,9 +2736,9 @@ const Homepage = () => {
                                                             <img src="https://imgpanda.com/upload/ib/CEnecSuafy.png" alt="" />
                                                         </div>
                                                         <div className="testimonial-detail">
-                                                            <img src="https://imgpanda.com/upload/ib/qisrv7T2JJ.png" alt="Company Logo" />
-                                                            <p>Their team are easy to work with and helped me make amazing websites in a short amount of time. Thanks guys for all your hard work. Trust us we looked for a very long time.</p>
-                                                            <span>Leonel mooney, Logitech</span>
+                                                           
+                                                            <p>"Abya University's LMS offers a comprehensive and engaging learning experience. The community support and resources available have been invaluable in my learning journey."</p>
+                                                            <span>Leonel mooney, Software Engineer</span>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -2745,35 +2747,61 @@ const Homepage = () => {
                                             <div className="swiper-button-prev slide-btns"></div>
                                         </div>
                                     </div>
+
+                                    <div className="framer-12tambw"
+                                        style={{
+                                            outline: "none",
+                                            display: "flex",
+                                            flexDirection: "column",
+                                            justifyContent: "flex-start",
+                                            marginBottom: "40px",
+                                            flexShrink: 0,
+                                            transform: "none",
+                                            fontFamily: `"Inter", "Inter Placeholder", sans-serif`,
+                                            fontSize: "28px",
+                                            fontWeight: 500,
+                                            lineHeight: "1.4em",
+                                            color: "rgb(153, 153, 153)",
+                                            '--font-selector': 'SW50ZXItTWVkaXVt',
+                                            '--framer-font-size': '28px',
+                                            '--framer-font-weight': '500',
+                                            '--framer-line-height': '1.4em',
+                                            '--framer-text-alignment': 'center',
+                                            '--framer-text-color': 'rgb(153, 153, 153)'
+                                        }}
+                                        data-framer-component-type="RichTextContainer">
+                                        <h2 className="framer-text">Awesome Integrations!</h2>
+                                    </div>
+
                                     {/* Company details */}
                                     <div className="company-details--row">
                                         <div className="company-box">
                                             <div className="company-box-inner">
                                                 <div className="company-box-top">
-                                                    <img src="https://imgpanda.com/upload/ib/4mChImfZu3.png" alt="Company Name" />
+                                                    <center><img src="https://imgpanda.com/upload/ib/4mChImfZu3.png" alt="Company Name" /></center>
                                                 </div>
                                                 <div className="company-box-bottom">
-                                                    <span>Project management - <strong>275% Growth</strong></span>
+                                                    <span>Project management - <strong>75% Growth</strong></span>
                                                 </div>
                                             </div>
                                         </div>
                                         <div className="company-box">
                                             <div className="company-box-inner">
                                                 <div className="company-box-top">
-                                                    <img src="https://imgpanda.com/upload/ib/HT16vu2U3Y.png" alt="Company Name" />
+                                                    <center><img src="https://imgpanda.com/upload/ib/HT16vu2U3Y.png" alt="Company Name" /></center>
                                                 </div>
                                                 <div className="company-box-bottom">
-                                                    <span>Team management - <strong>195% Growth</strong></span>
+                                                    <span>Secure storage - <strong>95% Growth</strong></span>
                                                 </div>
                                             </div>
                                         </div>
                                         <div className="company-box">
                                             <div className="company-box-inner">
                                                 <div className="company-box-top">
-                                                    <img src="https://imgpanda.com/upload/ib/HF1zj1kEys.png" alt="Company Name" />
+                                                    <center><img src="https://imgpanda.com/upload/ib/HF1zj1kEys.png" alt="Company Name" /></center>
                                                 </div>
                                                 <div className="company-box-bottom">
-                                                    <span>Secure storage - <strong>235% Growth</strong></span>
+                                                    <span>Team management - <strong>55% Growth</strong></span>
                                                 </div>
                                             </div>
                                         </div>
@@ -2890,7 +2918,7 @@ const Homepage = () => {
                                 <div className="framer-16ee2at" data-framer-name="Title"
                                     style={{ outline: 'none', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', flexShrink: 0, transform: 'none', '--font-selector': 'R0Y7UGx1cyBKYWthcnRhIFNhbnMtNTAw', '--framer-font-family': '"Plus Jakarta Sans", "Plus Jakarta Sans Placeholder", sans-serif', '--framer-font-size': '18px', '--framer-font-weight': 500, '--framer-letter-spacing': '0.02em', '--framer-line-height': '28.2px', '--framer-text-color': 'rgb(255, 255, 255)' }}
                                     data-framer-component-type="RichTextContainer">
-                                    <h5 className="framer-text">Security Best Practices in API Management: Safeguarding Assets</h5>
+                                    <h5 className="framer-text">Snippet: Discover how blockchain technology is revolutionizing the education sector.</h5>
                                 </div>
 
                                 <div className="framer-ew5l8a" data-framer-name="Spacer" name="Spacer"></div>
@@ -2956,7 +2984,7 @@ const Homepage = () => {
                                 <div className="framer-16ee2at" data-framer-name="Title"
                                     style={{ outline: 'none', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', flexShrink: 0, transform: 'none', '--font-selector': 'R0Y7UGx1cyBKYWthcnRhIFNhbnMtNTAw', '--framer-font-family': '"Plus Jakarta Sans", "Plus Jakarta Sans Placeholder", sans-serif', '--framer-font-size': '18px', '--framer-font-weight': 500, '--framer-letter-spacing': '0.02em', '--framer-line-height': '28.2px', '--framer-text-color': 'rgb(255, 255, 255)' }}
                                     data-framer-component-type="RichTextContainer">
-                                    <h5 className="framer-text">Optimizing Business Processes with API Management: A Strategic Approach</h5>
+                                    <h5 className="framer-text">Snippet: Stay updated with the latest trends and predictions in the blockchain industry.</h5>
                                 </div>
                                 <div className="framer-ew5l8a" data-framer-name="Spacer" name="Spacer"></div>
                                 <div className="framer-l1e3m2" data-border="true"
@@ -3040,7 +3068,7 @@ const Homepage = () => {
                                         '--framer-line-height': '28.2px',
                                         '--framer-text-color': 'rgb(255, 255, 255)'
                                     }} className="framer-text">
-                                        Demystifying API Management: A Comprehensive Guide for New Beginners
+                                        Snippet: A beginner's guide to understanding and creating smart contracts on the Ethereum blockchain.
                                     </h5>
                                 </div>
                                 <div className="framer-ew5l8a" data-framer-name="Spacer" name="Spacer"></div>
