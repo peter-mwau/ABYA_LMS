@@ -34,7 +34,7 @@ const Homepage = () => {
         const swiper = new Swiper('.swiper-container', {
             loop: true,
             autoplay: {
-                delay: 4000,
+                delay: 1000,
                 disableOnInteraction: false,
             },
             keyboard: {
@@ -1666,17 +1666,7 @@ const Homepage = () => {
                                                         rotate="0deg"
                                                         flip="none"
                                                     >
-                                                        <svg
-                                                            xmlns="http://www.w3.org/2000/svg"
-                                                            width="1em"
-                                                            height="1em"
-                                                            viewBox="0 0 24 24"
-                                                        >
-                                                            <path
-                                                                fill="currentColor"
-                                                                d="M21.564 12.027a1.436 1.436 0 1 0 0-2.87c-.031 0-.06.006-.092.008l-.482-1.9a1.43 1.43 0 1 0-1.918-2.104l-4.89-2.273a1.4 1.4 0 0 0 .08-.452a1.436 1.436 0 1 0-2.871 0a1 1 0 0 0 .015.146l-3.114.955a1.43 1.43 0 0 0-2.44 1.432l-2.93 2.616a1.4 1.4 0 0 0-.734-.209a1.431 1.431 0 0 0-.43 2.798l-.194 1.866a1.432 1.432 0 1 0 1.097 2.532l.966.425l-.003.03a1.434 1.434 0 0 0 2.845.25h1.104a1.43 1.43 0 0 0 2.785-.128l3.107.102a1.4 1.4 0 0 0 1.664.125a11.7 11.7 0 0 1 4.297 4.039a1.4 1.4 0 0 0-.107.537a1.436 1.436 0 1 0 2.292-1.145a6.7 6.7 0 0 1-1.038-2.422a1.422 1.422 0 0 0 .45-2.472zm.565-1.435a.564.564 0 1 1-.565-.565a.565.565 0 0 1 .565.565M20.985 9.28a1.43 1.43 0 0 0-.844 1.19H19.02a1.43 1.43 0 0 0-.541-1.003l1.407-1.933a1.26 1.26 0 0 0 .647-.04Zm-2.274 5.567l-2.898-.742a1.42 1.42 0 0 0-.345-.878l1.17-1.575a1.38 1.38 0 0 0 1.368.307l1.252 1.934a1.43 1.43 0 0 0-.547.954M8.251 5.385l4.081 2.136a1.3 1.3 0 0 0-.017.785l-2.62 1.347a1.43 1.43 0 0 0-1.077-.497q-.018.001-.035.004L7.64 5.79a1.43 1.43 0 0 0 .611-.405M19.4 7.354L18.033 9.23a1.37 1.37 0 0 0-1.361.272l-1.591-1.2a1.1 1.1 0 0 0 .035-.53l3.707-1.06a1.44 1.44 0 0 0 .577.64m-1.804 3.802a.564.564 0 1 1-.564.565a.565.565 0 0 1 .564-.565m-3.899-2.65a.564.564 0 1 1 .565-.565a.565.565 0 0 1-.565.564m-5.08 1.521a.564.564 0 1 1-.564.565a.565.565 0 0 1 .565-.565m1.436.565a1.4 1.4 0 0 0-.098-.511l2.568-1.32a1.43 1.43 0 0 0 1.175.615l.024-.002l-.434 3.66l-3.906.494a1.4 1.4 0 0 0-.24-.054l-.297-1.47a1.435 1.435 0 0 0 1.208-1.412M8.95 14.325a.564.564 0 1 1-.565.565a.565.565 0 0 1 .565-.565m1.076-.375l3.053-.385a1.4 1.4 0 0 0-.005 1.173l-2.713-.088a1.4 1.4 0 0 0-.335-.7m4.213-4.682a1.44 1.44 0 0 0 .629-.5l1.486 1.12a1.38 1.38 0 0 0-.03 1.351l-1.243 1.67a1.4 1.4 0 0 0-1.265-.07Zm5.89-3.708a.564.564 0 1 1-.564.564a.565.565 0 0 1 .565-.564m-1.328.026a1.4 1.4 0 0 0-.107.538c0 .035.008.068.01.103l-3.732 1.066a1.43 1.43 0 0 0-1.274-.788c-.043 0-.085.01-.127.013l-.521-2.67a1.43 1.43 0 0 0 .893-.52ZM12.826 1.87a.564.564 0 1 1-.564.565a.565.565 0 0 1 .564-.565m-1.284 1.192a1.44 1.44 0 0 0 .996.779l.548 2.805a1.44 1.44 0 0 0-.526.429L8.515 4.959a1.36 1.36 0 0 0 .023-.975Zm-4.36.808a.564.564 0 1 1-.564.565a.565.565 0 0 1 .564-.565m-.04 1.996l.95 3.392a1.44 1.44 0 0 0-.672.545l-3.799-.969l.003-.023a1.42 1.42 0 0 0-.324-.896l2.824-2.519a1.43 1.43 0 0 0 1.017.47m-4.806 7.587a.564.564 0 1 1-.564-.564a.565.565 0 0 1 .564.564m-.27-1.405l.189-1.808a1.43 1.43 0 0 0 1.269-.914l3.698.943a1.3 1.3 0 0 0-.014.576l-4.343 1.69a1.43 1.43 0 0 0-.8-.486m.122-3.802a.564.564 0 1 1-.564.565a.565.565 0 0 1 .564-.565m.817 5.93a1.37 1.37 0 0 0 .114-1.202l4.266-1.66a1.43 1.43 0 0 0 .891.667l-1.865 2.583a1.429 1.429 0 0 0-2.683-.07Zm2.054 1.415a.564.564 0 1 1 .565-.565a.565.565 0 0 1-.565.565m3.407-3.306l.179 1.202a1.43 1.43 0 0 0-1.12 1.29h-.7Zm5.916 2.435a.564.564 0 1 1 .565-.565a.565.565 0 0 1-.565.565m6.373 5.795a.564.564 0 1 1 .564-.564a.565.565 0 0 1-.564.564m0-2a1.43 1.43 0 0 0-1.023.431a12 12 0 0 0-4.21-3.927a1.4 1.4 0 0 0 .199-.358l3.023.723a1.43 1.43 0 0 0 1.344 1.074a5.8 5.8 0 0 0 .775 2.068c-.037-.003-.071-.01-.108-.01m-.626-2.924a.564.564 0 1 1 .564-.565a.565.565 0 0 1-.564.565m.444-1.923a1.3 1.3 0 0 0-.87-.006l-1.249-1.928a1.43 1.43 0 0 0 .52-.763h1.213a1.44 1.44 0 0 0 .883.962Z"
-                                                            />
-                                                        </svg>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M21 10a16.84 16.84 0 0 0-9 3.244A16.84 16.84 0 0 0 3 10v2.96a2.004 2.004 0 0 0-2 2.007v1.004c0 1.109 2 2.208 2 2.208v2.007a14.87 14.87 0 0 1 7.417 2.55A15 15 0 0 1 12 24a15 15 0 0 1 1.583-1.264A14.87 14.87 0 0 1 21 20.186v-2.208a2.004 2.004 0 0 0 2-2.007v-1.004a2.004 2.004 0 0 0-2-2.007Zm-9 11.422a16.84 16.84 0 0 0-7-2.996v-6.15a14.8 14.8 0 0 1 5.417 2.282A15 15 0 0 1 12 15.822a15 15 0 0 1 1.583-1.264A14.8 14.8 0 0 1 19 12.275v6.151a16.84 16.84 0 0 0-7 2.996M11 8h2v1h-2zm0-4h2v1h-2z"/><path fill="currentColor" d="M11 10h2v1h-2zM9 5a1 1 0 0 0 1-1a.983.983 0 0 0-.99-.99A.995.995 0 1 0 9 5"/><circle cx="15" cy="4" r="1" fill="currentColor"/><path fill="currentColor" d="M16 8H8a3.003 3.003 0 0 1-3-3V3a3.003 3.003 0 0 1 3-3h8a3.003 3.003 0 0 1 3 3v2a3.003 3.003 0 0 1-3 3M8 2a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1Z"/></svg>
                                                     </iconify-icon>
                                                 </div>
                                             </div>
@@ -1702,7 +1692,7 @@ const Homepage = () => {
                                                 '--framer-text-alignment': 'center',
                                                 '--framer-text-color': 'var(--token-a8e28c9d-4ce6-4ad2-96a7-a1a12837bc97, rgb(235, 184, 29))'
                                             }}
-                                            className="framer-text">Learn Together</h3>
+                                            className="framer-text">Learn</h3>
                                         </div>
                                     </div>
                                 </div>
@@ -1719,7 +1709,7 @@ const Homepage = () => {
                                         }}
                                         data-framer-component-type="RichTextContainer">
                                         <p style={{ '--font-selector': 'R0Y7R2VvbG9naWNhLTMwMA==', '--framer-font-family': '"Geologica", "Geologica Placeholder", sans-serif', '--framer-font-weight': 300, '--framer-line-height': '24px', '--framer-text-alignment': 'center', '--framer-text-color': 'rgb(161, 161, 170)' }}
-                                            className="framer-text">Learning together with like-minded participants has proven to be more effective than learning alone.</p>
+                                            className="framer-text">Choose from diverse courses, create your own learning path, and connect with expert mentors.</p>
                                     </div>
                                 </div>
                             </div>
@@ -1748,9 +1738,7 @@ const Homepage = () => {
                                                 <div>
                                                     <iconify-icon inline="true" icon="mdi-light:memory" mode="svg"
                                                         style={{ fontSize: '49px', verticalAlign: 'undefinedem', color: 'var(--token-a8e28c9d-4ce6-4ad2-96a7-a1a12837bc97, rgb(197, 142, 15))', rotate: '0deg', flip: 'none' }}>
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
-                                                            <path fill="currentColor" d="m8.46 15.06l-1.41 1.41l-1.37-1.37A7.94 7.94 0 0 0 4.06 19H6v2H2v-1c0-4.84 3.44-8.87 8-9.8v-2L2 5V3h20v2l-8 3.2v2c4.56.93 8 4.96 8 9.8v1h-4v-2h1.94a7.94 7.94 0 0 0-1.62-3.9l-1.37 1.37l-1.41-1.41l1.37-1.38A8 8 0 0 0 13 12.06V14h-2v-1.94c-1.46.18-2.8.76-3.91 1.62zM12 18a2 2 0 0 1 2 2a2 2 0 0 1-2 2c-.32 0-.62-.07-.88-.21L7.27 20l3.85-1.79c.26-.14.56-.21.88-.21" />
-                                                        </svg>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M12 8L9 9.75v3.5L12 15l3-1.75v-3.5Zm1.517 2.04l-1.53.892l-1.517-.885L12 9.155Zm-3.527.882l1.484.866v1.75l-1.484-.865Zm2.474 2.653v-1.767l1.546-.902v1.767ZM3 0L0 1.75v3.5L3 7l3-1.75v-3.5Zm1.517 2.04l-1.53.892l-1.517-.885L3 1.155ZM.99 2.921l1.484.866v1.75L.99 4.674Zm2.474 2.653V3.808l1.546-.902v1.767ZM3 17l-3 1.75v3.5L3 24l3-1.75v-3.5Zm1.517 2.04l-1.53.892l-1.517-.885L3 18.155Zm-3.527.882l1.484.866v1.75L.99 21.674Zm2.474 2.653v-1.767l1.546-.902v1.767ZM21 0l-3 1.75v3.5L21 7l3-1.75v-3.5Zm1.517 2.04l-1.53.892l-1.517-.885L21 1.155Zm-3.527.882l1.484.866v1.75l-1.484-.865Zm2.474 2.653V3.808l1.546-.902v1.767ZM21 17l-3 1.75v3.5L21 24l3-1.75v-3.5Zm1.517 2.04l-1.53.892l-1.517-.885l1.53-.892Zm-3.527.882l1.484.866v1.75l-1.484-.865Zm2.474 2.653v-1.767l1.546-.902v1.767ZM9 3h6v1H9zm0 17h6v1H9zM3.5 9v6h-1V9zm3.793-.172L5.172 6.707L5.879 6L8 8.12zM16 8.293l2.121-2.121l.707.707L16.707 9zm-7.872 6.586L6.007 17l-.707-.707l2.121-2.121zm8.751-.75L19 16.25l-.707.707l-2.121-2.121zM21.5 9v6h-1V9z"/></svg>
                                                     </iconify-icon>
                                                 </div>
                                             </div>
@@ -1759,7 +1747,7 @@ const Homepage = () => {
                                             style={{ outline: 'none', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', flexShrink: 0, transform: 'none' }}
                                             data-framer-component-type="RichTextContainer">
                                             <h3 style={{ '--font-selector': 'R0Y7R2VvbG9naWNhLTUwMA==', '--framer-font-family': '"Geologica", "Geologica Placeholder", sans-serif', '--framer-font-size': '22px', '--framer-font-weight': 500, '--framer-letter-spacing': '-0.45px', '--framer-line-height': '28px', '--framer-text-alignment': 'center', '--framer-text-color': 'var(--token-a8e28c9d-4ce6-4ad2-96a7-a1a12837bc97, rgb(235, 184, 29))' }}
-                                                className="framer-text">Scalability</h3>
+                                                className="framer-text">Contribute</h3>
                                         </div>
                                     </div>
                                 </div>
@@ -1769,7 +1757,7 @@ const Homepage = () => {
                                         style={{ outline: 'none', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', flexShrink: 0, transform: 'none' }}
                                         data-framer-component-type="RichTextContainer">
                                         <p style={{ '--font-selector': 'R0Y7R2VvbG9naWNhLTMwMA==', '--framer-font-family': '"Geologica", "Geologica Placeholder", sans-serif', '--framer-font-weight': 300, '--framer-line-height': '24px', '--framer-text-alignment': 'center', '--framer-text-color': 'rgb(161, 161, 170)' }}
-                                            className="framer-text">Seamlessly adapt to your evolving API needs, ensuring efficiency at any scale.</p>
+                                            className="framer-text">Share your knowledge, create innovative content, and earn rewards for your expertise.</p>
                                     </div>
                                 </div>
                             </div>
@@ -1846,18 +1834,7 @@ const Homepage = () => {
                                                         rotate="0deg"
                                                         flip="none"
                                                     >
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
-                                                            <circle cx="12" cy="2" r="1" fill="currentColor" />
-                                                            <circle cx="21" cy="6" r="1" fill="currentColor" />
-                                                            <circle cx="21" cy="17" r="1" fill="currentColor" />
-                                                            <circle cx="12" cy="22" r="1" fill="currentColor" />
-                                                            <path
-                                                                fill="currentColor"
-                                                                d="M21 8a2.006 2.006 0 0 1-2-2a1.94 1.94 0 0 1 .26-.96L14 2a2 2 0 0 1-1.01 1.73a1.95 1.95 0 0 1-1.98 0A2 2 0 0 1 10 2L4.74 5.04A1.94 1.94 0 0 1 5 6a2.006 2.006 0 0 1-2 2a2 2 0 0 1-.5-.07v7.14A2 2 0 0 1 3 15a2 2 0 0 1 1.5.69a2.2 2.2 0 0 1 .39.68A1.9 1.9 0 0 1 5 17a2 2 0 0 1-.58 1.41l3.84 2.21l1.78 1.03a1.3 1.3 0 0 1 .07-.28a.3.3 0 0 0 .02-.07a2 2 0 0 1 .12-.24c.01-.03.03-.06.04-.09c.05-.07.09-.14.14-.2c.03-.03.05-.06.08-.09a1.2 1.2 0 0 1 .16-.16a.5.5 0 0 1 .11-.1a2 2 0 0 1 .17-.11a1 1 0 0 1 .15-.09c.06-.03.11-.05.17-.08l.21-.06a1 1 0 0 1 .14-.04a1.8 1.8 0 0 1 .76 0a1 1 0 0 1 .14.04l.21.06c.06.03.11.05.17.08a1 1 0 0 1 .15.09a2 2 0 0 1 .17.11a.5.5 0 0 1 .11.1a1.2 1.2 0 0 1 .16.16c.03.03.05.06.08.09c.05.06.09.13.14.2c.01.03.03.06.04.09a2 2 0 0 1 .12.24a.3.3 0 0 0 .02.07a1.3 1.3 0 0 1 .07.28l1.78-1.03l3.84-2.21A2 2 0 0 1 19 17a1.9 1.9 0 0 1 .11-.63a2.2 2.2 0 0 1 .39-.68A2 2 0 0 1 21 15a2 2 0 0 1 .5.07V7.93A2 2 0 0 1 21 8m-9 5a1 1 0 1 1 1-1a1.003 1.003 0 0 1-1 1m7.5.3A4 4 0 0 0 17 17a3.6 3.6 0 0 0 .06.56l-2.47 1.42a4 4 0 0 0-1.59-.84v-3.32a3 3 0 1 0-2 0v3.32a4 4 0 0 0-1.59.84l-2.47-1.42A3.6 3.6 0 0 0 7 17a4 4 0 0 0-2.5-3.7V9.7A4 4 0 0 0 7 6.04L9.15 4.8a3.984 3.984 0 0 0 5.7 0L17 6.04a4 4 0 0 0 2.5 3.66Z"
-                                                            />
-                                                            <circle cx="3" cy="17" r="1" fill="currentColor" />
-                                                            <circle cx="3" cy="6" r="1" fill="currentColor" />
-                                                        </svg>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><circle cx="7" cy="2" r="1" fill="currentColor"/><circle cx="3" cy="6" r="1" fill="currentColor"/><circle cx="12" cy="1" r="1" fill="currentColor"/><circle cx="17" cy="2" r="1" fill="currentColor"/><circle cx="21" cy="6" r="1" fill="currentColor"/><path fill="currentColor" d="m17.5 24l-.119-.029A8.62 8.62 0 0 1 11 15.916v-4.218L17.5 9l6.5 2.698v4.218a8.62 8.62 0 0 1-6.381 8.055ZM13 12.865v3.15a6.4 6.4 0 0 0 4.5 5.96a6.4 6.4 0 0 0 4.5-5.96v-3.15l-4.5-1.793Zm10-.503"/><circle cx="12" cy="23" r="1" fill="currentColor"/><path fill="currentColor" d="M10.4 10.4a.8.8 0 0 0 .8-.8V8h1.6a1.6 1.6 0 0 0 1.59-1.5a6 6 0 0 1 2.353 1.857L18 7.833l1.08.45a7.997 7.997 0 1 0-8.39 11.6a9.6 9.6 0 0 1-.59-2.201a5.96 5.96 0 0 1-3.995-6.777L9.6 14.4v.8a1.6 1.6 0 0 0 .4 1.045V12H8.8v-1.6Z"/><circle cx="3" cy="18" r="1" fill="currentColor"/><circle cx="7" cy="22" r="1" fill="currentColor"/><circle cx="1" cy="12" r="1" fill="currentColor"/></svg>
                                                     </iconify-icon>
                                                 </div>
                                             </div>
@@ -1883,10 +1860,7 @@ const Homepage = () => {
                                                 '--framer-text-alignment': 'left',
                                                 '--framer-text-color': 'var(--token-a8e28c9d-4ce6-4ad2-96a7-a1a12837bc97, rgb(235, 184, 29))'
                                             }}
-                                            className="framer-text"
-                                            >
-                                                Availability
-                                            </h3>
+                                            className="framer-text">Govern</h3>
                                         </div>
                                     </div>
                                 </div>
@@ -1911,9 +1885,8 @@ const Homepage = () => {
                                             '--framer-text-alignment': 'center',
                                             '--framer-text-color': 'rgb(161, 161, 170)'
                                         }}
-                                        className="framer-text"
-                                        >
-                                            No matter where you are or in which part of the country you reside in, you can learn from anywhere.
+                                        className="framer-text">
+                                            Join the DAO and actively shape the future of ABYA University.
                                         </p>
                                     </div>
                                 </div>
@@ -1938,15 +1911,19 @@ const Homepage = () => {
                                     <div className="framer-14m9xw1">
                                         <div className="framer-1v8dvik" data-border="true">
                                             <div className="framer-x3ai4l-container">
-                                                <div><iconify-icon inline="true" icon="mdi-light:alarm-plus" mode="svg"
-                                                    style={{ fontSize: '49px', verticalAlign: 'undefinedem', color: 'var(--token-a8e28c9d-4ce6-4ad2-96a7-a1a12837bc97, rgb(235, 184, 29))', rotate: '0deg', flip: 'none' }}><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M12 12h7c-.53 4.11-3.28 7.78-7 8.92zH5V6.3l7-3.11M12 1L3 5v6c0 5.55 3.84 10.73 9 12c5.16-1.27 9-6.45 9-12V5z" /></svg></iconify-icon></div>
+                                                <div>
+                                                    <iconify-icon inline="true" icon="mdi-light:alarm-plus" mode="svg"
+                                                        style={{ fontSize: '49px', verticalAlign: 'undefinedem', color: 'var(--token-a8e28c9d-4ce6-4ad2-96a7-a1a12837bc97, rgb(235, 184, 29))', rotate: '0deg', flip: 'none' }}>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M21.564 12.027a1.436 1.436 0 1 0 0-2.87c-.031 0-.06.006-.092.008l-.482-1.9a1.43 1.43 0 1 0-1.918-2.104l-4.89-2.273a1.4 1.4 0 0 0 .08-.452a1.436 1.436 0 1 0-2.871 0a1 1 0 0 0 .015.146l-3.114.955a1.43 1.43 0 0 0-2.44 1.432l-2.93 2.616a1.4 1.4 0 0 0-.734-.209a1.431 1.431 0 0 0-.43 2.798l-.194 1.866a1.432 1.432 0 1 0 1.097 2.532l.966.425l-.003.03a1.434 1.434 0 0 0 2.845.25h1.104a1.43 1.43 0 0 0 2.785-.128l3.107.102a1.4 1.4 0 0 0 1.664.125a11.7 11.7 0 0 1 4.297 4.039a1.4 1.4 0 0 0-.107.537a1.436 1.436 0 1 0 2.292-1.145a6.7 6.7 0 0 1-1.038-2.422a1.422 1.422 0 0 0 .45-2.472zm.565-1.435a.564.564 0 1 1-.565-.565a.565.565 0 0 1 .565.565M20.985 9.28a1.43 1.43 0 0 0-.844 1.19H19.02a1.43 1.43 0 0 0-.541-1.003l1.407-1.933a1.26 1.26 0 0 0 .647-.04Zm-2.274 5.567l-2.898-.742a1.42 1.42 0 0 0-.345-.878l1.17-1.575a1.38 1.38 0 0 0 1.368.307l1.252 1.934a1.43 1.43 0 0 0-.547.954M8.251 5.385l4.081 2.136a1.3 1.3 0 0 0-.017.785l-2.62 1.347a1.43 1.43 0 0 0-1.077-.497q-.018.001-.035.004L7.64 5.79a1.43 1.43 0 0 0 .611-.405M19.4 7.354L18.033 9.23a1.37 1.37 0 0 0-1.361.272l-1.591-1.2a1.1 1.1 0 0 0 .035-.53l3.707-1.06a1.44 1.44 0 0 0 .577.64m-1.804 3.802a.564.564 0 1 1 .565-.564a.565.565 0 0 1-.565.564m-3.899-2.65a.564.564 0 1 1 .565-.565a.565.565 0 0 1-.565.564m-5.08 1.521a.564.564 0 1 1-.564.565a.565.565 0 0 1 .565-.565m1.436.565a1.4 1.4 0 0 0-.098-.511l2.568-1.32a1.43 1.43 0 0 0 1.175.615l.024-.002l-.434 3.66l-3.906.494a1.4 1.4 0 0 0-.24-.054l-.297-1.47a1.435 1.435 0 0 0 1.208-1.412M8.95 14.325a.564.564 0 1 1-.565.565a.565.565 0 0 1 .565-.565m1.076-.375l3.053-.385a1.4 1.4 0 0 0-.005 1.173l-2.713-.088a1.4 1.4 0 0 0-.335-.7m4.213-4.682a1.44 1.44 0 0 0 .629-.5l1.486 1.12a1.38 1.38 0 0 0-.03 1.351l-1.243 1.67a1.4 1.4 0 0 0-1.265-.07Zm5.89-3.708a.564.564 0 1 1-.564.564a.565.565 0 0 1 .565-.564m-1.328.026a1.4 1.4 0 0 0-.107.538c0 .035.008.068.01.103l-3.732 1.066a1.43 1.43 0 0 0-1.274-.788c-.043 0-.085.01-.127.013l-.521-2.67a1.43 1.43 0 0 0 .893-.52ZM12.826 1.87a.564.564 0 1 1-.564.565a.565.565 0 0 1 .564-.565m-1.284 1.192a1.44 1.44 0 0 0 .996.779l.548 2.805a1.44 1.44 0 0 0-.526.429L8.515 4.959a1.36 1.36 0 0 0 .023-.975Zm-4.36.808a.564.564 0 1 1-.564.565a.565.565 0 0 1 .564-.565m-.04 1.996l.95 3.392a1.44 1.44 0 0 0-.672.545l-3.799-.969l.003-.023a1.42 1.42 0 0 0-.324-.896l2.824-2.519a1.43 1.43 0 0 0 1.017.47m-4.806 7.587a.564.564 0 1 1-.564-.564a.565.565 0 0 1 .564.564m-.27-1.405l.189-1.808a1.43 1.43 0 0 0 1.269-.914l3.698.943a1.3 1.3 0 0 0-.014.576l-4.343 1.69a1.43 1.43 0 0 0-.8-.486m.122-3.802a.564.564 0 1 1-.564.565a.565.565 0 0 1 .564-.565m.817 5.93a1.37 1.37 0 0 0 .114-1.202l4.266-1.66a1.43 1.43 0 0 0 .891.667l-1.865 2.583a1.429 1.429 0 0 0-2.683-.07Zm2.054 1.415a.564.564 0 1 1 .565-.565a.565.565 0 0 1-.565.565m3.407-3.306l.179 1.202a1.43 1.43 0 0 0-1.12 1.29h-.7Zm5.916 2.435a.564.564 0 1 1 .565-.565a.565.565 0 0 1-.565.565m6.373 5.795a.564.564 0 1 1 .564-.564a.565.565 0 0 1-.564.564m0-2a1.43 1.43 0 0 0-1.023.431a12 12 0 0 0-4.21-3.927a1.4 1.4 0 0 0 .199-.358l3.023.723a1.43 1.43 0 0 0 1.344 1.074a5.8 5.8 0 0 0 .775 2.068c-.037-.003-.071-.01-.108-.01m-.626-2.924a.564.564 0 1 1 .564-.565a.565.565 0 0 1-.564.565m.444-1.923a1.3 1.3 0 0 0-.87-.006l-1.249-1.928a1.43 1.43 0 0 0 .52-.763h1.213a1.44 1.44 0 0 0 .883.962Z"/></svg>
+                                                    </iconify-icon>
+                                                </div>
                                             </div>
                                         </div>
                                         <div className="framer-1b7vm2i"
                                             style={{ outline: 'none', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', flexShrink: 0, transform: 'none' }}
                                             data-framer-component-type="RichTextContainer">
                                             <h3 style={{ '--font-selector': 'R0Y7R2VvbG9naWNhLTUwMA==', '--framer-font-family': '"Geologica", "Geologica Placeholder", sans-serif', '--framer-font-size': '22px', '--framer-font-weight': 500, '--framer-letter-spacing': '-0.45px', '--framer-line-height': '28px', '--framer-text-alignment': 'left', '--framer-text-color': 'var(--token-a8e28c9d-4ce6-4ad2-96a7-a1a12837bc97, rgb(235, 184, 29))' }}
-                                                className="framer-text">Access Mentors</h3>
+                                                className="framer-text">Connect</h3>
                                         </div>
                                     </div>
                                 </div>
@@ -1956,7 +1933,7 @@ const Homepage = () => {
                                         style={{ outline: 'none', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', flexShrink: 0, transform: 'none' }}
                                         data-framer-component-type="RichTextContainer">
                                         <p style={{ '--font-selector': 'R0Y7R2VvbG9naWNhLTMwMA==', '--framer-font-family': '"Geologica", "Geologica Placeholder", sans-serif', '--framer-font-weight': 300, '--framer-line-height': '24px', '--framer-text-alignment': 'center', '--framer-text-color': 'rgb(161, 161, 170)' }}
-                                            className="framer-text">Throughout the Learning journey, you will have access to mentors who are influential leaders in the disruptive tech space.</p>
+                                            className="framer-text">Build global connections, collaborate with peers, and be part of a supportive community.</p>
                                     </div>
                                 </div>
                             </div>
@@ -2023,9 +2000,7 @@ const Homepage = () => {
                                                         }}
                                                         rotate="0deg"
                                                         flip="none">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
-                                                            <path fill="currentColor" d="M4 12h16c0-3.73-2.56-6.87-6-7.75c-.14.99-1 1.75-2 1.75s-1.86-.76-2-1.75C6.56 5.13 4 8.27 4 12m8-10a10 10 0 0 1 10 10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2A10 10 0 0 1 12 2m1.5 15h-3l-.58 2l-.27 1h4.7l-.27-1zm1.5-2l1 3.5l.27.95l.08.55c0 1.1-.9 2-2 2h-4.7l-.48-.06a2.004 2.004 0 0 1-1.44-2.44l.27-1L9 15zm1-8a2 2 0 0 1 2 2a2 2 0 0 1-2 2a2 2 0 0 1-2-2a2 2 0 0 1 2-2M8 7a2 2 0 0 1 2 2a2 2 0 0 1-2 2a2 2 0 0 1-2-2a2 2 0 0 1 2-2" />
-                                                        </svg>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M17.885 23.553c0-.685.23-.922.615-.922c.396-.01.625.237.625.922V24H20v-.338C20 21.928 18.635 22 18.5 22c-.146 0-1.5-.082-1.5 1.662V24h.885ZM21 5.662v.676C21 8.072 22.365 8 22.5 8c.146 0 1.5.082 1.5-1.662v-.676C24 3.928 22.635 4 22.5 4c-.146 0-1.5-.082-1.5 1.662m2.125-.11v.886c0 .703-.219.94-.615.94s-.625-.237-.625-.94v-.885c0-.685.23-.922.615-.922c.396-.01.625.237.625.922M21 12.662v.676C21 15.072 22.365 15 22.5 15c.146 0 1.5.08 1.5-1.662v-.676C24 10.928 22.635 11 22.5 11c-.146 0-1.5-.08-1.5 1.662m2.125-.11v.886c0 .703-.219.94-.615.94s-.625-.237-.625-.94v-.885c0-.685.23-.922.615-.922c.396-.01.625.237.625.922M21 19.662v.676C21 22.072 22.365 22 22.5 22c.146 0 1.5.082 1.5-1.662v-.676C24 17.928 22.635 18 22.5 18c-.146 0-1.5-.082-1.5 1.662m2.125-.11v.886c0 .703-.219.94-.615.94s-.625-.237-.625-.94v-.885c0-.685.23-.922.615-.922c.396-.01.625.237.625.922M17 9.662v.676C17 12.072 18.365 12 18.5 12c.146 0 1.5.082 1.5-1.662v-.676C20 7.928 18.635 8 18.5 8c-.146 0-1.5-.082-1.5 1.662m2.125-.11v.886c0 .703-.219.94-.615.94s-.625-.237-.625-.94v-.885c0-.685.23-.922.615-.922c.396-.01.625.237.625.922M17 1.59v.647L18 2v3h1V1m-2 14.59v.647L18 16v3h1v-4M8 10a2 2 0 1 1-2 2a2.006 2.006 0 0 1 2-2m0 9c2.7 0 5.8 1.29 6 2v1H2v-1c.2-.72 3.3-2 6-2M8 8a4 4 0 1 0 4 4a4 4 0 0 0-4-4m0 9c-2.67 0-8 1.34-8 4v3h16v-3c0-2.66-5.33-4-8-4"/></svg>
                                                     </iconify-icon>
                                                 </div>
                                             </div>
@@ -2051,7 +2026,7 @@ const Homepage = () => {
                                                 '--framer-text-color': 'var(--token-a8e28c9d-4ce6-4ad2-96a7-a1a12837bc97, rgb(235, 184, 29))'
                                             }}
                                             className="framer-text">
-                                                Fun &amp; Easy
+                                                Own Your Data
                                             </h3>
                                         </div>
                                     </div>
@@ -2078,7 +2053,7 @@ const Homepage = () => {
                                             '--framer-text-color': 'rgb(161, 161, 170)'
                                         }}
                                         className="framer-text">
-                                            Learn the basics and then proceed to intermediate level, from zero knowledge and skill to the deep dive of developing smart contracts.
+                                            Keep your learning data secure and under your control, thanks to blockchain technology.
                                         </p>
                                     </div>
                                 </div>
@@ -2593,25 +2568,25 @@ const Homepage = () => {
                         <div class="framer-1oj1k3b-container">
                             <ul class="logogrid">
                                 <li class="logogrid__item">
-                                    <img src="https://i.postimg.cc/fLHyXnMV/radiyal.png" class="logogrid__img" alt="Coca Cola" />
+                                    <img src="https://i.postimg.cc/fLHyXnMV/radiyal.png" class="logogrid__img" />
                                 </li>
                                 <li class="logogrid__item">
-                                    <img src="https://i.postimg.cc/W3JpDDYH/acme.png" class="logogrid__img" alt="Google" />
+                                    <img src="https://i.postimg.cc/W3JpDDYH/acme.png" class="logogrid__img" />
                                 </li>
                                 <li class="logogrid__item">
-                                    <img src="https://i.postimg.cc/HLnkgvwH/amara.png" class="logogrid__img" alt="AirBnB" />
+                                    <img src="https://i.postimg.cc/HLnkgvwH/amara.png" class="logogrid__img" />
                                 </li>
                                 <li class="logogrid__item">
-                                    <img src="https://i.postimg.cc/hGtfGtqk/code-lab.png" class="logogrid__img" alt="Spotify" />
+                                    <img src="https://i.postimg.cc/hGtfGtqk/code-lab.png" class="logogrid__img" />
                                 </li>
                                 <li class="logogrid__item">
-                                    <img src="https://i.postimg.cc/CM3B40j8/fox-hub.png" class="logogrid__img" alt="Guinness" />
+                                    <img src="https://i.postimg.cc/CM3B40j8/fox-hub.png" class="logogrid__img" />
                                 </li>
                                 <li class="logogrid__item">
-                                    <img src="https://i.postimg.cc/R0g4p7y8/hex-lab.png" class="logogrid__img" alt="Audi" />
+                                    <img src="https://i.postimg.cc/R0g4p7y8/hex-lab.png" class="logogrid__img" />
                                 </li>
                                 <li class="logogrid__item">
-                                    <img src="https://i.postimg.cc/QtVs2BrM/hexa.png" class="logogrid__img" alt="Nike" />
+                                    <img src="https://i.postimg.cc/QtVs2BrM/hexa.png" class="logogrid__img" />
                                 </li>
                                 <li class="logogrid__item">
                                     <img src="https://i.postimg.cc/LsD8KKYx/lightai.png" class="logogrid__img" alt="Netflix" />
@@ -2854,23 +2829,42 @@ const Homepage = () => {
                                             display: "flex",
                                             flexDirection: "column",
                                             justifyContent: "flex-start",
-                                            marginBottom: "40px",
+                                            paddingTop: "64px",
+                                            marginBottom: "60px",
                                             flexShrink: 0,
                                             transform: "none",
                                             fontFamily: `"Inter", "Inter Placeholder", sans-serif`,
-                                            fontSize: "28px",
+                                            fontSize: "64px",
                                             fontWeight: 500,
                                             lineHeight: "1.4em",
                                             color: "rgb(153, 153, 153)",
                                             '--font-selector': 'SW50ZXItTWVkaXVt',
-                                            '--framer-font-size': '28px',
+                                            '--framer-font-size': '40px',
                                             '--framer-font-weight': '500',
                                             '--framer-line-height': '1.4em',
                                             '--framer-text-alignment': 'center',
                                             '--framer-text-color': 'rgb(153, 153, 153)'
                                         }}
                                         data-framer-component-type="RichTextContainer">
-                                        <h2 className="framer-text">Awesome Integrations!</h2>
+                                        <h2 className="framer-text">ABYA Platform Integrations!</h2>
+
+                                        <div className="framer-12tambw" style={{
+                                            outline: 'none',
+                                            display: 'flex',
+                                            flexDirection: 'column',
+                                            justifyContent: 'flex-start',
+                                            flexShrink: 0,
+                                            transform: 'none',
+                                            '--font-selector': 'R0Y7UGx1cyBKYWthcnRhIFNhbnMtcmVndWxhcg==',
+                                            '--framer-font-family': '"Plus Jakarta Sans", "Plus Jakarta Sans Placeholder", sans-serif',
+                                            '--framer-font-size': '18px',
+                                            '--framer-letter-spacing': '0.02em',
+                                            '--framer-line-height': '27.9px',
+                                            '--framer-text-alignment': 'center',
+                                            '--framer-text-color': 'rgb(153, 153, 153)'
+                                        }} data-framer-component-type="RichTextContainer">
+                                            <center><p className="framer-text">Enhance Your Learning with These Tools</p></center>
+                                        </div>
                                     </div>
 
                                     {/* Company details */}
@@ -2878,27 +2872,27 @@ const Homepage = () => {
                                         <div className="company-box">
                                             <div className="company-box-inner">
                                                 <div className="company-box-top">
-                                                    <center><img src="https://imgpanda.com/upload/ib/4mChImfZu3.png" alt="Company Name" /></center>
+                                                    <center><img src="https://i.postimg.cc/LsD8KKYx/lightai.png" alt="Company Name" /></center>
                                                 </div>
                                                 <div className="company-box-bottom">
-                                                    <span>Project management - <strong>75% Growth</strong></span>
+                                                    <span>Enhanced Research - <strong>75% Growth</strong></span>
                                                 </div>
                                             </div>
                                         </div>
                                         <div className="company-box">
                                             <div className="company-box-inner">
                                                 <div className="company-box-top">
-                                                    <center><img src="https://imgpanda.com/upload/ib/HT16vu2U3Y.png" alt="Company Name" /></center>
+                                                    <center><img src="https://i.postimg.cc/hGtfGtqk/code-lab.png" alt="Company Name" /></center>
                                                 </div>
                                                 <div className="company-box-bottom">
-                                                    <span>Secure storage - <strong>95% Growth</strong></span>
+                                                    <span>Smart Contract IDE - <strong>65% Growth</strong></span>
                                                 </div>
                                             </div>
                                         </div>
                                         <div className="company-box">
                                             <div className="company-box-inner">
                                                 <div className="company-box-top">
-                                                    <center><img src="https://imgpanda.com/upload/ib/HF1zj1kEys.png" alt="Company Name" /></center>
+                                                    <center><img src="https://i.postimg.cc/qRtq8DqQ/circle.png" alt="Company Name" /></center>
                                                 </div>
                                                 <div className="company-box-bottom">
                                                     <span>Team management - <strong>55% Growth</strong></span>
@@ -2937,23 +2931,22 @@ const Homepage = () => {
                         </h2>
                     </div>
 
-                    <div className="framer-1fpcm4c"
-                        style={{
-                            outline: "none",
-                            display: "flex",
-                            flexDirection: "column",
-                            justifyContent: "flex-start",
-                            flexShrink: 0,
-                            transform: "none",
-                            fontFamily: '"Plus Jakarta Sans", "Plus Jakarta Sans Placeholder", sans-serif',
-                            fontSize: "18px",
-                            letterSpacing: "0.02em",
-                            lineHeight: "27.9px",
-                            textAlign: "center",
-                            color: "rgb(179, 179, 179)"
-                        }}
-                    >
-                        <p className="framer-text">Discover what our users say about the transformative impact of our tool.</p>
+                    <div className="framer-rva7ap" style={{
+                        outline: 'none',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'flex-start',
+                        flexShrink: 0,
+                        transform: 'none',
+                        '--font-selector': 'R0Y7UGx1cyBKYWthcnRhIFNhbnMtcmVndWxhcg==',
+                        '--framer-font-family': '"Plus Jakarta Sans", "Plus Jakarta Sans Placeholder", sans-serif',
+                        '--framer-font-size': '18px',
+                        '--framer-letter-spacing': '0.02em',
+                        '--framer-line-height': '27.9px',
+                        '--framer-text-alignment': 'center',
+                        '--framer-text-color': 'rgb(179, 179, 179)'
+                    }} data-framer-component-type="RichTextContainer">
+                        <p className="framer-text">Discover what our users say about the transformative impact of our platform.</p>
                     </div>
 
                     <div class="framer-1pbr6n0" data-framer-name="Spacer" name="Spacer"></div>
