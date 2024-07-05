@@ -4,6 +4,7 @@ import { useCourseDetail } from './useCourseDetail';
 import axios from 'axios';
 import { UserContext } from '../../contexts/userContext';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const CourseContent = () => {
   const { courseId } = useParams();
@@ -13,6 +14,8 @@ const CourseContent = () => {
   const completionPercentage = courseData?.completion_percentage ?? 'Loading...';
   const courseName = courseData?.course_name ?? 'Loading...';
   const [showCongratsPopup, setShowCongratsPopup] = useState(false);
+  const navigate = useNavigate();
+
 
   useEffect(() => {
     if (completionPercentage === 100) {
@@ -26,9 +29,20 @@ const CourseContent = () => {
   };
 
   const handleClaimCertificate = () => {
-    // Logic to claim the certificate
-    console.log("Certificate claimed");
-    setShowCongratsPopup(false);
+    axios.post(`http://localhost:8000/courses/certificate/${courseId}/`, {}, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Token ${localStorage.getItem('userToken')}`,// Use axios for request
+      }
+    })
+    .then(response => {
+      console.log("Certificate claimed", response.data);
+      navigate(`/certificate/${courseId}/view/`, { state: { certificateData: response.data } });
+      setShowCongratsPopup(false);
+    })
+    .catch(error => {
+      console.error("Error claiming certificate:", error);
+    });
   };
 
   console.log("Percentage: ", completionPercentage);
