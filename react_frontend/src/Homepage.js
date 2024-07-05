@@ -1861,6 +1861,7 @@ const Homepage = () => {
                                                 '--framer-text-color': 'var(--token-a8e28c9d-4ce6-4ad2-96a7-a1a12837bc97, rgb(235, 184, 29))'
                                             }}
                                             className="framer-text">Govern</h3>
+
                                         </div>
                                     </div>
                                 </div>
@@ -1886,6 +1887,7 @@ const Homepage = () => {
                                             '--framer-text-color': 'rgb(161, 161, 170)'
                                         }}
                                         className="framer-text">
+
                                             Join the DAO and actively shape the future of ABYA University.
                                         </p>
                                     </div>
