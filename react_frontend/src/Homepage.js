@@ -1702,7 +1702,7 @@ const Homepage = () => {
                                                 '--framer-text-alignment': 'center',
                                                 '--framer-text-color': 'var(--token-a8e28c9d-4ce6-4ad2-96a7-a1a12837bc97, rgb(235, 184, 29))'
                                             }}
-                                            className="framer-text">Learn Together</h3>
+                                            className="framer-text">Learn</h3>
                                         </div>
                                     </div>
                                 </div>
@@ -1719,7 +1719,7 @@ const Homepage = () => {
                                         }}
                                         data-framer-component-type="RichTextContainer">
                                         <p style={{ '--font-selector': 'R0Y7R2VvbG9naWNhLTMwMA==', '--framer-font-family': '"Geologica", "Geologica Placeholder", sans-serif', '--framer-font-weight': 300, '--framer-line-height': '24px', '--framer-text-alignment': 'center', '--framer-text-color': 'rgb(161, 161, 170)' }}
-                                            className="framer-text">Learning together with like-minded participants has proven to be more effective than learning alone.</p>
+                                            className="framer-text">Choose from diverse courses, create your own learning path, and connect with expert mentors.</p>
                                     </div>
                                 </div>
                             </div>
@@ -1759,7 +1759,7 @@ const Homepage = () => {
                                             style={{ outline: 'none', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', flexShrink: 0, transform: 'none' }}
                                             data-framer-component-type="RichTextContainer">
                                             <h3 style={{ '--font-selector': 'R0Y7R2VvbG9naWNhLTUwMA==', '--framer-font-family': '"Geologica", "Geologica Placeholder", sans-serif', '--framer-font-size': '22px', '--framer-font-weight': 500, '--framer-letter-spacing': '-0.45px', '--framer-line-height': '28px', '--framer-text-alignment': 'center', '--framer-text-color': 'var(--token-a8e28c9d-4ce6-4ad2-96a7-a1a12837bc97, rgb(235, 184, 29))' }}
-                                                className="framer-text">Scalability</h3>
+                                                className="framer-text">Contribute</h3>
                                         </div>
                                     </div>
                                 </div>
@@ -1769,7 +1769,7 @@ const Homepage = () => {
                                         style={{ outline: 'none', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', flexShrink: 0, transform: 'none' }}
                                         data-framer-component-type="RichTextContainer">
                                         <p style={{ '--font-selector': 'R0Y7R2VvbG9naWNhLTMwMA==', '--framer-font-family': '"Geologica", "Geologica Placeholder", sans-serif', '--framer-font-weight': 300, '--framer-line-height': '24px', '--framer-text-alignment': 'center', '--framer-text-color': 'rgb(161, 161, 170)' }}
-                                            className="framer-text">Seamlessly adapt to your evolving API needs, ensuring efficiency at any scale.</p>
+                                            className="framer-text">Share your knowledge, create innovative content, and earn rewards for your expertise.</p>
                                     </div>
                                 </div>
                             </div>
@@ -1885,7 +1885,7 @@ const Homepage = () => {
                                             }}
                                             className="framer-text"
                                             >
-                                                Availability
+                                                Govern
                                             </h3>
                                         </div>
                                     </div>
@@ -1913,7 +1913,7 @@ const Homepage = () => {
                                         }}
                                         className="framer-text"
                                         >
-                                            No matter where you are or in which part of the country you reside in, you can learn from anywhere.
+                                            Join the DAO and actively shape the future of ABYA University.
                                         </p>
                                     </div>
                                 </div>
@@ -1946,7 +1946,7 @@ const Homepage = () => {
                                             style={{ outline: 'none', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', flexShrink: 0, transform: 'none' }}
                                             data-framer-component-type="RichTextContainer">
                                             <h3 style={{ '--font-selector': 'R0Y7R2VvbG9naWNhLTUwMA==', '--framer-font-family': '"Geologica", "Geologica Placeholder", sans-serif', '--framer-font-size': '22px', '--framer-font-weight': 500, '--framer-letter-spacing': '-0.45px', '--framer-line-height': '28px', '--framer-text-alignment': 'left', '--framer-text-color': 'var(--token-a8e28c9d-4ce6-4ad2-96a7-a1a12837bc97, rgb(235, 184, 29))' }}
-                                                className="framer-text">Access Mentors</h3>
+                                                className="framer-text">Connect</h3>
                                         </div>
                                     </div>
                                 </div>
@@ -1956,7 +1956,7 @@ const Homepage = () => {
                                         style={{ outline: 'none', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', flexShrink: 0, transform: 'none' }}
                                         data-framer-component-type="RichTextContainer">
                                         <p style={{ '--font-selector': 'R0Y7R2VvbG9naWNhLTMwMA==', '--framer-font-family': '"Geologica", "Geologica Placeholder", sans-serif', '--framer-font-weight': 300, '--framer-line-height': '24px', '--framer-text-alignment': 'center', '--framer-text-color': 'rgb(161, 161, 170)' }}
-                                            className="framer-text">Throughout the Learning journey, you will have access to mentors who are influential leaders in the disruptive tech space.</p>
+                                            className="framer-text">Build global connections, collaborate with peers, and be part of a supportive community.</p>
                                     </div>
                                 </div>
                             </div>
@@ -2051,7 +2051,7 @@ const Homepage = () => {
                                                 '--framer-text-color': 'var(--token-a8e28c9d-4ce6-4ad2-96a7-a1a12837bc97, rgb(235, 184, 29))'
                                             }}
                                             className="framer-text">
-                                                Fun &amp; Easy
+                                                Own Your Data
                                             </h3>
                                         </div>
                                     </div>
@@ -2078,7 +2078,7 @@ const Homepage = () => {
                                             '--framer-text-color': 'rgb(161, 161, 170)'
                                         }}
                                         className="framer-text">
-                                            Learn the basics and then proceed to intermediate level, from zero knowledge and skill to the deep dive of developing smart contracts.
+                                            Keep your learning data secure and under your control, thanks to blockchain technology.
                                         </p>
                                     </div>
                                 </div>
