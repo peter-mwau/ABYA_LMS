@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import illustration from "./images/illustration.jpg";
 import { UserContext } from './contexts/userContext';
+import WalletContext from "./contexts/walletContext";
 
 
 function Navbar() {
@@ -13,6 +14,8 @@ function Navbar() {
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false);
     const baseUrl = 'http://localhost:8000/users';
+
+	const { account, connectWallet, disconnectWallet } = useContext(WalletContext);
 
 	useEffect(() => {
 		if (darkMode) {
@@ -266,6 +269,12 @@ function Navbar() {
 								<path d="M10 12a2 2 0 0 0 0-4V6a4 4 0 0 1 0 8v-2Z" />
 							</svg>
 						</a>
+						{/* Metamask Connect Button */}
+						{account ? (
+        					<button onClick={disconnectWallet} className="bg-yellow-500 dark:text-cyan-950 text-white font-semibold px-4 rounded-3xl">Disconnect Wallet</button>
+      						) : (
+        					<button onClick={connectWallet} className="bg-yellow-400 dark:text-cyan-950 text-white font-semibold px-4 rounded-3xl">Connect Wallet</button>
+      					)}
 					</ul>
 				</div>
 			</div>
