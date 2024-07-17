@@ -20,7 +20,8 @@
     "styled-components": "^6.1.11",
     "swiper": "^11.1.4",
     "tailwindcss-line-clamp": "^1.0.5",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "web3": "^4.11.0"
   },
   "scripts": {
     "start": "react-scripts start",
