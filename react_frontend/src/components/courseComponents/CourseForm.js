@@ -2,10 +2,9 @@
 import React, { useContext, useState } from "react";
 import axios from "axios";
 import upload from "../../images/upload.png";
-import { CourseContext } from "./CreateCourse";
 import { UserContext } from "../../contexts/userContext";
 
-const CourseForm = ({ step }) => {
+const CourseForm = () => {
 	const [image, setImage] = useState(null);
 	const userDetails = useContext(UserContext);
 	const [success, setSuccessMessage] = useState("");
@@ -20,7 +19,6 @@ const CourseForm = ({ step }) => {
 				  }`
 				: "",
 	});
-	const { setCourse } = useContext(CourseContext);
 
 	const [errors, setErrors] = useState({});
 
@@ -97,8 +95,7 @@ const CourseForm = ({ step }) => {
 			className="md:flex md:space-x-10 justify-between rounded w-full"
 		>
 			<div className="-mt-4 md:mt-5 md:w-2/3">
-
-				<p className="font-bold text-2xl mb-10">{step.title}</p>
+				<p className="font-bold text-2xl mb-10">CREATE COURSE</p>
 				{success && <p className="text-green-400 font-normal">{success}</p>}
 				<input
 					type="text"
@@ -142,10 +139,10 @@ const CourseForm = ({ step }) => {
 			</label>
 			<button
 				type="submit"
-				className="bg-cyan-950 dark:text-cyan-950 absolute mt-[350px] hover:bg-yellow-500 dark:bg-gray-200 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+				className="bg-cyan-950 dark:text-cyan-950 absolute mt-[350px] hover:bg-yellow-500 dark:bg-gray-200 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+			>
 				Create Course
 			</button>
-			
 		</form>
 	);
 };
