@@ -1,5 +1,10 @@
-// context.js
-import React from 'react';
+import { createContext } from 'react';
 
-const WalletContext = React.createContext();
+const WalletContext = createContext({
+    account: null,
+    isWalletConnected: false,
+    connectWallet: () => {},
+    disconnectWallet: () => {},
+});
+
 export default WalletContext;

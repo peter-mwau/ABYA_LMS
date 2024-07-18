@@ -134,17 +134,17 @@ WSGI_APPLICATION = 'django_backend.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-# DATABASES ={
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'abya_database',
-#         'USER' : 'abya',
-#         'PASSWORD': 'abya2024',
-#         'HOST': 'localhost',
-#         'PORT': '5432'
+DATABASES ={
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'abya_database',
+        'USER' : 'abya',
+        'PASSWORD': 'abya2024',
+        'HOST': 'localhost',
+        'PORT': '5432'
 
-#     }
-# }
+    }
+}
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.sqlite3',
@@ -152,16 +152,16 @@ WSGI_APPLICATION = 'django_backend.wsgi.application'
 #     }
 # }
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'abya_database',
-        'USER': 'root',
-        'PASSWORD': 'password',
-        'HOST': 'localhost',
-        'PORT': '3306'
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'abya_database',
+#         'USER': 'root',
+#         'PASSWORD': 'password',
+#         'HOST': 'localhost',
+#         'PORT': '3306'
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
