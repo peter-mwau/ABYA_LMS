@@ -3,14 +3,11 @@ import illustration from "../images/illustration.jpg";
 import background from "../images/sidebg.jpg";
 import ProfileForm from "./ProfileForm";
 import { UserContext } from "../contexts/userContext";
-import Walletcontext from "../contexts/walletContext";
+import WalletBox from "./WalletBox";
 
 const Profile = () => {
 	const { user } = useContext(UserContext);
 	const [isEditing, setIsEditing] = useState(false);
-	const { isWalletConnected } = useContext(Walletcontext);
-    const { balance } = useContext(UserContext);
-
 
 	if (!user) {
 		return <div>Loading...</div>;
@@ -60,8 +57,8 @@ const Profile = () => {
 								Settings
 							</button>
 						</section>
-						<aside className="md:flex justify-between items-center md:space-x-3 mt-8">
-							<div className="bg-slate-100 flex-1 rounded-xl p-4">
+						<aside className="md:flex w-full justify-between items-center space-y-3 md:space-x-4">
+							<div className="bg-slate-100 md:w-2/5 rounded-xl p-4">
 								<h3 className="font-semibold text-lg text-black">Bio</h3>
 								<p className="text-black my-2">
 									{typeof user.bio === typeof "null"
@@ -69,7 +66,7 @@ const Profile = () => {
 										: "Oops! No bio yet"}
 								</p>
 							</div>
-							<div className="bg-slate-100 flex-1 rounded-xl p-4 my-2">
+							{/* <div className="bg-slate-100 flex-1 rounded-xl p-4 my-2">
 								<h3 className="font-semibold text-lg text-black">
 									Ready to {user?.user_type === "Student" ? "learn" : "teach"}
 								</h3>
@@ -78,33 +75,13 @@ const Profile = () => {
 										? "Enroll in courses you're interested in."
 										: "Upload courses for students."}
 								</p>
-							</div>
+							</div> */}
 
-							<div className="bg-slate-100 flex-1 rounded-xl p-4">
+							{/* <div className="bg-slate-100 flex-1 rounded-xl p-4">
 								<h3 className="font-semibold text-lg text-black">Update</h3>
 								<p className="text-black my-2">Keep your profile updated</p>
-							</div>
-							<div className="bg-slate-100 shadow-md rounded-lg p-6 max-w-xs">
-							<div className="flex items-center space-x-3 mb-4">
-								<div className="flex-shrink-0">
-									<img className="h-12 w-12" src="https://via.placeholder.com/48x48" alt="Dacade Coin" />
-								</div>
-								<div>
-									<h3 className="text-lg font-medium text-gray-900">Dacade Coin</h3>
-									<span className="text-sm text-gray-500">DAC</span>
-								</div>
-							</div>
-							<div className="border-t border-gray-200 pt-4">
-								<p className="text-sm text-gray-500 mb-2">Balance</p>
-								<p className="text-xl font-bold text-gray-900">{balance}</p>
-							</div>
-							<div className="border-t border-gray-200 pt-4">
-								<p className="text-sm text-gray-500 mb-2">Wallet Status</p>
-								<p className="text-xl font-bold text-gray-900">
-									{isWalletConnected ? 'Connected' : 'Not Connected'}
-								</p>
-							</div>
-							</div>
+							</div> */}
+							<WalletBox />
 						</aside>
 					</div>
 				</div>

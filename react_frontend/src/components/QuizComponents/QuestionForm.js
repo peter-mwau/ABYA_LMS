@@ -7,7 +7,7 @@ import { quizContext } from "../../App";
 import deleteIcon from "../../images/delete.png";
 import useFetch from "./useFetch";
 
-function QuestionForm() {
+const QuestionForm = () => {
 	const [quizTitle, setQuizTitle] = useState("");
 	const [questionText, setQuestionText] = useState("");
 	const [quizzes, setQuizzes] = useState([]);
@@ -248,6 +248,6 @@ function QuestionForm() {
 			</div>
 		</div>
 	);
-}
+};
 
-export default QuizQuestion;
+export default QuestionForm;
