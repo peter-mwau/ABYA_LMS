@@ -25,7 +25,7 @@ const WalletBox = () => {
 
 				<div className="md:w-1/3 mt-2 md:mt-0">
 					<p className="text-sm text-gray-500 mb-2">Balance</p>
-					<p className="text-xl font-bold text-gray-900">234{balance}</p>
+					<p className="text-xl font-bold text-gray-900">{balance}</p>
 				</div>
 			</div>
 
