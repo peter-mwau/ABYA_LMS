@@ -8,6 +8,16 @@ const Homepage = () => {
     const landingImage = './web3.jpg';
     const [isHidden, setIsHidden] = useState(true);
 
+    const [hover, setHover] = useState(false);
+
+    const handleMouseEnter = () => {
+        setHover(true);
+    };
+
+    const handleMouseLeave = () => {
+        setHover(false);
+    };
+
     const toggleNav = () => {
         document.addEventListener("DOMContentLoaded", function () {
             const openSidenavButton = document.getElementById("openSidenav");
@@ -259,7 +269,8 @@ const Homepage = () => {
                                 </div>
                                 <a className="framer-1061vmo framer-a3gttv" data-framer-name="Button Container" 
                                     style={{
-                                        backgroundColor: 'rgb(197, 142, 15)', 
+                                        backgroundColor: hover ? 'rgb(255, 200, 0)' : 'rgb(197, 142, 15)',
+                                        transition: 'background-color 0.3s ease',
                                         borderBottomLeftRadius: '100px', 
                                         borderBottomRightRadius: '100px', 
                                         borderTopLeftRadius: '100px', 
@@ -532,7 +543,7 @@ const Homepage = () => {
 
                     <div class="framer-169atd0" data-framer-name="Spacer" name="Spacer"></div>
 
-                    {/* <!-- Courses --> */}
+                    {/* <!-- Courses section--> */}
                     <div class="framer-jgn26d" id="features">
                         <div class="framer-f57iqx" data-framer-name="Spacer" name="Spacer"></div>
 
@@ -1531,6 +1542,7 @@ const Homepage = () => {
                         </div>
                     </div>
 
+                    {/* features section */}
                     <div class="framer-542be0" id="features-1">
                         <div class="framer-gie60o" data-framer-name="Spacer" name="Spacer"></div>
                         <div className="framer-9bmvb0"
@@ -1861,7 +1873,6 @@ const Homepage = () => {
                                                 '--framer-text-color': 'var(--token-a8e28c9d-4ce6-4ad2-96a7-a1a12837bc97, rgb(235, 184, 29))'
                                             }}
                                             className="framer-text">Govern</h3>
-
                                         </div>
                                     </div>
                                 </div>
@@ -1887,7 +1898,6 @@ const Homepage = () => {
                                             '--framer-text-color': 'rgb(161, 161, 170)'
                                         }}
                                         className="framer-text">
-
                                             Join the DAO and actively shape the future of ABYA University.
                                         </p>
                                     </div>
@@ -2348,6 +2358,7 @@ const Homepage = () => {
 
                     <div class="framer-176haw3" data-framer-name="Spacer" name="Spacer"></div>
 
+                    {/* Road map */}
                     <div className="framer-9bmvb0"
                             style={{
                                 outline: 'none',
@@ -2377,31 +2388,12 @@ const Homepage = () => {
                             </h2>
                         </div>
 
-                    <div class="framer-sjhb67" data-framer-name="Frame 1116606589" name="Frame 1116606589">
-                        <div class="framer-10kbskc" data-framer-name="Div [mx-auto]" name="Div [mx-auto]">
-                            <div class="framer-133kfbi" data-framer-name="Frame 1116606589" name="Frame 1116606589">
-                                <div class="framer-17ffysw" data-framer-name="Div [flex-[4]]" name="Div [flex-[4]]">
-                                    <div className="framer-ajvuz8" data-framer-name="Paragraph" name="Paragraph">
-                                        <div className="framer-6u7phv" data-framer-name="and tell us more!"
-                                            style={{
-                                                outline: 'none',
-                                                display: 'flex',
-                                                flexDirection: 'column',
-                                                justifyContent: 'center',
-                                                flexShrink: 0,
-                                                transform: 'none'
-                                            }}
-                                            data-framer-component-type="RichTextContainer">
-                                            <p style={{
-                                                fontSize: '12.9px',
-                                                letterSpacing: '0px',
-                                                lineHeight: '19.5px',
-                                                color: 'rgb(144, 144, 144)'
-                                            }}
-                                            className="framer-text"> and tell us more!</p>
-                                        </div>
-                                        <div className="framer-lwjixh" data-framer-name="Link [underline]" name="Link [underline]">
-                                            <div className="framer-1l5vv6" data-framer-name="Join our Discord"
+                        <div class="framer-sjhb67" data-framer-name="Frame 1116606589" name="Frame 1116606589">
+                            <div class="framer-10kbskc" data-framer-name="Div [mx-auto]" name="Div [mx-auto]">
+                                <div class="framer-133kfbi" data-framer-name="Frame 1116606589" name="Frame 1116606589">
+                                    <div class="framer-17ffysw" data-framer-name="Div [flex-[4]]" name="Div [flex-[4]]">
+                                        <div className="framer-ajvuz8" data-framer-name="Paragraph" name="Paragraph">
+                                            <div className="framer-6u7phv" data-framer-name="and tell us more!"
                                                 style={{
                                                     outline: 'none',
                                                     display: 'flex',
@@ -2415,34 +2407,91 @@ const Homepage = () => {
                                                     fontSize: '12.9px',
                                                     letterSpacing: '0px',
                                                     lineHeight: '19.5px',
-                                                    color: 'var(--token-a8e28c9d-4ce6-4ad2-96a7-a1a12837bc97, rgb(235, 184, 29))',
-                                                    textDecoration: 'underline'
+                                                    color: 'rgb(144, 144, 144)'
                                                 }}
-                                                className="framer-text">Join our Discord</p>
+                                                className="framer-text"> and tell us more!</p>
+                                            </div>
+                                            <div className="framer-lwjixh" data-framer-name="Link [underline]" name="Link [underline]">
+                                                <div className="framer-1l5vv6" data-framer-name="Join our Discord"
+                                                    style={{
+                                                        outline: 'none',
+                                                        display: 'flex',
+                                                        flexDirection: 'column',
+                                                        justifyContent: 'center',
+                                                        flexShrink: 0,
+                                                        transform: 'none'
+                                                    }}
+                                                    data-framer-component-type="RichTextContainer">
+                                                    <p style={{
+                                                        fontSize: '12.9px',
+                                                        letterSpacing: '0px',
+                                                        lineHeight: '19.5px',
+                                                        color: 'var(--token-a8e28c9d-4ce6-4ad2-96a7-a1a12837bc97, rgb(235, 184, 29))',
+                                                        textDecoration: 'underline'
+                                                    }}
+                                                    className="framer-text">Join our Discord</p>
+                                                </div>
+                                            </div>
+                                            <div className="framer-1eutkmf" data-framer-name="Have some feature request?"
+                                                style={{
+                                                    outline: 'none',
+                                                    display: 'flex',
+                                                    flexDirection: 'column',
+                                                    justifyContent: 'center',
+                                                    flexShrink: 0,
+                                                    transform: 'none'
+                                                }}
+                                                data-framer-component-type="RichTextContainer">
+                                                <p style={{
+                                                    fontSize: '12.9px',
+                                                    letterSpacing: '0px',
+                                                    lineHeight: '19.5px',
+                                                    color: 'rgb(144, 144, 144)'
+                                                }}
+                                                className="framer-text">Have some feature request? </p>
                                             </div>
                                         </div>
-                                        <div className="framer-1eutkmf" data-framer-name="Have some feature request?"
-                                            style={{
-                                                outline: 'none',
-                                                display: 'flex',
-                                                flexDirection: 'column',
-                                                justifyContent: 'center',
-                                                flexShrink: 0,
-                                                transform: 'none'
-                                            }}
-                                            data-framer-component-type="RichTextContainer">
-                                            <p style={{
-                                                fontSize: '12.9px',
-                                                letterSpacing: '0px',
-                                                lineHeight: '19.5px',
-                                                color: 'rgb(144, 144, 144)'
-                                            }}
-                                            className="framer-text">Have some feature request? </p>
-                                        </div>
-                                    </div>
 
-                                    <div className="framer-g12gt2" data-framer-name="Paragraph" name="Paragraph">
-                                        <div className="framer-mq4jqm" data-framer-name="See the milestones that brought us here,"
+                                        <div className="framer-g12gt2" data-framer-name="Paragraph" name="Paragraph">
+                                            <div className="framer-mq4jqm" data-framer-name="See the milestones that brought us here,"
+                                                style={{
+                                                    outline: "none",
+                                                    display: "flex",
+                                                    flexDirection: "column",
+                                                    justifyContent: "center",
+                                                    flexShrink: 0,
+                                                    transform: "none"
+                                                }}
+                                                data-framer-component-type="RichTextContainer">
+                                                <p style={{
+                                                    fontSize: "17.9px",
+                                                    letterSpacing: "0px",
+                                                    lineHeight: "27px",
+                                                    color: "rgb(144, 144, 144)"
+                                                }}
+                                                className="framer-text">See the milestones that brought us here, </p>
+                                            </div>
+                                            <div className="framer-yb3arh"
+                                                data-framer-name="and get a sneak peak of what&#x2019;s next."
+                                                style={{
+                                                    outline: "none",
+                                                    display: "flex",
+                                                    flexDirection: "column",
+                                                    justifyContent: "center",
+                                                    flexShrink: 0,
+                                                    transform: "none"
+                                                }}
+                                                data-framer-component-type="RichTextContainer">
+                                                <p style={{
+                                                    fontSize: "17.9px",
+                                                    letterSpacing: "0px",
+                                                    lineHeight: "27px",
+                                                    color: "rgb(144, 144, 144)"
+                                                }}
+                                                className="framer-text">and get a sneak peak of what&#x2019;s next.</p>
+                                            </div>
+                                        </div>
+                                        <div className="framer-5gdb0k" data-framer-name="Our Roadmap"
                                             style={{
                                                 outline: "none",
                                                 display: "flex",
@@ -2453,89 +2502,54 @@ const Homepage = () => {
                                             }}
                                             data-framer-component-type="RichTextContainer">
                                             <p style={{
-                                                fontSize: "17.9px",
+                                                fontFamily: `"Inter", "Inter Placeholder", sans-serif`,
+                                                fontSize: "32.4px",
+                                                fontWeight: 700,
                                                 letterSpacing: "0px",
-                                                lineHeight: "27px",
-                                                color: "rgb(144, 144, 144)"
+                                                lineHeight: "38.4px",
+                                                color: "var(--token-a8e28c9d-4ce6-4ad2-96a7-a1a12837bc97, rgb(235, 184, 29))"
                                             }}
-                                            className="framer-text">See the milestones that brought us here, </p>
-                                        </div>
-                                        <div className="framer-yb3arh"
-                                            data-framer-name="and get a sneak peak of what&#x2019;s next."
-                                            style={{
-                                                outline: "none",
-                                                display: "flex",
-                                                flexDirection: "column",
-                                                justifyContent: "center",
-                                                flexShrink: 0,
-                                                transform: "none"
-                                            }}
-                                            data-framer-component-type="RichTextContainer">
-                                            <p style={{
-                                                fontSize: "17.9px",
-                                                letterSpacing: "0px",
-                                                lineHeight: "27px",
-                                                color: "rgb(144, 144, 144)"
-                                            }}
-                                            className="framer-text">and get a sneak peak of what&#x2019;s next.</p>
+                                            className="framer-text">Our Roadmap</p>
                                         </div>
                                     </div>
-                                    <div className="framer-5gdb0k" data-framer-name="Our Roadmap"
-                                        style={{
-                                            outline: "none",
-                                            display: "flex",
-                                            flexDirection: "column",
-                                            justifyContent: "center",
-                                            flexShrink: 0,
-                                            transform: "none"
-                                        }}
-                                        data-framer-component-type="RichTextContainer">
-                                        <p style={{
-                                            fontFamily: `"Inter", "Inter Placeholder", sans-serif`,
-                                            fontSize: "32.4px",
-                                            fontWeight: 700,
-                                            letterSpacing: "0px",
-                                            lineHeight: "38.4px",
-                                            color: "var(--token-a8e28c9d-4ce6-4ad2-96a7-a1a12837bc97, rgb(235, 184, 29))"
-                                        }}
-                                        className="framer-text">Our Roadmap</p>
-                                    </div>
-                                </div>
-                                <div className="framer-1fvnnjt" data-framer-name="Picture [flex-[10]]" name="Picture [flex-[10]]">
-                                    <div style={{
-                                        position: 'absolute',
-                                        borderRadius: 'inherit',
-                                        top: 0,
-                                        right: 0,
-                                        bottom: 0,
-                                        left: 0
-                                    }} data-framer-background-image-wrapper="true">
-                                        <img
-                                            decoding="async"
-                                            loading="lazy"
-                                            sizes="883px"
-                                            srcSet="https://framerusercontent.com/images/765sO4ARBOTt9JMCkZWr85UdpM.svg?scale-down-to=512 512w,https://framerusercontent.com/images/765sO4ARBOTt9JMCkZWr85UdpM.svg 883w"
-                                            src="https://framerusercontent.com/images/765sO4ARBOTt9JMCkZWr85UdpM.svg"
-                                            alt=""
-                                            style={{
-                                                display: 'block',
-                                                width: '100%',
-                                                height: '100%',
-                                                borderRadius: 'inherit',
-                                                objectPosition: 'center',
-                                                objectFit: 'contain',
-                                                imageRendering: 'auto'
-                                            }}
-                                        />
+                                    <div className="framer-1fvnnjt" data-framer-name="Picture [flex-[10]]" name="Picture [flex-[10]]">
+                                        <div style={{
+                                            position: 'absolute',
+                                            borderRadius: 'inherit',
+                                            top: 0,
+                                            right: 0,
+                                            bottom: 0,
+                                            left: 0
+                                        }} data-framer-background-image-wrapper="true">
+                                            <img
+                                                decoding="async"
+                                                loading="lazy"
+                                                sizes="883px"
+                                                srcSet="https://framerusercontent.com/images/765sO4ARBOTt9JMCkZWr85UdpM.svg?scale-down-to=512 512w,https://framerusercontent.com/images/765sO4ARBOTt9JMCkZWr85UdpM.svg 883w"
+                                                src="https://framerusercontent.com/images/765sO4ARBOTt9JMCkZWr85UdpM.svg"
+                                                alt=""
+                                                style={{
+                                                    display: 'block',
+                                                    width: '100%',
+                                                    height: '100%',
+                                                    borderRadius: 'inherit',
+                                                    objectPosition: 'center',
+                                                    objectFit: 'contain',
+                                                    imageRendering: 'auto'
+                                                }}
+                                            />
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    
 
                     <div class="framer-rzmfx7" data-framer-name="Spacer" name="Spacer"></div>
-
+                    
+                    {/* Leading Brands */}
                     <div class="framer-1cfa4gp" data-framer-name="Logos" id="references" name="Logos">
+                    
                     <div className="framer-9bmvb0"
                             style={{
                                 outline: 'none',
@@ -2595,10 +2609,12 @@ const Homepage = () => {
                                 </li>
                             </ul>
                         </div>
+
                     </div>
 
                     <div class="framer-1slapxm" data-framer-name="Spacer" name="Spacer"></div>
-
+                    
+                    {/* Our values */}
                     <section className="framer-1b5bmfx" data-border="true" data-framer-name="Stats" name="Stats">
                         <div style={{ position: 'absolute', borderRadius: 'inherit', top: 0, right: 0, bottom: 0, left: 0 }}
                             data-framer-background-image-wrapper="true">
@@ -2732,42 +2748,46 @@ const Homepage = () => {
                     </section>
 
                     <div class="framer-dm3qt9" data-framer-name="Spacer" name="Spacer"></div>
-
-                    <div className="framer-neishh" id="testimonials" style={{
-                        outline: 'none',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        justifyContent: 'flex-start',
-                        flexShrink: 0,
-                        transform: 'none',
-                        '--font-selector': 'R0Y7UGx1cyBKYWthcnRhIFNhbnMtNjAw',
-                        '--framer-font-family': '"Plus Jakarta Sans", "Plus Jakarta Sans Placeholder", sans-serif',
-                        '--framer-font-size': '64px',
-                        '--framer-font-weight': '600',
-                        '--framer-letter-spacing': '-0.04em',
-                        '--framer-line-height': '97px',
-                        '--framer-text-alignment': 'center',
-                        '--framer-text-color': 'rgb(235, 235, 235)'
-                    }} data-framer-component-type="RichTextContainer">
+                    
+                    {/* TestimonialSlider */}
+                    <div className="framer-neishh" id="testimonials" 
+                        style={{
+                            outline: 'none',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            justifyContent: 'flex-start',
+                            flexShrink: 0,
+                            transform: 'none',
+                            '--font-selector': 'R0Y7UGx1cyBKYWthcnRhIFNhbnMtNjAw',
+                            '--framer-font-family': '"Plus Jakarta Sans", "Plus Jakarta Sans Placeholder", sans-serif',
+                            '--framer-font-size': '64px',
+                            '--framer-font-weight': '600',
+                            '--framer-letter-spacing': '-0.04em',
+                            '--framer-line-height': '97px',
+                            '--framer-text-alignment': 'center',
+                            '--framer-text-color': 'rgb(235, 235, 235)'
+                        }} 
+                        data-framer-component-type="RichTextContainer">
                         <h2 className="framer-text"><span data-text-fill="true" style={{
                             backgroundImage: 'linear-gradient(129deg, rgba(235, 235, 235, 0.94) 0%, rgba(255, 255, 255, 0.27) 91.1044%)'
                         }} className="framer-text">Voices of Success</span></h2>
                     </div>
-                    <div className="framer-rva7ap" style={{
-                        outline: 'none',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        justifyContent: 'flex-start',
-                        flexShrink: 0,
-                        transform: 'none',
-                        '--font-selector': 'R0Y7UGx1cyBKYWthcnRhIFNhbnMtcmVndWxhcg==',
-                        '--framer-font-family': '"Plus Jakarta Sans", "Plus Jakarta Sans Placeholder", sans-serif',
-                        '--framer-font-size': '18px',
-                        '--framer-letter-spacing': '0.02em',
-                        '--framer-line-height': '27.9px',
-                        '--framer-text-alignment': 'center',
-                        '--framer-text-color': 'rgb(179, 179, 179)'
-                    }} data-framer-component-type="RichTextContainer">
+                    <div className="framer-rva7ap" 
+                        style={{
+                            outline: 'none',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            justifyContent: 'flex-start',
+                            flexShrink: 0,
+                            transform: 'none',
+                            '--font-selector': 'R0Y7UGx1cyBKYWthcnRhIFNhbnMtcmVndWxhcg==',
+                            '--framer-font-family': '"Plus Jakarta Sans", "Plus Jakarta Sans Placeholder", sans-serif',
+                            '--framer-font-size': '18px',
+                            '--framer-letter-spacing': '0.02em',
+                            '--framer-line-height': '27.9px',
+                            '--framer-text-alignment': 'center',
+                            '--framer-text-color': 'rgb(179, 179, 179)'
+                        }} data-framer-component-type="RichTextContainer">
                         <p className="framer-text">Discover what our users say about the transformative impact of our platform.</p>
                     </div>
 
@@ -2933,21 +2953,22 @@ const Homepage = () => {
                         </h2>
                     </div>
 
-                    <div className="framer-rva7ap" style={{
-                        outline: 'none',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        justifyContent: 'flex-start',
-                        flexShrink: 0,
-                        transform: 'none',
-                        '--font-selector': 'R0Y7UGx1cyBKYWthcnRhIFNhbnMtcmVndWxhcg==',
-                        '--framer-font-family': '"Plus Jakarta Sans", "Plus Jakarta Sans Placeholder", sans-serif',
-                        '--framer-font-size': '18px',
-                        '--framer-letter-spacing': '0.02em',
-                        '--framer-line-height': '27.9px',
-                        '--framer-text-alignment': 'center',
-                        '--framer-text-color': 'rgb(179, 179, 179)'
-                    }} data-framer-component-type="RichTextContainer">
+                    <div className="framer-rva7ap" 
+                        style={{
+                            outline: 'none',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            justifyContent: 'flex-start',
+                            flexShrink: 0,
+                            transform: 'none',
+                            '--font-selector': 'R0Y7UGx1cyBKYWthcnRhIFNhbnMtcmVndWxhcg==',
+                            '--framer-font-family': '"Plus Jakarta Sans", "Plus Jakarta Sans Placeholder", sans-serif',
+                            '--framer-font-size': '18px',
+                            '--framer-letter-spacing': '0.02em',
+                            '--framer-line-height': '27.9px',
+                            '--framer-text-alignment': 'center',
+                            '--framer-text-color': 'rgb(179, 179, 179)'
+                        }} data-framer-component-type="RichTextContainer">
                         <p className="framer-text">Discover what our users say about the transformative impact of our platform.</p>
                     </div>
 
