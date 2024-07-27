@@ -1,11 +1,13 @@
 import { UserContext } from "../../contexts/userContext";
-import { useContext } from "react";
+import { useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import editIcon from "../../images/editIcon.png";
 
 const CourseCard = ({ courses, baseUrl }) => {
 	const { user } = useContext(UserContext);
+	// const [isApproved, setIsApproved] = useState(false);
+	const [approvalStatuses, setApprovalStatuses] = useState({});
 	const navigate = useNavigate();
 	const handleNavigate = () => {
 		user?.user_type === "Teacher"
@@ -13,10 +15,27 @@ const CourseCard = ({ courses, baseUrl }) => {
 			: navigate("course-list");
 	};
 
+	// Initialize all courses' approval status to false
+	useEffect(() => {
+		const initialStatuses = courses.reduce((acc, course) => {
+		  acc[course.id] = false;
+		  return acc;
+		}, {});
+		setApprovalStatuses(initialStatuses);
+	  }, [courses]);
+	
+	  const toggleApproval = (courseId) => {
+		setApprovalStatuses(prevStatuses => ({
+		  ...prevStatuses,
+		  [courseId]: !prevStatuses[courseId]
+		}));
+	  };
+
 	return (
 		<div className="md:grid md:grid-cols-3 gap-12 px-5 ">
 			{courses.length ? (
 				courses?.map((course) => (
+					// {isApproved && ()}
 					<div
 						key={course.id}
 						className="flex bg-gray-50 dark:bg-gray-800 dark:text-gray-200 md:block w-full mb-3 space-x-2 border rounded-xl overflow-hidden hover:shadow-gray-200 md:hover:shadow-lg md:hover:-translate-y-1 transition-all duration-300"
@@ -42,6 +61,7 @@ const CourseCard = ({ courses, baseUrl }) => {
 							<p className="text-sm text-gray-500">
 								course by {course.teacher_name}
 							</p>
+							{ approvalStatuses[course.id] ? (
 							<ul className="flex gap-1 pr-2 mt-4 md:my-4 md:mt-5 items-center justify-between">
 								<li>
 									<Link
@@ -63,6 +83,12 @@ const CourseCard = ({ courses, baseUrl }) => {
 									</li>
 								)}
 							</ul>
+							 ) : (
+								<div className="flex flex-row gap-2">
+								<p className="bg-yellow-100 text-yellow-400 w-[200px] px-2 rounded-3xl my-3 font-bold">Course not approved</p>
+								<button className="" onClick={() => toggleApproval(course.id)}><span className="text-green-500 px-4 w-auto bg-green-300 py-2 rounded-3xl font-semibold">Approve</span></button>
+								</div>
+							)}
 						</section>
 					</div>
 				))

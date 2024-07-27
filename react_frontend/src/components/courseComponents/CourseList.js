@@ -5,7 +5,7 @@ import { UserContext } from "../../contexts/userContext";
 
 const CourseList = () => {
   const baseUrl = "http://localhost:8000/courses";
-  const url = `${baseUrl}/courses/list-courses`;
+  const url = "http://localhost:8000/courses/courses/list-courses";
   const { user } = useContext(UserContext);
   const [courses, setCourses] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -14,11 +14,13 @@ const CourseList = () => {
   useEffect(() => {
     const fetchCourses = async () => {
       try {
+        const userToken = localStorage.getItem('userToken');
+        console.log(userToken);
         const response = await axios.get(url, {
           headers: {
             'Content-Type': 'application/json',
-            'Accept': 'application/json'
-            
+            'Accept': 'application/json',
+            'Authorization': `Token ${userToken}`,
           }
         });
         setCourses(response.data);
