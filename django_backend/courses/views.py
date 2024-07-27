@@ -99,7 +99,7 @@ class CourseViewSet(viewsets.ModelViewSet):
         serializer = CourseSerializer(queryset, many=True)
         if not queryset:
             return JsonResponse({'message': 'No courses available at the moment.'}, status=204)
-        return JsonResponse(serializer.data, status=200)
+        return JsonResponse(serializer.data, safe=False, status=200)
 
 
     @action(detail=True, methods=['put'], permission_classes=[IsTeacherOfCourse], url_path='update-course')
