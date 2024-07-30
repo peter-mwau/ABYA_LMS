@@ -18,21 +18,21 @@ const CourseCard = ({ courses, baseUrl }) => {
 	// Initialize all courses' approval status to false
 	useEffect(() => {
 		const initialStatuses = courses.reduce((acc, course) => {
-		  acc[course.id] = false;
-		  return acc;
+			acc[course.id] = false;
+			return acc;
 		}, {});
 		setApprovalStatuses(initialStatuses);
-	  }, [courses]);
-	
-	  const toggleApproval = (courseId) => {
-		setApprovalStatuses(prevStatuses => ({
-		  ...prevStatuses,
-		  [courseId]: !prevStatuses[courseId]
+	}, [courses]);
+
+	const toggleApproval = (courseId) => {
+		setApprovalStatuses((prevStatuses) => ({
+			...prevStatuses,
+			[courseId]: !prevStatuses[courseId],
 		}));
-	  };
+	};
 
 	return (
-		<div className="md:grid md:grid-cols-3 gap-12 px-5 ">
+		<div className="md:grid md:grid-cols-2 lg:grid-cols-4 gap-5 px-5 ">
 			{courses.length ? (
 				courses?.map((course) => (
 					// {isApproved && ()}
@@ -49,9 +49,17 @@ const CourseCard = ({ courses, baseUrl }) => {
 						</section>
 						<section className="md:p-4 mt-2 md:w-full w-3/5">
 							{user?.user_type === "Teacher" && (
-								<p className="text-sm text-gray-500 py-3 p-2">
-									{course.teacher} enrolled
-								</p>
+								<>
+									{approvalStatuses[course.id] ? (
+										<p className="text-sm text-gray-500 py-3 p-2">
+											{course.teacher} enrolled
+										</p>
+									) : (
+										<p className="font-semibold text-yellow-400 w-[200px] rounded-3xl ">
+											Pending approval
+										</p>
+									)}
+								</>
 							)}
 							<h2 className="text-lg font-semibold">{course.course_name}</h2>
 
@@ -61,32 +69,36 @@ const CourseCard = ({ courses, baseUrl }) => {
 							<p className="text-sm text-gray-500">
 								course by {course.teacher_name}
 							</p>
-							{ approvalStatuses[course.id] ? (
-							<ul className="flex gap-1 pr-2 mt-4 md:my-4 md:mt-5 items-center justify-between">
-								<li>
-									<Link
-										to={`/course-info/${course.id}`}
-										className="px-7 py-2 border font-semibold text-cyan-950 rounded-full w-full md:w-1/3 my-3 bg-gray-200"
-									>
-										view
-									</Link>
-								</li>
-								{user.user_type === "Teacher" && (
+							{approvalStatuses[course.id] ? (
+								<ul className="flex gap-1 pr-2 mt-4 md:my-4 md:mt-5 items-center justify-between">
 									<li>
-										<Link to="/update-course">
-											<img
-												src={editIcon}
-												alt="edit"
-												className="w-7 h-7 opacity-60"
-											/>
+										<Link
+											to={`/course-info/${course.id}`}
+											className="px-7 py-2 border font-semibold text-cyan-950 rounded-full w-full md:w-1/3 my-3 bg-gray-200"
+										>
+											view
 										</Link>
 									</li>
-								)}
-							</ul>
-							 ) : (
-								<div className="flex flex-row gap-2">
-								<p className="bg-yellow-100 text-yellow-400 w-[200px] px-2 rounded-3xl my-3 font-bold">Course not approved</p>
-								<button className="" onClick={() => toggleApproval(course.id)}><span className="text-green-500 px-4 w-auto bg-green-300 py-2 rounded-3xl font-semibold">Approve</span></button>
+									{user.user_type === "Teacher" && (
+										<li>
+											<Link to="/update-course">
+												<img
+													src={editIcon}
+													alt="edit"
+													className="w-7 h-7 opacity-60"
+												/>
+											</Link>
+										</li>
+									)}
+								</ul>
+							) : (
+								<div className="">
+									<button
+										className="my-3 font-semibold text-green-500 px-5 w-auto bg-green-300 py-2 rounded-3xl"
+										onClick={() => toggleApproval(course.id)}
+									>
+										Approve
+									</button>
 								</div>
 							)}
 						</section>
