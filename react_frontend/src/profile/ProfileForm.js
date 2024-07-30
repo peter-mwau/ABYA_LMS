@@ -1,17 +1,16 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import illustration from "../images/illustration.jpg";
 import userImg from "../images/user.png";
 import userProfileImg from "../images/profile.png";
 import axios from "axios";
-import edit from "../images/edit.png";
 import mail from "../images/mail.png";
-import { useNavigate } from "react-router-dom";
 
-const ProfileForm = ({ user }) => {
+const ProfileForm = ({ user, isOpen, setIsOpen }) => {
 	const [userDetails, setUserDetails] = useState(user);
 	const baseUrl = "http://localhost:8000/users";
 	const [image, setImage] = useState(null);
-	const navigate = useNavigate();
+
+	const modalRef = useRef();
 
 	useEffect(() => {
 		user && setUserDetails(user);
@@ -30,7 +29,6 @@ const ProfileForm = ({ user }) => {
 	};
 
 	const handleSubmit = async (e) => {
-		// e.preventDefault();
 		const userToken = localStorage.getItem("userToken");
 		const formData = new FormData();
 
@@ -63,15 +61,31 @@ const ProfileForm = ({ user }) => {
 		}
 	};
 
-	const deviceWidth = window.innerWidth;
+	useEffect(() => {
+		isOpen && modalRef.current.showModal();
+	}, [isOpen, modalRef]);
+
+	const handleClose = (e) => {
+		const dimensions = modalRef.current.getBoundingClientRect();
+		if (
+			e.clientX < dimensions.left ||
+			e.clientX > dimensions.right ||
+			e.clientY < dimensions.top ||
+			e.clientY > dimensions.bottom
+		) {
+			setIsOpen(false);
+			modalRef.current.close();
+		}
+	};
 
 	return (
-		<div className="w-auto p-5 md:p-0 md:ml-[20%] md:w-3/4 md:flex items-center justify-between space-x-4">
-			<form
-				className="w-[100%] md:w-2/4 rounded-lg mt-4"
-				onSubmit={handleSubmit}
-			>
-				<aside className="flex items-center space-x-20 md:space-x-14">
+		<dialog
+			ref={modalRef}
+			onClick={handleClose}
+			className="w-full md:w-1/3 rounded-2xl px-5 max-w-[50ch] backdrop:opacity-50 backdrop:bg-black -mb-4 md:mb-auto pb-10"
+		>
+			<form className="w-full rounded-lg mt-4 p-5" onSubmit={handleSubmit}>
+				<aside className="flex items-center justify-between space-x-20 md:space-x-14">
 					<img
 						src={
 							image
@@ -81,9 +95,9 @@ const ProfileForm = ({ user }) => {
 								: illustration
 						}
 						alt="illustration"
-						className="w-24 h-24 md:w-32 md:h-32 rounded-full"
+						className="w-20 h-20 lg:w-24 lg:h-24 md:w-32 md:h-32 rounded-full"
 					/>
-					<label className="cursor-pointer tracking-wide bg-slate-100 text-base font-semibold px-10 md:px-16 py-4 rounded-lg">
+					<label className="cursor-pointer tracking-wide bg-slate-100 text-base font-semibold px-3 md:px-10 lg:px-16 py-4 rounded-lg">
 						Upload photo
 						<input
 							type="file"
@@ -94,7 +108,7 @@ const ProfileForm = ({ user }) => {
 				</aside>
 				<aside className="my-4 relative mt-10">
 					<input
-						className="pl-12 py-4 md:w-[77%] bg-slate-50 border-slate-300 rounded-lg focus:outline-slate-300 w-[100%]"
+						className="pl-12 py-4 w-full bg-slate-50 border-slate-300 rounded-lg focus:outline-slate-300"
 						type="text"
 						placeholder="username"
 						name="username"
@@ -107,7 +121,7 @@ const ProfileForm = ({ user }) => {
 						className="absolute top-5 left-3 w-5 h-5 opacity-70 "
 					/>
 					<input
-						className="pl-12 mt-4 py-4 md:w-[77%] bg-slate-50 border-slate-300 rounded-lg focus:outline-slate-300 w-[100%]"
+						className="pl-12 mt-4 py-4 w-full bg-slate-50 border-slate-300 rounded-lg focus:outline-slate-300"
 						type="text"
 						placeholder="email"
 						name="email"
@@ -124,7 +138,7 @@ const ProfileForm = ({ user }) => {
 						rows={3}
 						name="bio"
 						placeholder="Short bio..."
-						className="resize-none my-3 pl-12 py-3 bg-slate-50 border-slate-300 rounded-lg w-full md:w-[77%] focus:outline-none"
+						className="resize-none my-3 pl-12 py-3 bg-slate-50 border-slate-300 rounded-lg w-full focus:outline-none"
 						onChange={handleInputChange}
 					></textarea>
 					<img
@@ -133,16 +147,11 @@ const ProfileForm = ({ user }) => {
 						className="absolute top-40 w-5 h-5 left-3 opacity-70"
 					/>
 				</aside>
-				<button className="w-full md:w-[77%] bg-slate-500 py-4 rounded-lg text-white font-bold tracking-wide">
+				<button className="w-full bg-slate-500 py-4 rounded-lg text-white font-bold tracking-wide">
 					Save Changes
 				</button>
 			</form>
-			{deviceWidth > 425 && (
-				<aside className="w-[50%] flex-none">
-					<img src={edit} alt="edit illustration" />
-				</aside>
-			)}
-		</div>
+		</dialog>
 	);
 };
 
