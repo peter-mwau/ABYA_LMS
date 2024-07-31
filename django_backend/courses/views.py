@@ -49,6 +49,31 @@ from assignments.serializers import AssignmentSerializer, QuizSerializer
 from .permissions import IsTeacherOfCourse, IsTeacherOfChapterCourse, IsTeacherOfLessonChapterCourse
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
+from web3 import Web3
+from django.conf import settings
+import json
+import os
+from web3.middleware import geth_poa_middleware
+
+# Initialize web3 with the provider URL
+# w3 = Web3(Web3.HTTPProvider(settings.BLOCKCHAIN_URL))
+w3 = Web3(Web3.HTTPProvider('http://127.0.0.1:7545'))
+
+
+# Add PoA middleware to handle PoA-specific data
+w3.middleware_onion.inject(geth_poa_middleware, layer=0)
+
+# Load contract address from environment variable
+contract_address = Web3.to_checksum_address(settings.CONTRACT_ADDRESS)
+
+private_key = settings.PRIVATE_KEY
+
+# Load contract ABI from JSON file located at the project root
+with open(os.path.join(settings.BASE_DIR, 'contract_abi.json')) as f:
+    contract_abi = json.load(f)
+
+# Initialize the contract
+contract = w3.eth.contract(address=contract_address, abi=contract_abi)
 
 
 # API Endpoints for accessing data.
@@ -64,25 +89,61 @@ class CourseViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, methods=['post'], url_path='create-course')
     def create_course(self, request):
-        """
-        Handling creation of a course
-        """
         # Get the user object
         user = self.get_user()
         # Update request data to include the teacher field
         data = request.data.copy()
         data['teacher'] = request.user.id
         data['teacher_name'] = f"{user.first_name} {user.last_name}"
+        # data['teacher_eth_address'] = request.data.get('account')
+        data['teacher_eth_address'] = "0x0Ed33B208dC588E7d4908B422b0aE1212FD2c449"
+        data['approved'] = False
+        data['approval_count'] = 0
+
+        print("Data: ", data)
+
+        # Validate Ethereum address
+        if data['teacher_eth_address'] == 'null' or not data['teacher_eth_address']:
+            return Response({"error": "Invalid or missing Ethereum address"}, status=status.HTTP_400_BAD_REQUEST)
+
         serializer = CourseSerializer(data=data)
         if serializer.is_valid():
-            serializer.save(teacher=request.user)
+            # Save the course to the database
+            course = serializer.save(teacher=request.user)
+        
+            # Interact with smart contract to post course
+            try:
+                nonce = w3.eth.get_transaction_count(data['teacher_eth_address'])
+                tx = contract.functions.createCourse(course.id, course.course_name).build_transaction({
+                'from': data['teacher_eth_address'],
+                'nonce': nonce,
+                'gas': 2000000,
+                'gasPrice': w3.to_wei('50', 'gwei')
+                })
+
+            # Sign the transaction
+                signed_tx = w3.eth.account.sign_transaction(tx, private_key)
+                tx_hash = w3.eth.send_raw_transaction(signed_tx.rawTransaction)
+
+                # Wait for the transaction receipt
+                receipt = w3.eth.wait_for_transaction_receipt(tx_hash)
+                print(receipt)
+
+            except Exception as e:
+                print(f"Blockchain transaction failed: {e}")
+                course.delete()  # Rollback the course creation if blockchain transaction fails
+                return Response({"error": "Blockchain transaction failed"}, status=status.HTTP_400_BAD_REQUEST)
+
+        
             print("teacher: ", request.user)
             print("request: ", request.user.id)
             print("data details: ", data)
             print("User: ", user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+    
         print(serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 
     @action(detail=False, methods=['get'], url_path='list-courses')

@@ -1,5 +1,8 @@
 from pathlib import Path
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -155,7 +158,7 @@ WSGI_APPLICATION = 'django_backend.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'abya_database',
+        'NAME': 'abya_database2',
         'USER': 'root',
         'PASSWORD': 'password',
         'HOST': 'localhost',
@@ -211,3 +214,9 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Blockchain Configuration
+BLOCKCHAIN_URL = os.getenv('BLOCKCHAIN_URL')
+CONTRACT_ADDRESS = os.getenv('CONTRACT_ADDRESS')
+PRIVATE_KEY = os.getenv('PRIVATE_KEY')
+
