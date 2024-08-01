@@ -498,7 +498,7 @@ const Homepage = () => {
                                         https://framerusercontent.com/images/K5oL1yM6aNHac5e8Ha17KDpr0.png 2000w
                                     "
 									src="https://framerusercontent.com/images/K5oL1yM6aNHac5e8Ha17KDpr0.png?scale-down-to=1024"
-									alt
+									alt=""
 									style={{
 										display: "block",
 										width: "100%",
@@ -521,7 +521,7 @@ const Homepage = () => {
 
 					{/* <!-- Hero section --> */}
 					<section
-						className="framer-zkjwr1"
+						className="framer-zkjwr1 "
 						data-framer-name="Hero"
 						id="hero"
 						name="Hero"
@@ -581,13 +581,9 @@ const Homepage = () => {
 										style={{
 											fontFamily:
 												'"Plus Jakarta Sans", "Plus Jakarta Sans Placeholder", sans-serif',
-											fontSize: "86px",
-											fontWeight: 600,
 											letterSpacing: "-0.04em",
-											lineHeight: "92px",
-											color: "rgb(255, 255, 255)",
 										}}
-										className="framer-text text-sm"
+										className="text-white font-bold text-5xl md:text-7xl"
 									>
 										Learning Made Accessible & Easy
 									</h1>
