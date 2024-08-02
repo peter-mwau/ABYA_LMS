@@ -61,15 +61,24 @@ class Choice(models.Model):
         return self.text 
 
 class QuizSubmission(models.Model):
-    student = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='quiz', on_delete=models.CASCADE)
+    student = models.ForeignKey(User, related_name='quiz', on_delete=models.CASCADE)
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
     score = models.PositiveIntegerField()
     submitted_on = models.DateTimeField(auto_now_add=True)
+    fail_count = models.PositiveIntegerField(default=0)
+    last_failed = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
         return f"{self.student.username} - {self.quiz.quiz_title} - Score: {self.score}"
+
     class Meta:
         unique_together = ('student', 'quiz')
+
+    # def can_retry(self):
+    #     if self.fail_count >= 3 and self.last_failed:
+    #         elapsed_time = timezone.now() - self.last_failed
+    #         return elapsed_time > datetime.timedelta(hours=6)
+    #     return True
     
 class SubmitAssignment(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='assignment', on_delete=models.CASCADE)

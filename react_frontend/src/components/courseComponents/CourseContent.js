@@ -146,7 +146,9 @@ const CourseContent = () => {
   <div key={index} className="border p-4 mb-4 rounded-lg">
     <h3 className="text-xl font-bold">{chapter.chapter.chapter_name}</h3>
     {/* Assuming `getQuizIdForChapter` is a function that returns the quiz ID for a given chapter ID */}
+    {user.user_type === "Student" && (
     <Link to={`/quiz-detail/${getQuizIdForChapter(quizId)}`} className="text-cyan-900 hover:text-yellow-400 underline hover:cursor-pointer">Take Quiz</Link>
+    )}
     {/* <Link to={`/quiz/${quizId}`}>Go to Quiz</Link> */}
     <div className="mt-4">
       {chapter.lessons.map((lesson, lessonIndex) => (
