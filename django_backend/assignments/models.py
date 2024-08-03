@@ -8,6 +8,7 @@ import os
 from django.conf import settings
 from users.models import User
 from django.conf import settings
+import datetime
 
 
 # Create your models here.
@@ -74,11 +75,11 @@ class QuizSubmission(models.Model):
     class Meta:
         unique_together = ('student', 'quiz')
 
-    # def can_retry(self):
-    #     if self.fail_count >= 3 and self.last_failed:
-    #         elapsed_time = timezone.now() - self.last_failed
-    #         return elapsed_time > datetime.timedelta(hours=6)
-    #     return True
+    def can_retry(self):
+        if self.fail_count == 3 and self.last_failed:
+            elapsed_time = timezone.now() - self.last_failed
+            return elapsed_time > datetime.timedelta(hours=6)
+        return True
     
 class SubmitAssignment(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='assignment', on_delete=models.CASCADE)

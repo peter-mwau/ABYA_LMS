@@ -195,10 +195,14 @@ class QuizSubmissionViewSet(viewsets.ModelViewSet):
         )
 
         if not created:
+            # Check if the student can retry
             if not submission.can_retry():
                 return Response({"detail": "Retry limit reached. Please try again after 6 hours."}, status=status.HTTP_429_TOO_MANY_REQUESTS)
+            
+            # Update the score and submission time
             submission.score = score
             submission.submitted_on = timezone.now()
+            # Update fail count and last failed time if the score is below 75
             if score < 75:
                 submission.fail_count += 1
                 submission.last_failed = timezone.now()
@@ -206,6 +210,16 @@ class QuizSubmissionViewSet(viewsets.ModelViewSet):
                 submission.fail_count = 0
                 submission.last_failed = None
             submission.save()
+        else:
+            # If the submission is new, handle the fail count and last failed time
+            if score < 75:
+                submission.fail_count += 1
+                submission.last_failed = timezone.now()
+            submission.save()
+
+        # Check if the student has one retry left
+        if submission.fail_count == 2:
+            return Response({"detail": "You have one retry left before a 6-hour lockout."}, status=status.HTTP_200_OK)
 
         return Response(QuizSubmissionSerializer(submission).data, status=status.HTTP_201_CREATED)
     
