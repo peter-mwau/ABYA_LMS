@@ -64,7 +64,7 @@ function Navbar() {
 	};
 
 	return (
-		<nav class="bg-gray-50 border-gray-200 dark:bg-gray-90 sticky z-50 top-0">
+		<nav class="bg-gray-50 dark:bg-gray-900 sticky z-50 top-0">
 			<div class="max-w-screen-2xl flex flex-wrap items-center justify-between mx-auto p-4 border">
 				<a
 					href="https://flowbite.com/"

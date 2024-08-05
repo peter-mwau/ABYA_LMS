@@ -5,7 +5,7 @@ import upload from "../../images/upload.png";
 const LessonForm = () => {
 	const [formData, setFormData] = useState({
 		lesson_name: "",
-		lesson_description: "",
+		lesson_content: "",
 		course: "",
 		chapter: "",
 	});
@@ -86,7 +86,7 @@ const LessonForm = () => {
 
 		const formDataToSend = new FormData();
 		formDataToSend.append("lesson_name", formData.lesson_name);
-		formDataToSend.append("lesson_description", formData.lesson_description);
+		formDataToSend.append("lesson_content", formData.lesson_content);
 		formDataToSend.append("course", formData.course);
 		formDataToSend.append("chapter", formData.chapter);
 		if (wordFile) {
@@ -107,7 +107,7 @@ const LessonForm = () => {
 			const lessonName = formData.lesson_name; // Save the lesson name
 			setFormData({
 				lesson_name: "",
-				lesson_description: "",
+				lesson_content: "",
 				course: "",
 				chapter: "",
 			});
@@ -162,11 +162,11 @@ const LessonForm = () => {
 					/>
 
 					<textarea
-						name="lesson_description"
-						id="lesson_description"
-						value={formData.lesson_description}
+						name="lesson_content"
+						id="lesson_content"
+						value={formData.lesson_content}
 						onChange={handleChange}
-						placeholder="lesson description"
+						placeholder="lesson content"
 						className="my-4 w-full border rounded-lg resize-none py-4 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
 					/>
 

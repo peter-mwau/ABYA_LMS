@@ -12,6 +12,8 @@ const CourseInfo = () => {
   const [isEnrolled, setIsEnrolled] = useState(false);
   const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState('');
+
+  console.log("Course data: ", courseData);
   
   useEffect(() => {
     if (courseData) { // Add this check to ensure courseData is not null
@@ -80,7 +82,9 @@ const CourseInfo = () => {
   console.log("Enrollment status2: ", isEnrolled);
 
   if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error loading course summary.</p>;
+  if (error) return <p>Error loading course summary. {error.message}</p>;
+
+
 
   const numberOfChapters = courseData.chapters_with_lessons.length;
   const numberOfLessons = courseData.chapters_with_lessons.reduce((acc, chapter) => acc + chapter.lessons.length, 0);
