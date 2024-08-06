@@ -3327,25 +3327,25 @@ NavigationContainer [data-framer-component-type="NavigationContainer"] > *,
 	flex-wrap: nowrap;
 	gap: 46px;
 	height: min-content;
-	justify-content: space-between;
+	justify-content: flex-start;
 	padding: 0;
 	position: relative;
-	/* width: 95%; */
-	border: 2px solid blue;
 	width: 1200px;
 	/* padding-inline: 3em; */
 }
 
-/* @media screen and (max-width: 425px) {
+@media screen and (min-width: 460px) and (max-width: 800px) {
 	.framer-HWZMM .framer-rtxwb8 {
 		width: 100%;
-		flex-direction: column;
+		padding-inline: 2em;
+		margin-right: 10px;
+		gap: 2rem;
 	}
-	.framer-HWZMM .framer-wk4igx {
+	/* .framer-HWZMM .framer-wk4igx {
 		width: 100%;
 		flex-direction: column;
-	}
-} */
+	} */
+}
 
 .framer-HWZMM .framer-wk4igx {
 	align-content: center;
@@ -3546,16 +3546,24 @@ NavigationContainer [data-framer-component-type="NavigationContainer"] > *,
 	align-content: center;
 	align-items: center;
 	display: flex;
-	flex: none;
+	/* flex: none; */
 	flex-direction: column;
 	flex-wrap: nowrap;
 	gap: 36px;
 	height: min-content;
 	justify-content: center;
-	overflow: hidden;
+	/* overflow: hidden; */
 	padding: 19px 40px;
 	position: relative;
 	width: 100%;
+}
+
+@media screen and (max-width: 1200px) {
+	.framer-HWZMM .framer-szlmn7 {
+		padding-inline: 5em;
+		/* width: 50%; */
+		flex-wrap: wrap;
+	}
 }
 
 .framer-HWZMM .framer-182zjgq {
@@ -3572,6 +3580,19 @@ NavigationContainer [data-framer-component-type="NavigationContainer"] > *,
 	padding: 0;
 	position: relative;
 	width: 787px;
+}
+
+@media screen and (min-width: 501px) and (max-width: 768px) {
+	.framer-HWZMM .framer-182zjgq {
+		max-width: 46rem;
+		overflow: visible;
+	}
+}
+@media screen and (max-width: 500px) {
+	.framer-HWZMM .framer-182zjgq {
+		width: 20rem;
+		overflow: visible;
+	}
 }
 
 .framer-HWZMM .framer-mqc7l5 {
@@ -3650,7 +3671,7 @@ NavigationContainer [data-framer-component-type="NavigationContainer"] > *,
 	overflow: hidden;
 	padding: 0;
 	position: relative;
-	width: 1200px;
+	min-width: 90%;
 }
 
 .framer-HWZMM .framer-q7qplr-container {
@@ -3674,6 +3695,19 @@ NavigationContainer [data-framer-component-type="NavigationContainer"] > *,
 	padding: 0;
 	position: relative;
 	width: min-content;
+}
+
+@media screen and (max-width: 768px) {
+	.framer-HWZMM .framer-nufu51 {
+		width: 52%;
+		overflow: visible;
+		margin-left: 23%;
+	}
+
+	.framer-HWZMM .framer-2wgbsm {
+		display: block;
+		overflow: visible;
+	}
 }
 
 .framer-HWZMM .framer-15zyfk4,
@@ -5517,5 +5551,14 @@ a.social-icon.id9d2fbc3b9aad4 {
 		padding: 0px 0px;
 		margin-bottom: 20px;
 		width: 100%;
+	}
+}
+
+/* Responsive tablet  */
+@media screen and (min-width: 460px) and (max-width: 800px) {
+	.company-details--row {
+		width: 63%;
+		margin-left: 13rem;
+		padding-left: 2em;
 	}
 }
