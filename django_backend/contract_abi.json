@@ -21,7 +21,7 @@
 			},
 			{
 				"internalType": "string",
-				"name": "courseName",
+				"name": "description",
 				"type": "string"
 			}
 		],
@@ -501,7 +501,7 @@
 			},
 			{
 				"internalType": "string",
-				"name": "courseName",
+				"name": "description",
 				"type": "string"
 			},
 			{

@@ -6,6 +6,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.views.decorators.cache import cache_page
 from rest_framework import routers
+from .views import CourseViewSet
 
 router = routers.DefaultRouter()
 router.register(r'courses', views.CourseViewSet)
@@ -27,6 +28,7 @@ urlpatterns = [
     path('certificate/<int:course_id>/', views.CertificateAPIView.as_view(), name='certificate-api'),
     path('verify_certificate/', views.verify_certificate, name='verify_certificate'),
     path('achievements/', views.achievements, name='achievements'),
+    path('courses/<int:pk>/submit-review/', CourseViewSet.as_view({'post': 'submit_review'}), name='submit-review'),
 
 ]
 

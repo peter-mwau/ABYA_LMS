@@ -56,8 +56,8 @@ import os
 from web3.middleware import geth_poa_middleware
 
 # Initialize web3 with the provider URL
-# w3 = Web3(Web3.HTTPProvider(settings.BLOCKCHAIN_URL))
-w3 = Web3(Web3.HTTPProvider('http://127.0.0.1:7545'))
+w3 = Web3(Web3.HTTPProvider(settings.BLOCKCHAIN_URL))
+# w3 = Web3(Web3.HTTPProvider('http://127.0.0.1:7545'))
 
 
 # Add PoA middleware to handle PoA-specific data
@@ -67,6 +67,7 @@ w3.middleware_onion.inject(geth_poa_middleware, layer=0)
 contract_address = Web3.to_checksum_address(settings.CONTRACT_ADDRESS)
 
 private_key = settings.PRIVATE_KEY
+# private_key = '0x6691d141a2a41150a44f415e325a8f70946c7d8c1fbb039ea3062e124c04cf8e'
 
 # Load contract ABI from JSON file located at the project root
 with open(os.path.join(settings.BASE_DIR, 'contract_abi.json')) as f:
@@ -95,8 +96,8 @@ class CourseViewSet(viewsets.ModelViewSet):
         data = request.data.copy()
         data['teacher'] = request.user.id
         data['teacher_name'] = f"{user.first_name} {user.last_name}"
-        # data['teacher_eth_address'] = request.data.get('account')
-        data['teacher_eth_address'] = "0x0Ed33B208dC588E7d4908B422b0aE1212FD2c449"
+        data['teacher_eth_address'] = request.data.get('account')
+        # data['teacher_eth_address'] = "0xB3AE1a689A8cF85e70be43C6552371E22C1448C1"
         data['approved'] = False
         data['approval_count'] = 0
 
@@ -143,6 +144,71 @@ class CourseViewSet(viewsets.ModelViewSet):
     
         print(serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+    @action(detail=True, methods=['post'], url_path='submit-review')
+    def submit_review(self, request, pk=None):
+        # course = get_object_or_404(Course, pk=pk)
+        course = self.get_object()
+        if not course.approved:
+            data = request.data
+            account = data.get('account')
+            learnerAgency = int(data.get('learnerAgency'))
+            criticalThinking = int(data.get('criticalThinking'))
+            collaborativeLearning = int(data.get('collaborativeLearning'))
+            reflectivePractice = int(data.get('reflectivePractice', 0))
+            adaptiveLearning = int(data.get('adaptiveLearning', 0))
+            authenticLearning = int(data.get('authenticLearning', 0))
+            technologyIntegration = int(data.get('technologyIntegration', 0))
+            learnerSupport = int(data.get('learnerSupport', 0))
+            assessmentForLearning = int(data.get('assessmentForLearning', 0))
+            engagementAndMotivation = int(data.get('engagementAndMotivation', 0))
+            pk = int(pk)
+
+            print("Data: ", data)
+            print(pk)
+            print(account)
+
+            # Interaction with smart contract here
+            try:
+                nonce = w3.eth.get_transaction_count(account)
+                tx = contract.functions.submitReview(
+                    pk,
+                    learnerAgency,
+                    criticalThinking,
+                    collaborativeLearning,
+                    reflectivePractice,
+                    adaptiveLearning,
+                    authenticLearning,
+                    technologyIntegration,
+                    learnerSupport,
+                    assessmentForLearning,
+                    engagementAndMotivation
+                ).build_transaction({
+                    'from': account,
+                    'gas': 2000000,  # Set the appropriate gas limit
+                    'gasPrice': w3.to_wei('30', 'gwei'),
+                    'nonce': nonce,
+                    })
+
+                # Sign the transaction
+                signed_txn = w3.eth.account.sign_transaction(tx, private_key)
+
+                # Send the signed transaction
+                tx_hash = w3.eth.send_raw_transaction(signed_txn.rawTransaction)
+
+                # Wait for the transaction to be mined
+                tx_receipt = w3.eth.wait_for_transaction_receipt(tx_hash)
+
+                # Update course approval status
+                course.approved = True
+                course.save()
+
+                return Response({"message": "Review submitted and course approved successfully"}, status=status.HTTP_200_OK)
+            except Exception as e:
+                print(f"Blockchain transaction failed: {e}")
+            return Response({"error": "Blockchain transaction failed"}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"error": "Course already approved"}, status=status.HTTP_400_BAD_REQUEST)
 
 
 
@@ -358,10 +424,11 @@ class CourseDetailAPI(APIView):
             chapters_with_lessons.append((chapter, lessons))
             quizzes = Quiz.objects.filter(chapter=chapter)
             chapters_with_lessons_and_quizzes[chapter] = {
-                'lessons': lessons,
-                'quizzes': quizzes,
+                'lessons': [ {'id': lesson.id, 'lesson_name': lesson.lesson_name, 'lesson_content': lesson.lesson_content} for lesson in lessons],
+                'quizzes': [{'id': quiz.id, 'quiz_name': quiz.quiz_name} for quiz in quizzes],
                 'lesson_count': lesson_count,
             }
+            print(chapters_with_lessons_and_quizzes)
 
         assignments = Assignment.objects.filter(course=pk)
         resources = Resource.objects.filter(course=pk)
@@ -474,6 +541,8 @@ class CourseDetailAPI(APIView):
         }
 
         return Response(context, status=status.HTTP_200_OK)
+    
+
 
 
 # 5. Endpoint dediate to show details and overview (preview) of a course
