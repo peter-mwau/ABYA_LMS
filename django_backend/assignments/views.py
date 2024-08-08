@@ -80,16 +80,13 @@ class QuestionViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=['post'], url_path='create-question/(?P<quiz_id>[^/.]+)')
     def create_question(self, request, quiz_id=None):
         quiz = get_object_or_404(Quiz, id=quiz_id)
+        print("Quiz: ",quiz)
         question_data = request.data.copy()
-        question_data['quiz_title'] = quiz.id
+        # question_data['quiz_title'] = quiz.quiz_title
+        question_data['quiz_title'] = quiz_id
         print('quiz data', quiz_id)
         print('question data', question_data)
         
-        
-        question_data = {
-            'quiz_title': quiz.id,
-            'question_text': request.data.get('question_text'),
-        }
 
         question_serializer = QuestionSerializer(data=question_data)
         if question_serializer.is_valid():
@@ -194,6 +191,7 @@ class QuizViewSet(viewsets.ModelViewSet):
         data['teacher'] = request.user.id
         print('user', user)
         print('id', request.user.id)
+        print("Quiz Data: ", data)
 
         serializer = QuizSerializer(data=data)
         if serializer.is_valid():

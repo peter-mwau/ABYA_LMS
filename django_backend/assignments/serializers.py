@@ -18,7 +18,7 @@ class QuestionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Question
-        fields = ['id', 'question_text', 'choices']
+        fields = '__all__'
 
     def get_choices(self, obj):
         choices = Choice.objects.filter(question=obj)

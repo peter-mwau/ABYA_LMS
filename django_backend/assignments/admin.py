@@ -1,10 +1,34 @@
 from django.contrib import admin
 from .models import Assignment, Question, Choice, Quiz, CompletedQuiz, QuizSubmission
-# Register your models here.
 
-admin.site.register(Assignment)
-admin.site.register(Quiz)
-admin.site.register(Question)
-admin.site.register(Choice)
-admin.site.register(CompletedQuiz)
-admin.site.register(QuizSubmission)
+class AssignmentAdmin(admin.ModelAdmin):
+    list_display = ('id', 'assignment_name', 'assignment_description', 'start_date', 'due_date', 'course')
+    ordering = ('id',)  
+
+class QuizAdmin(admin.ModelAdmin):
+    list_display = ('id', 'quiz_title','course', 'chapter', 'quiz_description', 'teacher') 
+    ordering = ('id',) 
+
+class QuestionAdmin(admin.ModelAdmin):
+    list_display = ('id', 'question_text', 'quiz_title')
+    ordering = ('id',)
+
+class ChoiceAdmin(admin.ModelAdmin):
+    list_display = ('id', 'question', 'text', 'is_correct')
+    ordering = ('id',)
+
+class CompletedQuizAdmin(admin.ModelAdmin):
+    list_display = ('id', 'quiz', 'user', 'completed_at')
+    ordering = ('id',)
+
+class QuizSubmissionAdmin(admin.ModelAdmin):
+    list_display = ('id', 'student', 'score', 'submitted_on')
+    ordering = ('submitted_on',)
+
+# Register your models here.
+admin.site.register(Assignment, AssignmentAdmin)
+admin.site.register(Quiz, QuizAdmin)
+admin.site.register(Question, QuestionAdmin)
+admin.site.register(Choice, ChoiceAdmin)
+admin.site.register(CompletedQuiz, CompletedQuizAdmin)
+admin.site.register(QuizSubmission, QuizSubmissionAdmin)
