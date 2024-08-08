@@ -733,52 +733,6 @@ def get_completed_lessons_count(request, course_id):
         return JsonResponse({'message': 'Invalid request method.'}, status=400)
 
 
-# def mark_lesson_as_complete(request):
-#     """
-#         Handling marking lesson completion indicator implementations
-#     """
-#     if request.method != 'POST':
-#         return JsonResponse({'message': 'Invalid request method.'}, status=400)
-
-#     try:
-#         data = json.loads(request.body.decode('utf-8'))
-#         lesson_id = data.get('lesson_id')
-#     except json.JSONDecodeError:
-#         return JsonResponse({'message': 'Invalid JSON data.'}, status=400)
-
-#     if not lesson_id:
-#         return JsonResponse({'message': 'Missing lesson ID.'}, status=400)
-
-#     try:
-#         lesson = Lesson.objects.get(pk=lesson_id)
-#     except Lesson.DoesNotExist:
-#         return JsonResponse({'message': 'Lesson not found.'}, status=404)
-
-#     user = request.user
-
-#     # Check if the lesson is already marked as complete for the user
-#     if CompletedLesson.objects.filter(user=user, lesson=lesson).exists():
-#         return JsonResponse({'message': 'Lesson is already marked as complete.'}, status=200)
-
-#     # Mark the lesson as complete for the user
-#     completed_lesson = CompletedLesson(user=user, lesson=lesson)
-#     completed_lesson.save()
-
-#     # Calculate the completion percentage for the course
-#     course = lesson.chapter.course
-#     total_lessons = Lesson.objects.filter(chapter__course=course).count()
-#     total_quizzes = course.total_quizzes()
-#     completed_lessons = user.completed_lessons.filter(lesson__chapter__course=course).count()
-#     completed_quizzes = user.completed_quizzes(course)
-#     completion_percentage = round(((completed_lessons + completed_quizzes) / (total_lessons + total_quizzes)) * 100)
-#     print("completed quizes: ", completed_quizzes)
-
-#     # Update the progress bar or any other elements as needed
-
-#     return JsonResponse(
-#         {'message': 'Lesson marked as complete successfully.', 'completed_lessons_count': completed_lessons,
-#          'completion_percentage': completion_percentage}, status=200)
-
 
 @csrf_protect
 def update_video_progress(request):

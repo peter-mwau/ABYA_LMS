@@ -41,9 +41,7 @@ class CompletedQuiz(models.Model):
 
     class Meta:
         unique_together = ('user', 'quiz')
-# class UserProfile(models.Model):
-#     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-#     completed_quizzes = models.ManyToManyField(Quiz, related_name='completed_by_users', blank=True)
+
 
 class Question(models.Model):
     quiz_title = models.ForeignKey(Quiz, on_delete=models.CASCADE, related_name="question_set")
