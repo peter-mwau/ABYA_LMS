@@ -40,7 +40,7 @@ class Chapter(models.Model):
     def __str__(self):
         return self.chapter_name
     class Meta:
-        ordering = ['chapter_name']
+        ordering = ['created_at']
 
 # 3. Lesson Model
 class Lesson(models.Model):
