@@ -158,11 +158,56 @@ class QuizSubmissionViewSet(viewsets.ModelViewSet):
     serializer_class = QuizSubmissionSerializer
     permission_classes = [permissions.IsAuthenticated]
 
+    def get_user(self):
+        return User.objects.get(id=self.request.user.id)
+
     @action(detail=True, methods=['get'], url_path='results')
     def get_results(self, request, pk=None):
         submission = get_object_or_404(QuizSubmission, id=pk)
         serializer = QuizSubmissionSerializer(submission)
         return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    @action(detail=False, methods=['post'], url_path='submit-quiz-submission')
+    def submit(self, request):
+        user = self.get_user()
+        student_id = request.user.id
+        quiz_id = request.data.get('quiz')
+        score = request.data.get('score')
+        
+        submission, created = QuizSubmission.objects.get_or_create(
+            student_id=student_id,
+            quiz_id=quiz_id,
+            defaults={'score': score}
+        )
+
+        if not created:
+            # Check if the student can retry
+            if not submission.can_retry():
+                return Response({"detail": "Retry limit reached. Please try again after 6 hours."}, status=status.HTTP_429_TOO_MANY_REQUESTS)
+            
+            # Update the score and submission time
+            submission.score = score
+            submission.submitted_on = timezone.now()
+            # Update fail count and last failed time if the score is below 75
+            if score < 75:
+                submission.fail_count += 1
+                submission.last_failed = timezone.now()
+            else:
+                submission.fail_count = 0
+                submission.last_failed = None
+            submission.save()
+        else:
+            # If the submission is new, handle the fail count and last failed time
+            if score < 75:
+                submission.fail_count += 1
+                submission.last_failed = timezone.now()
+            submission.save()
+
+        # Check if the student has one retry left
+        if submission.fail_count == 2:
+            return Response({"detail": "You have one retry left before a 6-hour lockout."}, status=status.HTTP_200_OK)
+
+        return Response(QuizSubmissionSerializer(submission).data, status=status.HTTP_201_CREATED)
     
 class QuizViewSet(viewsets.ModelViewSet):
     queryset = Quiz.objects.all()

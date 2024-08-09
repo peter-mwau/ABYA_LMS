@@ -13,6 +13,7 @@ router.register(r'quiz', QuizViewSet)
 router.register(r'quiz-submission', QuizSubmissionViewSet)
 
 
+
 urlpatterns = [
     path('', include(router.urls)),
     path('assignments/create-assignment/', AssignmentViewSet.as_view({'post': 'create_assignment'}), name='create-assignment'),
@@ -23,5 +24,6 @@ urlpatterns = [
     path('quiz/<int:pk>/questions/', QuizViewSet.as_view({'get': 'list_questions'}), name='list-questions'),
     path('fetch-quiz-data/<int:pk>/', FetchQuizDataView.as_view(), name='fetch-quiz-data'),
     path('quiz-submissions/<int:pk>/results/', QuizSubmissionViewSet.as_view({'get': 'get_results'}), name='quiz-results'),
+    path('quiz-submissions/submit/', QuizSubmissionViewSet.as_view({'post': 'submit'}), name='submit-quiz-submission'),
     path('submit-assignments/submit-assignment/', SubmitAssignmentViewSet.as_view({'post': 'submit_assignment'}), name='submit-assignment'),
 ]

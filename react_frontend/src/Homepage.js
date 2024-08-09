@@ -498,7 +498,7 @@ const Homepage = () => {
                                         https://framerusercontent.com/images/K5oL1yM6aNHac5e8Ha17KDpr0.png 2000w
                                     "
 									src="https://framerusercontent.com/images/K5oL1yM6aNHac5e8Ha17KDpr0.png?scale-down-to=1024"
-									alt
+									alt=""
 									style={{
 										display: "block",
 										width: "100%",
@@ -521,7 +521,7 @@ const Homepage = () => {
 
 					{/* <!-- Hero section --> */}
 					<section
-						className="framer-zkjwr1"
+						className="framer-zkjwr1 "
 						data-framer-name="Hero"
 						id="hero"
 						name="Hero"
@@ -581,13 +581,9 @@ const Homepage = () => {
 										style={{
 											fontFamily:
 												'"Plus Jakarta Sans", "Plus Jakarta Sans Placeholder", sans-serif',
-											fontSize: "86px",
-											fontWeight: 600,
 											letterSpacing: "-0.04em",
-											lineHeight: "92px",
-											color: "rgb(255, 255, 255)",
 										}}
-										className="framer-text text-sm"
+										className="text-white font-bold text-5xl md:text-7xl"
 									>
 										Learning Made Accessible & Easy
 									</h1>
@@ -5652,13 +5648,13 @@ const Homepage = () => {
 									style={{
 										fontFamily:
 											'"Plus Jakarta Sans", "Plus Jakarta Sans Placeholder", sans-serif',
-										fontSize: "18px",
+										// fontSize: "18px",
 										letterSpacing: "0.02em",
-										lineHeight: "27.9px",
+										// lineHeight: "27.9px",
 										textAlign: "center",
 										color: "rgb(179, 179, 179)",
 									}}
-									className="framer-text"
+									className="md:text-xl"
 								>
 									Get early access and be the first to experience the future of
 									seamless learning. Join the waitlist by providing your email
@@ -5681,7 +5677,6 @@ const Homepage = () => {
 							>
 								<form
 									style={{
-										width: "100%",
 										height: "auto",
 										display: "flex",
 										position: "relative",
@@ -5690,6 +5685,7 @@ const Homepage = () => {
 										gap: "0",
 									}}
 									method="POST"
+									className="md:w-full w-2/3"
 								>
 									<input
 										type="email"
@@ -5734,10 +5730,11 @@ const Homepage = () => {
 									>
 										<input
 											type="submit"
+											className="w-24 md:w-40 "
 											style={{
 												WebkitAppearance: "none",
 												appearance: "none",
-												width: "156px",
+												// width: "156px",
 												height: "100%",
 												outline: "none",
 												border: "none",
