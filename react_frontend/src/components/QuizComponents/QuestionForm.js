@@ -45,7 +45,7 @@ const QuestionForm = () => {
 
 		const formDataToSend = new FormData();
 		formDataToSend.append("quiz_title", quiz?.quiz_title); // Ensure formData.quiz is the quiz ID (an integer)
-		formDataToSend.append("quiz_id", data?.length);
+		formDataToSend.append("quiz_title_id", data?.length);
 		formDataToSend.append("question_text", questionText);
 		// Append choices and correct_choices
 		formData.choices.forEach((choice, index) => {

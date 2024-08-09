@@ -134,21 +134,22 @@ const QuizDetail = () => {
       <div className='container p-2 h-[100vh] md:w-[60%] md:ml-[270px] lg:mx-auto lg:w-[60%]'>
         <h1 className='font-bold p-2'>Quiz Title: {quizData.quiz_title}</h1>
         {submissionResult ? (
-          <div>
-            <h2>{`You ${submissionResult} with a score of ${score}%`}</h2>
-            {warning && <div className="alert alert-warning">{warning}</div>}
+          <div className='mx-5'>
+            <h2>{`Your score is: ${score}%`}</h2>
+            <h2>{`Status: ${submissionResult}`}</h2>
+            {warning && <div className="alert alert-warning py-3 dark:text-yellow-400">{warning}</div>}
             {retryBlocked && retryCooldown && (
               <div>
                 <h3>Retry is blocked. Time left: {formatTimeLeft(Math.floor((retryCooldown - new Date()) / 1000))}</h3>
               </div>
             )}
             {submissionResult === 'Pass' && (
-              <button className='btn btn-primary' onClick={() => window.location.reload()}>
+              <button className='p-2 dark:text-white rounded-lg mx-3 mt-[200px] dark:bg-yellow-400 font-semibold bg-gray-500 text-gray-100' onClick={() => window.location.reload()}>
                 Continue
               </button>
             )}
             {!retryBlocked && (
-              <button className='btn btn-secondary' onClick={() => window.location.reload()}>
+              <button className='p-2 dark:bg-gray-300 rounded-lg dark:text-cyan-950 font-semibold bg-gray-500 text-gray-100' onClick={() => window.location.reload()}>
                 Retry
               </button>
             )}
@@ -177,16 +178,16 @@ const QuizDetail = () => {
                 ))}
               </ul>
             </div>
-            <div className='flex justify-between mt-4'>
-              <button onClick={handlePrevious} disabled={currentQuestionIndex === 0} className='btn btn-primary'>
+            <div className='flex gap-5 w-[80%] lg:w-[20%] items-end justify-end mx-auto mt-[200px]'>
+              <button onClick={handlePrevious} disabled={currentQuestionIndex === 0} className='p-2 dark:bg-gray-300 rounded-lg dark:text-cyan-950 font-semibold bg-gray-500 text-gray-100'>
                 Previous
               </button>
               {currentQuestionIndex < quizData.questions.length - 1 ? (
-                <button onClick={handleNext} className='btn btn-primary' disabled={!isAnswerSelected}>
+                <button onClick={handleNext} className='p-2 dark:bg-gray-300 rounded-lg dark:text-cyan-950 font-semibold bg-gray-500 text-gray-100' disabled={!isAnswerSelected}>
                   Next
                 </button>
               ) : (
-                <button onClick={handleSubmit} className='btn btn-primary' disabled={!isAnswerSelected || retryBlocked}>
+                <button onClick={handleSubmit} className='p-2 dark:bg-yellow-400 rounded-lg dark:text-white dark:hover:shadow-md dark:hover:shadow-white hover:cursor-pointer font-semibold bg-yellow-500 text-gray-200' disabled={!isAnswerSelected || retryBlocked}>
                   Submit
                 </button>
               )}

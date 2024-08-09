@@ -3,7 +3,7 @@ import Walletcontext from "../contexts/walletContext";
 import { UserContext } from "../contexts/userContext";
 
 const WalletBox = () => {
-	const { isWalletConnected } = useContext(Walletcontext);
+	const { isWalletConnected, account } = useContext(Walletcontext);
 	const { balance } = useContext(UserContext);
 
 	return (

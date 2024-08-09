@@ -75,6 +75,7 @@ export default function Providers({ children }) {
 		    // Memoize the context value to avoid unnecessary re-renders
 		const walletContextValue = useMemo(() => ({
 			account,
+			balance,
 			isWalletConnected,
 			connectWallet,
 			disconnectWallet,

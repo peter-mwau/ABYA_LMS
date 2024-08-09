@@ -14,6 +14,9 @@ class Course(models.Model):
     teacher_name = models.CharField(max_length=100, null=True)
     students = models.ManyToManyField(User, through='Enrollment', related_name="student_course")
     picture = models.ImageField(upload_to="course_pictures", null=True, blank=True)
+    approved = models.BooleanField(default=False)  # Approval status field
+    approval_count = models.IntegerField(default=0)  # Approval count field
+    teacher_eth_address = models.CharField(max_length=42, default='0x..')  # Ethereum address field
 
     def total_quizzes(self):
         return self.chapters.aggregate(total_quizzes=models.Count('chapter_quizzes'))['total_quizzes']
@@ -37,7 +40,7 @@ class Chapter(models.Model):
     def __str__(self):
         return self.chapter_name
     class Meta:
-        ordering = ['chapter_name']
+        ordering = ['created_at']
 
 # 3. Lesson Model
 class Lesson(models.Model):

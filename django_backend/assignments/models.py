@@ -30,7 +30,7 @@ class Quiz(models.Model):
     chapter = models.ForeignKey(Chapter, related_name="chapter_quizzes", on_delete=models.CASCADE)
     quiz_title = models.CharField(max_length=200, unique=True)
     quiz_description = models.TextField()
-    teacher = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="teacher_quizzes")
+    teacher = models.ForeignKey(User, on_delete=models.CASCADE, related_name="teacher_quizzes")
 
     def __str__(self):
         return self.quiz_title
@@ -42,9 +42,8 @@ class CompletedQuiz(models.Model):
 
     class Meta:
         unique_together = ('user', 'quiz')
-# class UserProfile(models.Model):
-#     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-#     completed_quizzes = models.ManyToManyField(Quiz, related_name='completed_by_users', blank=True)
+        ordering = ['completed_at']
+
 
 class Question(models.Model):
     quiz_title = models.ForeignKey(Quiz, on_delete=models.CASCADE, related_name="question_set")

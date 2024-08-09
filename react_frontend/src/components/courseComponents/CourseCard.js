@@ -3,33 +3,56 @@ import { useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import editIcon from "../../images/editIcon.png";
+import ApprovalForm from "./ApproveForm";
 
 const CourseCard = ({ courses, baseUrl }) => {
 	const { user } = useContext(UserContext);
 	// const [isApproved, setIsApproved] = useState(false);
+	const [isApprovalFormOpen, setIsApprovalFormOpen] = useState({});
 	const [approvalStatuses, setApprovalStatuses] = useState({});
+	const [openFormCourseId, setOpenFormCourseId] = useState(null);
+	const [refreshTrigger, setRefreshTrigger] = useState(false); // State to trigger refresh
+
 	const navigate = useNavigate();
+	
 	const handleNavigate = () => {
 		user?.user_type === "Teacher"
 			? navigate("/create-course/")
 			: navigate("course-list");
 	};
 
-	// Initialize all courses' approval status to false
-	useEffect(() => {
-		const initialStatuses = courses.reduce((acc, course) => {
-			acc[course.id] = false;
-			return acc;
-		}, {});
-		setApprovalStatuses(initialStatuses);
-	}, [courses]);
+	// Function to toggle the refresh trigger
+    const refreshComponent = () => {
+        setRefreshTrigger(prev => !prev);
+    };
 
-	const toggleApproval = (courseId) => {
-		setApprovalStatuses((prevStatuses) => ({
-			...prevStatuses,
-			[courseId]: !prevStatuses[courseId],
-		}));
+	// Initialize all courses' approval form open status to false
+    useEffect(() => {
+        const initialFormOpenStatuses = courses.reduce((acc, course) => {
+            acc[course.id] = false; // Initially, all forms are closed
+            return acc;
+        }, {});
+        setIsApprovalFormOpen(initialFormOpenStatuses);
+    }, [courses, refreshTrigger]);
+
+    const handleOpenForm = (courseId) => {
+		setOpenFormCourseId(courseId);
+        setIsApprovalFormOpen(prevStatuses => ({
+            ...prevStatuses,
+            [courseId]: true, // Open the form for this course
+        }));
+		refreshComponent();
+    };
+
+    const handleCloseForm = (courseId) => {
+		setOpenFormCourseId(null);
+        setIsApprovalFormOpen(prevStatuses => ({
+            ...prevStatuses,
+            [courseId]: false, // Close the form for this course
+        }));
+		refreshComponent();
 	};
+
 
 	return (
 		<div className="md:grid md:grid-cols-2 lg:grid-cols-4 gap-5 px-5 ">
@@ -48,19 +71,17 @@ const CourseCard = ({ courses, baseUrl }) => {
 							/>
 						</section>
 						<section className="md:p-4 mt-2 md:w-full w-3/5">
-							{user?.user_type === "Teacher" && (
 								<>
-									{approvalStatuses[course.id] ? (
-										<p className="text-sm text-gray-500 py-3 p-2">
-											{course.teacher} enrolled
-										</p>
+									{course.approved ? (
+									<p className="text-sm text-gray-500 py-3 p-2">
+										{course.teacher} enrolled
+									</p>
 									) : (
-										<p className="font-semibold text-yellow-400 w-[200px] rounded-3xl ">
-											Pending approval
+										<p className="font-semibold pb-4 text-yellow-400 w-[200px] rounded-3xl ">
+											Pending approval..
 										</p>
 									)}
 								</>
-							)}
 							<h2 className="text-lg font-semibold">{course.course_name}</h2>
 
 							<p className="truncate text-gray-700 dark:text-gray-300 font-semibold">
@@ -69,7 +90,7 @@ const CourseCard = ({ courses, baseUrl }) => {
 							<p className="text-sm text-gray-500">
 								course by {course.teacher_name}
 							</p>
-							{approvalStatuses[course.id] ? (
+							{course.approved ? (
 								<ul className="flex gap-1 pr-2 mt-4 md:my-4 md:mt-5 items-center justify-between">
 									<li>
 										<Link
@@ -92,14 +113,19 @@ const CourseCard = ({ courses, baseUrl }) => {
 									)}
 								</ul>
 							) : (
+								
 								<div className="">
+									{ user?.user_type === "Teacher" && (
 									<button
-										className="my-3 font-semibold text-green-500 px-5 w-auto bg-green-300 py-2 rounded-3xl"
-										onClick={() => toggleApproval(course.id)}
-									>
-										Approve
+										onClick={() => handleOpenForm(course.id)}
+										className="my-3 font-semibold text-green-500 px-5 w-auto bg-green-300 py-2 rounded-3xl">				
+										Approve Course
 									</button>
+									)}
+									{isApprovalFormOpen[course.id] && openFormCourseId === course.id && <ApprovalForm courseId={course.id} onClose={handleCloseForm} />}
+							
 								</div>
+								
 							)}
 						</section>
 					</div>

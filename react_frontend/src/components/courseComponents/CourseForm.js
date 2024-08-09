@@ -1,16 +1,34 @@
-// src/components/CourseForm.js
-import React, { useContext, useState } from "react";
+	// src/components/CourseForm.js
+import React, { useContext, useState, useEffect } from "react";
 import axios from "axios";
 import upload from "../../images/upload.png";
 import { UserContext } from "../../contexts/userContext";
+import  WalletContext  from "../../contexts/walletContext";
+import Web3 from 'web3';
+
+
 
 const CourseForm = () => {
 	const [image, setImage] = useState(null);
+	// const { isWalletConnected } = useContext(Walletcontext);
+	const { account, isWalletConnected } = useContext(WalletContext);
 	const userDetails = useContext(UserContext);
 	const [success, setSuccessMessage] = useState("");
+	const [checksumAccount, setChecksumAccount] = useState("");
+
+	useEffect(() => {
+        if (account) {
+            const checksumAddress = Web3.utils.toChecksumAddress(account);
+            setChecksumAccount(checksumAddress);
+            console.log("Checksum Account: ", checksumAddress);
+        }
+    }, [account]);
+
+
 	const [formData, setFormData] = useState({
 		course_name: "",
 		course_description: "",
+		account: "",
 		picture: null,
 		teacher:
 			userDetails && userDetails.user
@@ -19,6 +37,10 @@ const CourseForm = () => {
 				  }`
 				: "",
 	});
+
+	useEffect(() => {
+        setFormData(formData => ({ ...formData, account: checksumAccount }));
+    }, [checksumAccount]);
 
 	const [errors, setErrors] = useState({});
 
@@ -47,6 +69,7 @@ const CourseForm = () => {
 		const data = new FormData();
 		data.append("course_name", formData.course_name);
 		data.append("course_description", formData.course_description);
+		data.append("account", formData.account);
 		data.append("picture", formData.picture);
 		data.append("userToken", userToken);
 		data.append(
@@ -72,6 +95,7 @@ const CourseForm = () => {
 			setFormData({
 				course_name: "",
 				course_description: "",
+				account: account,
 				picture: null,
 				teacher:
 					userDetails && userDetails.user
@@ -81,6 +105,7 @@ const CourseForm = () => {
 						: "",
 			});
 			setErrors({});
+			console.log("Account: ", formData.account);
 			setSuccessMessage(`${courseName} created successfully`); // Use the saved course name
 		} catch (error) {
 			if (error.response && error.response.data) {
