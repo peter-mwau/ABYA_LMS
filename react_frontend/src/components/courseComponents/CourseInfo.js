@@ -140,7 +140,7 @@ const CourseInfo = () => {
           isEnrolled ? ( 
             <button className='bg-red-600 dark:bg-red-600 dark:text-white text-gray-100 p-2 rounded my-2 font-semibold' onClick={unenrollCourse}>Unenroll</button>
            ) : ( 
-            <button className='bg-cyan-950 text-gray-100 p-1 rounded my-2 font-semibold dark:bg-gray-200 dark:text-cyan-950 dark:bg-yellow-400' onClick={enrollCourse}>Enroll</button>
+            <button className='bg-cyan-950 text-gray-100 p-1 rounded my-2 font-semibold dark:text-cyan-950 dark:bg-yellow-400' onClick={enrollCourse}>Enroll</button>
           )
          )
          }
@@ -150,11 +150,11 @@ const CourseInfo = () => {
         More Info
       </button>
     )}
-    {/* {user.user_type === "Teacher" && ( */}
+    {user.user_type === "Teacher" && (
       <button onClick={() => navigate(`/course/${courseId}`)} className='bg-gray-500 hover:bg-gray-700 text-white font-bold py-1 px-2 rounded ml-4'>
         More Info
       </button>
-    {/* )} */}
+    )}
     </div>
     </div>
     </>

@@ -111,15 +111,16 @@ class CourseViewSet(viewsets.ModelViewSet):
         if serializer.is_valid():
             # Save the course to the database
             course = serializer.save(teacher=request.user)
-        
+
             # Interact with smart contract to post course
             try:
-                nonce = w3.eth.get_transaction_count(data['teacher_eth_address'])
+                nonce = w3.eth.get_transaction_count(
+                    data['teacher_eth_address'])
                 tx = contract.functions.createCourse(course.id, course.course_name).build_transaction({
-                'from': data['teacher_eth_address'],
-                'nonce': nonce,
-                'gas': 2000000,
-                'gasPrice': w3.to_wei('50', 'gwei')
+                    'from': data['teacher_eth_address'],
+                    'nonce': nonce,
+                    'gas': 2000000,
+                    'gasPrice': w3.to_wei('50', 'gwei')
                 })
 
             # Sign the transaction
@@ -135,16 +136,14 @@ class CourseViewSet(viewsets.ModelViewSet):
                 course.delete()  # Rollback the course creation if blockchain transaction fails
                 return Response({"error": "Blockchain transaction failed"}, status=status.HTTP_400_BAD_REQUEST)
 
-        
             print("teacher: ", request.user)
             print("request: ", request.user.id)
             print("data details: ", data)
             print("User: ", user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
-    
+
         print(serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
 
     @action(detail=True, methods=['post'], url_path='submit-review')
     def submit_review(self, request, pk=None):
@@ -162,7 +161,8 @@ class CourseViewSet(viewsets.ModelViewSet):
             technologyIntegration = int(data.get('technologyIntegration', 0))
             learnerSupport = int(data.get('learnerSupport', 0))
             assessmentForLearning = int(data.get('assessmentForLearning', 0))
-            engagementAndMotivation = int(data.get('engagementAndMotivation', 0))
+            engagementAndMotivation = int(
+                data.get('engagementAndMotivation', 0))
             pk = int(pk)
 
             print("Data: ", data)
@@ -189,13 +189,14 @@ class CourseViewSet(viewsets.ModelViewSet):
                     'gas': 2000000,  # Set the appropriate gas limit
                     'gasPrice': w3.to_wei('30', 'gwei'),
                     'nonce': nonce,
-                    })
+                })
 
                 # Sign the transaction
                 signed_txn = w3.eth.account.sign_transaction(tx, private_key)
 
                 # Send the signed transaction
-                tx_hash = w3.eth.send_raw_transaction(signed_txn.rawTransaction)
+                tx_hash = w3.eth.send_raw_transaction(
+                    signed_txn.rawTransaction)
 
                 # Wait for the transaction to be mined
                 tx_receipt = w3.eth.wait_for_transaction_receipt(tx_hash)
@@ -210,8 +211,6 @@ class CourseViewSet(viewsets.ModelViewSet):
             return Response({"error": "Blockchain transaction failed"}, status=status.HTTP_400_BAD_REQUEST)
         return Response({"error": "Course already approved"}, status=status.HTTP_400_BAD_REQUEST)
 
-
-
     @action(detail=False, methods=['get'], url_path='list-courses')
     def list_courses(self, request):
         """
@@ -220,14 +219,14 @@ class CourseViewSet(viewsets.ModelViewSet):
         user = self.get_user()
         teacher_name = f"{user.first_name} {user.last_name}"
         if user.user_type == 2:
-            queryset = self.get_queryset().filter(Q(teacher_name=teacher_name) & Q(teacher=user))
+            queryset = self.get_queryset().filter(
+                Q(teacher_name=teacher_name) & Q(teacher=user))
         else:
             queryset = self.get_queryset()
         serializer = CourseSerializer(queryset, many=True)
         if not queryset:
             return JsonResponse({'message': 'No courses available at the moment.'}, status=204)
         return JsonResponse(serializer.data, safe=False, status=200)
-
 
     @action(detail=True, methods=['put'], permission_classes=[IsTeacherOfCourse], url_path='update-course')
     def update_course(self, request, pk=None):
@@ -241,7 +240,6 @@ class CourseViewSet(viewsets.ModelViewSet):
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
     @action(detail=True, methods=['get'])
     def completed_lessons_count(self, request, pk=None):
         if request.user.is_authenticated:
@@ -249,8 +247,10 @@ class CourseViewSet(viewsets.ModelViewSet):
             completed_lessons_count = request.user.completed_lessons.filter(
                 lesson__chapter__course=course
             ).count()
-            completed_lessons = CompletedLesson.objects.filter(user=request.user, lesson__chapter__course=course)
-            completed_lesson_ids = [completed_lesson.lesson.id for completed_lesson in completed_lessons]
+            completed_lessons = CompletedLesson.objects.filter(
+                user=request.user, lesson__chapter__course=course)
+            completed_lesson_ids = [
+                completed_lesson.lesson.id for completed_lesson in completed_lessons]
             context = {
                 'completed_lessons_count': completed_lessons_count,
                 'completed_lesson_ids': completed_lesson_ids,
@@ -258,7 +258,6 @@ class CourseViewSet(viewsets.ModelViewSet):
             return Response(context)
         else:
             return Response({'message': 'Invalid request method.'}, status=400)
-
 
     @action(detail=False, methods=['post'], url_path='mark-lesson-as-complete')
     def mark_lesson_as_complete(self, request):
@@ -282,10 +281,10 @@ class CourseViewSet(viewsets.ModelViewSet):
             lesson = Lesson.objects.get(pk=lesson_id)
         except Lesson.DoesNotExist:
             return Response({'message': 'Lesson not found.'}, status=status.HTTP_404_NOT_FOUND)
-            
 
         user = request.user
-        enrollment = Enrollment.objects.filter(student=user, course=lesson.chapter.course).first()
+        enrollment = Enrollment.objects.filter(
+            student=user, course=lesson.chapter.course).first()
         if not enrollment:
             return Response({'message': 'Enrollment does not exist.'}, status=status.HTTP_404_NOT_FOUND)
         # Check if the lesson is already marked as complete for the user
@@ -293,17 +292,20 @@ class CourseViewSet(viewsets.ModelViewSet):
             return Response({'message': 'Lesson is already marked as complete.'}, status=status.HTTP_200_OK)
 
         # Mark the lesson as complete for the user
-        completed_lesson = CompletedLesson(user=user, lesson=lesson, enrollment=enrollment)
+        completed_lesson = CompletedLesson(
+            user=user, lesson=lesson, enrollment=enrollment)
         completed_lesson.save()
 
         # Calculate the completion percentage for the course
         course = lesson.chapter.course
         total_lessons = Lesson.objects.filter(chapter__course=course).count()
         total_quizzes = course.total_quizzes()
-        completed_lessons = user.completed_lessons.filter(lesson__chapter__course=course).count()
+        completed_lessons = user.completed_lessons.filter(
+            lesson__chapter__course=course).count()
         # completed_quizzes = user.completed_quizzes(course)
         # completion_percentage = round(((completed_lessons + completed_quizzes) / (total_lessons + total_quizzes)) * 100)
-        completion_percentage = round(((completed_lessons ) / (total_lessons)) * 100)
+        completion_percentage = round(
+            ((completed_lessons) / (total_lessons)) * 100)
 
         context = {
             'completed_lessons_count': completed_lessons,
@@ -329,7 +331,6 @@ class ChapterViewSet(viewsets.ModelViewSet):
             chapter = serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
 
     @action(detail=True, methods=['put'], permission_classes=[IsTeacherOfChapterCourse])
     def update_chapter(self, request, pk=None):
@@ -357,7 +358,8 @@ class LessonViewSet(viewsets.ModelViewSet):
         """
         serializer = LessonSerializer(data=request.data)
         if serializer.is_valid():
-            user_object = get_object_or_404(User, username=request.user.username)
+            user_object = get_object_or_404(
+                User, username=request.user.username)
             word_file = request.data.get('word_file')
 
             if word_file:
@@ -376,7 +378,6 @@ class LessonViewSet(viewsets.ModelViewSet):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
 
     @action(detail=True, methods=['put'], permission_classes=[IsTeacherOfLessonChapterCourse])
     def update_lesson(self, request, pk=None):
@@ -404,15 +405,15 @@ class CourseDetailAPI(APIView):
             course_name = course.course_name
             course_description = course.course_description
             course_creator = course.teacher_name
-            enrollments = Enrollment.objects.filter(course=course).values('student_id', 'course_id')
+            enrollments = Enrollment.objects.filter(
+                course=course).values('student_id', 'course_id')
         except Course.DoesNotExist:
             return Response({'message': 'Course not found.'}, status=status.HTTP_404_NOT_FOUND)
-
+            
         user = request.user
 
         completed_lesson_ids = []
         chapters = Chapter.objects.filter(course=course)
-        print("Chapter: ",chapters)
 
         chapters_with_lessons = []
         chapters_with_lessons_and_quizzes = {}
@@ -421,16 +422,26 @@ class CourseDetailAPI(APIView):
 
         for chapter in chapters:
             lessons = Lesson.objects.filter(chapter=chapter)
-            lesson_count = lessons.count()
+            quizzes = Quiz.objects.filter(chapter=chapter)
             chapter_pk = chapter.pk
             chapters_with_lessons.append((chapter, lessons))
-            quizzes = Quiz.objects.filter(chapter=chapter)
-            chapters_with_lessons_and_quizzes[chapter] = {
-                'lessons': [ {'id': lesson.id, 'lesson_name': lesson.lesson_name, 'lesson_content': lesson.lesson_content, 'chapter': chapter_pk} for lesson in lessons],
-                'quizzes': [{'id': quiz.id, 'quiz_title': quiz.quiz_title} for quiz in quizzes],
-                'lesson_count': lesson_count,
+            chapters_with_lessons_and_quizzes[chapter.pk] = {
+                'lessons': [
+                    {
+                        'id': lesson.id,
+                        'lesson_name': lesson.lesson_name,
+                        'lesson_content': lesson.lesson_content,
+                        'chapter': chapter.pk
+                    } for lesson in lessons
+                ],
+                'quizzes': [
+                    {
+                        'id': quiz.id,
+                        'quiz_title': quiz.quiz_title
+                    } for quiz in quizzes
+                ],
+                'lesson_count': lessons.count(),
             }
-            print(chapters_with_lessons_and_quizzes)
 
         assignments = Assignment.objects.filter(course=pk)
         resources = Resource.objects.filter(course=pk)
@@ -443,10 +454,14 @@ class CourseDetailAPI(APIView):
         completed_courses = []
 
         if total_lessons > 0 and request.user.is_authenticated:
-            completed_lessons = CompletedLesson.objects.filter(user=user, lesson__chapter__course=course).count()
-            completed_lessons1 = CompletedLesson.objects.filter(user=user, lesson__chapter__course=course)
-            completed_lesson_ids = [completed_lesson.lesson.id for completed_lesson in completed_lessons1]
-            completed_chapter_ids = [completed_lesson.lesson.chapter.id for completed_lesson in completed_lessons1]
+            completed_lessons = CompletedLesson.objects.filter(
+                user=user, lesson__chapter__course=course).count()
+            completed_lessons1 = CompletedLesson.objects.filter(
+                user=user, lesson__chapter__course=course)
+            completed_lesson_ids = [
+                completed_lesson.lesson.id for completed_lesson in completed_lessons1]
+            completed_chapter_ids = [
+                completed_lesson.lesson.chapter.id for completed_lesson in completed_lessons1]
 
             for chapter in chapters:
                 lessons = Lesson.objects.filter(chapter=chapter)
@@ -466,8 +481,8 @@ class CourseDetailAPI(APIView):
 
                 chapter_info = {
                     'chapter_id': chapter.id,
-                    'lessons': lessons,
-                    'quizzes': quizzes,
+                    'lessons': LessonSerializer(lessons, many=True).data,
+                    'quizzes': QuizSerializer(quizzes, many=True).data,
                     'is_completed': is_completed,
                 }
 
@@ -481,10 +496,12 @@ class CourseDetailAPI(APIView):
             if total_chapters == completed_chapters_count:
                 completed_courses.append(course)
 
-            completed_quizzes_count = len(completed_quizzes) if completed_quizzes else 0
-            completed_lessons = CompletedLesson.objects.filter(user=user, lesson__chapter__course=course).count()
+            completed_quizzes_count = len(
+                completed_quizzes) if completed_quizzes else 0
+            completed_lessons = CompletedLesson.objects.filter(
+                user=user, lesson__chapter__course=course).count()
 
-            if total_lessons  == completed_lessons:
+            if total_lessons == completed_lessons:
                 completion_status = True
             else:
                 completion_status = False
@@ -492,13 +509,6 @@ class CourseDetailAPI(APIView):
             completion_percentage = round(
                 ((completed_lessons) / (total_lessons)) * 100)
 
-            # if total_lessons + total_quizzes == completed_lessons + completed_quizzes_count:
-            #     completion_status = True
-            # else:
-            #     completion_status = False
-
-            # completion_percentage = round(
-            #     ((completed_lessons + completed_quizzes_count) / (total_lessons + total_quizzes)) * 100)
         else:
             completed_lessons = 0
             completed_quizzes = 0
@@ -519,9 +529,9 @@ class CourseDetailAPI(APIView):
                 'lessons': LessonSerializer(lessons, many=True).data
             } for chapter, lessons in chapters_with_lessons],
             'chapters_with_lessons_and_quizzes': [{
-                'chapter': ChapterSerializer(chapter).data,
-                'lessons': LessonSerializer(data['lessons'], many=True).data,
-                'quizzes': QuizSerializer(data['quizzes'], many=True).data,
+                'chapter': ChapterSerializer(Chapter.objects.get(pk=chapter)).data if isinstance(chapter, int) else ChapterSerializer(chapter).data,
+                'lessons': data['lessons'],
+                'quizzes': data['quizzes'],
                 'lesson_count': data['lesson_count']
             } for chapter, data in chapters_with_lessons_and_quizzes.items()],
             'total_lessons': total_lessons,
@@ -535,7 +545,7 @@ class CourseDetailAPI(APIView):
             'lesson_count': lesson_count,
             'chapters_with_completion': chapters_with_completion,
             'completion_status': completion_status,
-            'completed_courses': completed_courses,
+            'completed_courses': [course.pk for course in completed_courses],
             'course_name': course_name,
             'course_description': course_description,
             'course_creator': course_creator,
@@ -543,7 +553,6 @@ class CourseDetailAPI(APIView):
         }
 
         return Response(context, status=status.HTTP_200_OK)
-    
 
 
 
@@ -570,7 +579,7 @@ class CourseInfoAPI(RetrieveAPIView):
             for chapter in chapters:
                 lessons = Lesson.objects.filter(chapter=chapter)
                 quizzes = Quiz.objects.filter(chapter=chapter)
-                
+
                 # Add to the total counts
                 total_lessons += lessons.count()
                 total_quizzes += quizzes.count()
@@ -594,7 +603,8 @@ class CourseInfoAPI(RetrieveAPIView):
 class EnrollCourseAPI(APIView):
     def post(self, request, pk, format=None):
         course = get_object_or_404(Course, pk=pk)
-        enrollment, created = Enrollment.objects.get_or_create(student=request.user, course=course)
+        enrollment, created = Enrollment.objects.get_or_create(
+            student=request.user, course=course)
         if created:
             return Response({'detail': 'You are now enrolled in the course.'}, status=status.HTTP_201_CREATED)
         else:
@@ -609,7 +619,8 @@ class UnenrollCourseAPI(APIView):
         Handling unenrolling a course
         """
         try:
-            enrollment = Enrollment.objects.get(student=request.user, course__pk=pk)
+            enrollment = Enrollment.objects.get(
+                student=request.user, course__pk=pk)
         except Enrollment.DoesNotExist:
             return Response({'detail': 'You are not enrolled in this course.'}, status=status.HTTP_404_NOT_FOUND)
         else:
@@ -624,7 +635,8 @@ class CertificateAPIView(APIView):
         course = get_object_or_404(Course, pk=course_id)
 
         try:
-            existing_certificate = Certificate.objects.get(user=user, course=course)
+            existing_certificate = Certificate.objects.get(
+                user=user, course=course)
             serializer = CertificateSerializer(existing_certificate)
             return Response(serializer.data, status=status.HTTP_200_OK)
         except ObjectDoesNotExist:
@@ -666,6 +678,8 @@ class CertificateAPIView(APIView):
             else:
                 return Response({"error": "Incomplete certificate data"}, status=status.HTTP_400_BAD_REQUEST)
 # View that handles the certificate access and retrieval
+
+
 def certificate_view(request, course_id):
     """
         Handling certificate data access
@@ -674,7 +688,8 @@ def certificate_view(request, course_id):
     course = get_object_or_404(Course, pk=course_id)
 
     try:
-        existing_certificate = Certificate.objects.get(user=user, course=course)
+        existing_certificate = Certificate.objects.get(
+            user=user, course=course)
         name = existing_certificate.name
         issuer_date = existing_certificate.issued_at
         issuer = existing_certificate.issuer
@@ -741,8 +756,10 @@ def get_completed_lessons_count(request, course_id):
             lesson__chapter__course=course
         ).count()
         # Access and print the lesson IDs directly
-        completed_lessons1 = CompletedLesson.objects.filter(user=request.user, lesson__chapter__course=course)
-        completed_lesson_ids = [completed_lesson.lesson.id for completed_lesson in completed_lessons1]
+        completed_lessons1 = CompletedLesson.objects.filter(
+            user=request.user, lesson__chapter__course=course)
+        completed_lesson_ids = [
+            completed_lesson.lesson.id for completed_lesson in completed_lessons1]
         print("Lesson IDss completed:", completed_lesson_ids)
         for i in completed_lesson_ids:
             # count
@@ -757,7 +774,6 @@ def get_completed_lessons_count(request, course_id):
         return JsonResponse(context)
     else:
         return JsonResponse({'message': 'Invalid request method.'}, status=400)
-
 
 
 @csrf_protect
@@ -775,7 +791,8 @@ def update_video_progress(request):
             video_lesson = VideoLesson.objects.get(video_lesson_id=video_id)
 
             # Find the VideoProgress object for the specified video_lesson and user
-            video_progress, created = VideoProgress.objects.get_or_create(video_lesson=video_lesson, user=request.user)
+            video_progress, created = VideoProgress.objects.get_or_create(
+                video_lesson=video_lesson, user=request.user)
 
             # Check if the progress is 75% and update the status only if it's not already True
             if float(progress) > 75 and not video_progress.status:
@@ -823,7 +840,8 @@ class UpdateVideoProgressAPI(APIView):
             progress = serializer.validated_data.get('progress')
 
             try:
-                video_lesson = VideoLesson.objects.get(video_lesson_id=video_id)
+                video_lesson = VideoLesson.objects.get(
+                    video_lesson_id=video_id)
                 video_progress, created = VideoProgress.objects.get_or_create(video_lesson=video_lesson,
                                                                               user=request.user)
 
