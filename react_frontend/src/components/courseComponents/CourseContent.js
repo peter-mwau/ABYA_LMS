@@ -97,8 +97,8 @@ const CourseContent = () => {
 
 
   return (
-    <div className=" mx-auto p-4 text-cyan-950 dark:bg-gray-800 dark:text-gray-100 md:pl-[270px] md:m-0 lg:mx-auto  lg:h-[100vh] lg:px-[500px]">
-      <h1 className="text-3xl font-bold mb-4 px-2">{courseData.course_name}</h1>
+    <div className=" mx-auto p-4 text-cyan-950 dark:bg-gray-800 dark:text-gray-100 md:pl-[270px] md:m-0 lg:mx-auto  lg:h-auto lg:px-[500px]">
+      <h1 className="text-3xl font-bold mb-4 px-2 mt-[50px]">{courseData.course_name}</h1>
       {user.user_type === "Student" && (
         <div className="relative bg-gray-200 rounded-xl h-4 dark:bg-gray-700">
           <div className={`absolute left-0 top-0 h-4 rounded-xl ${progressBarPercentage > 0 ? 'bg-yellow-400' : ''}`} style={{ width: `${Math.max(progressBarPercentage, 5)}%` }}>
@@ -106,35 +106,34 @@ const CourseContent = () => {
           </div>
         </div>
       )}
-      <p className='text-justify p-2 dark:text-gray-300'>{courseData.course_description}</p>
+      <p className='text-justify p-2 dark:text-gray-300 text-xl mt-5'>{courseData.course_description}</p>
       <div className="mb-6">
         {/* <h2 className="text-2xl font-semibold mb-2">Chapters</h2> */}
         {courseData.chapters_with_lessons_and_quizzes.map((chapter, index) => (
-          <div key={index} className="border p-4 mb-4 rounded-lg">
-            <h3 className="text-xl font-bold">{chapter.chapter.chapter_name}</h3>
+          <div key={index} className="border dark:border-none mt-[80px] p-4 mb-4 rounded-lg">
+            <h3 className="text-2xl font-bold">{chapter.chapter.chapter_name}</h3>
             {/* Assuming `getQuizIdForChapter` is a function that returns the quiz ID for a given chapter ID */}
             {user.user_type === "Student" && (
               chapter.quizzes && chapter.quizzes.length > 0 ? (
-                <Link to={`/quiz-detail/${chapter.quizzes[0].id}`} className="text-cyan-900 hover:text-yellow-400 underline hover:cursor-pointer">Take Quiz</Link>
+                <Link to={`/quiz-detail/${chapter.quizzes[0].id}`} className="text-cyan-900 hover:text-yellow-400 underline hover:cursor-pointer dark:text-white">Take Quiz</Link>
               ) : (
-                <p className='text-red-400'>No Quiz</p>
+                <p className='text-red-400 dark:text-red-500'>No Quiz</p>
               )
             )}
             {/* <Link to={`/quiz/${quizId}`}>Go to Quiz</Link> */}
-            <div className="mt-4">
+            <div className="mt-4 pb-5">
               {chapter.lessons.map((lesson, lessonIndex) => (
                 <div key={lesson.id} className="ml-4 mt-2">
                   <h5 className="text-gray-800 font-semibold text-xl">{`Lesson ${lessonIndex + 1}: ${lesson.lesson_name}`}</h5>
-                  <p className="text-gray-700  dark:text-gray-300">{lesson.lesson_content}</p>
+                  <p className="text-gray-700 text-xl dark:text-gray-300">{lesson.lesson_content}</p>
                   <p className='my-2 text-yellow-500'>Video: {lesson.video}</p>
                   {user.user_type === "Student" && !completedLessons[lesson.id] && (
                     <button
                       onClick={() => HandleMarkAsRead(lesson.id, index, chapter.lessons.length)}
-                      className='bg-cyan-950 text-gray-200 rounded hover:bg-yellow-500 p-2 font-semibold'
-                    >
-                      Mark as Read
-                    </button>
+                      className='bg-cyan-950 text-gray-200 rounded dark:bg-cyan-800 hover:bg-yellow-500 p-2 font-semibold'>Mark as Read</button>
                   )}
+                  {/* <hr className='py-2 mt-10' /> */}
+                  <hr style={{ borderTop: '2px solid #E3A008', margin: '20px 0' }} />
                   {completedLessons[lesson.id] && (
                     <p className="text-green-500">Lesson completed!</p>
                   )}
