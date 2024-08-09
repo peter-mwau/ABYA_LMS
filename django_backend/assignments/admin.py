@@ -19,7 +19,7 @@ class ChoiceAdmin(admin.ModelAdmin):
 
 class CompletedQuizAdmin(admin.ModelAdmin):
     list_display = ('id', 'quiz', 'user', 'completed_at')
-    ordering = ('id',)
+    ordering = ('completed_at',)
 
 class QuizSubmissionAdmin(admin.ModelAdmin):
     list_display = ('id', 'student', 'score', 'submitted_on')

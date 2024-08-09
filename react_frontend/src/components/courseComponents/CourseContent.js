@@ -16,6 +16,16 @@ const CourseContent = () => {
   const [showCongratsPopup, setShowCongratsPopup] = useState(false);
   const navigate = useNavigate();
 
+  const [completedLessons, setCompletedLessons] = useState(() => {
+    const saved = localStorage.getItem('completedLessons');
+    return saved ? JSON.parse(saved) : {};
+  });
+
+   // Save completedLessons to local storage whenever it changes
+   useEffect(() => {
+    localStorage.setItem('completedLessons', JSON.stringify(completedLessons));
+  }, [completedLessons]);
+
 
   useEffect(() => {
     if (completionPercentage === 100) {
@@ -47,8 +57,6 @@ const CourseContent = () => {
 
   console.log("Percentage: ", completionPercentage);
 
-  const [completedLessons, setCompletedLessons] = useState({});
-
   const { quizId } = useParams();
   const progressBarPercentage = completionPercentage;
   const totalProgress = Object.values(progress).reduce((acc, curr) => acc + curr, 0) / Object.keys(progress).length || 0;
@@ -69,7 +77,7 @@ const CourseContent = () => {
 
       if (response.status === 200) {
         setCompletedLessons(prev => ({ ...prev, [lessonId]: true }));
-
+        // window.location.reload();
         // Update progress for the chapter
         const chapterProgress = ((progress[chapterIndex] || 0) + 1) / totalLessons;
         setProgress(prev => ({
@@ -117,7 +125,7 @@ const CourseContent = () => {
               chapter.quizzes && chapter.quizzes.length > 0 ? (
                 <Link to={`/quiz-detail/${chapter.quizzes[0].id}`} className="text-cyan-900 hover:text-yellow-400 underline hover:cursor-pointer dark:text-white">Take Quiz</Link>
               ) : (
-                <p className='text-red-400 dark:text-red-500'>No Quiz</p>
+                <p className='text-red-400 dark:text-red-500 underline'>No Quiz</p>
               )
             )}
             {/* <Link to={`/quiz/${quizId}`}>Go to Quiz</Link> */}
@@ -127,16 +135,23 @@ const CourseContent = () => {
                   <h5 className="text-gray-800 font-semibold text-xl">{`Lesson ${lessonIndex + 1}: ${lesson.lesson_name}`}</h5>
                   <p className="text-gray-700 text-xl dark:text-gray-300">{lesson.lesson_content}</p>
                   <p className='my-2 text-yellow-500'>Video: {lesson.video}</p>
-                  {user.user_type === "Student" && !completedLessons[lesson.id] && (
+                  {user.user_type === "Student" && (
                     <button
-                      onClick={() => HandleMarkAsRead(lesson.id, index, chapter.lessons.length)}
-                      className='bg-cyan-950 text-gray-200 rounded dark:bg-cyan-800 hover:bg-yellow-500 p-2 font-semibold'>Mark as Read</button>
+                    onClick={() => HandleMarkAsRead(lesson.id, lessonIndex, chapter.lessons.length)}
+                    disabled={!!completedLessons[lesson.id]}
+                    className={`${
+                      !!completedLessons[lesson.id]
+                        ? 'bg-gray-400 text-gray-200 cursor-not-allowed'
+                        : 'bg-cyan-950 text-gray-200 hover:bg-yellow-500'
+                    } rounded p-2 font-semibold`}>
+                    Mark as Read
+                  </button>
                   )}
                   {/* <hr className='py-2 mt-10' /> */}
                   <hr style={{ borderTop: '2px solid #E3A008', margin: '20px 0' }} />
-                  {completedLessons[lesson.id] && (
+                  {/* {completedLessons[lesson.id] && (
                     <p className="text-green-500">Lesson completed!</p>
-                  )}
+                  )} */}
                 </div>
               ))}
             </div>

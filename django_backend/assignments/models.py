@@ -42,6 +42,7 @@ class CompletedQuiz(models.Model):
 
     class Meta:
         unique_together = ('user', 'quiz')
+        ordering = ['completed_at']
 
 
 class Question(models.Model):
