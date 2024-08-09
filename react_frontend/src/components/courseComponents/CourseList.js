@@ -38,7 +38,7 @@ const CourseList = () => {
 	console.log(courses);
 
 	return (
-		<div className="md:ml-[33%] lg:ml-[19%] w-full md:w-[67%] lg:w-[80%] mt-5 md:px-0">
+		<div className="md:ml-[33%] lg:ml-[19%] w-full md:w-[67%] lg:w-[80%] mt-5 md:px-0 h-[100vh]">
 			{user?.user_type === "Teacher" && (
 				<div className="flex items-center md:fixed md:right-10 bottom-0 z-40 justify-center float-right mr-4 mb-4 lg:h-50">
 					<a

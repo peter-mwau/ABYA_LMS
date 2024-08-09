@@ -15,7 +15,7 @@ function Navbar() {
 	const [isLoading, setIsLoading] = useState(false);
 	const baseUrl = "http://localhost:8000/users";
 
-	const { account, connectWallet, disconnectWallet } =
+	const { account,balance, isWalletConnected, connectWallet, disconnectWallet } =
 		useContext(WalletContext);
 
 	useEffect(() => {
@@ -70,7 +70,7 @@ function Navbar() {
 
 	return (
 		<nav class="bg-gray-50 dark:bg-gray-900 sticky z-50 top-0">
-			<div class="max-w-screen-2xl flex flex-wrap items-center justify-between mx-auto p-4 border">
+			<div class="max-w-screen-2xl flex flex-wrap items-center justify-between mx-auto p-4">
 				<a
 					href="https://flowbite.com/"
 					class="flex items-center space-x-3 rtl:space-x-reverse md:w-[200px]"
@@ -100,7 +100,7 @@ function Navbar() {
 							<span class="sr-only">Open user menu</span>
 							{/* <img class="w-8 h-8 rounded-full hidden md:flex lg:flex" src="/profile-picture-3.jpg" alt="user photo" /> */}
 							<img
-								class="w-12 h-12 rounded-full"
+								className={`w-12 h-12 rounded-full ${isWalletConnected ? 'border-4 border-green-500' : 'border-3 border-gray-500'}`}
 								src={
 									user && user.avatar
 										? `${baseUrl}${user.avatar}`
@@ -141,6 +141,15 @@ function Navbar() {
 									</a>
 								</li>
 								<li>
+								<div className="px-4 w-[300px]">
+                                    {/* Wallet details content here */}
+                                    <p className='font-light text-sm text-gray-700 dark:text-gray-50'>Wallet Address:</p>
+                                    <span className='text-wrap italic text-sm font-semibold dark:text-gray-50 break-words items-center justify-center py-2'>{account}</span>
+                                    <p className='font-light text-sm text-gray-700 dark:text-gray-50'>Balance:</p>
+                                    <span className='text-wrap italic text-sm font-semibold dark:text-gray-50 items-center justify-center py-2'> {isWalletConnected ?balance : '0'} ETH</span>
+                                </div>
+								</li>
+								<li>
 									<a
 										href="#me"
 										class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
@@ -159,7 +168,7 @@ function Navbar() {
 								<li>
 									<button
 										onClick={logout}
-										class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+										class="block px-4 py-2 w-full text-start text-sm text-red-600 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-red-500 dark:hover:text-white"
 									>
 										Sign out
 									</button>
@@ -196,15 +205,6 @@ function Navbar() {
 						id="navbar-user"
 					>
 						<ul class="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0  dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-							{/* <li>
-							<a
-								href="/dashboard"
-								class="block py-2 px-3 text-white hover:underline rounded md:bg-transparent md:text-yellow-500 md:p-0 md:dark:text-yellow-400"
-								aria-current="page"
-							>
-								Dashboard
-							</a>
-						</li> */}
 							{/* This is hidden in lg views */}
 							<li className="md:hidden">
 								<a
@@ -214,38 +214,7 @@ function Navbar() {
 									Profile
 								</a>
 							</li>
-							{/* <li>
-							<a
-								href="#me"
-								class="block py-2 px-3 text-cyan-950 hover:text-yellow-500 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-yellow-500 md:p-0 dark:text-white md:dark:hover:text-yellow-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
-							>
-								Enrolled Courses
-							</a>
-						</li>
-						<li>
-							<a
-								href="#me"
-								class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-yellow-500 md:p-0 dark:text-white md:dark:hover:text-yellow-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
-							>
-								Library
-							</a>
-						</li>
-						<li>
-							<a
-								href="#me"
-								class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-yellow-500 md:p-0 dark:text-white md:dark:hover:text-yellow-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
-							>
-								Pricing
-							</a>
-						</li>
-						<li>
-							<a
-								href="#me"
-								class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-yellow-500 md:p-0 dark:text-white md:dark:hover:text-yellow-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
-							>
-								Contact
-							</a>
-						</li> */}
+							
 							{/* Metamask Connect Button */}
 							{account ? (
 								<button

@@ -95,7 +95,6 @@ const SideNav = () => {
 							</span>
 						</a>
 					</li>
-					<li>
 						<a
 							href="/Course-list"
 							class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
@@ -123,184 +122,6 @@ const SideNav = () => {
 
 							<span class="flex-1 ms-3 whitespace-nowrap">Courses</span>
 						</a>
-						{/* <Link
-							to="/create-quiz"
-							className="dark:hover:bg-gray-700 pl-10 p-2 hover:bg-gray-100 rounded-md flex flex-row gap-3"
-							>
-							<svg
-								className="w-6 h-6 text-gray-800 dark:text-white"
-								aria-hidden="true"
-								xmlns="http://www.w3.org/2000/svg"
-								width="24"
-								height="24"
-								fill="currentColor"
-								viewBox="0 0 24 24"
-							>
-								<path
-								fillRule="evenodd"
-								d="M8 7V2.221a2 2 0 0 0-.5.365L3.586 6.5a2 2 0 0 0-.365.5H8Zm2 0V2h7a2 2 0 0 1 2 2v.126a5.087 5.087 0 0 0-4.74 1.368v.001l-6.642 6.642a3 3 0 0 0-.82 1.532l-.74 3.692a3 3 0 0 0 3.53 3.53l3.694-.738a3 3 0 0 0 1.532-.82L19 15.149V20a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9h5a2 2 0 0 0 2-2Z"
-								clipRule="evenodd"
-								/>
-								<path
-								fillRule="evenodd"
-								d="M17.447 8.08a1.087 1.087 0 0 1 1.187.238l.002.001a1.088 1.088 0 0 1 0 1.539l-.377.377-1.54-1.542.373-.374.002-.001c.1-.102.22-.182.353-.237Zm-2.143 2.027-4.644 4.644-.385 1.924 1.925-.385 4.644-4.642-1.54-1.54Zm2.56-4.11a3.087 3.087 0 0 0-2.187.909l-6.645 6.645a1 1 0 0 0-.274.51l-.739 3.693a1 1 0 0 0 1.177 1.176l3.693-.738a1 1 0 0 0 .51-.274l6.65-6.646a3.088 3.088 0 0 0-2.185-5.275Z"
-								clipRule="evenodd"
-								/>
-							</svg>
-							Create Quiz
-						</Link> */}
-					</li>
-					{/* {userDetails.user.user_type === "Student" && (
-						<li>
-							<button
-								type="button"
-								class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-								aria-controls="dropdown-example"
-								data-collapse-toggle="dropdown-example"
-							>
-								<svg
-									class="w-6 h-6 text-gray-800 dark:text-white"
-									aria-hidden="true"
-									xmlns="http://www.w3.org/2000/svg"
-									fill="none"
-									viewBox="0 0 20 20"
-								>
-									<path
-										stroke="currentColor"
-										stroke-linecap="round"
-										stroke-linejoin="round"
-										stroke-width="2"
-										d="M7.75 4H19M7.75 4a2.25 2.25 0 0 1-4.5 0m4.5 0a2.25 2.25 0 0 0-4.5 0M1 4h2.25m13.5 6H19m-2.25 0a2.25 2.25 0 0 1-4.5 0m4.5 0a2.25 2.25 0 0 0-4.5 0M1 10h11.25m-4.5 6H19M7.75 16a2.25 2.25 0 0 1-4.5 0m4.5 0a2.25 2.25 0 0 0-4.5 0M1 16h2.25"
-									/>
-								</svg>
-								<span class="flex-1 ms-3 text-left rtl:text-right whitespace-nowrap">
-									Your Courses
-								</span>
-								<svg
-									class="w-3 h-3"
-									onClick={toggleDropdown}
-									aria-hidden="true"
-									xmlns="http://www.w3.org/2000/svg"
-									fill="none"
-									viewBox="0 0 10 6"
-								>
-									<path
-										stroke="currentColor"
-										stroke-linecap="round"
-										stroke-linejoin="round"
-										stroke-width="2"
-										d="m1 1 4 4 4-4"
-									/>
-								</svg>
-							</button>
-							<ul
-								id="dropdown-example"
-								class="hidden py-2 space-y-2"
-								className={`py-2 space-y-2 ${isDropdownOpen ? "" : "hidden"}`}
-							>
-								<li>
-									<a
-										href="#me"
-										class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-									>
-										Course 1
-									</a>
-								</li>
-								<li>
-									<a
-										href="#me"
-										class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-									>
-										Course 2
-									</a>
-								</li>
-								<li>
-									<a
-										href="#me"
-										class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-									>
-										Course 3
-									</a>
-								</li>
-							</ul>
-						</li>
-					)}
-					{userDetails.user.user_type === "Teacher" && (
-						<>
-							<ul className="flex flex-col gap-y-3 dark:text-gray-100">
-								<Link
-									to="/create-course"
-									className="dark:hover:bg-gray-700  pl-10 p-2 hover:bg-gray-100 rounded-md flex flex-row gap-3"
-								>
-									<svg
-										class="w-6 h-6 text-gray-800 dark:text-white"
-										aria-hidden="true"
-										xmlns="http://www.w3.org/2000/svg"
-										width="24"
-										height="24"
-										fill="currentColor"
-										viewBox="0 0 24 24"
-									>
-										<path
-											fill-rule="evenodd"
-											d="M8 7V2.221a2 2 0 0 0-.5.365L3.586 6.5a2 2 0 0 0-.365.5H8Zm2 0V2h7a2 2 0 0 1 2 2v.126a5.087 5.087 0 0 0-4.74 1.368v.001l-6.642 6.642a3 3 0 0 0-.82 1.532l-.74 3.692a3 3 0 0 0 3.53 3.53l3.694-.738a3 3 0 0 0 1.532-.82L19 15.149V20a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9h5a2 2 0 0 0 2-2Z"
-											clip-rule="evenodd"
-										/>
-										<path
-											fill-rule="evenodd"
-											d="M17.447 8.08a1.087 1.087 0 0 1 1.187.238l.002.001a1.088 1.088 0 0 1 0 1.539l-.377.377-1.54-1.542.373-.374.002-.001c.1-.102.22-.182.353-.237Zm-2.143 2.027-4.644 4.644-.385 1.924 1.925-.385 4.644-4.642-1.54-1.54Zm2.56-4.11a3.087 3.087 0 0 0-2.187.909l-6.645 6.645a1 1 0 0 0-.274.51l-.739 3.693a1 1 0 0 0 1.177 1.176l3.693-.738a1 1 0 0 0 .51-.274l6.65-6.646a3.088 3.088 0 0 0-2.185-5.275Z"
-											clip-rule="evenodd"
-										/>
-									</svg>
-									Create Course
-								</Link>
-								<Link
-									to="/create-lesson"
-									className="dark:hover:bg-gray-700 pl-10 p-2 hover:bg-gray-100 rounded-md flex flex-row gap-3"
-								>
-									<svg
-										class="w-6 h-6 text-gray-800 dark:text-white"
-										aria-hidden="true"
-										xmlns="http://www.w3.org/2000/svg"
-										width="24"
-										height="24"
-										fill="none"
-										viewBox="0 0 24 24"
-									>
-										<path
-											stroke="currentColor"
-											stroke-linecap="round"
-											stroke-linejoin="round"
-											stroke-width="2"
-											d="M18 9V4a1 1 0 0 0-1-1H8.914a1 1 0 0 0-.707.293L4.293 7.207A1 1 0 0 0 4 7.914V20a1 1 0 0 0 1 1h4M9 3v4a1 1 0 0 1-1 1H4m11 6v4m-2-2h4m3 0a5 5 0 1 1-10 0 5 5 0 0 1 10 0Z"
-										/>
-									</svg>
-									Create Lesson
-								</Link>
-								<Link
-									to="/create-chapter"
-									className="dark:hover:bg-gray-700 pl-10 p-2 hover:bg-gray-100 rounded-md flex flex-row gap-3"
-								>
-									<svg
-										class="w-6 h-6 text-gray-800 dark:text-white"
-										aria-hidden="true"
-										xmlns="http://www.w3.org/2000/svg"
-										width="24"
-										height="24"
-										fill="currentColor"
-										viewBox="0 0 24 24"
-									>
-										<path
-											fill-rule="evenodd"
-											d="M9 7V2.221a2 2 0 0 0-.5.365L4.586 6.5a2 2 0 0 0-.365.5H9Zm2 0V2h7a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V9h5a2 2 0 0 0 2-2Zm2-2a1 1 0 1 0 0 2h3a1 1 0 1 0 0-2h-3Zm0 3a1 1 0 1 0 0 2h3a1 1 0 1 0 0-2h-3Zm-6 4a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1v-6Zm8 1v1h-2v-1h2Zm0 3h-2v1h2v-1Zm-4-3v1H9v-1h2Zm0 3H9v1h2v-1Z"
-											clip-rule="evenodd"
-										/>
-									</svg>
-									Create Chapter
-								</Link>
-							</ul>
-						</>
-					)} */}
 					<li>
 						<a
 							href="#me"
@@ -349,7 +170,7 @@ const SideNav = () => {
 					<li>
 						<button
 							onClick={logout}
-							class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+							class="flex items-center p-2 w-full text-start text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
 						>
 							<svg
 								class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
