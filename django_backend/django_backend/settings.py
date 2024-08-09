@@ -159,17 +159,12 @@ WSGI_APPLICATION = 'django_backend.wsgi.application'
 
 DATABASES = {
     'default': {
-<<<<<<< HEAD
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'abya_database2',
         'USER': 'root',
         'PASSWORD': 'password',
         'HOST': 'localhost',
         'PORT': '3306'
-=======
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
->>>>>>> be1798016baec6b1b06eeb4b98fa5810badcb852
     }
 }
 

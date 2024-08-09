@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import illustration from "./images/illustration.jpg";
 import { UserContext } from "./contexts/userContext";
 import WalletContext from "./contexts/walletContext";
+import { initFlowbite } from "flowbite";
 
 function Navbar() {
 	// const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
@@ -16,6 +17,10 @@ function Navbar() {
 
 	const { account, connectWallet, disconnectWallet } =
 		useContext(WalletContext);
+
+	useEffect(() => {
+		initFlowbite();
+	}, [])
 
 	useEffect(() => {
 		if (darkMode) {

@@ -412,6 +412,7 @@ class CourseDetailAPI(APIView):
 
         completed_lesson_ids = []
         chapters = Chapter.objects.filter(course=course)
+        print("Chapter: ",chapters)
 
         chapters_with_lessons = []
         chapters_with_lessons_and_quizzes = {}
@@ -421,11 +422,12 @@ class CourseDetailAPI(APIView):
         for chapter in chapters:
             lessons = Lesson.objects.filter(chapter=chapter)
             lesson_count = lessons.count()
+            chapter_pk = chapter.pk
             chapters_with_lessons.append((chapter, lessons))
             quizzes = Quiz.objects.filter(chapter=chapter)
             chapters_with_lessons_and_quizzes[chapter] = {
-                'lessons': [ {'id': lesson.id, 'lesson_name': lesson.lesson_name, 'lesson_content': lesson.lesson_content} for lesson in lessons],
-                'quizzes': [{'id': quiz.id, 'quiz_name': quiz.quiz_name} for quiz in quizzes],
+                'lessons': [ {'id': lesson.id, 'lesson_name': lesson.lesson_name, 'lesson_content': lesson.lesson_content, 'chapter': chapter_pk} for lesson in lessons],
+                'quizzes': [{'id': quiz.id, 'quiz_title': quiz.quiz_title} for quiz in quizzes],
                 'lesson_count': lesson_count,
             }
             print(chapters_with_lessons_and_quizzes)
@@ -547,21 +549,45 @@ class CourseDetailAPI(APIView):
 
 # 5. Endpoint dediate to show details and overview (preview) of a course
 class CourseInfoAPI(RetrieveAPIView):
-    queryset = Course.objects.all()
-    serializer_class = CourseSerializer
-    permission_classes = [permissions.IsAuthenticated]
 
-    def retrieve(self, request, *args, **kwargs):
-        instance = self.get_object()
-        serializer = self.get_serializer(instance)
+    def get(self, request, pk):
+        """
+        Handling listing and access of a course component to the user
+        """
+        try:
+            course = get_object_or_404(Course, pk=pk)
+            course_data = CourseSerializer(course).data
+            # Initialize counters
+            total_chapters = 0
+            total_lessons = 0
+            total_quizzes = 0
 
-        chapters = Chapter.objects.filter(course=instance)
-        chapter_serializer = ChapterSerializer(chapters, many=True)
+            # Retrieve all chapters for the course
+            chapters = Chapter.objects.filter(course=course)
+            total_chapters = chapters.count()
 
-        return Response({
-            'course': serializer.data,
-            'chapters': chapter_serializer.data,
-        })
+            # Iterate through each chapter to retrieve lessons and quizzes
+            for chapter in chapters:
+                lessons = Lesson.objects.filter(chapter=chapter)
+                quizzes = Quiz.objects.filter(chapter=chapter)
+                
+                # Add to the total counts
+                total_lessons += lessons.count()
+                total_quizzes += quizzes.count()
+
+            # Add counts to course data
+            course_data['total_chapters'] = total_chapters
+            course_data['total_lessons'] = total_lessons
+            course_data['total_quizzes'] = total_quizzes
+            print("chapter count: ", total_chapters)
+            print("lesson count: ", total_lessons)
+            print("quiz count: ", total_quizzes)
+
+            print("course details: ", course_data)
+        except Course.DoesNotExist:
+            return Response({'message': 'Course not found.'}, status=status.HTTP_404_NOT_FOUND)
+
+        return Response(course_data, status=status.HTTP_200_OK)
 
 
 # 6. Endpoint for handling enrolling of a course

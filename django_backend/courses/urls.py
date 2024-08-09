@@ -18,7 +18,7 @@ app_name = "courses"
 # Links to different subpages of the app
 urlpatterns = [
     path('',include(router.urls)),
-    path('course_detail/<int:pk>/', views.CourseDetailAPI.as_view(), name='course_detail_api'),
+    path('course_detail/<int:pk>/', views.CourseDetailAPI.as_view(), name='course_detail'),
     path('course_info/<int:pk>/', views.CourseInfoAPI.as_view(), name='course_info'),
     path('enroll/<int:pk>/', views.EnrollCourseAPI.as_view(), name='enroll'),
     path('unenroll/<int:pk>/', views.UnenrollCourseAPI.as_view(), name='unenroll'),
