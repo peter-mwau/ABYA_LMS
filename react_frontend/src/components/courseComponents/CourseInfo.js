@@ -29,7 +29,9 @@ const CourseInfo = () => {
 
       if (response.status === 200) {
         setCourseDetails(response.data);
+        setIsEnrolled(response.data.is_enrolled);
         console.log("COURSE DETAILS:  ", courseDetails);
+        console.log("Enrollment Status:  ", isEnrolled);
       } else {
         setErrorMessage('Failed to fetch course details');
       }
@@ -93,27 +95,6 @@ const CourseInfo = () => {
   };
   
 
-
-  // useEffect(() => {
-  //   fetchCourseDetails()
-  //     .then(data => {
-  //       setCourseDetails(data);
-  //       setLoading(false);
-  //     })
-  //     .catch(error => {
-  //       console.error('Failed to fetch course details:', error);
-  //       setErrorMessage('Failed to load course details.');
-  //       setLoading(false);
-  //     });
-  // }, []);
-
- 
-
-
-
-  // const numberOfChapters = courseDetails.chapters_with_lessons.length;
-  // const numberOfLessons = courseDetails.chapters_with_lessons.reduce((acc, chapter) => acc + chapter.lessons.length, 0);
-
   return (
     <>
     <div className='dark:bg-gray-800 h-[100vh]'>
@@ -128,9 +109,6 @@ const CourseInfo = () => {
        <p className='text-justify text-md dark:text-gray-300 py-3'>Total Quizes: <span className='font-semibold italic'>{courseDetails['total_quizzes']}</span></p>
        <p className='text-justify text-md dark:text-gray-300 py-3'>Enrolled Students: <span className='font-semibold italic'>{courseDetails['students']?.length || 0}</span></p>
        <p className='text-justify text-md dark:text-gray-300 py-3'>Course Creator: <span className='font-semibold italic'>{courseDetails['teacher_name']}</span></p>
-      {/* <p className='mt-2'>Number of Chapters: <spam className="font-bold px-2">{numberOfChapters}</spam></p> */}
-      {/* <p>Number of Lessons: <spam className="font-bold px-2">{numberOfLessons}</spam></p> */}
-      {/* <p>Course Creator: <spam className="font-bold px-2">{courseDetails.course_creator}</spam></p> */}
       </>
     ) : (
       <div>Loading course details...</div> // Or any other placeholder content
@@ -149,9 +127,9 @@ const CourseInfo = () => {
       <button onClick={() => navigate(`/course/${courseId}`)} className='bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded ml-4'>
         More Info
       </button>
-    )}
+)}
     {user.user_type === "Teacher" && (
-      <button onClick={() => navigate(`/course/${courseId}`)} className='bg-gray-500 hover:bg-gray-700 text-white font-bold py-1 px-2 rounded ml-4'>
+      <button onClick={() => navigate(`/course/${courseId}`)} className='bg-gray-500 hover:bg-gray-700 text-white font-bold py-1 px-2 rounded ml-2'>
         More Info
       </button>
     )}

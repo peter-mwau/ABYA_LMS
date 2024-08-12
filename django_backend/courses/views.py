@@ -566,6 +566,8 @@ class CourseInfoAPI(RetrieveAPIView):
         try:
             course = get_object_or_404(Course, pk=pk)
             course_data = CourseSerializer(course).data
+
+            print("Course: ", course)
             # Initialize counters
             total_chapters = 0
             total_lessons = 0
@@ -584,15 +586,19 @@ class CourseInfoAPI(RetrieveAPIView):
                 total_lessons += lessons.count()
                 total_quizzes += quizzes.count()
 
-            # Add counts to course data
-            course_data['total_chapters'] = total_chapters
-            course_data['total_lessons'] = total_lessons
-            course_data['total_quizzes'] = total_quizzes
-            print("chapter count: ", total_chapters)
-            print("lesson count: ", total_lessons)
-            print("quiz count: ", total_quizzes)
+            # Check enrollment status
+            user = request.user
+            is_enrolled = Enrollment.objects.filter(student=user, course=course).exists()
 
-            print("course details: ", course_data)
+            # Add counts to course data
+            course_data = {
+                **course_data,
+                'total_chapters': total_chapters,
+                'total_lessons': total_lessons,
+                'total_quizzes': total_quizzes,
+                'is_enrolled': is_enrolled, 
+            }
+
         except Course.DoesNotExist:
             return Response({'message': 'Course not found.'}, status=status.HTTP_404_NOT_FOUND)
 
