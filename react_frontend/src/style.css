@@ -2047,7 +2047,7 @@ NavigationContainer [data-framer-component-type="NavigationContainer"] > *,
 	overflow: hidden;
 	padding: 0;
 	position: relative;
-	min-width: 90%;
+	min-width: 80%;
 }
 
 .framer-HWZMM .framer-19xs1qh {
@@ -2313,7 +2313,7 @@ NavigationContainer [data-framer-component-type="NavigationContainer"] > *,
 	overflow: visible;
 	padding: 35px 0 0;
 	position: relative;
-	width: 100%; /* Changed width to 100% */
+	width: 21rem; /* Changed width to 100% */
 }
 
 .framer-HWZMM .framer-1buchfj-container,
@@ -2343,7 +2343,7 @@ NavigationContainer [data-framer-component-type="NavigationContainer"] > *,
 	.framer-HWZMM .framer-1jpmxc,
 	.framer-HWZMM .framer-1dot7m2,
 	.framer-HWZMM .framer-1lj2ix9 {
-		width: 100%; /* Adjust width for larger screens */
+		width: 90%; /* Adjust width for larger screens */
 	}
 }
 
