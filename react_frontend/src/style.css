@@ -1988,13 +1988,6 @@ NavigationContainer [data-framer-component-type="NavigationContainer"] > *,
 	z-index: 5;
 }
 
-@media screen and (max-width: 768px) {
-	.framer-HWZMM .navbar {
-		/* width: 90%; */
-		/* left: 2rem; */
-	}
-}
-
 .framer-HWZMM .framer-skwl0m {
 	flex: none;
 	height: 853px;
@@ -2047,7 +2040,7 @@ NavigationContainer [data-framer-component-type="NavigationContainer"] > *,
 	overflow: hidden;
 	padding: 0;
 	position: relative;
-	min-width: 80%;
+	width: 70rem;
 }
 
 .framer-HWZMM .framer-19xs1qh {
