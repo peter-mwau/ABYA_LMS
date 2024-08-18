@@ -2,12 +2,16 @@ import { useState, useEffect } from "react";
 import "./style.css";
 // import landingImage from './web3.jpg';
 import Swiper from "swiper";
+import menuIcon from "./images/menuIcon.png";
+import DropDown from "./components/DropDown";
 
 const Homepage = () => {
 	const landingImage = "./web3.jpg";
 	const [isHidden, setIsHidden] = useState(true);
 
 	const [hover, setHover] = useState(false);
+	const [isOpen, setIsOpen] = useState(false);
+	const viewPort = window.innerWidth;
 
 	const handleMouseEnter = () => {
 		setHover(true);
@@ -62,12 +66,13 @@ const Homepage = () => {
 	}, []);
 
 	return (
-		<body class="framer-body-mlbahZRIo">
+		<body class="framer-body-mlbahZRIo ">
 			<div
 				id="main"
 				data-framer-hydrate-v2='{"routeId":"mlbahZRIo","localeId":"default","breakpoints":[{"hash":"1nflcnj"}]}'
 				data-framer-ssr-released-at="2024-06-24T10:38:20.863Z"
 				data-framer-page-optimized-at="2024-06-27T12:50:38.909Z"
+				className="relative"
 			>
 				<div
 					className="framer-HWZMM framer-EmBjF framer-1nflcnj"
@@ -96,6 +101,8 @@ const Homepage = () => {
 								className="framer-1fznlb6"
 								style={{ backdropFilter: "none", WebkitBackdropFilter: "none" }}
 							>
+								{/* TODO:Make the Navbar invisible on mobile until menu icon is
+								clicked */}
 								<div className="framer-1rupuci">
 									<div className="framer-gqqp0t-container">
 										<a
@@ -122,318 +129,336 @@ const Homepage = () => {
 											/>
 										</a>
 									</div>
+
 									<div
 										className="framer-nyc44"
 										style={{ backgroundColor: "rgba(255, 209, 2, 0.3)" }}
 									></div>
-									<div className="framer-5r79xr-container">
-										<a
-											className="framer-T8N9W framer-1sa9dg6 framer-v-1sa9dg6 framer-svebul"
-											data-framer-name="Default"
-											style={{ height: "100%" }}
-											href="/"
-											tabIndex="0"
-										>
-											<div
-												className="framer-1c0a07n"
-												style={{
-													outline: "none",
-													display: "flex",
-													flexDirection: "column",
-													justifyContent: "flex-start",
-													flexShrink: 0,
-													"--extracted-r6o4lv": "rgb(255, 255, 255)",
-													"--framer-link-text-color": "rgb(0, 153, 255)",
-													"--framer-link-text-decoration": "underline",
-													opacity: 0.56,
-													transform: "none",
-												}}
-												data-framer-component-type="RichTextContainer"
-											>
-												<p
-													style={{
-														"--font-selector":
-															"R0Y7UGx1cyBKYWthcnRhIFNhbnMtNTAw",
-														"--framer-font-family":
-															'"Plus Jakarta Sans", "Plus Jakarta Sans Placeholder", sans-serif',
-														"--framer-font-size": "14px",
-														"--framer-font-weight": "500",
-														"--framer-line-height": "24.9px",
-														"--framer-text-color":
-															"var(--extracted-r6o4lv, rgb(255, 255, 255))",
-													}}
-													className="framer-text"
+									{viewPort >= 768 && (
+										<div className="flex md:space-x-6">
+											<div className="framer-5r79xr-container">
+												<a
+													className="framer-T8N9W framer-1sa9dg6 framer-v-1sa9dg6 framer-svebul"
+													data-framer-name="Default"
+													style={{ height: "100%" }}
+													href="/"
+													tabIndex="0"
 												>
-													Home
-												</p>
+													<div
+														className="framer-1c0a07n"
+														style={{
+															outline: "none",
+															display: "flex",
+															flexDirection: "column",
+															justifyContent: "flex-start",
+															flexShrink: 0,
+															"--extracted-r6o4lv": "rgb(255, 255, 255)",
+															"--framer-link-text-color": "rgb(0, 153, 255)",
+															"--framer-link-text-decoration": "underline",
+															opacity: 0.56,
+															transform: "none",
+														}}
+														data-framer-component-type="RichTextContainer"
+													>
+														<p
+															style={{
+																"--font-selector":
+																	"R0Y7UGx1cyBKYWthcnRhIFNhbnMtNTAw",
+																"--framer-font-family":
+																	'"Plus Jakarta Sans", "Plus Jakarta Sans Placeholder", sans-serif',
+																"--framer-font-size": "14px",
+																"--framer-font-weight": "500",
+																"--framer-line-height": "24.9px",
+																"--framer-text-color":
+																	"var(--extracted-r6o4lv, rgb(255, 255, 255))",
+															}}
+															className="framer-text"
+														>
+															Home
+														</p>
+													</div>
+												</a>
 											</div>
-										</a>
-									</div>
-									<div className="framer-vtx9ps-container">
-										<a
-											className="framer-T8N9W framer-1sa9dg6 framer-v-1sa9dg6 framer-svebul"
-											data-framer-name="Default"
-											style={{ height: "100%" }}
-											href="/login"
-											rel="noopener"
-											tabIndex="0"
-										>
-											<div
-												className="framer-1c0a07n"
-												style={{
-													outline: "none",
-													display: "flex",
-													flexDirection: "column",
-													justifyContent: "flex-start",
-													flexShrink: 0,
-													"--extracted-r6o4lv": "rgb(255, 255, 255)",
-													"--framer-link-text-color": "rgb(0, 153, 255)",
-													"--framer-link-text-decoration": "underline",
-													opacity: 0.56,
-													transform: "none",
-												}}
-												data-framer-component-type="RichTextContainer"
-											>
-												<p
-													style={{
-														"--font-selector":
-															"R0Y7UGx1cyBKYWthcnRhIFNhbnMtNTAw",
-														"--framer-font-family":
-															'"Plus Jakarta Sans", "Plus Jakarta Sans Placeholder", sans-serif',
-														"--framer-font-size": "14px",
-														"--framer-font-weight": "500",
-														"--framer-line-height": "24.9px",
-														"--framer-text-color":
-															"var(--extracted-r6o4lv, rgb(255, 255, 255))",
-													}}
-													className="framer-text"
+											<div className="framer-vtx9ps-container">
+												<a
+													className="framer-T8N9W framer-1sa9dg6 framer-v-1sa9dg6 framer-svebul"
+													data-framer-name="Default"
+													style={{ height: "100%" }}
+													href="/login"
+													rel="noopener"
+													tabIndex="0"
 												>
-													Login
-												</p>
+													<div
+														className="framer-1c0a07n"
+														style={{
+															outline: "none",
+															display: "flex",
+															flexDirection: "column",
+															justifyContent: "flex-start",
+															flexShrink: 0,
+															"--extracted-r6o4lv": "rgb(255, 255, 255)",
+															"--framer-link-text-color": "rgb(0, 153, 255)",
+															"--framer-link-text-decoration": "underline",
+															opacity: 0.56,
+															transform: "none",
+														}}
+														data-framer-component-type="RichTextContainer"
+													>
+														<p
+															style={{
+																"--font-selector":
+																	"R0Y7UGx1cyBKYWthcnRhIFNhbnMtNTAw",
+																"--framer-font-family":
+																	'"Plus Jakarta Sans", "Plus Jakarta Sans Placeholder", sans-serif',
+																"--framer-font-size": "14px",
+																"--framer-font-weight": "500",
+																"--framer-line-height": "24.9px",
+																"--framer-text-color":
+																	"var(--extracted-r6o4lv, rgb(255, 255, 255))",
+															}}
+															className="framer-text"
+														>
+															Login
+														</p>
+													</div>
+												</a>
 											</div>
-										</a>
-									</div>
-									<div className="framer-3aau6-container">
-										<a
-											className="framer-T8N9W framer-1sa9dg6 framer-v-1sa9dg6 framer-svebul"
-											data-framer-name="Default"
-											style={{ height: "100%" }}
-											href="/register"
-											rel="noopener"
-											tabIndex="0"
-										>
-											<div
-												className="framer-1c0a07n"
-												style={{
-													outline: "none",
-													display: "flex",
-													flexDirection: "column",
-													justifyContent: "flex-start",
-													flexShrink: 0,
-													"--extracted-r6o4lv": "rgb(255, 255, 255)",
-													"--framer-link-text-color": "rgb(0, 153, 255)",
-													"--framer-link-text-decoration": "underline",
-													opacity: 0.56,
-													transform: "none",
-												}}
-												data-framer-component-type="RichTextContainer"
-											>
-												<p
-													style={{
-														"--font-selector":
-															"R0Y7UGx1cyBKYWthcnRhIFNhbnMtNTAw",
-														"--framer-font-family":
-															'"Plus Jakarta Sans", "Plus Jakarta Sans Placeholder", sans-serif',
-														"--framer-font-size": "14px",
-														"--framer-font-weight": "500",
-														"--framer-line-height": "24.9px",
-														"--framer-text-color":
-															"var(--extracted-r6o4lv, rgb(255, 255, 255))",
-													}}
-													className="framer-text"
+											<div className="framer-3aau6-container">
+												<a
+													className="framer-T8N9W framer-1sa9dg6 framer-v-1sa9dg6 framer-svebul"
+													data-framer-name="Default"
+													style={{ height: "100%" }}
+													href="/register"
+													rel="noopener"
+													tabIndex="0"
 												>
-													Register
-												</p>
+													<div
+														className="framer-1c0a07n"
+														style={{
+															outline: "none",
+															display: "flex",
+															flexDirection: "column",
+															justifyContent: "flex-start",
+															flexShrink: 0,
+															"--extracted-r6o4lv": "rgb(255, 255, 255)",
+															"--framer-link-text-color": "rgb(0, 153, 255)",
+															"--framer-link-text-decoration": "underline",
+															opacity: 0.56,
+															transform: "none",
+														}}
+														data-framer-component-type="RichTextContainer"
+													>
+														<p
+															style={{
+																"--font-selector":
+																	"R0Y7UGx1cyBKYWthcnRhIFNhbnMtNTAw",
+																"--framer-font-family":
+																	'"Plus Jakarta Sans", "Plus Jakarta Sans Placeholder", sans-serif',
+																"--framer-font-size": "14px",
+																"--framer-font-weight": "500",
+																"--framer-line-height": "24.9px",
+																"--framer-text-color":
+																	"var(--extracted-r6o4lv, rgb(255, 255, 255))",
+															}}
+															className="framer-text"
+														>
+															Register
+														</p>
+													</div>
+												</a>
 											</div>
-										</a>
-									</div>
-									<div className="framer-siof0k-container">
-										<a
-											className="framer-T8N9W framer-1sa9dg6 framer-v-1sa9dg6 framer-svebul"
-											data-framer-name="Default"
-											style={{ height: "100%" }}
-											href="#about"
-											tabIndex="0"
-										>
-											<div
-												className="framer-1c0a07n"
-												style={{
-													outline: "none",
-													display: "flex",
-													flexDirection: "column",
-													justifyContent: "flex-start",
-													flexShrink: 0,
-													"--extracted-r6o4lv": "rgb(255, 255, 255)",
-													"--framer-link-text-color": "rgb(0, 153, 255)",
-													"--framer-link-text-decoration": "underline",
-													opacity: 0.56,
-													transform: "none",
-												}}
-												data-framer-component-type="RichTextContainer"
-											>
-												<p
-													style={{
-														"--font-selector":
-															"R0Y7UGx1cyBKYWthcnRhIFNhbnMtNTAw",
-														"--framer-font-family":
-															'"Plus Jakarta Sans", "Plus Jakarta Sans Placeholder", sans-serif',
-														"--framer-font-size": "14px",
-														"--framer-font-weight": "500",
-														"--framer-line-height": "24.9px",
-														"--framer-text-color":
-															"var(--extracted-r6o4lv, rgb(255, 255, 255))",
-													}}
-													className="framer-text"
+											<div className="framer-siof0k-container">
+												<a
+													className="framer-T8N9W framer-1sa9dg6 framer-v-1sa9dg6 framer-svebul"
+													data-framer-name="Default"
+													style={{ height: "100%" }}
+													href="#about"
+													tabIndex="0"
 												>
-													About
-												</p>
+													<div
+														className="framer-1c0a07n"
+														style={{
+															outline: "none",
+															display: "flex",
+															flexDirection: "column",
+															justifyContent: "flex-start",
+															flexShrink: 0,
+															"--extracted-r6o4lv": "rgb(255, 255, 255)",
+															"--framer-link-text-color": "rgb(0, 153, 255)",
+															"--framer-link-text-decoration": "underline",
+															opacity: 0.56,
+															transform: "none",
+														}}
+														data-framer-component-type="RichTextContainer"
+													>
+														<p
+															style={{
+																"--font-selector":
+																	"R0Y7UGx1cyBKYWthcnRhIFNhbnMtNTAw",
+																"--framer-font-family":
+																	'"Plus Jakarta Sans", "Plus Jakarta Sans Placeholder", sans-serif',
+																"--framer-font-size": "14px",
+																"--framer-font-weight": "500",
+																"--framer-line-height": "24.9px",
+																"--framer-text-color":
+																	"var(--extracted-r6o4lv, rgb(255, 255, 255))",
+															}}
+															className="framer-text"
+														>
+															About
+														</p>
+													</div>
+												</a>
 											</div>
-										</a>
-									</div>
-									<div className="framer-sil6za-container">
-										<a
-											className="framer-T8N9W framer-1sa9dg6 framer-v-1sa9dg6 framer-svebul"
-											data-framer-name="Default"
-											style={{ height: "100%" }}
-											href="#contact"
-											tabIndex="0"
-										>
-											<div
-												className="framer-1c0a07n"
-												style={{
-													outline: "none",
-													display: "flex",
-													flexDirection: "column",
-													justifyContent: "flex-start",
-													flexShrink: 0,
-													"--extracted-r6o4lv": "rgb(255, 255, 255)",
-													"--framer-link-text-color": "rgb(0, 153, 255)",
-													"--framer-link-text-decoration": "underline",
-													opacity: 0.56,
-													transform: "none",
-												}}
-												data-framer-component-type="RichTextContainer"
-											>
-												<p
-													style={{
-														"--font-selector":
-															"R0Y7UGx1cyBKYWthcnRhIFNhbnMtNTAw",
-														"--framer-font-family":
-															'"Plus Jakarta Sans", "Plus Jakarta Sans Placeholder", sans-serif',
-														"--framer-font-size": "14px",
-														"--framer-font-weight": "500",
-														"--framer-line-height": "24.9px",
-														"--framer-text-color":
-															"var(--extracted-r6o4lv, rgb(255, 255, 255))",
-													}}
-													className="framer-text"
+											<div className="framer-sil6za-container">
+												<a
+													className="framer-T8N9W framer-1sa9dg6 framer-v-1sa9dg6 framer-svebul"
+													data-framer-name="Default"
+													style={{ height: "100%" }}
+													href="#contact"
+													tabIndex="0"
 												>
-													Contact
-												</p>
+													<div
+														className="framer-1c0a07n"
+														style={{
+															outline: "none",
+															display: "flex",
+															flexDirection: "column",
+															justifyContent: "flex-start",
+															flexShrink: 0,
+															"--extracted-r6o4lv": "rgb(255, 255, 255)",
+															"--framer-link-text-color": "rgb(0, 153, 255)",
+															"--framer-link-text-decoration": "underline",
+															opacity: 0.56,
+															transform: "none",
+														}}
+														data-framer-component-type="RichTextContainer"
+													>
+														<p
+															style={{
+																"--font-selector":
+																	"R0Y7UGx1cyBKYWthcnRhIFNhbnMtNTAw",
+																"--framer-font-family":
+																	'"Plus Jakarta Sans", "Plus Jakarta Sans Placeholder", sans-serif',
+																"--framer-font-size": "14px",
+																"--framer-font-weight": "500",
+																"--framer-line-height": "24.9px",
+																"--framer-text-color":
+																	"var(--extracted-r6o4lv, rgb(255, 255, 255))",
+															}}
+															className="framer-text"
+														>
+															Contact
+														</p>
+													</div>
+												</a>
 											</div>
-										</a>
-									</div>
-									<div className="framer-zejy4a-container">
-										<a
-											className="framer-T8N9W framer-1sa9dg6 framer-v-1sa9dg6 framer-svebul"
-											data-framer-name="Default"
-											style={{ height: "100%" }}
-											href="./"
-											tabIndex="0"
-										>
-											<div
-												className="framer-1c0a07n"
-												style={{
-													outline: "none",
-													display: "flex",
-													flexDirection: "column",
-													justifyContent: "flex-start",
-													flexShrink: 0,
-													"--extracted-r6o4lv": "rgb(255, 255, 255)",
-													"--framer-link-text-color": "rgb(0, 153, 255)",
-													"--framer-link-text-decoration": "underline",
-													opacity: 0.56,
-													transform: "none",
-												}}
-												data-framer-component-type="RichTextContainer"
-											>
-												<p
-													style={{
-														"--font-selector":
-															"R0Y7UGx1cyBKYWthcnRhIFNhbnMtNTAw",
-														"--framer-font-family":
-															'"Plus Jakarta Sans", "Plus Jakarta Sans Placeholder", sans-serif',
-														"--framer-font-size": "14px",
-														"--framer-font-weight": "500",
-														"--framer-line-height": "24.9px",
-														"--framer-text-color":
-															"var(--extracted-r6o4lv, rgb(255, 255, 255))",
-													}}
-													className="framer-text"
+											<div className="framer-zejy4a-container">
+												<a
+													className="framer-T8N9W framer-1sa9dg6 framer-v-1sa9dg6 framer-svebul"
+													data-framer-name="Default"
+													style={{ height: "100%" }}
+													href="./"
+													tabIndex="0"
 												>
-													Faq
-												</p>
+													<div
+														className="framer-1c0a07n"
+														style={{
+															outline: "none",
+															display: "flex",
+															flexDirection: "column",
+															justifyContent: "flex-start",
+															flexShrink: 0,
+															"--extracted-r6o4lv": "rgb(255, 255, 255)",
+															"--framer-link-text-color": "rgb(0, 153, 255)",
+															"--framer-link-text-decoration": "underline",
+															opacity: 0.56,
+															transform: "none",
+														}}
+														data-framer-component-type="RichTextContainer"
+													>
+														<p
+															style={{
+																"--font-selector":
+																	"R0Y7UGx1cyBKYWthcnRhIFNhbnMtNTAw",
+																"--framer-font-family":
+																	'"Plus Jakarta Sans", "Plus Jakarta Sans Placeholder", sans-serif',
+																"--framer-font-size": "14px",
+																"--framer-font-weight": "500",
+																"--framer-line-height": "24.9px",
+																"--framer-text-color":
+																	"var(--extracted-r6o4lv, rgb(255, 255, 255))",
+															}}
+															className="framer-text"
+														>
+															Faq
+														</p>
+													</div>
+												</a>
 											</div>
-										</a>
-									</div>
+										</div>
+									)}
 								</div>
-								<a
-									className="framer-1061vmo framer-a3gttv"
-									data-framer-name="Button Container"
-									style={{
-										backgroundColor: hover
-											? "rgb(255, 200, 0)"
-											: "rgb(197, 142, 15)",
-										transition: "background-color 0.3s ease",
-										borderBottomLeftRadius: "100px",
-										borderBottomRightRadius: "100px",
-										borderTopLeftRadius: "100px",
-										borderTopRightRadius: "100px",
-									}}
-									href="./"
-								>
-									<div
-										className="framer-zxelv8"
+								{viewPort < 768 ? (
+									<img
+										src={menuIcon}
+										alt="navbarMenuIcon"
+										className="bg-white rounded-2xl w-8 h-8 mr-2 md:hidden"
+										onClick={() =>
+											isOpen ? setIsOpen(false) : setIsOpen(true)
+										}
+									/>
+								) : (
+									<a
+										className="framer-1061vmo framer-a3gttv"
+										data-framer-name="Button Container"
 										style={{
-											outline: "none",
-											display: "flex",
-											flexDirection: "column",
-											justifyContent: "flex-start",
-											flexShrink: 0,
-											"--framer-link-text-color": "rgb(0, 153, 255)",
-											"--framer-link-text-decoration": "underline",
-											transform: "none",
+											backgroundColor: hover
+												? "rgb(255, 200, 0)"
+												: "rgb(197, 142, 15)",
+											transition: "background-color 0.3s ease",
+											borderBottomLeftRadius: "100px",
+											borderBottomRightRadius: "100px",
+											borderTopLeftRadius: "100px",
+											borderTopRightRadius: "100px",
 										}}
-										data-framer-component-type="RichTextContainer"
+										href="./"
 									>
-										<p
+										<div
+											className="framer-zxelv8"
 											style={{
-												"--font-selector": "R0Y7UGx1cyBKYWthcnRhIFNhbnMtNjAw",
-												"--framer-font-family":
-													'"Plus Jakarta Sans", "Plus Jakarta Sans Placeholder", sans-serif',
-												"--framer-font-size": "14px",
-												"--framer-font-weight": "600",
+												outline: "none",
+												display: "flex",
+												flexDirection: "column",
+												justifyContent: "flex-start",
+												flexShrink: 0,
+												"--framer-link-text-color": "rgb(0, 153, 255)",
+												"--framer-link-text-decoration": "underline",
+												transform: "none",
 											}}
-											className="framer-text"
+											data-framer-component-type="RichTextContainer"
 										>
-											Waitlist
-										</p>
-									</div>
-								</a>
+											<p
+												style={{
+													"--font-selector": "R0Y7UGx1cyBKYWthcnRhIFNhbnMtNjAw",
+													"--framer-font-family":
+														'"Plus Jakarta Sans", "Plus Jakarta Sans Placeholder", sans-serif',
+													"--framer-font-size": "14px",
+													"--framer-font-weight": "600",
+												}}
+												className="framer-text"
+											>
+												Waitlist
+											</p>
+										</div>
+									</a>
+								)}
 							</div>
 						</div>
 					</div>
 
+					{/* Dropdown menu */}
+					<DropDown isOpen={isOpen} />
 					<div
 						aria-label="background"
 						className="framer-skwl0m"
@@ -461,7 +486,6 @@ const Homepage = () => {
                                     https://framerusercontent.com/images/lLvCZgX4vEqSqbGovr29aUJl5c.png 3254w
                                 "
 								src="https://framerusercontent.com/images/lLvCZgX4vEqSqbGovr29aUJl5c.png"
-								alt
 								style={{
 									display: "block",
 									width: "100%",

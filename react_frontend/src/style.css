@@ -1984,8 +1984,14 @@ NavigationContainer [data-framer-component-type="NavigationContainer"] > *,
 	/* left: calc(50.03003003003005% - 1200px / 2); */
 	position: fixed;
 	top: 30px;
-	min-width: 80%;
+	width: 90%;
 	z-index: 5;
+}
+
+@media screen and (min-width: 1200px) {
+	.framer-HWZMM .navbar {
+		width: 78rem;
+	}
 }
 
 .framer-HWZMM .framer-skwl0m {
@@ -2040,7 +2046,13 @@ NavigationContainer [data-framer-component-type="NavigationContainer"] > *,
 	overflow: hidden;
 	padding: 0;
 	position: relative;
-	width: 70rem;
+	width: 80%;
+}
+
+@media screen and (min-width: 1200px) {
+	.framer-HWZMM .framer-zkjwr1 {
+		width: 70rem;
+	}
 }
 
 .framer-HWZMM .framer-19xs1qh {
@@ -2168,7 +2180,7 @@ NavigationContainer [data-framer-component-type="NavigationContainer"] > *,
 @media (max-width: 768px) {
 	.framer-HWZMM .framer-zkjwr1 {
 		flex-direction: column;
-		width: auto;
+		/* width: auto; */
 	}
 
 	.framer-HWZMM .framer-19xs1qh,
