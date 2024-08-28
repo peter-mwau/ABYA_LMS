@@ -2105,7 +2105,13 @@ NavigationContainer [data-framer-component-type="NavigationContainer"] > *,
 	overflow: hidden;
 	padding: 0;
 	position: relative;
-	width: 70rem;
+	width: 80%;
+}
+
+@media screen and (min-width: 1200px) {
+	.framer-HWZMM .framer-zkjwr1 {
+		width: 70rem;
+	}
 }
 
 .framer-HWZMM .framer-19xs1qh {
@@ -2233,7 +2239,7 @@ NavigationContainer [data-framer-component-type="NavigationContainer"] > *,
 @media (max-width: 768px) {
 	.framer-HWZMM .framer-zkjwr1 {
 		flex-direction: column;
-		width: auto;
+		/* width: auto; */
 	}
 
 	.framer-HWZMM .framer-19xs1qh,

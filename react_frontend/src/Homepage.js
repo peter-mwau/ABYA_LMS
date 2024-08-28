@@ -1,11 +1,15 @@
 import { useState, useEffect } from "react";
 import "./style.css";
 import Swiper from "swiper";
+import menuIcon from "./images/menuIcon.png";
+import DropDown from "./components/DropDown";
 
 const Homepage = () => {
 	const landingImage = "./web3.jpg";
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
 	const [hover, setHover] = useState(false);
+	const [isOpen, setIsOpen] = useState(false);
+	const viewPort = window.innerWidth;
 
 	const handleMouseEnter = () => setHover(true);
 	const handleMouseLeave = () => setHover(false);
@@ -42,12 +46,13 @@ const Homepage = () => {
 	}, []);
 
 	return (
-		<body class="framer-body-mlbahZRIo">
+		<body class="framer-body-mlbahZRIo ">
 			<div
 				id="main"
 				data-framer-hydrate-v2='{"routeId":"mlbahZRIo","localeId":"default","breakpoints":[{"hash":"1nflcnj"}]}'
 				data-framer-ssr-released-at="2024-06-24T10:38:20.863Z"
 				data-framer-page-optimized-at="2024-06-27T12:50:38.909Z"
+				className="relative"
 			>
 				<div
 					className="framer-HWZMM framer-EmBjF framer-1nflcnj"
@@ -90,6 +95,8 @@ const Homepage = () => {
 						<div className="hamburger"></div>
 					</div>
 
+					{/* Dropdown menu */}
+					<DropDown isOpen={isOpen} />
 					<div
 						aria-label="background"
 						className="framer-skwl0m"
@@ -117,7 +124,6 @@ const Homepage = () => {
                                     https://framerusercontent.com/images/lLvCZgX4vEqSqbGovr29aUJl5c.png 3254w
                                 "
 								src="https://framerusercontent.com/images/lLvCZgX4vEqSqbGovr29aUJl5c.png"
-								alt
 								style={{
 									display: "block",
 									width: "100%",
