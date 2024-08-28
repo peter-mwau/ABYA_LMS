@@ -3,6 +3,7 @@ import axios from "axios";
 import upload from "../../images/upload.png";
 
 const LessonForm = () => {
+	const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 	const [formData, setFormData] = useState({
 		lesson_name: "",
 		lesson_content: "",
@@ -25,7 +26,7 @@ const LessonForm = () => {
 	const fetchCourses = async () => {
 		try {
 			const response = await axios.get(
-				"http://localhost:8000/courses/courses",
+				`${BASE_URL}/courses/courses`,
 				{
 					headers: {
 						Authorization: `Token ${localStorage.getItem("userToken")}`,
@@ -41,7 +42,7 @@ const LessonForm = () => {
 	const fetchChapters = async () => {
 		try {
 			const response = await axios.get(
-				"http://localhost:8000/courses/chapters/",
+				`${BASE_URL}/courses/chapters/`,
 				{
 					headers: {
 						Authorization: `Token ${localStorage.getItem("userToken")}`,
@@ -95,7 +96,7 @@ const LessonForm = () => {
 
 		try {
 			const response = await axios.post(
-				"http://localhost:8000/courses/lessons/create-lesson/",
+				`${BASE_URL}/courses/lessons/create-lesson/`,
 				formDataToSend,
 				{
 					headers: {

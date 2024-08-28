@@ -7,6 +7,7 @@ import Web3 from 'web3';
 
 
 const ApprovalForm = ({ courseId, onClose }) => {
+    const BASE_URL = process.env.REACT_APP_API_BASE_URL;
     const { account } = useContext(WalletContext)
     const [checksumAccount, setChecksumAccount] = useState("");
 
@@ -51,7 +52,7 @@ const ApprovalForm = ({ courseId, onClose }) => {
                 account: checksumAccount, // Add the account to formData
                 userToken: userToken,
             };
-            await axios.post(`http://localhost:8000/courses/courses/${courseId}/submit-review/`, updatedFormData, {
+            await axios.post(`${BASE_URL}/courses/courses/${courseId}/submit-review/`, updatedFormData, {
                 headers: {
                   'Authorization': `Token ${userToken}`,
                 },

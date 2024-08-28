@@ -1,35 +1,15 @@
 import { useState, useEffect } from "react";
 import "./style.css";
-// import landingImage from './web3.jpg';
 import Swiper from "swiper";
 
 const Homepage = () => {
 	const landingImage = "./web3.jpg";
-	const [isHidden, setIsHidden] = useState(true);
-
+	const [isMenuOpen, setIsMenuOpen] = useState(false);
 	const [hover, setHover] = useState(false);
 
-	const handleMouseEnter = () => {
-		setHover(true);
-	};
-
-	const handleMouseLeave = () => {
-		setHover(false);
-	};
-
-	const toggleNav = () => {
-		document.addEventListener("DOMContentLoaded", function () {
-			const openSidenavButton = document.getElementById("openSidenav");
-
-			openSidenavButton.addEventListener("click", function () {
-				if (isHidden) {
-					setIsHidden(!isHidden);
-				} else {
-					setIsHidden(isHidden);
-				}
-			});
-		});
-	};
+	const handleMouseEnter = () => setHover(true);
+	const handleMouseLeave = () => setHover(false);
+	const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
 	const sectionStyle = {
 		backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.8)), url(${landingImage})`,
@@ -78,360 +58,36 @@ const Homepage = () => {
 					</div>
 
 					{/* <!-- Nav-bar --> */}
-					<div className="navbar">
-						<div
-							className="framer-KexIg framer-kz113m framer-v-kz113m"
-							data-framer-name="Default"
-							style={{
+					<div className="navbar" style={{
 								borderWidth: "1px",
 								borderColor: "rgba(255, 209, 2, 0.308)",
 								borderStyle: "solid",
 								backgroundColor: "rgba(44, 44, 44, 0.8)",
 								borderRadius: "100px",
-								height: "100%",
+								height: "70px",
 								width: "100%",
-							}}
-						>
-							<div
-								className="framer-1fznlb6"
-								style={{ backdropFilter: "none", WebkitBackdropFilter: "none" }}
-							>
-								<div className="framer-1rupuci">
-									<div className="framer-gqqp0t-container">
-										<a
-											href="/"
-											title
-											target="_self"
-											style={{
-												display: "flex",
-												justifyContent: "center",
-												alignItems: "center",
-												width: "100%",
-												height: "100%",
-												padding: 0,
-											}}
-										>
-											<img
-												style={{
-													maxWidth: "100%",
-													maxHeight: "100%",
-													borderRadius: "10px",
-												}}
-												src="https://framerusercontent.com/images/RbmmjGxvoNP2V9QG394I89bBPA.jpg"
-												alt=""
-											/>
-										</a>
-									</div>
-									<div
-										className="framer-nyc44"
-										style={{ backgroundColor: "rgba(255, 209, 2, 0.3)" }}
-									></div>
-									<div className="framer-5r79xr-container">
-										<a
-											className="framer-T8N9W framer-1sa9dg6 framer-v-1sa9dg6 framer-svebul"
-											data-framer-name="Default"
-											style={{ height: "100%" }}
-											href="/"
-											tabIndex="0"
-										>
-											<div
-												className="framer-1c0a07n"
-												style={{
-													outline: "none",
-													display: "flex",
-													flexDirection: "column",
-													justifyContent: "flex-start",
-													flexShrink: 0,
-													"--extracted-r6o4lv": "rgb(255, 255, 255)",
-													"--framer-link-text-color": "rgb(0, 153, 255)",
-													"--framer-link-text-decoration": "underline",
-													opacity: 0.56,
-													transform: "none",
-												}}
-												data-framer-component-type="RichTextContainer"
-											>
-												<p
-													style={{
-														"--font-selector":
-															"R0Y7UGx1cyBKYWthcnRhIFNhbnMtNTAw",
-														"--framer-font-family":
-															'"Plus Jakarta Sans", "Plus Jakarta Sans Placeholder", sans-serif',
-														"--framer-font-size": "14px",
-														"--framer-font-weight": "500",
-														"--framer-line-height": "24.9px",
-														"--framer-text-color":
-															"var(--extracted-r6o4lv, rgb(255, 255, 255))",
-													}}
-													className="framer-text"
-												>
-													Home
-												</p>
-											</div>
-										</a>
-									</div>
-									<div className="framer-vtx9ps-container">
-										<a
-											className="framer-T8N9W framer-1sa9dg6 framer-v-1sa9dg6 framer-svebul"
-											data-framer-name="Default"
-											style={{ height: "100%" }}
-											href="/login"
-											rel="noopener"
-											tabIndex="0"
-										>
-											<div
-												className="framer-1c0a07n"
-												style={{
-													outline: "none",
-													display: "flex",
-													flexDirection: "column",
-													justifyContent: "flex-start",
-													flexShrink: 0,
-													"--extracted-r6o4lv": "rgb(255, 255, 255)",
-													"--framer-link-text-color": "rgb(0, 153, 255)",
-													"--framer-link-text-decoration": "underline",
-													opacity: 0.56,
-													transform: "none",
-												}}
-												data-framer-component-type="RichTextContainer"
-											>
-												<p
-													style={{
-														"--font-selector":
-															"R0Y7UGx1cyBKYWthcnRhIFNhbnMtNTAw",
-														"--framer-font-family":
-															'"Plus Jakarta Sans", "Plus Jakarta Sans Placeholder", sans-serif',
-														"--framer-font-size": "14px",
-														"--framer-font-weight": "500",
-														"--framer-line-height": "24.9px",
-														"--framer-text-color":
-															"var(--extracted-r6o4lv, rgb(255, 255, 255))",
-													}}
-													className="framer-text"
-												>
-													Login
-												</p>
-											</div>
-										</a>
-									</div>
-									<div className="framer-3aau6-container">
-										<a
-											className="framer-T8N9W framer-1sa9dg6 framer-v-1sa9dg6 framer-svebul"
-											data-framer-name="Default"
-											style={{ height: "100%" }}
-											href="/register"
-											rel="noopener"
-											tabIndex="0"
-										>
-											<div
-												className="framer-1c0a07n"
-												style={{
-													outline: "none",
-													display: "flex",
-													flexDirection: "column",
-													justifyContent: "flex-start",
-													flexShrink: 0,
-													"--extracted-r6o4lv": "rgb(255, 255, 255)",
-													"--framer-link-text-color": "rgb(0, 153, 255)",
-													"--framer-link-text-decoration": "underline",
-													opacity: 0.56,
-													transform: "none",
-												}}
-												data-framer-component-type="RichTextContainer"
-											>
-												<p
-													style={{
-														"--font-selector":
-															"R0Y7UGx1cyBKYWthcnRhIFNhbnMtNTAw",
-														"--framer-font-family":
-															'"Plus Jakarta Sans", "Plus Jakarta Sans Placeholder", sans-serif',
-														"--framer-font-size": "14px",
-														"--framer-font-weight": "500",
-														"--framer-line-height": "24.9px",
-														"--framer-text-color":
-															"var(--extracted-r6o4lv, rgb(255, 255, 255))",
-													}}
-													className="framer-text"
-												>
-													Register
-												</p>
-											</div>
-										</a>
-									</div>
-									<div className="framer-siof0k-container">
-										<a
-											className="framer-T8N9W framer-1sa9dg6 framer-v-1sa9dg6 framer-svebul"
-											data-framer-name="Default"
-											style={{ height: "100%" }}
-											href="#about"
-											tabIndex="0"
-										>
-											<div
-												className="framer-1c0a07n"
-												style={{
-													outline: "none",
-													display: "flex",
-													flexDirection: "column",
-													justifyContent: "flex-start",
-													flexShrink: 0,
-													"--extracted-r6o4lv": "rgb(255, 255, 255)",
-													"--framer-link-text-color": "rgb(0, 153, 255)",
-													"--framer-link-text-decoration": "underline",
-													opacity: 0.56,
-													transform: "none",
-												}}
-												data-framer-component-type="RichTextContainer"
-											>
-												<p
-													style={{
-														"--font-selector":
-															"R0Y7UGx1cyBKYWthcnRhIFNhbnMtNTAw",
-														"--framer-font-family":
-															'"Plus Jakarta Sans", "Plus Jakarta Sans Placeholder", sans-serif',
-														"--framer-font-size": "14px",
-														"--framer-font-weight": "500",
-														"--framer-line-height": "24.9px",
-														"--framer-text-color":
-															"var(--extracted-r6o4lv, rgb(255, 255, 255))",
-													}}
-													className="framer-text"
-												>
-													About
-												</p>
-											</div>
-										</a>
-									</div>
-									<div className="framer-sil6za-container">
-										<a
-											className="framer-T8N9W framer-1sa9dg6 framer-v-1sa9dg6 framer-svebul"
-											data-framer-name="Default"
-											style={{ height: "100%" }}
-											href="#contact"
-											tabIndex="0"
-										>
-											<div
-												className="framer-1c0a07n"
-												style={{
-													outline: "none",
-													display: "flex",
-													flexDirection: "column",
-													justifyContent: "flex-start",
-													flexShrink: 0,
-													"--extracted-r6o4lv": "rgb(255, 255, 255)",
-													"--framer-link-text-color": "rgb(0, 153, 255)",
-													"--framer-link-text-decoration": "underline",
-													opacity: 0.56,
-													transform: "none",
-												}}
-												data-framer-component-type="RichTextContainer"
-											>
-												<p
-													style={{
-														"--font-selector":
-															"R0Y7UGx1cyBKYWthcnRhIFNhbnMtNTAw",
-														"--framer-font-family":
-															'"Plus Jakarta Sans", "Plus Jakarta Sans Placeholder", sans-serif',
-														"--framer-font-size": "14px",
-														"--framer-font-weight": "500",
-														"--framer-line-height": "24.9px",
-														"--framer-text-color":
-															"var(--extracted-r6o4lv, rgb(255, 255, 255))",
-													}}
-													className="framer-text"
-												>
-													Contact
-												</p>
-											</div>
-										</a>
-									</div>
-									<div className="framer-zejy4a-container">
-										<a
-											className="framer-T8N9W framer-1sa9dg6 framer-v-1sa9dg6 framer-svebul"
-											data-framer-name="Default"
-											style={{ height: "100%" }}
-											href="./"
-											tabIndex="0"
-										>
-											<div
-												className="framer-1c0a07n"
-												style={{
-													outline: "none",
-													display: "flex",
-													flexDirection: "column",
-													justifyContent: "flex-start",
-													flexShrink: 0,
-													"--extracted-r6o4lv": "rgb(255, 255, 255)",
-													"--framer-link-text-color": "rgb(0, 153, 255)",
-													"--framer-link-text-decoration": "underline",
-													opacity: 0.56,
-													transform: "none",
-												}}
-												data-framer-component-type="RichTextContainer"
-											>
-												<p
-													style={{
-														"--font-selector":
-															"R0Y7UGx1cyBKYWthcnRhIFNhbnMtNTAw",
-														"--framer-font-family":
-															'"Plus Jakarta Sans", "Plus Jakarta Sans Placeholder", sans-serif',
-														"--framer-font-size": "14px",
-														"--framer-font-weight": "500",
-														"--framer-line-height": "24.9px",
-														"--framer-text-color":
-															"var(--extracted-r6o4lv, rgb(255, 255, 255))",
-													}}
-													className="framer-text"
-												>
-													Faq
-												</p>
-											</div>
-										</a>
-									</div>
-								</div>
-								<a
-									className="framer-1061vmo framer-a3gttv"
-									data-framer-name="Button Container"
-									style={{
-										backgroundColor: hover
-											? "rgb(255, 200, 0)"
-											: "rgb(197, 142, 15)",
-										transition: "background-color 0.3s ease",
-										borderBottomLeftRadius: "100px",
-										borderBottomRightRadius: "100px",
-										borderTopLeftRadius: "100px",
-										borderTopRightRadius: "100px",
-									}}
-									href="./"
-								>
-									<div
-										className="framer-zxelv8"
-										style={{
-											outline: "none",
-											display: "flex",
-											flexDirection: "column",
-											justifyContent: "flex-start",
-											flexShrink: 0,
-											"--framer-link-text-color": "rgb(0, 153, 255)",
-											"--framer-link-text-decoration": "underline",
-											transform: "none",
-										}}
-										data-framer-component-type="RichTextContainer"
-									>
-										<p
-											style={{
-												"--font-selector": "R0Y7UGx1cyBKYWthcnRhIFNhbnMtNjAw",
-												"--framer-font-family":
-													'"Plus Jakarta Sans", "Plus Jakarta Sans Placeholder", sans-serif',
-												"--framer-font-size": "14px",
-												"--framer-font-weight": "600",
-											}}
-											className="framer-text"
-										>
-											Waitlist
-										</p>
-									</div>
-								</a>
-							</div>
+							}}>
+						<div className="logo">
+							<img
+								src="https://framerusercontent.com/images/RbmmjGxvoNP2V9QG394I89bBPA.jpg"
+								alt="Logo"
+							/>
 						</div>
+						<div className={`menu ${isMenuOpen ? "open" : ""}`}>
+							<a href="/">Home</a>
+							<a href="/login">Login</a>
+							<a href="/register">Register</a>
+							<a href="#about">About</a>
+							<a href="#contact">Contact</a>
+							<a href="./">Faq</a>
+							<a href="./"></a>
+						</div>
+						<div className="hamburger" onClick={toggleMenu}>
+							<div />
+							<div />
+							<div />
+						</div>
+						<div className="hamburger"></div>
 					</div>
 
 					<div
@@ -725,6 +381,7 @@ const Homepage = () => {
 								</div>
 							</div>
 						</section>
+						
 						<section
 							className="framer-2ku4ck"
 							data-framer-name="Right"

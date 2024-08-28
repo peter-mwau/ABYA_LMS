@@ -6,6 +6,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 const CourseInfo = () => {
+  const BASE_URL = process.env.REACT_APP_API_BASE_URL;
   const { courseId } = useParams();
   // const { courseData, loading, error } = useCourseDetail(courseId);
   const { user } = useContext(UserContext);
@@ -21,7 +22,7 @@ const CourseInfo = () => {
   const fetchCourseDetails = async () => {
     try {
       const userToken = localStorage.getItem('userToken');
-      const response = await axios.get(`http://localhost:8000/courses/course_info/${courseId}/`, {
+      const response = await axios.get(`${BASE_URL}/courses/course_info/${courseId}/`, {
         headers: {
           'Authorization': `Token ${userToken}`,
         },
@@ -48,7 +49,7 @@ const CourseInfo = () => {
   const enrollCourse = async () => {
     try {
       const userToken = localStorage.getItem('userToken');
-      const response = await axios.post(`http://localhost:8000/courses/enroll/${courseId}/`, {},
+      const response = await axios.post(`${BASE_URL}/courses/enroll/${courseId}/`, {},
         {
           headers: {
             'Authorization': `Token ${userToken}`,
@@ -73,7 +74,7 @@ const CourseInfo = () => {
   const unenrollCourse = async () => {
     try {
       const userToken = localStorage.getItem('userToken');
-      const response = await axios.post(`http://localhost:8000/courses/unenroll/${courseId}/`, {},
+      const response = await axios.post(`${BASE_URL}/courses/unenroll/${courseId}/`, {},
         {
           headers: {
             'Authorization': `Token ${userToken}`,
