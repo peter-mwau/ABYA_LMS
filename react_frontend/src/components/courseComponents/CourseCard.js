@@ -14,7 +14,7 @@ const CourseCard = ({ courses, baseUrl }) => {
 	const [refreshTrigger, setRefreshTrigger] = useState(false); // State to trigger refresh
 
 	const navigate = useNavigate();
-	
+
 	const handleNavigate = () => {
 		user?.user_type === "Teacher"
 			? navigate("/create-course/")
@@ -22,37 +22,36 @@ const CourseCard = ({ courses, baseUrl }) => {
 	};
 
 	// Function to toggle the refresh trigger
-    const refreshComponent = () => {
-        setRefreshTrigger(prev => !prev);
-    };
+	const refreshComponent = () => {
+		setRefreshTrigger((prev) => !prev);
+	};
 
 	// Initialize all courses' approval form open status to false
-    useEffect(() => {
-        const initialFormOpenStatuses = courses.reduce((acc, course) => {
-            acc[course.id] = false; // Initially, all forms are closed
-            return acc;
-        }, {});
-        setIsApprovalFormOpen(initialFormOpenStatuses);
-    }, [courses, refreshTrigger]);
+	useEffect(() => {
+		const initialFormOpenStatuses = courses.reduce((acc, course) => {
+			acc[course.id] = false; // Initially, all forms are closed
+			return acc;
+		}, {});
+		setIsApprovalFormOpen(initialFormOpenStatuses);
+	}, [courses, refreshTrigger]);
 
-    const handleOpenForm = (courseId) => {
+	const handleOpenForm = (courseId) => {
 		setOpenFormCourseId(courseId);
-        setIsApprovalFormOpen(prevStatuses => ({
-            ...prevStatuses,
-            [courseId]: true, // Open the form for this course
-        }));
-		refreshComponent();
-    };
-
-    const handleCloseForm = (courseId) => {
-		setOpenFormCourseId(null);
-        setIsApprovalFormOpen(prevStatuses => ({
-            ...prevStatuses,
-            [courseId]: false, // Close the form for this course
-        }));
+		setIsApprovalFormOpen((prevStatuses) => ({
+			...prevStatuses,
+			[courseId]: true, // Open the form for this course
+		}));
 		refreshComponent();
 	};
 
+	const handleCloseForm = (courseId) => {
+		setOpenFormCourseId(null);
+		setIsApprovalFormOpen((prevStatuses) => ({
+			...prevStatuses,
+			[courseId]: false, // Close the form for this course
+		}));
+		refreshComponent();
+	};
 
 	return (
 		<div className="md:grid md:grid-cols-2 lg:grid-cols-4 gap-5 px-5 ">
@@ -71,17 +70,17 @@ const CourseCard = ({ courses, baseUrl }) => {
 							/>
 						</section>
 						<section className="md:p-4 mt-2 md:w-full w-3/5">
-								<>
-									{course.approved ? (
+							<>
+								{course.approved ? (
 									<p className="text-sm text-gray-500 py-3 p-2">
 										{course.teacher} enrolled
 									</p>
-									) : (
-										<p className="font-semibold pb-4 text-yellow-400 w-[200px] rounded-3xl ">
-											Pending approval..
-										</p>
-									)}
-								</>
+								) : (
+									<p className="font-semibold pb-4 text-yellow-400 w-[200px] rounded-3xl ">
+										Pending approval..
+									</p>
+								)}
+							</>
 							<h2 className="text-lg font-semibold">{course.course_name}</h2>
 
 							<p className="truncate text-gray-700 dark:text-gray-300 font-semibold">
@@ -113,19 +112,23 @@ const CourseCard = ({ courses, baseUrl }) => {
 									)}
 								</ul>
 							) : (
-								
 								<div className="">
-									{ user?.user_type === "Teacher" && (
-									<button
-										onClick={() => handleOpenForm(course.id)}
-										className="my-3 font-semibold text-green-500 px-5 w-auto bg-green-300 py-2 rounded-3xl">				
-										Approve Course
-									</button>
+									{user?.user_type === "Teacher" && (
+										<button
+											onClick={() => handleOpenForm(course.id)}
+											className="my-3 font-semibold text-green-500 px-5 w-auto bg-green-300 py-2 rounded-3xl"
+										>
+											Approve Course
+										</button>
 									)}
-									{isApprovalFormOpen[course.id] && openFormCourseId === course.id && <ApprovalForm courseId={course.id} onClose={handleCloseForm} />}
-							
+									{isApprovalFormOpen[course.id] &&
+										openFormCourseId === course.id && (
+											<ApprovalForm
+												courseId={course.id}
+												onClose={handleCloseForm}
+											/>
+										)}
 								</div>
-								
 							)}
 						</section>
 					</div>
