@@ -9,6 +9,7 @@ import Web3 from 'web3';
 
 
 const CourseForm = () => {
+	const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 	const [image, setImage] = useState(null);
 	// const { isWalletConnected } = useContext(Walletcontext);
 	const { account, isWalletConnected } = useContext(WalletContext);
@@ -82,7 +83,7 @@ const CourseForm = () => {
 		);
 		try {
 			const response = await axios.post(
-				"http://localhost:8000/courses/courses/create-course/",
+				`${BASE_URL}/courses/courses/create-course/`,
 				data,
 				{
 					headers: {
