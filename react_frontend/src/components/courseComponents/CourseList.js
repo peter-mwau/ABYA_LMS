@@ -4,8 +4,9 @@ import CourseCard from "./CourseCard";
 import { UserContext } from "../../contexts/userContext";
 
 const CourseList = () => {
-	const baseUrl = "http://localhost:8000/courses";
-	const url = "http://localhost:8000/courses/courses/list-courses";
+	const BASE_URL = process.env.REACT_APP_API_BASE_URL;
+	const baseUrl = `${BASE_URL}/courses`;
+	const url = `${BASE_URL}/courses/courses/list-courses`;
 	const { user } = useContext(UserContext);
 	const [courses, setCourses] = useState([]);
 	const [isLoading, setIsLoading] = useState(true);

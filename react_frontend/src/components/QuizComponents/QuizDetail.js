@@ -3,7 +3,9 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { UserContext } from '../../contexts/userContext';
 
+
 const QuizDetail = () => {
+  const BASE_URL = process.env.REACT_APP_API_BASE_URL;
   const { quizId } = useParams();
   const { user } = useContext(UserContext);
   const [quizData, setQuizData] = useState(null);
@@ -21,13 +23,12 @@ const QuizDetail = () => {
   useEffect(() => {
     const fetchQuizData = async () => {
       try {
-        const response = await axios.get(`http://localhost:8000/assignments/fetch-quiz-data/${quizId}/`, {
+        const response = await axios.get(`${BASE_URL}/assignments/fetch-quiz-data/${quizId}/`, {
           headers: {
             Authorization: `Token ${localStorage.getItem('userToken')}`,
           },
         });
         setQuizData(response.data);
-        console.log(response.data);
       } catch (error) {
         setError('Error fetching quiz data');
       } finally {
@@ -41,7 +42,6 @@ const QuizDetail = () => {
   }, [quizId]);
 
   useEffect(() => {
-    // If retryBlocked is true, start the countdown
     if (retryBlocked && retryCooldown) {
       const intervalId = setInterval(() => {
         const now = new Date();
@@ -79,6 +79,10 @@ const QuizDetail = () => {
   };
 
   const handleSubmit = async () => {
+    if (!window.confirm("Are you sure you want to submit your answers?")) {
+      return;
+    }
+
     const totalQuestions = quizData.questions.length;
     const correctAnswers = quizData.questions.filter(
       (question) => question.choices.find((choice) => choice.id === answers[question.id] && choice.is_correct)
@@ -88,7 +92,7 @@ const QuizDetail = () => {
 
     try {
       const response = await axios.post(
-        'http://localhost:8000/assignments/quiz-submissions/submit/',
+        `${BASE_URL}/assignments/quiz-submissions/submit/`,
         {
           student: user.id,
           quiz: quizId,
@@ -118,9 +122,11 @@ const QuizDetail = () => {
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;
-  if (!quizData) return <div>No quiz data available</div>;
+  if (!quizData || !quizData.questions || quizData.questions.length === 0) return <div>No quiz data available</div>;
 
   const currentQuestion = quizData.questions[currentQuestionIndex];
+
+  if (!currentQuestion) return <div>Invalid question index</div>;
 
   const formatTimeLeft = (seconds) => {
     const hours = Math.floor(seconds / 3600);
