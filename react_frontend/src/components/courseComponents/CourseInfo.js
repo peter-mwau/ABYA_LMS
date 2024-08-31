@@ -4,6 +4,8 @@ import { useParams } from 'react-router-dom';
 import { UserContext } from '../../contexts/userContext';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import  WalletContext  from "../../contexts/walletContext";
+import Web3 from 'web3';
 
 const CourseInfo = () => {
   const { courseId } = useParams();
@@ -14,6 +16,16 @@ const CourseInfo = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [courseDetails, setCourseDetails] = useState(null);
   const [loading, setLoading] = useState(true);
+  const { account, isWalletConnected } = useContext(WalletContext);
+  const [checksumAccount, setChecksumAccount] = useState("");
+
+  useEffect(() => {
+    if (account) {
+        const checksumAddress = Web3.utils.toChecksumAddress(account);
+        setChecksumAccount(checksumAddress);
+        console.log("Checksum Account: ", checksumAddress);
+    }
+}, [account]);
 
   console.log("User: ", user);
 
@@ -50,7 +62,7 @@ const CourseInfo = () => {
   const enrollCourse = async () => {
     try {
       const userToken = localStorage.getItem('userToken');
-      const response = await axios.post(`http://localhost:8000/courses/enroll/${courseId}/`, {},
+      const response = await axios.post(`http://localhost:8000/courses/enroll/${courseId}/`, {account: checksumAccount},
         {
           headers: {
             'Authorization': `Token ${userToken}`,
@@ -60,6 +72,7 @@ const CourseInfo = () => {
       if (response.status !== 200) {
         // throw new Error('Failed to enroll in the course');
         setErrorMessage(response.data)
+        
       }
 
       // Update enrollment status
@@ -75,7 +88,7 @@ const CourseInfo = () => {
   const unenrollCourse = async () => {
     try {
       const userToken = localStorage.getItem('userToken');
-      const response = await axios.post(`http://localhost:8000/courses/unenroll/${courseId}/`, {},
+      const response = await axios.post(`http://localhost:8000/courses/unenroll/${courseId}/`, { account: checksumAccount},
         {
           headers: {
             'Authorization': `Token ${userToken}`,

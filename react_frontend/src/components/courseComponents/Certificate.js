@@ -1,15 +1,39 @@
-import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+// import { useLocation } from 'react-router-dom';
 import html2canvas from 'html2canvas';
 import html2pdf from 'html2pdf.js';
 import '../../globals_cert.css';
 import '../../master.css';
 import '../../style_cert.css';
+import axios from 'axios';  
+import { useParams } from 'react-router-dom';
 
 const Certificate = () => {
-  const location = useLocation();
-  const certificateData = location.state?.certificateData;
-  console.log("Certificate data: ", certificateData);
+  // const location = useLocation();
+  // const certificateData = location.state?.certificateData;
+  const { courseId } = useParams();
+  const [certificateData, setCertificateData] = useState('');
+
+  console.log("Course ID: ", courseId);
+
+  axios.post(`http://localhost:8000/courses/certificate/${courseId}/`, {})
+    .then(response => {
+        const certificateId = response.data.certificateId;
+        const certificateDetails = response.data.certificate;
+        // Display certificateId and certificateDetails in the frontend
+        setCertificateData(certificateDetails);
+        console.log("Certificate Details: ", certificateData);
+        console.log("Certificate ID: ", certificateId);
+    })
+    .catch(error => {
+        console.error('Error issuing certificate:', error);
+    });
+
+    useEffect(() => {
+      console.log("Certificate Details: ", certificateData);
+  }, [certificateData]);
+  
+
 
   const downloadPDF = () => {
     const elementToConvert = document.querySelector('.course-professional');
@@ -38,9 +62,9 @@ const Certificate = () => {
 
   return (
     <div>
-      <header className="m-2 top-0">
+      <header className="m-2 top-0 flex items-end justify-end ml-[200px]">
         <button
-          className="bg-cyan-950 hover:bg-yellow-500 p-2 rounded-md text-gray-100"
+          className="text-cyan-950 p-2 underline "
           onClick={() => window.history.back()}
         >
           Back to Courses
@@ -92,7 +116,9 @@ const Certificate = () => {
               <div className="group-5">
                 <div className="overlap-2">
                   <div className="overlap-3">
-                    <div className="text-wrapper">{certificateData.issue_date}</div>
+                    <div className="text-wrapper">
+                      {certificateData.issue_date}
+                    </div>
                     <div className="overlap-group-wrapper">
                       <div className="overlap-4">
                         <div className="group-6">
@@ -144,7 +170,9 @@ const Certificate = () => {
                     <div className="group-8">
                       <div className="overlap-group-3">
                         <div className="text-wrapper-4">For successfully completing</div>
-                        <div className="decentralization">DECENTRALIZATION USING BLOCKCHAIN</div>
+                        <div className="decentralization">
+                          {certificateData.courseName}
+                        </div>
                       </div>
                     </div>
                     <div className="text-wrapper-5 flex mx-auto items-center justify-center">
@@ -232,7 +260,9 @@ const Certificate = () => {
                   </div>
                 </div>
                 <p className="text-wrapper-9 flex mx-auto flex-col items-center justify-center w-full">
-                  Certificate ID: <span>{certificateData.certificate_id}</span>
+                  Certificate ID: <span>
+                    {certificateData.certificate_id}
+                    </span>
                 </p>
                 <img
                   src={`https://api.qrserver.com/v1/create-qr-code/?data=http://0.0.0.0:8080/verify-certificate/?certificate_id=${certificateData.certificate_id}`}

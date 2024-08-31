@@ -41,7 +41,7 @@ const CourseCard = ({ courses, baseUrl }) => {
             ...prevStatuses,
             [courseId]: true, // Open the form for this course
         }));
-		refreshComponent();
+		// refreshComponent();
     };
 
     const handleCloseForm = (courseId) => {

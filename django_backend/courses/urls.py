@@ -25,7 +25,6 @@ urlpatterns = [
     path('certificate/<int:course_id>/', views.CertificateAPIView.as_view(), name='certificate-api'),
     path('video/progress/', views.UpdateVideoProgressAPI.as_view(), name='update_video_progress'),
     path('achievements/', views.AchievementsAPI.as_view(), name='achievements_api'),
-    path('certificate/<int:course_id>/', views.CertificateAPIView.as_view(), name='certificate-api'),
     path('verify_certificate/', views.verify_certificate, name='verify_certificate'),
     path('achievements/', views.achievements, name='achievements'),
     path('courses/<int:pk>/submit-review/', CourseViewSet.as_view({'post': 'submit_review'}), name='submit-review'),
