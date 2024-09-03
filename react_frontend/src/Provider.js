@@ -87,7 +87,7 @@ export default function Providers({ children }) {
 
 	return (
 		<ThemeProvider attribute="class">
-			<UserContext.Provider value={{ user, setUser, balance, account, connectWallet, disconnectWallet }}>
+			<UserContext.Provider value={{ user, setUser, balance, account, setAccount, connectWallet, disconnectWallet }}>
 				<WalletContext.Provider value={walletContextValue}>
 					{children}
 				</WalletContext.Provider>

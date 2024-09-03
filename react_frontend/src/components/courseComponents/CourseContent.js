@@ -9,6 +9,7 @@ import  WalletContext  from '../../contexts/walletContext';
 import Web3 from 'web3';
 
 const CourseContent = () => {
+  const BASE_URL = process.env.REACT_APP_API_BASE_URL;
   const { courseId } = useParams();
   const { courseData, loading, error } = useCourseDetail(courseId);
   const [progress, setProgress] = useState({});
@@ -51,7 +52,7 @@ const CourseContent = () => {
   };
 
   const handleClaimCertificate = () => {
-    axios.post(`http://localhost:8000/courses/certificate/${courseId}/`, {account: checksumAccount}, {
+    axios.post(`${BASE_URL}/courses/certificate/${courseId}/`, {account: checksumAccount}, {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Token ${localStorage.getItem('userToken')}`,// Use axios for request
@@ -77,7 +78,7 @@ const CourseContent = () => {
   const HandleMarkAsRead = async (lessonId, chapterIndex, totalLessons) => {
     try {
       const response = await axios.post(
-        'http://localhost:8000/courses/courses/mark-lesson-as-complete/',
+        `${BASE_URL}/courses/courses/mark-lesson-as-complete/`,
         { lesson_id: lessonId },
         {
           headers: {

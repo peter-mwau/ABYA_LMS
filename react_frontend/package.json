@@ -8,6 +8,7 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.6.2",
     "bootstrap": "^5.3.3",
+    "dotenv": "^16.4.5",
     "flowbite": "^2.2.1",
     "html2canvas": "^1.4.1",
     "html2pdf.js": "^0.10.2",

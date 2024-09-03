@@ -103,7 +103,8 @@ class CourseViewSet(viewsets.ModelViewSet):
         data['teacher'] = request.user.id
         data['teacher_name'] = f"{user.first_name} {user.last_name}"
         data['teacher_eth_address'] = request.data.get('account')
-        # data['teacher_eth_address'] = "0xB3AE1a689A8cF85e70be43C6552371E22C1448C1"
+        data['course_name'] = request.data.get('course_name')
+        data['course_description'] = request.data.get('course_description')
         data['approved'] = False
         data['approval_count'] = 0
 
@@ -118,48 +119,16 @@ class CourseViewSet(viewsets.ModelViewSet):
             # Save the course to the database
             course = serializer.save(teacher=request.user)
 
-            # Interact with smart contract to post course
-            try:
-                nonce = w3.eth.get_transaction_count(
-                    data['teacher_eth_address'])
-
-                # Get the current average gas price
-                current_gas_price = w3.eth.gas_price
-                print(current_gas_price)
-                tx = contract.functions.createCourse(course.id, course.course_name).build_transaction({
-                    'from': data['teacher_eth_address'],
-                    'nonce': nonce,
-                    'gas': 2000000,
-                    'gasPrice': w3.to_wei('20', 'gwei')
-                })
-
-            # Sign the transaction
-                signed_tx = w3.eth.account.sign_transaction(tx, private_key)
-                tx_hash = w3.eth.send_raw_transaction(signed_tx.rawTransaction)
-
-                # Wait for the transaction receipt
-                tx_receipt = w3.eth.wait_for_transaction_receipt(tx_hash)
-                print(tx_receipt)
-
-                # Optionally, handle the transaction receipt
-                if tx_receipt.status == 1:
-                    print("Transaction successful")
-                else:
-                    print("Transaction failed")
-
-            except Exception as e:
-                print(f"Blockchain transaction failed: {e}")
-                course.delete()  # Rollback the course creation if blockchain transaction fails
-                return Response({"error": "Blockchain transaction failed"}, status=status.HTTP_400_BAD_REQUEST)
-
             print("teacher: ", request.user)
             print("request: ", request.user.id)
             print("data details: ", data)
             print("User: ", user)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            print("Course: ", course)
+            return Response({"course_id": course.id, **serializer.data}, status=status.HTTP_201_CREATED)
 
         print(serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
     @action(detail=True, methods=['post'], url_path='submit-review')
     def submit_review(self, request, pk=None):

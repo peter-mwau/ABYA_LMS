@@ -9,6 +9,7 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 
 const Certificate = () => {
+  const BASE_URL = process.env.REACT_APP_API_BASE_URL;
   // const location = useLocation();
   // const certificateData = location.state?.certificateData;
   const { courseId } = useParams();
@@ -16,7 +17,7 @@ const Certificate = () => {
 
   console.log("Course ID: ", courseId);
 
-  axios.post(`http://localhost:8000/courses/certificate/${courseId}/`, {})
+  axios.post(`${BASE_URL}/courses/certificate/${courseId}/`, {})
     .then(response => {
         const certificateId = response.data.certificateId;
         const certificateDetails = response.data.certificate;

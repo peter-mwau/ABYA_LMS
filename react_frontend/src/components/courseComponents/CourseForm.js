@@ -1,46 +1,39 @@
-	// src/components/CourseForm.js
 import React, { useContext, useState, useEffect } from "react";
 import axios from "axios";
 import upload from "../../images/upload.png";
 import { UserContext } from "../../contexts/userContext";
-import  WalletContext  from "../../contexts/walletContext";
+import WalletContext from "../../contexts/walletContext";
 import Web3 from 'web3';
-
-
+import myContractABI from '../../MyContractABI.json';
 
 const CourseForm = () => {
+	const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 	const [image, setImage] = useState(null);
-	// const { isWalletConnected } = useContext(Walletcontext);
-	const { account, isWalletConnected } = useContext(WalletContext);
+	const { account,setAccount, isWalletConnected, connectWallet } = useContext(WalletContext);
 	const userDetails = useContext(UserContext);
 	const [success, setSuccessMessage] = useState("");
 	const [checksumAccount, setChecksumAccount] = useState("");
 
 	useEffect(() => {
-        if (account) {
-            const checksumAddress = Web3.utils.toChecksumAddress(account);
-            setChecksumAccount(checksumAddress);
-            console.log("Checksum Account: ", checksumAddress);
-        }
-    }, [account]);
-
+		if (account) {
+			const checksumAddress = Web3.utils.toChecksumAddress(account);
+			setChecksumAccount(checksumAddress);
+		}
+	}, [account]);
 
 	const [formData, setFormData] = useState({
 		course_name: "",
 		course_description: "",
 		account: "",
 		picture: null,
-		teacher:
-			userDetails && userDetails.user
-				? `${userDetails.user.firstname || ""} ${
-						userDetails.user.lastname || ""
-				  }`
-				: "",
+		teacher: userDetails && userDetails.user
+			? `${userDetails.user.firstname || ""} ${userDetails.user.lastname || ""}`
+			: "",
 	});
 
 	useEffect(() => {
-        setFormData(formData => ({ ...formData, account: checksumAccount }));
-    }, [checksumAccount]);
+		setFormData(formData => ({ ...formData, account: checksumAccount }));
+	}, [checksumAccount]);
 
 	const [errors, setErrors] = useState({});
 
@@ -51,8 +44,6 @@ const CourseForm = () => {
 			[name]: value,
 		});
 	};
-
-	console.log("User details: ", userDetails.user);
 
 	const handleFileChange = (e) => {
 		setFormData({
@@ -65,7 +56,12 @@ const CourseForm = () => {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		const userToken = localStorage.getItem("userToken");
-
+	
+		// Connect to wallet if not connected
+		if (!account) {
+			await connectWallet();
+		}
+	
 		const data = new FormData();
 		data.append("course_name", formData.course_name);
 		data.append("course_description", formData.course_description);
@@ -75,14 +71,14 @@ const CourseForm = () => {
 		data.append(
 			"teacher",
 			userDetails && userDetails.user
-				? `${userDetails.user.firstname || ""} ${
-						userDetails.user.lastname || ""
-				  }`
+				? `${userDetails.user.firstname || ""} ${userDetails.user.lastname || ""}`
 				: ""
 		);
+	
 		try {
+			// Save the course to the database first
 			const response = await axios.post(
-				"http://localhost:8000/courses/courses/create-course/",
+				`${BASE_URL}/courses/courses/create-course/`,
 				data,
 				{
 					headers: {
@@ -91,34 +87,69 @@ const CourseForm = () => {
 					},
 				}
 			);
-			const courseName = formData.course_name; // Save the course name
-			setFormData({
-				course_name: "",
-				course_description: "",
-				account: account,
-				picture: null,
-				teacher:
-					userDetails && userDetails.user
-						? `${userDetails.user.firstname || ""} ${
-								userDetails.user.lastname || ""
-						  }`
-						: "",
-			});
-			setErrors({});
-			console.log("Account: ", formData.account);
-			setSuccessMessage(`${courseName} created successfully`); // Use the saved course name
+	
+			// Extract the generated course ID from the response
+			const courseId = response.data.id;
+	
+			console.log("Course ID:", courseId);
+	
+			const abi = myContractABI;
+			const contractAddress = process.env.REACT_APP_CONTRACT_ADDRESS;
+
+			console.log("All Environment Variables: ", process.env);
+
+	
+			console.log("Contract Address: ", contractAddress);
+	
+			// Interact with the blockchain using Web3
+			const web3 = new Web3(window.ethereum);
+			const contract = new web3.eth.Contract(abi, contractAddress);
+	
+			// Creating the transaction
+			const transaction = contract.methods.createCourse(courseId, formData.course_description);
+	
+			// Estimate gas
+			const gas = await transaction.estimateGas({ from: account });
+			const transactionReceipt = await transaction.send({ from: account, gas });
+	
+			// If the transaction is successful
+			if (transactionReceipt.status) {
+				setSuccessMessage(`${formData.course_name} created successfully on the blockchain and saved in the database.`);
+			} else {
+				console.error("Transaction failed");
+				setErrors({ transaction: "Blockchain transaction failed" });
+			}
+	
 		} catch (error) {
+			console.error("Error:", error);
 			if (error.response && error.response.data) {
 				setErrors(error.response.data);
 			}
 		}
 	};
 
+	useEffect(() => {
+		const handleAccountsChanged = (accounts) => {
+			if (accounts.length > 0) {
+				setAccount(accounts[0]); // Update the account in state
+			} else {
+				console.log('Please connect to MetaMask.');
+			}
+		};
+	
+		window.ethereum.on('accountsChanged', handleAccountsChanged);
+	
+		return () => {
+			window.ethereum.removeListener('accountsChanged', handleAccountsChanged);
+		};
+	}, []);
+	
+	
+	
+	
+
 	return (
-		<form
-			onSubmit={handleSubmit}
-			className="md:flex md:space-x-10 justify-between rounded w-full"
-		>
+		<form onSubmit={handleSubmit} className="md:flex md:space-x-10 justify-between rounded w-full">
 			<div className="-mt-4 md:mt-5 md:w-2/3">
 				<p className="font-bold text-2xl mb-10">CREATE COURSE</p>
 				{success && <p className="text-green-400 font-normal">{success}</p>}
@@ -143,22 +174,13 @@ const CourseForm = () => {
 			</div>
 
 			<label className="cursor-pointer ml-[20%] w-2/5 rounded-lg tracking-wide mt-12 text-center ">
-				<aside
-					className={`${
-						image && "py-4 bg-gray-50"
-					} rounded-lg p-10 text-center items-center border border-dashed`}
-				>
+				<aside className={`${image ? "py-4 bg-gray-50" : ""} rounded-lg p-10 text-center items-center border border-dashed`}>
 					<img
 						src={image ? image : upload}
 						alt="upload icon"
-						className={`${
-							image && "w-40 border-slate-600 h-40 ml-0"
-						} w-20 h-20 ml-6 rounded`}
+						className={`${image ? "w-40 border-slate-600 h-40 ml-0" : "w-20 h-20 ml-6 rounded"}`}
 					/>
-					<p className="font-semibold my-4">
-						{image ? "Change" : "Choose"} course image
-					</p>
-
+					<p className="font-semibold my-4">{image ? "Change" : "Choose"} course image</p>
 					<input type="file" className="hidden" onChange={handleFileChange} />
 				</aside>
 			</label>

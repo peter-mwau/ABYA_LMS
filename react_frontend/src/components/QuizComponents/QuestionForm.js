@@ -8,6 +8,7 @@ import deleteIcon from "../../images/delete.png";
 import useFetch from "./useFetch";
 
 const QuestionForm = () => {
+	const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 	const [quizTitle, setQuizTitle] = useState("");
 	const [questionText, setQuestionText] = useState("");
 	const [quizzes, setQuizzes] = useState([]);
@@ -17,7 +18,7 @@ const QuestionForm = () => {
 	// const [questions, setQuestions] = useState([]);
 	const [isMultipleChoice, setIsMultipleChoice] = useState(false);
 	const [quizId, setQuizId] = useState();
-	const { data } = useFetch("http://localhost:8000/assignments/quiz/");
+	const { data } = useFetch(`${BASE_URL}/assignments/quiz/`);
 
 	const [formData, setFormData] = useState({
 		question_text: questionText,
@@ -58,7 +59,7 @@ const QuestionForm = () => {
 
 		try {
 			const response = await axios.post(
-				`http://localhost:8000/assignments/questions/create-question/${quizId}/`,
+				`${BASE_URL}/assignments/questions/create-question/${quizId}/`,
 				formDataToSend,
 				{
 					headers: {

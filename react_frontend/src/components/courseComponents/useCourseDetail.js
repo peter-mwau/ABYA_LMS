@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 export const useCourseDetail = (courseId) => {
+  const BASE_URL = process.env.REACT_APP_API_BASE_URL;
   const [courseData, setCourseData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -10,7 +11,7 @@ export const useCourseDetail = (courseId) => {
   useEffect(() => {
     // Define a function to fetch course details
     const fetchCourseDetails = () => {
-      axios.get(`http://localhost:8000/courses/course_detail/${courseId}/`, {
+      axios.get(`${BASE_URL}/courses/course_detail/${courseId}/`, {
         headers: {
           Authorization: `Token ${localStorage.getItem('userToken')}`
         }
