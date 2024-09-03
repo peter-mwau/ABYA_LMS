@@ -2,11 +2,13 @@ import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { UserContext } from "../../contexts/userContext";
-import rightArrow from "../../images/right-arrow.png";
-import leftArrow from "../../images/left-arrow.png";
+// import rightArrow from "../../images/right-arrow.png";
+// import leftArrow from "../../images/left-arrow.png";
+import checkIcon from "../../images/check.png";
 
 const QuizDetail = () => {
-	const BASE_URL = process.env.REACT_APP_API_BASE_URL;
+	const BASE_URL =
+		process.env.REACT_APP_API_BASE_URL || "http://127.0.0.1:8000";
 	const { quizId } = useParams();
 	const { user } = useContext(UserContext);
 	const [quizData, setQuizData] = useState(null);
@@ -20,6 +22,7 @@ const QuizDetail = () => {
 	const [retryBlocked, setRetryBlocked] = useState(false);
 	const [retryCooldown, setRetryCooldown] = useState(null);
 	const [score, setScore] = useState(null);
+	const [doneQuizes, setDoneQuizes] = useState([]);
 
 	useEffect(() => {
 		const fetchQuizData = async () => {
@@ -43,7 +46,8 @@ const QuizDetail = () => {
 		if (quizId) {
 			fetchQuizData();
 		}
-	}, [quizId]);
+	}, [quizId, BASE_URL]);
+	const currentQuestion = quizData?.questions[currentQuestionIndex];
 
 	useEffect(() => {
 		if (retryBlocked && retryCooldown) {
@@ -58,6 +62,7 @@ const QuizDetail = () => {
 
 			return () => clearInterval(intervalId);
 		}
+		// Quiz logic
 	}, [retryBlocked, retryCooldown]);
 
 	const handleAnswerChange = (questionId, choiceId) => {
@@ -66,7 +71,10 @@ const QuizDetail = () => {
 			[questionId]: choiceId,
 		});
 		setIsAnswerSelected(true);
+		setDoneQuizes((prevDoneQuizes) => [...prevDoneQuizes, questionId]);
 	};
+
+	console.log(doneQuizes);
 
 	const handleNext = () => {
 		if (currentQuestionIndex < quizData.questions.length - 1) {
@@ -127,15 +135,15 @@ const QuizDetail = () => {
 			setError("Error submitting quiz");
 		}
 	};
-	const currentQuestion = quizData?.questions[currentQuestionIndex];
-	console.log(currentQuestion);
+
+	// console.log(doneQuizes.length);
 
 	if (loading) return <div>Loading...</div>;
 	if (error) return <div>{error}</div>;
 	if (!quizData || !quizData.questions || quizData.questions.length === 0)
 		return <div>No quiz data available</div>;
 
-	const currentQuestion = quizData.questions[currentQuestionIndex];
+	// const currentQuestion = quizData.questions[currentQuestionIndex];
 
 	if (!currentQuestion) return <div>Invalid question index</div>;
 
@@ -146,10 +154,11 @@ const QuizDetail = () => {
 		return `${hours}h ${minutes}m ${secs}s`;
 	};
 
+	console.log(quizData);
 	return (
-		<div className="md:flex relative md:space-x-4 dark:bg-gray-800 dark:text-gray-100 md:w-[78%] md:ml-[20%] md:h-[78vh] mt-4">
+		<div className="md:flex relative md:space-x-4 dark:bg-gray-800 dark:text-gray-100 w-full mx-auto md:mx-0 md:w-[78%] md:ml-[20%] md:h-[78vh] mt-4">
 			<div className="container overflow-x-hidden p-2 md:border md:border-gray-200 rounded-lg md:w-[60%] h-[100%]">
-				<h1 className="font-bold p-3 bg-gray-100 w-[103%] -ml-2 -mt-2">
+				<h1 className="font-bold p-3 bg-gray-100 md:w-[103%] md:-ml-2 -mt-2">
 					Quiz Title: {quizData.quiz_title}
 				</h1>
 				{submissionResult ? (
@@ -198,12 +207,12 @@ const QuizDetail = () => {
 								{currentQuestion?.choices.map((choice) => (
 									<li
 										key={choice.id}
-										className="ml-4 my-3 p-2 rounded-lg w-[90%] md:w-3/4 bg-gray-50 border border-gray-50 has-[input:checked]:bg-green-200"
+										className="ml-4 my-3 p-2 rounded-lg w-[90%] md:w-3/4 bg-gray-50 border border-gray-50 has-[input:checked]:border-green-400 has-[input:checked]:border-3"
 									>
-										<label className="inline-flex items-center space-x-3">
+										<label className="inline-flex items-center space-x-3 text-gray-600">
 											<input
 												type="radio"
-												className="mx-2"
+												className="mx-2 checked:bg-orange-400"
 												name={`question_${currentQuestion.id}`}
 												value={choice.id}
 												checked={answers[currentQuestion.id] === choice.id}
@@ -211,17 +220,22 @@ const QuizDetail = () => {
 													handleAnswerChange(currentQuestion.id, choice.id)
 												}
 											/>
+
 											<p>{choice.text}</p>
 										</label>
 									</li>
 								))}
 							</ul>
 						</div>
-						<div className="flex ml-3 gap-5 w-[80%] lg:w-[20%] absolute bottom-2">
+						<div className="flex space-x-3 ml-5 w-4/5 lg:w-1/3 absolute bottom-3">
 							<button
 								onClick={handlePrevious}
 								disabled={currentQuestionIndex === 0}
-								className="p-2 rounded-lg dark:bg-gray-300 dark:text-cyan-950 font-semibold bg-gray-400 text-gray-100"
+								className={`${
+									currentQuestionIndex === 0
+										? "bg-gray-200 cursor-not-allowed"
+										: "bg-gray-500"
+								} py-2 px-4 w-1/3 rounded-lg dark:bg-gray-300 dark:border-gray-500 dark:text-cyan-950 font-semibold border-gray-500  text-gray-100`}
 							>
 								<p>previous</p>
 							</button>
@@ -229,7 +243,7 @@ const QuizDetail = () => {
 							{currentQuestionIndex < quizData.questions.length - 1 ? (
 								<button
 									onClick={handleNext}
-									className="p-2 dark:bg-gray-300 rounded-lg dark:text-cyan-950 font-semibold bg-gray-400 text-gray-100"
+									className="p-2 w-[50%] dark:bg-gray-300 dark:border-gray-500 rounded-lg dark:text-cyan-950 font-semibold border-gray-500 bg-gray-500 text-gray-100"
 									disabled={!isAnswerSelected}
 								>
 									<p>next</p>
@@ -247,9 +261,23 @@ const QuizDetail = () => {
 					</>
 				)}
 			</div>
-			<div className="h-[78vh] border border-gray-200 rounded-lg p-3">
-				Hello world
-				{currentQuestion?.length}
+			<div className="h-[78vh] border-gray-200 rounded-lg md:w-[40%]">
+				{quizData.questions?.map((question, index) => (
+					<div
+						className={`${
+							doneQuizes.some((quiz) => quiz === question.id) && "bg-green-100"
+						} bg-gray-50 p-3 rounded-lg mb-3 flex justify-between items-center`}
+						key={index}
+					>
+						<p className="font-semibold text-gray-500 md:ml-3">
+							Question {index + 1}
+						</p>
+						<img src={checkIcon} alt="checkIcon" className="w-5 h-5" />
+						{/* <p className="px-2 rounded-full bg-slate-50 text-2xl items-center">
+							_
+						</p> */}
+					</div>
+				))}
 			</div>
 		</div>
 	);
