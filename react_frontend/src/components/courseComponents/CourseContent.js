@@ -5,6 +5,8 @@ import axios from 'axios';
 import { UserContext } from '../../contexts/userContext';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import  WalletContext  from '../../contexts/walletContext';
+import Web3 from 'web3';
 
 const CourseContent = () => {
   const BASE_URL = process.env.REACT_APP_API_BASE_URL;
@@ -16,6 +18,16 @@ const CourseContent = () => {
   const courseName = courseData?.course_name ?? 'Loading...';
   const [showCongratsPopup, setShowCongratsPopup] = useState(false);
   const navigate = useNavigate();
+  const { account } = useContext(WalletContext);
+  const [checksumAccount, setChecksumAccount] = useState("");
+
+  useEffect(() => {
+    if (account) {
+        const checksumAddress = Web3.utils.toChecksumAddress(account);
+        setChecksumAccount(checksumAddress);
+        console.log("Checksum Account: ", checksumAddress);
+    }
+}, [account]);
 
   const [completedLessons, setCompletedLessons] = useState(() => {
     const saved = localStorage.getItem('completedLessons');
@@ -40,7 +52,7 @@ const CourseContent = () => {
   };
 
   const handleClaimCertificate = () => {
-    axios.post(`${BASE_URL}/courses/certificate/${courseId}/`, {}, {
+    axios.post(`${BASE_URL}/courses/certificate/${courseId}/`, {account: checksumAccount}, {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Token ${localStorage.getItem('userToken')}`,// Use axios for request

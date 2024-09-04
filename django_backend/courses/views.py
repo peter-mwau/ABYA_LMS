@@ -54,6 +54,9 @@ from django.conf import settings
 import json
 import os
 from web3.middleware import geth_poa_middleware
+import time
+from django.core import serializers
+
 
 # Initialize web3 with the provider URL
 w3 = Web3(Web3.HTTPProvider(settings.BLOCKCHAIN_URL))
@@ -65,9 +68,12 @@ w3.middleware_onion.inject(geth_poa_middleware, layer=0)
 
 # Load contract address from environment variable
 contract_address = Web3.to_checksum_address(settings.CONTRACT_ADDRESS)
+print("Contract Address: ", contract_address)
 
-private_key = settings.PRIVATE_KEY
-# private_key = '0x6691d141a2a41150a44f415e325a8f70946c7d8c1fbb039ea3062e124c04cf8e'
+# private_key = settings.PRIVATE_KEY
+private_key = os.getenv('PRIVATE_KEY')
+print("private key: ", private_key)
+# private_key = '0x37ddfd42735124bc7c94192ea99978b26e8f8d5c27b36cd500aa3074174c3c80'
 
 # Load contract ABI from JSON file located at the project root
 with open(os.path.join(settings.BASE_DIR, 'contract_abi.json')) as f:
@@ -97,7 +103,8 @@ class CourseViewSet(viewsets.ModelViewSet):
         data['teacher'] = request.user.id
         data['teacher_name'] = f"{user.first_name} {user.last_name}"
         data['teacher_eth_address'] = request.data.get('account')
-        # data['teacher_eth_address'] = "0xB3AE1a689A8cF85e70be43C6552371E22C1448C1"
+        data['course_name'] = request.data.get('course_name')
+        data['course_description'] = request.data.get('course_description')
         data['approved'] = False
         data['approval_count'] = 0
 
@@ -112,38 +119,16 @@ class CourseViewSet(viewsets.ModelViewSet):
             # Save the course to the database
             course = serializer.save(teacher=request.user)
 
-            # Interact with smart contract to post course
-            try:
-                nonce = w3.eth.get_transaction_count(
-                    data['teacher_eth_address'])
-                tx = contract.functions.createCourse(course.id, course.course_name).build_transaction({
-                    'from': data['teacher_eth_address'],
-                    'nonce': nonce,
-                    'gas': 2000000,
-                    'gasPrice': w3.to_wei('50', 'gwei')
-                })
-
-            # Sign the transaction
-                signed_tx = w3.eth.account.sign_transaction(tx, private_key)
-                tx_hash = w3.eth.send_raw_transaction(signed_tx.rawTransaction)
-
-                # Wait for the transaction receipt
-                receipt = w3.eth.wait_for_transaction_receipt(tx_hash)
-                print(receipt)
-
-            except Exception as e:
-                print(f"Blockchain transaction failed: {e}")
-                course.delete()  # Rollback the course creation if blockchain transaction fails
-                return Response({"error": "Blockchain transaction failed"}, status=status.HTTP_400_BAD_REQUEST)
-
             print("teacher: ", request.user)
             print("request: ", request.user.id)
             print("data details: ", data)
             print("User: ", user)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            print("Course: ", course)
+            return Response({"course_id": course.id, **serializer.data}, status=status.HTTP_201_CREATED)
 
         print(serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
     @action(detail=True, methods=['post'], url_path='submit-review')
     def submit_review(self, request, pk=None):
@@ -187,7 +172,7 @@ class CourseViewSet(viewsets.ModelViewSet):
                 ).build_transaction({
                     'from': account,
                     'gas': 2000000,  # Set the appropriate gas limit
-                    'gasPrice': w3.to_wei('30', 'gwei'),
+                    'gasPrice': w3.to_wei('10', 'gwei'),
                     'nonce': nonce,
                 })
 
@@ -566,6 +551,8 @@ class CourseInfoAPI(RetrieveAPIView):
         try:
             course = get_object_or_404(Course, pk=pk)
             course_data = CourseSerializer(course).data
+
+            print("Course: ", course)
             # Initialize counters
             total_chapters = 0
             total_lessons = 0
@@ -584,15 +571,19 @@ class CourseInfoAPI(RetrieveAPIView):
                 total_lessons += lessons.count()
                 total_quizzes += quizzes.count()
 
-            # Add counts to course data
-            course_data['total_chapters'] = total_chapters
-            course_data['total_lessons'] = total_lessons
-            course_data['total_quizzes'] = total_quizzes
-            print("chapter count: ", total_chapters)
-            print("lesson count: ", total_lessons)
-            print("quiz count: ", total_quizzes)
+            # Check enrollment status
+            user = request.user
+            is_enrolled = Enrollment.objects.filter(student=user, course=course).exists()
 
-            print("course details: ", course_data)
+            # Add counts to course data
+            course_data = {
+                **course_data,
+                'total_chapters': total_chapters,
+                'total_lessons': total_lessons,
+                'total_quizzes': total_quizzes,
+                'is_enrolled': is_enrolled, 
+            }
+
         except Course.DoesNotExist:
             return Response({'message': 'Course not found.'}, status=status.HTTP_404_NOT_FOUND)
 
@@ -603,13 +594,44 @@ class CourseInfoAPI(RetrieveAPIView):
 class EnrollCourseAPI(APIView):
     def post(self, request, pk, format=None):
         course = get_object_or_404(Course, pk=pk)
-        enrollment, created = Enrollment.objects.get_or_create(
-            student=request.user, course=course)
+        enrollment, created = Enrollment.objects.get_or_create(student=request.user, course=course)
+        data = request.data.copy()
+        data = request.data
+        data['student_eth_address'] = request.data.get('account')
+        # data['student_eth_address'] = '0xc5161879c665914Fab356D48F58237322e3e4a51'
+        print("Enrolment Data: ", data)
+        # created checks if the enrollment is newly created, meaning that the student was not previously enrolled. True means that the records is new and never existed before
+        print("Created: ",created)
         if created:
-            return Response({'detail': 'You are now enrolled in the course.'}, status=status.HTTP_201_CREATED)
+            # Award tokens for enrollment
+            # student_eth_address = request.enrolllment.student_eth_address
+            # Interaction with smart contract here
+            try:
+                nonce = w3.eth.get_transaction_count(data['student_eth_address'])
+                tx = contract.functions.enrollInCourse(course.id).build_transaction(
+                    {
+                    'from': data['student_eth_address'],
+                    'gas': 2000000, 
+                    'gasPrice': w3.to_wei('30', 'gwei'),
+                    'nonce': nonce,
+                })
+
+                # Sign the transaction
+                signed_txn = w3.eth.account.sign_transaction(tx, private_key)
+
+                # Send the signed transaction
+                tx_hash = w3.eth.send_raw_transaction(signed_txn.rawTransaction)
+
+                # Wait for the transaction to be mined
+                tx_receipt = w3.eth.wait_for_transaction_receipt(tx_hash)
+                print("Transaction receipt: ", tx_receipt)
+
+                return Response({"message": "Enrollment Successful & updated onchain"}, status=status.HTTP_200_OK)
+            except Exception as e:
+                print(f"Blockchain transaction failed: {e}")
+                return Response({"error": "Blockchain transaction failed", "details": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         else:
-            return Response({'detail': 'You are already enrolled in the course.'},
-                            status=status.HTTP_208_ALREADY_REPORTED)
+            return Response({'detail': 'You are already enrolled in the course.'},status=status.HTTP_208_ALREADY_REPORTED)
 
 
 # 7. Endpoint for handling unenrolling of a course
@@ -633,50 +655,113 @@ class CertificateAPIView(APIView):
     def post(self, request, course_id):
         user = request.user
         course = get_object_or_404(Course, pk=course_id)
+        course_name = course.course_name
+        data = request.data.copy()
+        student_eth_address = data.get('account')
+
+        # Convert address to checksum format
+        try:
+            student_eth_address = Web3.to_checksum_address(student_eth_address)
+        except Exception as e:
+            return Response({"error": "Invalid Ethereum address", "details": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        
+        student_eth_address2 = str(data.get('account'))
 
         try:
-            existing_certificate = Certificate.objects.get(
-                user=user, course=course)
+            existing_certificate = Certificate.objects.get(user=user, course=course)
             serializer = CertificateSerializer(existing_certificate)
             return Response(serializer.data, status=status.HTTP_200_OK)
         except ObjectDoesNotExist:
             first_name = user.first_name
             last_name = user.last_name
             full_name = f"{first_name} {last_name}"
-            course_name = course.course_name
             issuer = "ABYA Africa"
             now = datetime.datetime.now()
             unixtime = calendar.timegm(now.utctimetuple())
 
-            certificate_response = {
-                "name": full_name,
-                "course": course_name,
-                "issuer": issuer,
-                "issuer_date": unixtime
-            }
 
-            if all(value is not None for value in certificate_response.values()):
-                certificate_data = send_certificate_request(
-                    certificate_response["name"],
-                    certificate_response["issuer"],
-                    certificate_response["issuer_date"]
-                )
-                print(certificate_data)
+            try:
+                nonce = w3.eth.get_transaction_count(student_eth_address)
+                tx = contract.functions.issueCertificate(
+                    course_id,
+                    student_eth_address2,
+                    course_name,                   
+                    issuer,
+                    unixtime
+                ).build_transaction({
+                    'from': student_eth_address,
+                    'nonce': nonce,
+                    'gas': 2000000,
+                    'gasPrice': w3.to_wei('20', 'gwei')
+                })
 
-                new_certificate = Certificate(
-                    user=user,
-                    course=course,
-                    name=certificate_data['name'],
-                    issuer=certificate_data["issuer"],
-                    issued_at=certificate_data["issue_date"],
-                    certificate_id=certificate_data["certificate_id"]
-                )
-                new_certificate.save()
+                print("Transaction data:", tx)
 
-                serializer = CertificateSerializer(new_certificate)
-                return Response(serializer.data, status=status.HTTP_201_CREATED)
-            else:
-                return Response({"error": "Incomplete certificate data"}, status=status.HTTP_400_BAD_REQUEST)
+
+                print("course_id: ", course_id)
+                print("Type of course_id: ", type(course_id))
+                print("Checksum Address: ", student_eth_address)
+                print("Type of student_eth_address: ", type(student_eth_address))
+                print("course_name: ", course_name)
+                print("Type of course_name: ", type(course_name))
+                print("issuer: ", issuer)
+                print("Type of issuer: ", type(issuer))
+                print("unixtime: ", unixtime)
+                print("Type of unixtime: ", type(unixtime))
+
+                # Sign the transactionw3.eth.defaultAccount
+                signed_tx = w3.eth.account.sign_transaction(tx, private_key)
+                tx_hash = w3.eth.send_raw_transaction(signed_tx.rawTransaction)
+
+                print(f"Transaction hash: {tx_hash}")
+
+                # Wait for the transaction receipt
+                tx_receipt = w3.eth.wait_for_transaction_receipt(tx_hash)
+
+                print(f"Transaction receipt: {tx_receipt}")
+
+                if tx_receipt.status == 1:
+                    print("Transaction successful")
+
+                    # Assuming the smart contract returns the certificate ID and details
+                    certificate_id, certificate_details = contract.functions.issueCertificate(
+                        course_id,
+                        issuer,
+                        course_name,
+                        unixtime
+                    ).call()
+
+                    print(f"Certificate ID: {certificate_id}")
+
+                    new_certificate = Certificate(
+                        user=user,
+                        course=course_name,
+                        name=full_name,
+                        issuer=issuer,
+                        issued_at=unixtime,
+                        certificate_id=certificate_id
+                    )
+
+                    new_certificate.save()
+
+                    # Serialize and return the new certificate
+                    serializer = CertificateSerializer(new_certificate)
+                    response_data = {
+                        'message': 'Certificate issued successfully.',
+                        'certificate': serializer.data,
+                        'certificateId': certificate_id,
+                    }
+                    return Response(response_data, status=status.HTTP_201_CREATED)
+                else:
+                    print("Transaction failed")
+                    return Response({"error": "Blockchain transaction failed"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            except ValueError as e:
+                print(f"ValueError: {e}")
+                return Response({"error": "Blockchain transaction failed", "details": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            except Exception as e:
+                print(f"Blockchain transaction failed: {e}")
+                return Response({"error": "Blockchain transaction failed", "details": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
 # View that handles the certificate access and retrieval
 
 

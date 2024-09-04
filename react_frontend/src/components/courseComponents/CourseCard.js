@@ -44,6 +44,7 @@ const CourseCard = ({ courses, baseUrl }) => {
 		refreshComponent();
 	};
 
+
 	const handleCloseForm = (courseId) => {
 		setOpenFormCourseId(null);
 		setIsApprovalFormOpen((prevStatuses) => ({
@@ -73,7 +74,7 @@ const CourseCard = ({ courses, baseUrl }) => {
 							<>
 								{course.approved ? (
 									<p className="text-sm text-gray-500 py-3 p-2">
-										{course.teacher} enrolled
+										{course.students.length} enrolled
 									</p>
 								) : (
 									<p className="font-semibold pb-4 text-yellow-400 w-[200px] rounded-3xl ">
