@@ -1,90 +1,126 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-// import { useCourseDetail } from './useCourseDetail';
 import { UserContext } from '../../contexts/userContext';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import  WalletContext  from "../../contexts/walletContext";
+import WalletContext from "../../contexts/walletContext";
 import Web3 from 'web3';
+import myContractABI from '../../MyContractABI.json';
+
 
 const CourseInfo = () => {
   const BASE_URL = process.env.REACT_APP_API_BASE_URL;
   const { courseId } = useParams();
-  // const { courseData, loading, error } = useCourseDetail(courseId);
   const { user } = useContext(UserContext);
   const [isEnrolled, setIsEnrolled] = useState(false);
   const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState('');
   const [courseDetails, setCourseDetails] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const { account, isWalletConnected } = useContext(WalletContext);
+  const { account, isWalletConnected, connectWallet } = useContext(WalletContext);
   const [checksumAccount, setChecksumAccount] = useState("");
+  const [successMessage, setSuccessMessage] = useState('');
+
+  const contractABI = myContractABI;
+  const contractAddress = process.env.REACT_APP_CONTRACT_ADDRESS;
 
   useEffect(() => {
     if (account) {
-        const checksumAddress = Web3.utils.toChecksumAddress(account);
-        setChecksumAccount(checksumAddress);
-        console.log("Checksum Account: ", checksumAddress);
+      const checksumAddress = Web3.utils.toChecksumAddress(account);
+      setChecksumAccount(checksumAddress);
+      console.log("Checksum Account: ", checksumAddress);
     }
-}, [account]);
-
-  console.log("User: ", user);
+  }, [account]);
 
   useEffect(() => {
-  const fetchCourseDetails = async () => {
-    try {
+    const fetchCourseDetails = async () => {
+      try {
+        const userToken = localStorage.getItem('userToken');
+        const response = await axios.get(`${BASE_URL}/courses/course_info/${courseId}/`, {
+          headers: {
+            'Authorization': `Token ${userToken}`,
+          },
+        });
+  
+        if (response.status === 200) {
+          setCourseDetails(response.data);
+          setIsEnrolled(response.data.is_enrolled);
+          console.log("COURSE DETAILS:  ", courseDetails);
+          console.log("Enrollment Status:  ", isEnrolled);
+        } else {
+          setErrorMessage('Failed to fetch course details');
+        }
+      } catch (error) {
+        console.error('Error fetching course details:', error);
+        setErrorMessage(error.message || 'An error occurred while fetching course details');
+      }
+    };
+  
+   
+      fetchCourseDetails();
+    }, []);
+
+  // Function to enroll in the course on the blockchain
+const enrollInCourseOnBlockchain = async (courseId) => {
+  const web3 = new Web3(window.ethereum); // Assuming you're using MetaMask
+  const contract = new web3.eth.Contract(contractABI, contractAddress);
+
+  // Connect to wallet if not connected
+  if (!account) {
+    await connectWallet();
+  }
+
+  try {
+    // Request account access if needed
+    await window.ethereum.request({ method: 'eth_requestAccounts' });
+
+    // Creating the transaction
+			const transaction = contract.methods.enrollInCourse(courseId);
+	
+			// Estimate gas
+			const gas = await transaction.estimateGas({ from: account });
+			const transactionReceipt = await transaction.send({ from: account, gas });
+	
+			// If the transaction is successful
+			if (transactionReceipt.status) {
+				setSuccessMessage(`You have successfully being enrolled into course ${courseId}`);
+			} else {
+				console.error("Transaction failed");
+				setErrorMessage({ transaction: "Blockchain transaction failed" });
+        console.log(errorMessage);
+			}
+
+    return true; // Successful transaction
+  } catch (error) {
+    console.error('Blockchain transaction failed:', error);
+    throw new Error('Blockchain transaction failed');
+  }
+};
+
+const enrollCourse = async () => {
+  try {
+    const txSuccess = await enrollInCourseOnBlockchain(courseId, checksumAccount);
+    
+    if (txSuccess) {
+      // Step 2: If blockchain transaction is successful, enroll in the course on the backend
       const userToken = localStorage.getItem('userToken');
-      const response = await axios.get(`${BASE_URL}/courses/course_info/${courseId}/`, {
+      const response = await axios.post(`${BASE_URL}/courses/enroll/${courseId}/`, { account: checksumAccount }, {
         headers: {
           'Authorization': `Token ${userToken}`,
         },
       });
 
       if (response.status === 200) {
-        setCourseDetails(response.data);
-        setIsEnrolled(response.data.is_enrolled);
-        console.log("COURSE DETAILS:  ", courseDetails);
-        console.log("Enrollment Status:  ", isEnrolled);
+        setIsEnrolled(true);
+        setErrorMessage('');
       } else {
-        setErrorMessage('Failed to fetch course details');
+        setErrorMessage(response.data);
       }
-    } catch (error) {
-      console.error('Error fetching course details:', error);
-      setErrorMessage(error.message || 'An error occurred while fetching course details');
     }
-  };
-
- 
-    fetchCourseDetails();
-  }, []);
-
- 
-
-  const enrollCourse = async () => {
-    try {
-      const userToken = localStorage.getItem('userToken');
-      const response = await axios.post(`${BASE_URL}/courses/enroll/${courseId}/`, {account: checksumAccount},
-        {
-          headers: {
-            'Authorization': `Token ${userToken}`,
-          },
-        });
-
-      if (response.status !== 200) {
-        // throw new Error('Failed to enroll in the course');
-        setErrorMessage(response.data)
-        
-      }
-
-      // Update enrollment status
-      setIsEnrolled(true);
-      setErrorMessage('');
-      // console.log("Enrollment status2: ", isEnrolled);
-    } catch (error) {
-      console.error("Error enrolling in course: ", error);
-      setErrorMessage(error.message[0] || "An error occurred");
-    }
-  };
+  } catch (error) {
+    console.error("Error enrolling in course:", error);
+    setErrorMessage(error.message || "An error occurred");
+  }
+};
 
   const unenrollCourse = async () => {
     try {
@@ -107,12 +143,12 @@ const CourseInfo = () => {
       console.error(error);
     }
   };
-  
 
   return (
     <>
     <div className='dark:bg-gray-800 h-[100vh]'>
     <div className="mx-auto p-4 text-cyan-950 dark:text-gray-100 md:pl-[280px] md:w-[90%] lg:w-[60%] lg:pl-[200px]">
+      {successMessage && <div className='text-green-500 text-sm text-center'>{successMessage}</div>}
     {courseDetails ? (
       <>
       <h1 className="text-3xl font-bold mb-4">{courseDetails['course_name']}</h1>
@@ -152,6 +188,5 @@ const CourseInfo = () => {
     </>
   );
 };
-
 
 export default CourseInfo;
