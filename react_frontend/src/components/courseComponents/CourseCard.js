@@ -1,17 +1,12 @@
 import { UserContext } from "../../contexts/userContext";
-import { useContext, useState, useEffect } from "react";
+import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import editIcon from "../../images/editIcon.png";
-import ApprovalForm from "./ApproveForm";
 
 const CourseCard = ({ courses, baseUrl }) => {
 	const { user } = useContext(UserContext);
-	// const [isApproved, setIsApproved] = useState(false);
-	const [isApprovalFormOpen, setIsApprovalFormOpen] = useState({});
-	const [approvalStatuses, setApprovalStatuses] = useState({});
-	const [openFormCourseId, setOpenFormCourseId] = useState(null);
-	const [refreshTrigger, setRefreshTrigger] = useState(false); // State to trigger refresh
+
 
 	const navigate = useNavigate();
 
@@ -21,39 +16,13 @@ const CourseCard = ({ courses, baseUrl }) => {
 			: navigate("course-list");
 	};
 
-	// Function to toggle the refresh trigger
-	const refreshComponent = () => {
-		setRefreshTrigger((prev) => !prev);
-	};
 
-	// Initialize all courses' approval form open status to false
-	useEffect(() => {
-		const initialFormOpenStatuses = courses.reduce((acc, course) => {
-			acc[course.id] = false; // Initially, all forms are closed
-			return acc;
-		}, {});
-		setIsApprovalFormOpen(initialFormOpenStatuses);
-	}, [courses, refreshTrigger]);
 
 	const handleOpenForm = (courseId) => {
 		navigate(`/course_review/${courseId}`)
-		// setOpenFormCourseId(courseId);
-		// setIsApprovalFormOpen((prevStatuses) => ({
-		// 	...prevStatuses,
-		// 	[courseId]: true, // Open the form for this course
-		// }));
-		// refreshComponent();
 	};
 
 
-	const handleCloseForm = (courseId) => {
-		setOpenFormCourseId(null);
-		setIsApprovalFormOpen((prevStatuses) => ({
-			...prevStatuses,
-			[courseId]: false, // Close the form for this course
-		}));
-		refreshComponent();
-	};
 
 	return (
 		<div className="md:grid md:grid-cols-2 lg:grid-cols-4 gap-5 px-5 ">
@@ -123,13 +92,6 @@ const CourseCard = ({ courses, baseUrl }) => {
 											Approve Course
 										</button>
 									)}
-									{isApprovalFormOpen[course.id] &&
-										openFormCourseId === course.id && (
-											<ApprovalForm
-												courseId={course.id}
-												onClose={handleCloseForm}
-											/>
-										)}
 									
 								</div>
 							)}

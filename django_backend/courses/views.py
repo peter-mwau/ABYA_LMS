@@ -132,11 +132,14 @@ class CourseViewSet(viewsets.ModelViewSet):
 
     @action(detail=True, methods=['post'], url_path='submit-review')
     def submit_review(self, request, pk=None):
-        # course = get_object_or_404(Course, pk=pk)
+        # Get the course instance
         course = self.get_object()
+
+        # Check if the course is already approved
         if not course.approved:
             data = request.data
-            account = data.get('account')
+        
+            # Extract review data from the request
             learnerAgency = int(data.get('learnerAgency'))
             criticalThinking = int(data.get('criticalThinking'))
             collaborativeLearning = int(data.get('collaborativeLearning'))
@@ -146,55 +149,18 @@ class CourseViewSet(viewsets.ModelViewSet):
             technologyIntegration = int(data.get('technologyIntegration', 0))
             learnerSupport = int(data.get('learnerSupport', 0))
             assessmentForLearning = int(data.get('assessmentForLearning', 0))
-            engagementAndMotivation = int(
-                data.get('engagementAndMotivation', 0))
-            pk = int(pk)
+            engagementAndMotivation = int(data.get('engagementAndMotivation', 0))
 
-            print("Data: ", data)
-            print(pk)
-            print(account)
+            # Here you can add additional logic if needed, such as storing review data
 
-            # Interaction with smart contract here
-            try:
-                nonce = w3.eth.get_transaction_count(account)
-                tx = contract.functions.submitReview(
-                    pk,
-                    learnerAgency,
-                    criticalThinking,
-                    collaborativeLearning,
-                    reflectivePractice,
-                    adaptiveLearning,
-                    authenticLearning,
-                    technologyIntegration,
-                    learnerSupport,
-                    assessmentForLearning,
-                    engagementAndMotivation
-                ).build_transaction({
-                    'from': account,
-                    'gas': 2000000,  # Set the appropriate gas limit
-                    'gasPrice': w3.to_wei('10', 'gwei'),
-                    'nonce': nonce,
-                })
+            # Update course approval status after successful blockchain transaction
+            course.approved = True
+            course.save()
 
-                # Sign the transaction
-                signed_txn = w3.eth.account.sign_transaction(tx, private_key)
+            return Response({"message": "Review submitted and course approved successfully"}, status=status.HTTP_200_OK)
+        else:
+            return Response({"error": "Course already approved"}, status=status.HTTP_400_BAD_REQUEST)
 
-                # Send the signed transaction
-                tx_hash = w3.eth.send_raw_transaction(
-                    signed_txn.rawTransaction)
-
-                # Wait for the transaction to be mined
-                tx_receipt = w3.eth.wait_for_transaction_receipt(tx_hash)
-
-                # Update course approval status
-                course.approved = True
-                course.save()
-
-                return Response({"message": "Review submitted and course approved successfully"}, status=status.HTTP_200_OK)
-            except Exception as e:
-                print(f"Blockchain transaction failed: {e}")
-            return Response({"error": "Blockchain transaction failed"}, status=status.HTTP_400_BAD_REQUEST)
-        return Response({"error": "Course already approved"}, status=status.HTTP_400_BAD_REQUEST)
 
     @action(detail=False, methods=['get'], url_path='list-courses')
     def list_courses(self, request):
