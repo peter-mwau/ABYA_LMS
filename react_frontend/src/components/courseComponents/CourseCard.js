@@ -36,12 +36,13 @@ const CourseCard = ({ courses, baseUrl }) => {
 	}, [courses, refreshTrigger]);
 
 	const handleOpenForm = (courseId) => {
-		setOpenFormCourseId(courseId);
-		setIsApprovalFormOpen((prevStatuses) => ({
-			...prevStatuses,
-			[courseId]: true, // Open the form for this course
-		}));
-		refreshComponent();
+		navigate(`/course_review/${courseId}`)
+		// setOpenFormCourseId(courseId);
+		// setIsApprovalFormOpen((prevStatuses) => ({
+		// 	...prevStatuses,
+		// 	[courseId]: true, // Open the form for this course
+		// }));
+		// refreshComponent();
 	};
 
 
@@ -129,6 +130,7 @@ const CourseCard = ({ courses, baseUrl }) => {
 												onClose={handleCloseForm}
 											/>
 										)}
+									
 								</div>
 							)}
 						</section>
