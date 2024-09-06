@@ -66,9 +66,12 @@ class Lesson(models.Model):
 class Enrollment(models.Model):
     course = models.ForeignKey(Course, related_name="enrollments",on_delete=models.CASCADE)
     student = models.ForeignKey(User, related_name="user_courses", on_delete=models.CASCADE)
+    student_eth_address = models.CharField(max_length=42, default='0x..')
 
     def __str__(self):
-        self.student.username
+        user_name = f'{self.student.first_name} {self.student.last_name}'
+
+        return f'{user_name} enrolled in {self.course.course_name}'
 
     class Meta:
         unique_together = ('course', 'student')

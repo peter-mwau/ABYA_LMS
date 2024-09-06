@@ -326,7 +326,7 @@ class FetchQuizDataView(APIView):
     def get(self, request, pk):
         quiz = get_object_or_404(Quiz, pk=pk)
         serializer = DetailedQuizSerializer(quiz)
-        print(serializer.data)
+        # print(serializer.data)
         return Response(serializer.data)        
 
 

@@ -15,7 +15,7 @@ const QuestionForm = () => {
 	const [questionCount, setQuestionCount] = useState(1);
 	const navigate = useNavigate();
 	const { quiz, setQuiz } = useContext(quizContext);
-	// const [questions, setQuestions] = useState([]);
+	const [questions, setQuestions] = useState([]);
 	const [isMultipleChoice, setIsMultipleChoice] = useState(false);
 	const [quizId, setQuizId] = useState();
 	const { data } = useFetch(`${BASE_URL}/assignments/quiz/`);
@@ -75,6 +75,7 @@ const QuestionForm = () => {
 				choices: ["", "", "", ""],
 				correct_choices: [],
 			});
+			setQuestions((prevQuestions) => [...prevQuestions, questionText]);
 			console.log("Response", response.data);
 		} catch (error) {
 			console.error("Error creating question:", error);
@@ -83,27 +84,7 @@ const QuestionForm = () => {
 			}
 		}
 	};
-
-	// const handleChoiceChange = (index, field, value) => {
-	// 	setQuiz({
-	// 		...quiz,
-	// 		[field]: value,
-	// 	});
-	// 	const newChoices = [...formData.choices];
-	// 	setChoices((prevChoices) => {
-	// 		return prevChoices.map((choice, i) => {
-	// 			if (i === index) {
-	// 				return { ...choice, [field]: value };
-	// 			} else if (field === "isCorrect" && !multipleCorrect) {
-	// 				return { ...choice, isCorrect: false };
-	// 			} else {
-	// 				return choice;
-	// 			}
-	// 		});
-	// 	});
-	// }
-
-	console.log("formData:", formData);
+	console.log(questions);
 
 	const handleChoiceChange = (index, value) => {
 		const newChoices = [...formData.choices];
@@ -119,9 +100,8 @@ const QuestionForm = () => {
 		});
 		console.log(value);
 	};
-	// const addChoice = () => {
-	// 	setChoices([...choices, { text: "", isCorrect: false }]);
-	// };
+
+	console.log(Object.values(questions));
 
 	const handleCorrectChoiceChange = (value) => {
 		if (isMultipleChoice) {
@@ -133,29 +113,7 @@ const QuestionForm = () => {
 			setFormData({ ...formData, correct_choices: [value] });
 		}
 	};
-
-	// useEffect(() => {
-
-	// 	const fetchQuizzes = async () => {
-	// 		try {
-	// 			const response = await axios.get(
-	// 				"http://localhost:8000/assignments/quiz/",
-	// 				{
-	// 					headers: {
-	// 						Authorization: `Token ${localStorage.getItem("userToken")}`,
-	// 					},
-	// 				}
-	// 			);
-	// 			const quizTitles = response.data.map((quiz) => quiz.quiz_title);
-	// 			setQuizzes(quizTitles);
-	// 			console.log("Quiz Titles: ", quizTitles);
-	// 		} catch (error) {
-	// 			console.error(error);
-	// 		}
-	// 	};
-
-	// 	// fetchQuizzes();
-	// }, []);
+	console.log(questions);
 
 	return (
 		<div className="md:ml-[20%] mt-4 md:flex md:space-x-5 md:w-[78%] md:mr-[50px] text-cyan-950 dark:bg-gray-900">
@@ -229,7 +187,7 @@ const QuestionForm = () => {
 			</div>
 			{/* Right side of questions for preview */}
 			<div className="md:w-2/5 bg-white rounded-lg border p-4">
-				<p className="font-semibold text-lg mb-5">Edit/Delete questions</p>
+				<p className="font-semibold mb-5 text-2xl">Added questions</p>
 				{quiz.length ? (
 					[quiz].map((quiz) => (
 						<div key={quiz.quiz_title} className="flex space-x-3  items-center">
@@ -244,7 +202,25 @@ const QuestionForm = () => {
 						</div>
 					))
 				) : (
-					<p className="font-medium">Questions will appear here.</p>
+					<>
+						{/* {Object.values(questions).map((question) => (
+							<p className="font-medium" key={question.questionText}>
+								{question.questionText}
+							</p>
+						))} */}
+						{!questions.length ? (
+							<p className="">Questions will appear here</p>
+						) : (
+							questions.map((question) => (
+								<p
+									className="font-medium bg-gray-50 p-2 mb-3 border-lg"
+									key={question}
+								>
+									{question}
+								</p>
+							))
+						)}
+					</>
 				)}
 			</div>
 		</div>
