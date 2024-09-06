@@ -4,6 +4,7 @@ import axios from "axios";
 // import "flowbite";
 
 function Homepage() {
+	const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 	// const [username, setUsername] = useState('');
 	const [isSideNavOpen, setIsSideNavOpen] = useState(false);
 	const userToken = localStorage.getItem("userToken");
@@ -15,7 +16,7 @@ function Homepage() {
 		const fetchCourses = async () => {
 			try {
 				const userToken = localStorage.getItem("userToken");
-				const response = await axios.get("http://localhost:8000/courses/", {
+				const response = await axios.get(`${BASE_URL}/courses/`, {
 					headers: {
 						"Content-Type": "application/json",
 						Authorization: `Bearer ${userToken}`,

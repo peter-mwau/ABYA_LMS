@@ -6,8 +6,9 @@ import axios from "axios";
 import mail from "../images/mail.png";
 
 const ProfileForm = ({ user, isOpen, setIsOpen }) => {
+	const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 	const [userDetails, setUserDetails] = useState(user);
-	const baseUrl = "http://localhost:8000/users";
+	const baseUrl = `${BASE_URL}/users`;
 	const [image, setImage] = useState(null);
 
 	const modalRef = useRef();
@@ -45,7 +46,7 @@ const ProfileForm = ({ user, isOpen, setIsOpen }) => {
 
 		try {
 			const response = await axios.put(
-				"http://localhost:8000/users/profile/",
+				`${BASE_URL}/users/profile/`,
 				formData,
 				{
 					headers: {

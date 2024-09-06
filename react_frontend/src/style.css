@@ -1981,6 +1981,7 @@ NavigationContainer [data-framer-component-type="NavigationContainer"] > *,
 /* Base styles for the navbar */
 .navbar {
     flex: none;
+	margin: 0px;
     height: 70px;
     position: fixed;
     top: 30px;

@@ -8,6 +8,7 @@ import Web3 from 'web3';
 
 
 export default function Providers({ children }) {
+	const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 	const [mounted, setMounted] = useState(false);
 	const [user, setUser] = useState(null);
 	const [account, setAccount] = useState(null);
@@ -52,7 +53,7 @@ export default function Providers({ children }) {
 			if (userToken) {
 				try {
 					const response = await axios.get(
-						"http://localhost:8000/users/profile/",
+						`${BASE_URL}/users/profile/`,
 						{
 							headers: {
 								Authorization: `Token ${userToken}`,
