@@ -153,6 +153,7 @@ class SubmitAssignmentViewSet(viewsets.ModelViewSet):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
 class QuizSubmissionViewSet(viewsets.ModelViewSet):
     queryset = QuizSubmission.objects.all()
     serializer_class = QuizSubmissionSerializer
@@ -173,12 +174,14 @@ class QuizSubmissionViewSet(viewsets.ModelViewSet):
         student_id = request.user.id
         quiz_id = request.data.get('quiz')
         score = request.data.get('score')
-        
+
         submission, created = QuizSubmission.objects.get_or_create(
             student_id=student_id,
             quiz_id=quiz_id,
             defaults={'score': score}
         )
+
+        print('Quiz id', quiz_id)
 
         if not created:
             # Check if the student can retry
@@ -195,7 +198,9 @@ class QuizSubmissionViewSet(viewsets.ModelViewSet):
             else:
                 submission.fail_count = 0
                 submission.last_failed = None
+                CompletedQuiz.objects.get_or_create(user=user, quiz_id=quiz_id)
             submission.save()
+
         else:
             # If the submission is new, handle the fail count and last failed time
             if score < 75:

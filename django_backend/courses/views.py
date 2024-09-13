@@ -132,11 +132,18 @@ class CourseViewSet(viewsets.ModelViewSet):
 
     @action(detail=True, methods=['post'], url_path='submit-review')
     def submit_review(self, request, pk=None):
-        # course = get_object_or_404(Course, pk=pk)
+        # Get the course instance
         course = self.get_object()
+
+        # Check if the course is already approved
         if not course.approved:
             data = request.data
-            account = data.get('account')
+
+            approved = request.data.get('approved')
+
+            print("approved: ", approved)
+        
+            # Extract review data from the request
             learnerAgency = int(data.get('learnerAgency'))
             criticalThinking = int(data.get('criticalThinking'))
             collaborativeLearning = int(data.get('collaborativeLearning'))
@@ -146,55 +153,19 @@ class CourseViewSet(viewsets.ModelViewSet):
             technologyIntegration = int(data.get('technologyIntegration', 0))
             learnerSupport = int(data.get('learnerSupport', 0))
             assessmentForLearning = int(data.get('assessmentForLearning', 0))
-            engagementAndMotivation = int(
-                data.get('engagementAndMotivation', 0))
-            pk = int(pk)
+            engagementAndMotivation = int(data.get('engagementAndMotivation', 0))
 
-            print("Data: ", data)
-            print(pk)
-            print(account)
+            # Here you can add additional logic if needed, such as storing review data
 
-            # Interaction with smart contract here
-            try:
-                nonce = w3.eth.get_transaction_count(account)
-                tx = contract.functions.submitReview(
-                    pk,
-                    learnerAgency,
-                    criticalThinking,
-                    collaborativeLearning,
-                    reflectivePractice,
-                    adaptiveLearning,
-                    authenticLearning,
-                    technologyIntegration,
-                    learnerSupport,
-                    assessmentForLearning,
-                    engagementAndMotivation
-                ).build_transaction({
-                    'from': account,
-                    'gas': 2000000,  # Set the appropriate gas limit
-                    'gasPrice': w3.to_wei('10', 'gwei'),
-                    'nonce': nonce,
-                })
-
-                # Sign the transaction
-                signed_txn = w3.eth.account.sign_transaction(tx, private_key)
-
-                # Send the signed transaction
-                tx_hash = w3.eth.send_raw_transaction(
-                    signed_txn.rawTransaction)
-
-                # Wait for the transaction to be mined
-                tx_receipt = w3.eth.wait_for_transaction_receipt(tx_hash)
-
-                # Update course approval status
+            if approved:
+                # Update course approval status after successful blockchain transaction
                 course.approved = True
                 course.save()
 
-                return Response({"message": "Review submitted and course approved successfully"}, status=status.HTTP_200_OK)
-            except Exception as e:
-                print(f"Blockchain transaction failed: {e}")
-            return Response({"error": "Blockchain transaction failed"}, status=status.HTTP_400_BAD_REQUEST)
-        return Response({"error": "Course already approved"}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"message": "Review submitted and course approved successfully"}, status=status.HTTP_200_OK)
+        else:
+            return Response({"error": "Course already approved"}, status=status.HTTP_400_BAD_REQUEST)
+
 
     @action(detail=False, methods=['get'], url_path='list-courses')
     def list_courses(self, request):
@@ -287,15 +258,17 @@ class CourseViewSet(viewsets.ModelViewSet):
         total_quizzes = course.total_quizzes()
         completed_lessons = user.completed_lessons.filter(
             lesson__chapter__course=course).count()
-        # completed_quizzes = user.completed_quizzes(course)
-        # completion_percentage = round(((completed_lessons + completed_quizzes) / (total_lessons + total_quizzes)) * 100)
-        completion_percentage = round(
-            ((completed_lessons) / (total_lessons)) * 100)
+        completed_quizzes = user.completed_quizzes(course)
+        completion_percentage = round(((completed_lessons + completed_quizzes) / (total_lessons + total_quizzes)) * 100)
+        # completion_percentage = round(
+        #     ((completed_lessons) / (total_lessons)) * 100)
 
         context = {
             'completed_lessons_count': completed_lessons,
             'completion_percentage': completion_percentage
         }
+
+        print('context', context)
 
         return Response(context, status=status.HTTP_200_OK)
 
@@ -491,8 +464,7 @@ class CourseDetailAPI(APIView):
             else:
                 completion_status = False
 
-            completion_percentage = round(
-                ((completed_lessons) / (total_lessons)) * 100)
+            completion_percentage = round(((completed_lessons + completed_quizzes_count) / (total_lessons + total_quizzes)) * 100)
 
         else:
             completed_lessons = 0
@@ -536,6 +508,8 @@ class CourseDetailAPI(APIView):
             'course_creator': course_creator,
             'enrollments': list(enrollments),
         }
+
+        print("Context2", context)
 
         return Response(context, status=status.HTTP_200_OK)
 
