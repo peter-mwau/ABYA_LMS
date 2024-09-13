@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { UserContext } from './contexts/userContext';
 
 function Login() {
+  const BASE_URL = process.env.REACT_APP_API_BASE_URL;
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
@@ -18,7 +19,7 @@ function Login() {
     event.preventDefault();
 
     axios({
-      url: 'http://localhost:8000/users/login/',
+      url: `${BASE_URL}/users/login/`,
       method: 'post',
       data: {
         username: username,
@@ -39,7 +40,7 @@ function Login() {
           setSuccessMessage('Logged In successfully!');
 
           const getUserInfo = async () => {
-            const userInfoResponse = await axios.get('http://localhost:8000/users/profile/', {
+            const userInfoResponse = await axios.get(`${BASE_URL}/users/profile/`, {
               headers: {
                 Authorization: `Token ${newToken}`,
               },

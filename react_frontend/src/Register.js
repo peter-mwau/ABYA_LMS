@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 function Register() {
+  const BASE_URL = process.env.REACT_APP_API_BASE_URL;
   const [username, setUsername] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -24,7 +25,7 @@ function Register() {
     return;
   }
 
-    axios.post('http://localhost:8000/users/register/', {
+    axios.post(`${BASE_URL}/users/register/`, {
       username: username,
       first_name: firstName,
       last_name: lastName,

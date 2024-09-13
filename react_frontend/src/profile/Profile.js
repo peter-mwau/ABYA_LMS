@@ -6,13 +6,14 @@ import { UserContext } from "../contexts/userContext";
 import WalletBox from "./WalletBox";
 
 const Profile = () => {
+	const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 	const { user } = useContext(UserContext);
 	const [isOpen, setIsOpen] = useState(false);
 
 	if (!user) {
 		return <div>Loading...</div>;
 	}
-	const baseUrl = "http://localhost:8000/users";
+	const baseUrl = `${BASE_URL}/users`;
 
 	return (
 		<>
