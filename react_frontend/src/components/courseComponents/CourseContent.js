@@ -7,6 +7,8 @@ import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import  WalletContext  from '../../contexts/walletContext';
 import Web3 from 'web3';
+import myContractABI from '../../MyContractABI.json';
+
 
 const CourseContent = () => {
   const BASE_URL = process.env.REACT_APP_API_BASE_URL;
@@ -18,8 +20,13 @@ const CourseContent = () => {
   const courseName = courseData?.course_name ?? 'Loading...';
   const [showCongratsPopup, setShowCongratsPopup] = useState(false);
   const navigate = useNavigate();
-  const { account } = useContext(WalletContext);
+  const { account,isWalletConnected, connectWallet } = useContext(WalletContext);
   const [checksumAccount, setChecksumAccount] = useState("");
+  const contractABI = myContractABI;
+  const contractAddress = process.env.REACT_APP_CONTRACT_ADDRESS;
+
+
+  console.log("User: ", user);
 
   useEffect(() => {
     if (account) {
@@ -43,7 +50,7 @@ const CourseContent = () => {
   useEffect(() => {
     if (completionPercentage === 100) {
       setShowCongratsPopup(true);
-      alert("Congratulations! You've completed all lessons.");
+      // alert("Congratulations! You've completed all lessons.");
     }
   }, [completionPercentage]);
 
@@ -51,22 +58,83 @@ const CourseContent = () => {
     setShowCongratsPopup(false);
   };
 
-  const handleClaimCertificate = () => {
-    axios.post(`${BASE_URL}/courses/certificate/${courseId}/`, {account: checksumAccount}, {
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Token ${localStorage.getItem('userToken')}`,// Use axios for request
-      }
-    })
-      .then(response => {
-        console.log("Certificate claimed", response.data);
-        navigate(`/certificate/${courseId}/view/`, { state: { certificateData: response.data } });
-        setShowCongratsPopup(false);
-      })
-      .catch(error => {
-        console.error("Error claiming certificate:", error);
-      });
+
+  const handleClaimCertificate = async () => {
+    const student_name = `${user.firstname} ${user.lastname}`;
+    const web3 = new Web3(window.ethereum);
+    const contract = new web3.eth.Contract(contractABI, contractAddress);
+  
+    // Ensure the Ethereum provider is available
+    if (typeof window.ethereum === 'undefined') {
+      console.error('MetaMask is not installed.');
+      return;
+    }
+  
+    // Connect to wallet if not connected
+    if (!account) {
+      await connectWallet();
+    }
+  
+    try {
+      await window.ethereum.request({ method: 'eth_requestAccounts' });
+  
+      // Metadata for certificate
+      const issueDate = Math.floor(Date.now() / 1000); // current timestamp in seconds
+      const student = student_name; 
+      const courseName = courseData.course_name;
+      const certIssuer = "ABYA University"; 
+  
+      // Estimate gas
+      const gas = await contract.methods.issueCertificate(courseId, student, courseName, certIssuer, issueDate)
+        .estimateGas({ from: account });
+  
+      // Send the transaction
+      const transactionReceipt = await contract.methods.issueCertificate(courseId, student, courseName, certIssuer, issueDate)
+        .send({ from: account, gas });
+  
+      console.log("Transaction Receipt:", transactionReceipt);
+  
+      // Extract the certificate ID and data from the emitted event
+      const certificateEvent = transactionReceipt.events.CertificateIssued;
+      const certificateId = certificateEvent.returnValues.certificateId.toString();
+      const certificateData = certificateEvent.returnValues;
+  
+      console.log("Certificate ID:", certificateId);
+      console.log("Certificate Data:", certificateData);
+
+      const userToken = localStorage.getItem('userToken');
+
+      if (!userToken) {
+        console.error('User token is missing. Please log in again.');
+        // Redirect to login or handle the error appropriately
+        return;
+    }
+
+    console.log("User Token: ", userToken);
+
+    const modifiedCertificateData = {
+      certificateId: certificateId, // Ensure this is a string
+      courseName: courseName,
+      cert_issuer: certIssuer,
+      student: student,
+    };
+
+      // Make POST request to save the certificate data in the backend
+      await axios.post(`${BASE_URL}/courses/certificate/${courseId}/`, modifiedCertificateData, {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Token ${userToken}`,
+        }
+    });
+  
+      // Redirect to certificate view page
+      navigate(`/certificate/${courseId}/view/`, { state: { certificateData } });
+  
+    } catch (error) {
+      console.error('Error claiming certificate:', error);
+    }
   };
+  
 
   console.log("Percentage: ", completionPercentage);
 
@@ -175,7 +243,7 @@ const CourseContent = () => {
       {showCongratsPopup && (
         <div id="popup" className="absolute z-50 inset-0 items-center justify-center bg-black bg-opacity-40 overflow-auto">
           <div className="relative bg-cyan-950 text-white lg:w-[30%] w-[380px] h-[400px] lg:h-[40%] mt-[200px] rounded-lg p-4 mx-auto my-auto lg:flex lg:items-center lg:justify-center flex-col" style={{ background: `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/congratulations.jpg')` }}>
-            <h2 className="text-2xl font-bold mb-4 flex mx-auto justify-center items-center">Congratulations!</h2>
+            <h2 className="text-2xl font-bold mb-4 flex mx-auto justify-center items-center text-white">Congratulations!</h2>
             <p>You have successfully completed the <span className="text-yellow-400">{courseName}</span> course.</p>
             <p>Click the "Generate Certificate" button to access your Certificate.</p>
             <div className="flex mx-auto space-x-2 mt-[120px] items-center justify-center">

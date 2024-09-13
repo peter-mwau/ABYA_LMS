@@ -1,6 +1,7 @@
 from typing import Any, Dict
 from django.shortcuts import render, redirect, HttpResponseRedirect
 import datetime
+from django.utils import timezone
 from django.contrib.auth.mixins import (LoginRequiredMixin,
                                         PermissionRequiredMixin)
 from django.utils.decorators import method_decorator
@@ -17,9 +18,7 @@ from .models import CompletedLesson
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 from django.db import transaction
-import datetime
 import calendar
-from .cert_request import send_certificate_request, verify_certificate
 import json
 from django.views import View
 from django.http import JsonResponse
@@ -56,31 +55,6 @@ import os
 from web3.middleware import geth_poa_middleware
 import time
 from django.core import serializers
-
-
-# Initialize web3 with the provider URL
-w3 = Web3(Web3.HTTPProvider(settings.BLOCKCHAIN_URL))
-# w3 = Web3(Web3.HTTPProvider('http://127.0.0.1:7545'))
-
-
-# Add PoA middleware to handle PoA-specific data
-w3.middleware_onion.inject(geth_poa_middleware, layer=0)
-
-# Load contract address from environment variable
-contract_address = Web3.to_checksum_address(settings.CONTRACT_ADDRESS)
-print("Contract Address: ", contract_address)
-
-# private_key = settings.PRIVATE_KEY
-private_key = os.getenv('PRIVATE_KEY')
-print("private key: ", private_key)
-# private_key = '0x37ddfd42735124bc7c94192ea99978b26e8f8d5c27b36cd500aa3074174c3c80'
-
-# Load contract ABI from JSON file located at the project root
-with open(os.path.join(settings.BASE_DIR, 'contract_abi.json')) as f:
-    contract_abi = json.load(f)
-
-# Initialize the contract
-contract = w3.eth.contract(address=contract_address, abi=contract_abi)
 
 
 # API Endpoints for accessing data.
@@ -629,112 +603,46 @@ class CertificateAPIView(APIView):
     def post(self, request, course_id):
         user = request.user
         course = get_object_or_404(Course, pk=course_id)
-        course_name = course.course_name
-        data = request.data.copy()
-        student_eth_address = data.get('account')
-
-        # Convert address to checksum format
-        try:
-            student_eth_address = Web3.to_checksum_address(student_eth_address)
-        except Exception as e:
-            return Response({"error": "Invalid Ethereum address", "details": str(e)}, status=status.HTTP_400_BAD_REQUEST)
         
-        student_eth_address2 = str(data.get('account'))
+        # Data sent from the frontend after the certificate is issued
+        data = request.data.copy()
 
+        print("Certificate Data Response: ", data)
+
+        # Check if the certificate already exists for this user and course
         try:
             existing_certificate = Certificate.objects.get(user=user, course=course)
             serializer = CertificateSerializer(existing_certificate)
             return Response(serializer.data, status=status.HTTP_200_OK)
         except ObjectDoesNotExist:
-            first_name = user.first_name
-            last_name = user.last_name
-            full_name = f"{first_name} {last_name}"
-            issuer = "ABYA Africa"
-            now = datetime.datetime.now()
-            unixtime = calendar.timegm(now.utctimetuple())
+            pass
 
+        # Create the new certificate
+        try:
+            new_certificate = Certificate(
+                user = user,
+                course = course,
+                name = data.get('student'),
+                issuer = data.get('cert_issuer'),
+                issued_at = timezone.now(), 
+                certificate_id = data.get('certificateId')  # Blockchain certificate ID
+            )
 
-            try:
-                nonce = w3.eth.get_transaction_count(student_eth_address)
-                tx = contract.functions.issueCertificate(
-                    course_id,
-                    student_eth_address2,
-                    course_name,                   
-                    issuer,
-                    unixtime
-                ).build_transaction({
-                    'from': student_eth_address,
-                    'nonce': nonce,
-                    'gas': 2000000,
-                    'gasPrice': w3.to_wei('20', 'gwei')
-                })
+            print("New Certificate: ", new_certificate)
 
-                print("Transaction data:", tx)
+            new_certificate.save()
 
+            # Serialize and return the new certificate
+            serializer = CertificateSerializer(new_certificate)
+            response_data = {
+                'message': 'Certificate saved successfully.',
+                'certificate': serializer.data
+            }
+            return Response(response_data, status=status.HTTP_201_CREATED)
 
-                print("course_id: ", course_id)
-                print("Type of course_id: ", type(course_id))
-                print("Checksum Address: ", student_eth_address)
-                print("Type of student_eth_address: ", type(student_eth_address))
-                print("course_name: ", course_name)
-                print("Type of course_name: ", type(course_name))
-                print("issuer: ", issuer)
-                print("Type of issuer: ", type(issuer))
-                print("unixtime: ", unixtime)
-                print("Type of unixtime: ", type(unixtime))
+        except Exception as e:
+            return Response({"error": "Failed to save certificate", "details": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-                # Sign the transactionw3.eth.defaultAccount
-                signed_tx = w3.eth.account.sign_transaction(tx, private_key)
-                tx_hash = w3.eth.send_raw_transaction(signed_tx.rawTransaction)
-
-                print(f"Transaction hash: {tx_hash}")
-
-                # Wait for the transaction receipt
-                tx_receipt = w3.eth.wait_for_transaction_receipt(tx_hash)
-
-                print(f"Transaction receipt: {tx_receipt}")
-
-                if tx_receipt.status == 1:
-                    print("Transaction successful")
-
-                    # Assuming the smart contract returns the certificate ID and details
-                    certificate_id, certificate_details = contract.functions.issueCertificate(
-                        course_id,
-                        issuer,
-                        course_name,
-                        unixtime
-                    ).call()
-
-                    print(f"Certificate ID: {certificate_id}")
-
-                    new_certificate = Certificate(
-                        user=user,
-                        course=course_name,
-                        name=full_name,
-                        issuer=issuer,
-                        issued_at=unixtime,
-                        certificate_id=certificate_id
-                    )
-
-                    new_certificate.save()
-
-                    # Serialize and return the new certificate
-                    serializer = CertificateSerializer(new_certificate)
-                    response_data = {
-                        'message': 'Certificate issued successfully.',
-                        'certificate': serializer.data,
-                        'certificateId': certificate_id,
-                    }
-                    return Response(response_data, status=status.HTTP_201_CREATED)
-                else:
-                    print("Transaction failed")
-                    return Response({"error": "Blockchain transaction failed"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-            except ValueError as e:
-                print(f"ValueError: {e}")
-                return Response({"error": "Blockchain transaction failed", "details": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-            except Exception as e:
-                print(f"Blockchain transaction failed: {e}")
-                return Response({"error": "Blockchain transaction failed", "details": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 # View that handles the certificate access and retrieval
 

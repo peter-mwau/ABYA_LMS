@@ -2,19 +2,56 @@ import React, { useState, useEffect, useMemo} from "react";
 import { ThemeProvider } from "./ThemeSwitcher";
 import { UserContext } from "./contexts/userContext";
 import WalletContext from "./contexts/walletContext";
+import { CourseContext } from "./contexts/courseContext";
 import axios from "axios";
-import Loading from "./Loading";
 import Web3 from 'web3';
 
 
-export default function Providers({ children }) {
+export default function Providers({ children, courseId }) {
 	const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 	const [mounted, setMounted] = useState(false);
 	const [user, setUser] = useState(null);
 	const [account, setAccount] = useState(null);
 	const [balance, setBalance] = useState('');
 	const [isWalletConnected, setIsWalletConnected] = useState(false);
-	// const [isLoading, setIsLoading] = useState(true);
+	const [isLoading, setIsLoading] = useState(true);
+	const [course, setCourseData] = useState([]);
+	const [error, setError] = useState(null);
+
+	const getCourseDetails = async (courseId) => {
+		try {
+			const response = await axios.get(`${BASE_URL}/courses/course_detail/${courseId}/`, {
+			  headers: {
+				Authorization: `Token ${localStorage.getItem('userToken')}`
+			  }
+			});
+			  setCourseData(response.data);
+			  console.log("Response: ", response.data);
+			  setIsLoading(false);
+			} catch (error) {
+			  setError(error);
+			  setIsLoading(false);
+			  console.error("Failed to load course summary:", error);
+			  setError(`Error loading course summary. Please try again later. If the problem persists, contact support. Error details: ${error.message}`);
+			} finally {
+				setIsLoading(false);
+			}
+		  };
+
+		  // Call getCourseDetails initially
+		  useEffect(() => {
+			let isMounted = true; // Flag to check if component is mounted
+		
+			if (isMounted) {
+				getCourseDetails();
+			}
+		
+			return () => {
+				isMounted = false; // Cleanup function to set isMounted to false when component unmounts
+			};
+		}, [courseId, course]);
+
+
 
 	const connectWallet = async () => {
 		if (window.ethereum) {
@@ -86,12 +123,18 @@ export default function Providers({ children }) {
 			return null;
 		}
 
+		if (isLoading) {
+			return <div>Loading...</div>;
+		}
+
 	return (
 		<ThemeProvider attribute="class">
 			<UserContext.Provider value={{ user, setUser, balance, account, setAccount, connectWallet, disconnectWallet }}>
+				<CourseContext.Provider value={{ course, setCourseData }}>
 				<WalletContext.Provider value={walletContextValue}>
 					{children}
 				</WalletContext.Provider>
+				</CourseContext.Provider>
 			</UserContext.Provider>
 		</ThemeProvider>
 	);
