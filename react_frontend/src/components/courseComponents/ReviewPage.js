@@ -29,7 +29,10 @@ const CourseReview = ({ courses }) => {
   const { account, connectWallet } = useContext(WalletContext);
   const [checksumAccount, setChecksumAccount] = useState("");
   const [success, setSuccess] = useState('');
-    const [error, setError] = useState('');
+  const [error, setError] = useState('');
+  const [approved, setApproved] = useState(false);
+
+  console.log("Base URL: ", BASE_URL);
 
   const contractABI = myContractABI;
   const contractAddress = process.env.REACT_APP_CONTRACT_ADDRESS;
@@ -123,20 +126,64 @@ const CourseReview = ({ courses }) => {
       return;
     }
   
-    const checksumAddress = Web3.utils.toChecksumAddress(account);
   
     try {
       // Creating the transaction
-      const transaction = contract.methods.submitReview(courseId, reviews);
+      const transaction = contract.methods.submitReview(
+        courseId, 
+        reviews.learnerAgency,
+        reviews.criticalThinking,
+        reviews.collaborativeLearning,
+        reviews.reflectivePractice,
+        reviews.adaptiveLearning,
+        reviews.authenticLearning,
+        reviews.technologyIntegration,
+        reviews.learnerSupport,
+        reviews.assessmentForLearning,
+        reviews.engagementAndMotivation
+      );
+
+      console.log("Transaction Payload: ", transaction);
       
       // Estimate gas
-      const gas = await transaction.estimateGas({ from: checksumAddress });
+      const gas = await transaction.estimateGas({ from: checksumAccount });
       
       // Sending the transaction
-      const transactionReceipt = await transaction.send({ from: checksumAddress, gas });
+      const transactionReceipt = await transaction.send({ from: checksumAccount, gas });
   
       if (transactionReceipt.status) {
         setSuccess('Review submitted successfully!');
+        setApproved(true);
+        try {
+          const userToken = localStorage.getItem('userToken');
+          const response = await axios.post(`${BASE_URL}/courses/courses/${courseId}/submit-review/`, {
+            courseId,
+            learnerAgency: reviews.learnerAgency,
+            criticalThinking: reviews.criticalThinking,
+            collaborativeLearning: reviews.collaborativeLearning,
+            reflectivePractice: reviews.reflectivePractice,
+            adaptiveLearning: reviews.adaptiveLearning,
+            authenticLearning: reviews.authenticLearning,
+            technologyIntegration: reviews.technologyIntegration,
+            learnerSupport: reviews.learnerSupport,
+            assessmentForLearning: reviews.assessmentForLearning,
+            engagementAndMotivation: reviews.engagementAndMotivation,
+            approved: true,
+          }, {
+            headers: {
+            'Authorization': `Token ${userToken}`,
+          },
+        });
+  
+          if (response.status === 200) {
+            console.log('Course approved successfully in the backend');
+          } else {
+            console.error('Failed to update course approval status in the backend');
+          }
+        } catch (backendError) {
+          console.error('Error sending review data to backend:', backendError);
+          setError('Failed to update course approval status in the backend');
+        }
       } else {
         console.error("Transaction failed");
         setError('Transaction failed.');
@@ -152,6 +199,7 @@ const CourseReview = ({ courses }) => {
     <div className="course-review dark:bg-gray-900 dark:text-white">
       <h2 className="dark:text-white py-1">Course Review</h2>
       {success && <div className="text-green-500 font-medium text-center py-2">{success}</div>}
+      {error && <div className="text-red-600 font-medium text-center py-2">{error}</div>}
       <hr />
       <h2 className="font-semibold text-2xl text-center text-gray-700 py-2 dark:text-gray-200">
         {course.course_name}
@@ -159,6 +207,7 @@ const CourseReview = ({ courses }) => {
       <p className="text-gray-800 text-center py-2 dark:text-gray-400">
         Course ID: <span className="text-yellow-400 text-center pb-10 italic font-bold">{courseId}</span>
       </p>
+      <p className='text-center text-gray-900 dark:text-white'>Approval Status: <span className='text-yellow-500 font-semibold'>{ approved}</span></p>
       <hr />
       {Object.keys(reviews).map((metric) => (
         <div className="metric pt-2" key={metric}>

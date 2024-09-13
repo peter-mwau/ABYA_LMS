@@ -138,6 +138,10 @@ class CourseViewSet(viewsets.ModelViewSet):
         # Check if the course is already approved
         if not course.approved:
             data = request.data
+
+            approved = request.data.get('approved')
+
+            print("approved: ", approved)
         
             # Extract review data from the request
             learnerAgency = int(data.get('learnerAgency'))
@@ -153,9 +157,10 @@ class CourseViewSet(viewsets.ModelViewSet):
 
             # Here you can add additional logic if needed, such as storing review data
 
-            # Update course approval status after successful blockchain transaction
-            course.approved = True
-            course.save()
+            if approved:
+                # Update course approval status after successful blockchain transaction
+                course.approved = True
+                course.save()
 
             return Response({"message": "Review submitted and course approved successfully"}, status=status.HTTP_200_OK)
         else:
