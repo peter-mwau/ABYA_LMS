@@ -9,6 +9,7 @@ import  WalletContext  from '../../contexts/walletContext';
 import Web3 from 'web3';
 import myContractABI from '../../MyContractABI.json';
 
+
 const CourseContent = () => {
   const BASE_URL = process.env.REACT_APP_API_BASE_URL;
   const { courseId } = useParams();
@@ -49,7 +50,7 @@ const CourseContent = () => {
   useEffect(() => {
     if (completionPercentage === 100) {
       setShowCongratsPopup(true);
-      alert("Congratulations! You've completed all lessons.");
+      // alert("Congratulations! You've completed all lessons.");
     }
   }, [completionPercentage]);
 
@@ -95,11 +96,36 @@ const CourseContent = () => {
   
       // Extract the certificate ID and data from the emitted event
       const certificateEvent = transactionReceipt.events.CertificateIssued;
-      const certificateId = certificateEvent.returnValues.certificateId;
+      const certificateId = certificateEvent.returnValues.certificateId.toString();
       const certificateData = certificateEvent.returnValues;
   
       console.log("Certificate ID:", certificateId);
       console.log("Certificate Data:", certificateData);
+
+      const userToken = localStorage.getItem('userToken');
+
+      if (!userToken) {
+        console.error('User token is missing. Please log in again.');
+        // Redirect to login or handle the error appropriately
+        return;
+    }
+
+    console.log("User Token: ", userToken);
+
+    const modifiedCertificateData = {
+      certificateId: certificateId, // Ensure this is a string
+      courseName: courseName,
+      cert_issuer: certIssuer,
+      student: student,
+    };
+
+      // Make POST request to save the certificate data in the backend
+      await axios.post(`${BASE_URL}/courses/certificate/${courseId}/`, modifiedCertificateData, {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Token ${userToken}`,
+        }
+    });
   
       // Redirect to certificate view page
       navigate(`/certificate/${courseId}/view/`, { state: { certificateData } });

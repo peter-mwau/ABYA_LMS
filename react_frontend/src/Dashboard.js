@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
+import { UserContext } from '../src/contexts/userContext';
 
 // import "flowbite";
 
@@ -8,6 +9,7 @@ function Homepage() {
 	// const [username, setUsername] = useState('');
 	const [isSideNavOpen, setIsSideNavOpen] = useState(false);
 	const userToken = localStorage.getItem("userToken");
+	const { user } = useContext(UserContext);
 
 	const [courses, setCourses] = useState([]);
 	//    const [error, setError] = useState(null);
@@ -42,6 +44,59 @@ function Homepage() {
 	}
 
 	return (
+		<>
+		<div className="dark:bg-gray-800">
+		<h2 className="text-3xl font-semibold text-cyan-950 pt-[20px] dark:text-white">Welcome Back, <span className="text-yellow-400">{user.username}!</span></h2>
+		<main className="p-4 md:ml-64 h-auto pt-20">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
+        <div
+          className="border-2 border-dashed border-gray-300 rounded-lg dark:border-gray-600 h-32 md:h-64"
+        ></div>
+        <div
+          className="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-32 md:h-64"
+        ></div>
+        <div
+          className="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-32 md:h-64"
+        ></div>
+        <div
+          className="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-32 md:h-64"
+        ></div>
+      </div>
+      <div
+        className="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-96 mb-4"
+      ></div>
+      <div className="grid grid-cols-2 gap-4 mb-4">
+        <div
+          className="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72"
+        ></div>
+        <div
+          className="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72"
+        ></div>
+        <div
+          className="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72"
+        ></div>
+        <div
+          className="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72"
+        ></div>
+      </div>
+      <div
+        className="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-96 mb-4"
+      ></div>
+      <div className="grid grid-cols-2 gap-4">
+        <div
+          className="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72"
+        ></div>
+        <div
+          className="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72"
+        ></div>
+        <div
+          className="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72"
+        ></div>
+        <div
+          className="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72"
+        ></div>
+      </div>
+    </main>
 		<div>
 			<button
 				data-drawer-target="sidebar-multi-level-sidebar"
@@ -49,7 +104,7 @@ function Homepage() {
 				aria-controls="sidebar-multi-level-sidebar"
 				type="button"
 				onClick={toggleSidenav}
-				class="inline-flex absolute items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+				className="inline-flex absolute items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
 			>
 				<span class="sr-only">Open sidebar</span>
 				<svg
@@ -67,6 +122,8 @@ function Homepage() {
 				</svg>
 			</button>
 		</div>
+		</div>
+		</>
 	);
 }
 
