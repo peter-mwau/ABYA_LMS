@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { UserContext } from "./contexts/userContext";
 
 const SideNav = () => {
+	const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 	const navigate = useNavigate();
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
@@ -26,7 +27,7 @@ const SideNav = () => {
 			const userToken = localStorage.getItem("userToken");
 			console.log("useToken: ", userToken);
 			const response = await axios.post(
-				"http://localhost:8000/users/logout/",
+				`${BASE_URL}/users/logout/`,
 				null,
 				{
 					headers: {

@@ -7,13 +7,14 @@ import WalletContext from "./contexts/walletContext";
 import { initFlowbite } from "flowbite";
 
 function Navbar() {
+	const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 	// const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 	const [darkMode, setDarkMode] = useState(false);
 	const { user } = useContext(UserContext);
 	const navigate = useNavigate();
 	const [isLoading, setIsLoading] = useState(false);
-	const baseUrl = "http://localhost:8000/users";
+	const baseUrl = `${BASE_URL}/users`;
 
 	const { account,balance, isWalletConnected, connectWallet, disconnectWallet } =
 		useContext(WalletContext);
@@ -45,7 +46,7 @@ function Navbar() {
 			const userToken = localStorage.getItem("userToken");
 			console.log("useToken: ", userToken);
 			const response = await axios.post(
-				"http://localhost:8000/users/logout/",
+				`${BASE_URL}/users/logout/`,
 				null,
 				{
 					headers: {

@@ -90,7 +90,7 @@ export default function Providers({ children, courseId }) {
 			if (userToken) {
 				try {
 					const response = await axios.get(
-						"http://localhost:8000/users/profile/",
+						`${BASE_URL}/users/profile/`,
 						{
 							headers: {
 								Authorization: `Token ${userToken}`,
