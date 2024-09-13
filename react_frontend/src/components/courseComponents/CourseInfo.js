@@ -61,7 +61,7 @@ const CourseInfo = () => {
 
   // Function to enroll in the course on the blockchain
 const enrollInCourseOnBlockchain = async (courseId) => {
-  const web3 = new Web3(window.ethereum); // Assuming you're using MetaMask
+  const web3 = new Web3(window.ethereum);
   const contract = new web3.eth.Contract(contractABI, contractAddress);
 
   // Connect to wallet if not connected
