@@ -16,7 +16,7 @@ function Navbar() {
 	const [isLoading, setIsLoading] = useState(false);
 	const baseUrl = `${BASE_URL}/users`;
 
-	const { account,balance, isWalletConnected, connectWallet, disconnectWallet } =
+	const { account,balance,tokenBalance, isWalletConnected, connectWallet, disconnectWallet } =
 		useContext(WalletContext);
 
 	useEffect(() => {
@@ -145,9 +145,11 @@ function Navbar() {
 								<div className="px-4 w-[300px]">
                                     {/* Wallet details content here */}
                                     <p className='font-light text-sm text-gray-700 dark:text-gray-50'>Wallet Address:</p>
-                                    <span className='text-wrap italic text-sm font-semibold dark:text-gray-50 break-words items-center justify-center py-2'>{account}</span>
+                                    <span className='text-wrap italic text-sm font-semibold dark:text-gray-50 break-words items-center justify-center py-2'>{account ? account : '0x...'}</span>
                                     <p className='font-light text-sm text-gray-700 dark:text-gray-50'>Balance:</p>
                                     <span className='text-wrap italic text-sm font-semibold dark:text-gray-50 items-center justify-center py-2'> {isWalletConnected ?balance : '0'} ETH</span>
+									<p className='font-light text-sm text-gray-700 dark:text-gray-50'>Token Balance:</p>
+									<span className='text-wrap italic text-sm font-semibold dark:text-gray-50 items-center justify-center py-2'> {isWalletConnected ?tokenBalance : 'N/A'} ABYATKN</span>
                                 </div>
 								</li>
 								<li>
