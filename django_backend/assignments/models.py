@@ -36,7 +36,7 @@ class Quiz(models.Model):
         return self.quiz_title
     
 class CompletedQuiz(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
     completed_at = models.DateTimeField(auto_now_add=True)
 
