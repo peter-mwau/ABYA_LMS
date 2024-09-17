@@ -155,6 +155,7 @@ const QuizDetail = () => {
 	};
 
 	console.log(quizData);
+    
 	return (
 		<div className="md:flex relative md:space-x-4 dark:bg-gray-800 dark:text-gray-100 w-full mx-auto md:mx-0 md:w-[78%] md:ml-[20%] md:h-[78vh] mt-4">
 			<div className="container overflow-x-hidden p-2 md:border md:border-gray-200 rounded-lg md:w-[60%] h-[100%]">
@@ -261,21 +262,20 @@ const QuizDetail = () => {
 					</>
 				)}
 			</div>
-			<div className="h-[78vh] border-gray-200 rounded-lg md:w-[40%]">
+			<div className="h-[78vh] border-gray-200 rounded-lg md:w-[40%] overflow-y-auto">
 				{quizData.questions?.map((question, index) => (
 					<div
-						className={`${
-							doneQuizes.some((quiz) => quiz === question.id) && "bg-green-100"
-						} bg-gray-50 p-3 rounded-lg mb-3 flex justify-between items-center`}
-						key={index}
+					key={question.id}
+					className={`${
+						doneQuizes.includes(question.id) ? "bg-green-100" : "bg-gray-50"
+					} p-3 rounded-lg mb-3 flex justify-between items-center`}
 					>
-						<p className="font-semibold text-gray-500 md:ml-3">
-							Question {index + 1}
-						</p>
+					<p className="font-semibold text-gray-500 md:ml-3">
+						Question {index + 1}
+					</p>
+					{doneQuizes.includes(question.id) && (
 						<img src={checkIcon} alt="checkIcon" className="w-5 h-5" />
-						{/* <p className="px-2 rounded-full bg-slate-50 text-2xl items-center">
-							_
-						</p> */}
+					)}
 					</div>
 				))}
 			</div>

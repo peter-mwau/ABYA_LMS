@@ -232,15 +232,17 @@ class CourseViewSet(viewsets.ModelViewSet):
         total_quizzes = course.total_quizzes()
         completed_lessons = user.completed_lessons.filter(
             lesson__chapter__course=course).count()
-        # completed_quizzes = user.completed_quizzes(course)
-        # completion_percentage = round(((completed_lessons + completed_quizzes) / (total_lessons + total_quizzes)) * 100)
-        completion_percentage = round(
-            ((completed_lessons) / (total_lessons)) * 100)
+        completed_quizzes = user.completed_quizzes(course)
+        completion_percentage = round(((completed_lessons + completed_quizzes) / (total_lessons + total_quizzes)) * 100)
+        # completion_percentage = round(
+        #     ((completed_lessons) / (total_lessons)) * 100)
 
         context = {
             'completed_lessons_count': completed_lessons,
             'completion_percentage': completion_percentage
         }
+
+        print('context', context)
 
         return Response(context, status=status.HTTP_200_OK)
 
@@ -436,8 +438,7 @@ class CourseDetailAPI(APIView):
             else:
                 completion_status = False
 
-            completion_percentage = round(
-                ((completed_lessons) / (total_lessons)) * 100)
+            completion_percentage = round(((completed_lessons + completed_quizzes_count) / (total_lessons + total_quizzes)) * 100)
 
         else:
             completed_lessons = 0
@@ -481,6 +482,8 @@ class CourseDetailAPI(APIView):
             'course_creator': course_creator,
             'enrollments': list(enrollments),
         }
+
+        print("Context2", context)
 
         return Response(context, status=status.HTTP_200_OK)
 
