@@ -3,9 +3,10 @@ import axios from "axios";
 import upload from "../../images/upload.png";
 
 const LessonForm = () => {
+	const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 	const [formData, setFormData] = useState({
 		lesson_name: "",
-		lesson_description: "",
+		lesson_content: "",
 		course: "",
 		chapter: "",
 	});
@@ -25,7 +26,7 @@ const LessonForm = () => {
 	const fetchCourses = async () => {
 		try {
 			const response = await axios.get(
-				"http://localhost:8000/courses/courses",
+				`${BASE_URL}/courses/courses`,
 				{
 					headers: {
 						Authorization: `Token ${localStorage.getItem("userToken")}`,
@@ -41,7 +42,7 @@ const LessonForm = () => {
 	const fetchChapters = async () => {
 		try {
 			const response = await axios.get(
-				"http://localhost:8000/courses/chapters/",
+				`${BASE_URL}/courses/chapters/`,
 				{
 					headers: {
 						Authorization: `Token ${localStorage.getItem("userToken")}`,
@@ -86,7 +87,7 @@ const LessonForm = () => {
 
 		const formDataToSend = new FormData();
 		formDataToSend.append("lesson_name", formData.lesson_name);
-		formDataToSend.append("lesson_description", formData.lesson_description);
+		formDataToSend.append("lesson_content", formData.lesson_content);
 		formDataToSend.append("course", formData.course);
 		formDataToSend.append("chapter", formData.chapter);
 		if (wordFile) {
@@ -95,7 +96,7 @@ const LessonForm = () => {
 
 		try {
 			const response = await axios.post(
-				"http://localhost:8000/courses/lessons/create-lesson/",
+				`${BASE_URL}/courses/lessons/create-lesson/`,
 				formDataToSend,
 				{
 					headers: {
@@ -107,7 +108,7 @@ const LessonForm = () => {
 			const lessonName = formData.lesson_name; // Save the lesson name
 			setFormData({
 				lesson_name: "",
-				lesson_description: "",
+				lesson_content: "",
 				course: "",
 				chapter: "",
 			});
@@ -162,11 +163,11 @@ const LessonForm = () => {
 					/>
 
 					<textarea
-						name="lesson_description"
-						id="lesson_description"
-						value={formData.lesson_description}
+						name="lesson_content"
+						id="lesson_content"
+						value={formData.lesson_content}
 						onChange={handleChange}
-						placeholder="lesson description"
+						placeholder="lesson content"
 						className="my-4 w-full border rounded-lg resize-none py-4 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
 					/>
 

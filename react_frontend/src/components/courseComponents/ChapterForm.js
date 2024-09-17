@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 const ChapterForm = () => {
+	const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 	const [formData, setFormData] = useState({
 		chapter_name: "",
 		chapter_description: "",
@@ -22,7 +23,7 @@ const ChapterForm = () => {
 	const fetchCourses = async () => {
 		try {
 			const response = await axios.get(
-				"http://localhost:8000/courses/courses/",
+				`${BASE_URL}/courses/courses/`,
 				{
 					headers: {
 						Authorization: `Token ${localStorage.getItem("userToken")}`,
@@ -57,7 +58,7 @@ const ChapterForm = () => {
 
 		try {
 			const response = await axios.post(
-				"http://localhost:8000/courses/chapters/create-chapter/",
+				`${BASE_URL}/courses/chapters/create-chapter/`,
 				formData,
 				{
 					headers: {

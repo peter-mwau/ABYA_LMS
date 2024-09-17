@@ -1,6 +1,6 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import AssignmentViewSet, QuestionViewSet, SubmitAssignmentViewSet, QuizViewSet, QuizSubmissionViewSet
+from .views import AssignmentViewSet, QuestionViewSet, SubmitAssignmentViewSet, QuizViewSet, QuizSubmissionViewSet, FetchQuizDataView
 
 app_name = 'assignment'
 
@@ -13,6 +13,7 @@ router.register(r'quiz', QuizViewSet)
 router.register(r'quiz-submission', QuizSubmissionViewSet)
 
 
+
 urlpatterns = [
     path('', include(router.urls)),
     path('assignments/create-assignment/', AssignmentViewSet.as_view({'post': 'create_assignment'}), name='create-assignment'),
@@ -21,6 +22,8 @@ urlpatterns = [
     path('questions/create-question-without-id/', QuestionViewSet.as_view({'post': 'create_question_without_id'}), name='create-question-without-id'),
     path('quiz/<int:pk>/submit/', QuizViewSet.as_view({'post': 'submit_quiz'}), name='submit-quiz'),
     path('quiz/<int:pk>/questions/', QuizViewSet.as_view({'get': 'list_questions'}), name='list-questions'),
+    path('fetch-quiz-data/<int:pk>/', FetchQuizDataView.as_view(), name='fetch-quiz-data'),
     path('quiz-submissions/<int:pk>/results/', QuizSubmissionViewSet.as_view({'get': 'get_results'}), name='quiz-results'),
+    path('quiz-submissions/submit/', QuizSubmissionViewSet.as_view({'post': 'submit'}), name='submit-quiz-submission'),
     path('submit-assignments/submit-assignment/', SubmitAssignmentViewSet.as_view({'post': 'submit_assignment'}), name='submit-assignment'),
 ]

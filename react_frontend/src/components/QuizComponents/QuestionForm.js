@@ -5,91 +5,115 @@ import add from "../../images/add.png";
 import { useNavigate } from "react-router-dom";
 import { quizContext } from "../../App";
 import deleteIcon from "../../images/delete.png";
+import useFetch from "./useFetch";
 
-function QuestionForm() {
+const QuestionForm = () => {
+	const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 	const [quizTitle, setQuizTitle] = useState("");
 	const [questionText, setQuestionText] = useState("");
-	const [choices, setChoices] = useState(
-		Array.from({ length: 4 }, () => ({ text: "", isCorrect: false }))
-	);
-	const [multipleCorrect, setMultipleCorrect] = useState(false);
 	const [quizzes, setQuizzes] = useState([]);
 	const [questionCount, setQuestionCount] = useState(1);
 	const navigate = useNavigate();
 	const { quiz, setQuiz } = useContext(quizContext);
-	console.log("Quiz:", [quiz]);
+	const [questions, setQuestions] = useState([]);
+	const [isMultipleChoice, setIsMultipleChoice] = useState(false);
+	const [quizId, setQuizId] = useState();
+	const { data } = useFetch(`${BASE_URL}/assignments/quiz/`);
 
-	const handleSubmit = async (event) => {
-		event.preventDefault();
-		const questionData = {
-			quiz_title: quiz.quiz_title,
-			question_text: questionText,
-			choices: choices,
-			course: quiz.course,
-			chapter: quiz.chapter,
-			quiz_description: "hi",
-		};
+	const [formData, setFormData] = useState({
+		question_text: questionText,
+		choices: ["", "", "", ""],
+		correct_choices: [],
+	});
+
+	console.log(questionText);
+	console.log(data?.length);
+
+	useEffect(() => {
+		if (data) {
+			const quizData = data.find((dt) => dt.quiz_title === quiz?.quiz_title);
+			if (quizData) {
+				setQuizId(quizData.id);
+			}
+		}
+	}, [data, quiz]);
+	console.log(quiz);
+
+	console.log(quizId);
+
+	const handleSubmit = async (e) => {
+		e.preventDefault();
+
+		const formDataToSend = new FormData();
+		formDataToSend.append("quiz_title", quiz?.quiz_title); // Ensure formData.quiz is the quiz ID (an integer)
+		formDataToSend.append("quiz_title_id", data?.length);
+		formDataToSend.append("question_text", questionText);
+		// Append choices and correct_choices
+		formData.choices.forEach((choice, index) => {
+			formDataToSend.append(`choices[${index}].text`, choice); // Append choice text
+			formDataToSend.append(
+				`choices[${index}].is_correct`,
+				formData.correct_choices.includes(choice)
+			); // Set is_correct based on correctness
+		});
 
 		try {
 			const response = await axios.post(
-				"http://localhost:8000/assignments/quiz/create-quiz/",
-				questionData,
+				`${BASE_URL}/assignments/questions/create-question/${quizId}/`,
+				formDataToSend,
 				{
 					headers: {
-						"Content-Type": "application/json",
+						"Content-Type": "apllication/json",
 						Authorization: `Token ${localStorage.getItem("userToken")}`,
 					},
 				}
 			);
-			console.log(response.data);
+
+			setFormData({
+				...formData,
+				question_text: "",
+				choices: ["", "", "", ""],
+				correct_choices: [],
+			});
+			setQuestions((prevQuestions) => [...prevQuestions, questionText]);
+			console.log("Response", response.data);
 		} catch (error) {
-			console.error(error);
+			console.error("Error creating question:", error);
+			if (error.response && error.response.data) {
+				console.error("Server response:", error.response.data);
+			}
 		}
 	};
+	console.log(questions);
 
-	function handleChoiceChange(index, field, value) {
+	const handleChoiceChange = (index, value) => {
+		const newChoices = [...formData.choices];
+		newChoices[index] = value;
 		setQuiz({
 			...quiz,
-			[field]: value,
+			quiz_title: value,
 		});
-		setChoices((prevChoices) => {
-			return prevChoices.map((choice, i) => {
-				if (i === index) {
-					return { ...choice, [field]: value };
-				} else if (field === "isCorrect" && !multipleCorrect) {
-					return { ...choice, isCorrect: false };
-				} else {
-					return choice;
-				}
-			});
+		setFormData({
+			...formData,
+			choices: newChoices,
+			question_text: value,
 		});
-	}
-
-	const addChoice = () => {
-		setChoices([...choices, { text: "", isCorrect: false }]);
+		console.log(value);
 	};
 
-	useEffect(() => {
-		const fetchQuizzes = async () => {
-			try {
-				const response = await axios.get(
-					"http://localhost:8000/assignments/quiz/",
-					{
-						headers: {
-							Authorization: `Token ${localStorage.getItem("userToken")}`,
-						},
-					}
-				);
-				const quizTitles = response.data.map((quiz) => quiz.quiz_title);
-				setQuizzes(quizTitles);
-				console.log("Quiz Titles: ", quizTitles);
-			} catch (error) {
-				console.error(error);
-			}
-		};
+	console.log(Object.values(questions));
 
-		fetchQuizzes();
-	}, []);
+	const handleCorrectChoiceChange = (value) => {
+		if (isMultipleChoice) {
+			const newCorrectChoices = formData.correct_choices.includes(value)
+				? formData.correct_choices.filter((choice) => choice !== value)
+				: [...formData.correct_choices, value];
+			setFormData({ ...formData, correct_choices: newCorrectChoices });
+		} else {
+			setFormData({ ...formData, correct_choices: [value] });
+		}
+	};
+	console.log(questions);
 
 	return (
 		<div className="md:ml-[20%] mt-4 md:flex md:space-x-5 md:w-[78%] md:mr-[50px] text-cyan-950 dark:bg-gray-900">
@@ -128,7 +152,7 @@ function QuestionForm() {
 					{/* Options for the Questions */}
 					<div className="mt-5">
 						<p className="font-semibold text-lg my-3">Options</p>
-						{choices.map((choice, index) => (
+						{formData.choices.map((choice, index) => (
 							<div
 								key={index}
 								className="my-5 space-x-3 flex items-center md:w-4/5"
@@ -136,20 +160,18 @@ function QuestionForm() {
 								<input
 									type="checkbox"
 									className="gap-2 w-6 h-6 checked:bg-green-300 checked:outline-none bg-gray-100 rounded-sm mx-2"
-									checked={choice.isCorrect}
-									onChange={(e) =>
-										handleChoiceChange(index, "isCorrect", e.target.checked)
-									}
+									checked={formData.correct_choices.includes(choice)}
+									onChange={() => handleCorrectChoiceChange(choice)}
 								/>
 								<input
 									type="text"
+									name={`choice${index}`}
 									className={`${
-										choice.isCorrect && "bg-green-300 text-white"
+										formData.correct_choices.includes(choice) &&
+										"bg-green-300 text-white"
 									} bg-gray-100 text-gray-700 appearance-none border-none rounded w-full p-3 font-semibold`}
-									value={choice.text}
-									onChange={(e) =>
-										handleChoiceChange(index, "text", e.target.value)
-									}
+									// value={choice.text}
+									onChange={(e) => handleChoiceChange(index, e.target.value)}
 								/>
 							</div>
 						))}
@@ -165,22 +187,44 @@ function QuestionForm() {
 			</div>
 			{/* Right side of questions for preview */}
 			<div className="md:w-2/5 bg-white rounded-lg border p-4">
-				<p className="font-semibold text-lg mb-5">Edit/Delete questions</p>
-				{[quiz]?.map((quiz) => (
-					<div key={quiz.quiz_title} className="flex space-x-3  items-center">
-						<p className="flex-1">{quiz.quiz_title}</p>
-						<button>
-							<img
-								src={deleteIcon}
-								className="w-6 h-6 opacity-40"
-								alt="delete"
-							/>
-						</button>
-					</div>
-				))}
+				<p className="font-semibold mb-5 text-2xl">Added questions</p>
+				{quiz.length ? (
+					[quiz].map((quiz) => (
+						<div key={quiz.quiz_title} className="flex space-x-3  items-center">
+							<p className="flex-1">{quiz?.question_text}</p>
+							<button>
+								<img
+									src={deleteIcon}
+									className="w-6 h-6 opacity-40"
+									alt="delete"
+								/>
+							</button>
+						</div>
+					))
+				) : (
+					<>
+						{/* {Object.values(questions).map((question) => (
+							<p className="font-medium" key={question.questionText}>
+								{question.questionText}
+							</p>
+						))} */}
+						{!questions.length ? (
+							<p className="">Questions will appear here</p>
+						) : (
+							questions.map((question) => (
+								<p
+									className="font-medium bg-gray-50 p-2 mb-3 border-lg"
+									key={question}
+								>
+									{question}
+								</p>
+							))
+						)}
+					</>
+				)}
 			</div>
 		</div>
 	);
-}
+};
 
 export default QuestionForm;

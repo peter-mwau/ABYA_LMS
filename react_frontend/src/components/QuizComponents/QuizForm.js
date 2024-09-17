@@ -5,6 +5,7 @@ import { UserContext } from "../../contexts/userContext";
 import { quizContext } from "../../App";
 
 const QuizForm = () => {
+	const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 	const navigate = useNavigate();
 	const userDetails = useContext(UserContext);
 	const { setQuiz } = useContext(quizContext);
@@ -28,7 +29,7 @@ const QuizForm = () => {
 	const fetchCourses = async () => {
 		try {
 			const response = await axios.get(
-				"http://localhost:8000/courses/courses/",
+				`${BASE_URL}/courses/courses/`,
 				{
 					headers: {
 						Authorization: `Token ${localStorage.getItem("userToken")}`,
@@ -44,7 +45,7 @@ const QuizForm = () => {
 	const fetchChapters = async () => {
 		try {
 			const response = await axios.get(
-				"http://localhost:8000/courses/chapters/",
+				`${BASE_URL}/courses/chapters/`,
 				{
 					headers: {
 						Authorization: `Token ${localStorage.getItem("userToken")}`,
@@ -81,7 +82,7 @@ const QuizForm = () => {
 
 		try {
 			const response = await axios.post(
-				"http://localhost:8000/assignments/quiz/create-quiz/",
+				`${BASE_URL}/assignments/quiz/create-quiz/`,
 				formDataToSend,
 				{
 					headers: {
