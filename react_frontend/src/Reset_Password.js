@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 function Reset_Password() {
+  const BASE_URL = process.env.REACT_APP_API_BASE_URL;
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -25,7 +26,7 @@ function Reset_Password() {
     }
 
     axios({
-        url: 'http://localhost:8000/users/reset_password/', // Update this to your password reset endpoint
+        url: `${BASE_URL}/users/reset_password/`, // Update this to your password reset endpoint
         method: 'post',
         data: {
             uidb64: uidb64, // The user's ID, base64 encoded

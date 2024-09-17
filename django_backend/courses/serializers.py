@@ -17,6 +17,7 @@ class ChapterSerializer(serializers.ModelSerializer):
 
 # 3. Lesson model data serializer
 class LessonSerializer(serializers.ModelSerializer):
+    # chapter = serializers.PrimaryKeyRelatedField(queryset=Chapter.objects.all())
     class Meta:
         model = Lesson
         fields = '__all__'

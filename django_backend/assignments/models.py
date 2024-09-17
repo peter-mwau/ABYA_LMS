@@ -8,6 +8,7 @@ import os
 from django.conf import settings
 from users.models import User
 from django.conf import settings
+import datetime
 
 
 # Create your models here.
@@ -29,21 +30,20 @@ class Quiz(models.Model):
     chapter = models.ForeignKey(Chapter, related_name="chapter_quizzes", on_delete=models.CASCADE)
     quiz_title = models.CharField(max_length=200, unique=True)
     quiz_description = models.TextField()
-    teacher = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="teacher_quizzes")
+    teacher = models.ForeignKey(User, on_delete=models.CASCADE, related_name="teacher_quizzes")
 
     def __str__(self):
         return self.quiz_title
     
 class CompletedQuiz(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
     completed_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         unique_together = ('user', 'quiz')
-# class UserProfile(models.Model):
-#     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-#     completed_quizzes = models.ManyToManyField(Quiz, related_name='completed_by_users', blank=True)
+        ordering = ['completed_at']
+
 
 class Question(models.Model):
     quiz_title = models.ForeignKey(Quiz, on_delete=models.CASCADE, related_name="question_set")
@@ -61,15 +61,24 @@ class Choice(models.Model):
         return self.text 
 
 class QuizSubmission(models.Model):
-    student = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='quiz', on_delete=models.CASCADE)
+    student = models.ForeignKey(User, related_name='quiz', on_delete=models.CASCADE)
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
     score = models.PositiveIntegerField()
     submitted_on = models.DateTimeField(auto_now_add=True)
+    fail_count = models.PositiveIntegerField(default=0)
+    last_failed = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
         return f"{self.student.username} - {self.quiz.quiz_title} - Score: {self.score}"
+
     class Meta:
         unique_together = ('student', 'quiz')
+
+    def can_retry(self):
+        if self.fail_count == 3 and self.last_failed:
+            elapsed_time = timezone.now() - self.last_failed
+            return elapsed_time > datetime.timedelta(hours=6)
+        return True
     
 class SubmitAssignment(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='assignment', on_delete=models.CASCADE)

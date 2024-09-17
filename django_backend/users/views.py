@@ -35,21 +35,6 @@ from rest_framework.parsers import MultiPartParser, FormParser
 
 
 
-
-
-# class RegisterUserView(APIView):
-#     def get(self, request):
-#         # Replace this with your own logic
-#         return Response({"message": "GET request received"})
-
-#     def post(self, request):
-#         serializer = UserCreateSerializer(data=request.data)
-#         if serializer.is_valid():
-#             user = serializer.save()
-#             return Response({"user": UserCreateSerializer(user).data})
-#         return Response(serializer.errors, status=400)
-    
-# For confirming the password reset, i.e., it's the endpoint where the user sends the new password along with the uidb64 and token
 class PasswordResetConfirmView(APIView):
     serializer_class = PasswordResetConfirmSerializer
 
@@ -116,15 +101,6 @@ class LogoutAPIView(View):
         return JsonResponse({'detail': 'Logged out successfully'}, status=200)
 
 
-# class UserProfileView(generics.RetrieveAPIView):
-#     queryset = Profile.objects.all()
-#     serializer_class = ProfileSerializer
-#     permission_classes = [IsAuthenticated]
-
-#     def get_object(self):
-#         print(self.request.user.profile)
-#         return self.request.user.profile
-    
 
 class CurrentUserView(APIView):
     permission_classes = [permissions.IsAuthenticated]

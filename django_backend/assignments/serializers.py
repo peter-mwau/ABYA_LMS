@@ -18,11 +18,12 @@ class QuestionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Question
-        fields = ['id', 'question_text', 'choices']
+        fields = '__all__'
 
     def get_choices(self, obj):
         choices = Choice.objects.filter(question=obj)
         return ChoiceSerializer(choices, many=True).data
+    
 class DetailedQuizSerializer(serializers.ModelSerializer):
     questions = QuestionSerializer(many=True, read_only=True,source='question_set')
     choices = ChoiceSerializer(many=True, read_only=True)
@@ -49,3 +50,8 @@ class QuizSubmissionSerializer(serializers.ModelSerializer):
         model = QuizSubmission
         fields = '__all__'
 
+class CompletedQuizSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CompletedQuiz
+        fields = '__all__'
+        
