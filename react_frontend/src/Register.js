@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 function Register() {
+  const BASE_URL = process.env.REACT_APP_API_BASE_URL;
   const [username, setUsername] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -24,7 +25,7 @@ function Register() {
     return;
   }
 
-    axios.post('http://localhost:8000/users/register/', {
+    axios.post(`${BASE_URL}/users/register/`, {
       username: username,
       first_name: firstName,
       last_name: lastName,
@@ -62,10 +63,10 @@ function Register() {
     });
   };
   return (
-<section class="bg-gray-100 dark:bg-gray-900 h-auto" >
+<section class="bg-gray-50 dark:bg-gray-900 h-auto" >
 <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-    <img width="250" height="250" src="https://abyauniversity.com/wp-content/uploads/2024/04/abya_logo.png" class="attachment-large size-large wp-image-3255" alt="" loading="lazy" srcset="https://abyauniversity.com/wp-content/uploads/2024/04/abya_logo.png 350w, https://abyauniversity.com/wp-content/uploads/2024/04/abya_logo-300x129.png 300w" sizes="(max-width: 592px) 100vw, 592px" className='p-3' /> 
-    <div class="w-full bg-gray-250 text-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+    <img width="250" height="250" src="https://framerusercontent.com/images/RbmmjGxvoNP2V9QG394I89bBPA.jpg" class="attachment-large size-large wp-image-3255" alt="" loading="lazy" sizes="(max-width: 592px) 100vw, 592px" className='p-3' /> 
+    <div class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
         <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
             <h1 class="text-xl font-bold leading-tight tracking-tight text-cyan-950 md:text-2xl dark:text-white">
                 Create an account
@@ -116,7 +117,7 @@ function Register() {
                       {/* <a class="font-medium text-primary-600 hover:underline dark:text-primary-500" href="#"></a> */}
                     </div>
                 </div>
-                <button type="submit" class="w-full text-cyan-950 bg-gray-300 hover:bg-yellow-500 hover:text-cyan-950 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Create an account</button>
+                <button type="submit" class="w-full text-cyan-950 bg-gray-300 hover:bg-yellow-400 hover:text-cyan-950 focus:ring-4 focus:outline-none focus:ring-primary-300 font-semibold rounded-lg dark:text-cyan-950 text-md px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Create an account</button>
                 {errorMessage && <p className='text-red-500 font-semibold'>{errorMessage}</p>}
                 <p class="text-sm font-light text-gray-600 dark:text-gray-400">
                     Already have an account? <a href="/login" class="font-medium text-primary-600 hover:underline dark:text-primary-500">Login here</a>

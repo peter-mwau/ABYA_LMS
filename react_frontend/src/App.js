@@ -29,6 +29,7 @@ import { createContext } from "react";
 import CourseInfo from "./components/courseComponents/CourseInfo";
 import QuizDetail from "./components/QuizComponents/QuizDetail";
 import Certificate from "./components/courseComponents/Certificate";
+import CourseReview from "./components/courseComponents/ReviewPage";
 
 export const quizContext = createContext([]);
 
@@ -58,10 +59,11 @@ function App() {
 					<Route path="create-lesson/" element={<LessonForm />} /> */}
 					<Route path="course-list/" element={<CourseList />} />
 					<Route path="course/:courseId" element={<CourseContent />} />
-					<Route path="course-info/:courseId" element={<CourseInfo/>} />
+					{/* <Route path="course-info/:courseId" element={<CourseInfo/>} /> */}
 					<Route path="create-quiz" element={<QuizForm />} />
 					<Route path="create-question" element={<QuestionForm />} />
 					<Route path="course-info/:courseId" element={<CourseInfo/>} />
+					<Route path="course_review/:courseId" element={<CourseReview />} />
 					<Route path="quiz-detail/:quizId" element={<QuizDetail />} />
 					<Route path="certificate/:courseId/view" element={<Certificate />} />
 				</Routes>

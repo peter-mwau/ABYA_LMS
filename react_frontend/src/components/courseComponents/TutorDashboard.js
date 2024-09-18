@@ -3,10 +3,11 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 const TutorDashboard = () => {
+	const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 	const [courses, setCourses] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
-	const baseUrl = "http://localhost:8000/courses";
+	const baseUrl = `${BASE_URL}/courses`;
 
 	useEffect(() => {
 		const fetchCourses = async () => {
@@ -14,7 +15,7 @@ const TutorDashboard = () => {
 				const userToken = localStorage.getItem("userToken");
 				console.log(userToken);
 				const response = await axios.get(
-					"http://localhost:8000/courses/courses/list-courses/",
+					`${BASE_URL}/courses/courses/list-courses/`,
 					{
 						headers: {
 							Authorization: `Token ${userToken}`,
