@@ -52,7 +52,7 @@ from web3 import Web3
 from django.conf import settings
 import json
 import os
-from web3.middleware import geth_poa_middleware
+# from web3.middleware import geth_poa_middleware
 import time
 from django.core import serializers
 

@@ -1,0 +1,54 @@
+version: '3'
+
+services:
+  backend:
+    build: 
+      context: .
+      dockerfile: django_backend/Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - DEBUG=1
+      - DJANGO_DB_HOST=db
+      - DJANGO_DB_PORT=3306
+      - DJANGO_DB_NAME=abya_database2
+      - DJANGO_DB_USER=root
+      - DJANGO_DB_PASSWORD=password
+    depends_on:
+      - db
+    networks:
+      - app-network
+    volumes:
+    - ./wait-for-it.sh:/app/wait-for-it.sh
+
+  frontend:
+    build:
+      context: .
+      dockerfile: react_frontend/Dockerfile
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    environment:
+      - REACT_APP_API_BASE_URL=http://localhost:8000
+
+  db:
+    image: mysql:latest
+    command: --bind-address=0.0.0.0
+    environment:
+      - MYSQL_DATABASE=abya_database2
+      - MYSQL_ROOT_PASSWORD=password
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./mysql-init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  mysql_data:
