@@ -2,11 +2,11 @@ version: '3'
 
 services:
   backend:
-    build: 
+    build:
       context: .
       dockerfile: django_backend/Dockerfile
-    ports:
-      - "8000:8000"
+    expose:
+      - "8000"
     environment:
       - DEBUG=1
       - DJANGO_DB_HOST=db
@@ -26,29 +26,29 @@ services:
       context: .
       dockerfile: react_frontend/Dockerfile
     ports:
-      - "3000:3000"
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
     depends_on:
       - backend
-    environment:
-      - REACT_APP_API_BASE_URL=http://localhost:8000
+    networks:
+      - app-network
 
   db:
     image: mysql:latest
-    command: --bind-address=0.0.0.0
     environment:
       - MYSQL_DATABASE=abya_database2
       - MYSQL_ROOT_PASSWORD=password
     ports:
       - "3306:3306"
     volumes:
-      - mysql_data:/var/lib/mysql
-      - ./mysql-init.sql:/docker-entrypoint-initdb.d/init.sql
+      - mariadb_data:/var/lib/mysql
     networks:
       - app-network
+
+volumes:
+  mysql_data:
 
 networks:
   app-network:
     driver: bridge
-
-volumes:
-  mysql_data:

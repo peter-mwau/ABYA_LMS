@@ -3,6 +3,11 @@ FROM python:3.12
 
 WORKDIR /app
 
+# Install system dependencies for MariaDB
+RUN apt-get update && apt-get install -y libmariadb-dev build-essential
+RUN pip install setuptools
+
+
 COPY django_backend/requirements.txt .
 RUN pip install -r requirements.txt
 
@@ -17,4 +22,7 @@ RUN echo '#!/bin/sh' > /app/start.sh && \
     echo 'python manage.py runserver 0.0.0.0:8000' >> /app/start.sh && \
     chmod +x /app/start.sh
 
-    CMD ["/app/start.sh"]
+CMD ["/app/start.sh"]
+
+
+
