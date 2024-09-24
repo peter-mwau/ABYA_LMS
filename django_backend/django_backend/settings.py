@@ -17,6 +17,7 @@ SECRET_KEY = 'django-insecure-g_*&=328p$=7b*j4*+=_ce^iq)79uuj9momun5qzsj(ftyy4e2
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+#CORS_ALLOW_ALL_ORIGINS = True
 ALLOWED_HOSTS = ['127.0.0.1', '127.0.0.1:8000', '.localhost']
 
 
@@ -157,12 +158,7 @@ WSGI_APPLICATION = 'django_backend.wsgi.application'
 #     }
 # }
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
+
 
 # DATABASES = {
 #     'default': {
@@ -175,16 +171,17 @@ DATABASES = {
 #     }
 # }
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'abya_database',
-#         'USER': 'root',
-#         'PASSWORD': 'password',
-#         'HOST': 'localhost',
-#         'PORT': '3306'
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',  # MariaDB uses the MySQL backend in Django
+        'NAME': os.environ.get('DJANGO_DB_NAME', 'abya_database'),
+        'USER': os.environ.get('DJANGO_DB_USER', 'root'),
+        'PASSWORD': os.environ.get('DJANGO_DB_PASSWORD', 'root'),
+        'HOST': os.environ.get('DJANGO_DB_HOST', 'db'),
+        'PORT': os.environ.get('DJANGO_DB_PORT', '3306'),
+    }
+}
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators

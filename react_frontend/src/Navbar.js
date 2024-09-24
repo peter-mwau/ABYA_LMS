@@ -5,6 +5,8 @@ import illustration from "./images/illustration.jpg";
 import { UserContext } from "./contexts/userContext";
 import WalletContext from "./contexts/walletContext";
 import { initFlowbite } from "flowbite";
+import { MdOutlineLightMode } from "react-icons/md";
+import { MdDarkMode } from "react-icons/md";
 
 function Navbar() {
 	const BASE_URL = process.env.REACT_APP_API_BASE_URL;
@@ -16,7 +18,7 @@ function Navbar() {
 	const [isLoading, setIsLoading] = useState(false);
 	const baseUrl = `${BASE_URL}/users`;
 
-	const { account,balance, isWalletConnected, connectWallet, disconnectWallet } =
+	const { account,balance,tokenBalance, isWalletConnected, connectWallet, disconnectWallet } =
 		useContext(WalletContext);
 
 	useEffect(() => {
@@ -70,7 +72,7 @@ function Navbar() {
 	};
 
 	return (
-		<nav class="bg-gray-50 dark:bg-gray-900 sticky z-50 top-0">
+		<nav class="bg-gray-50 dark:bg-gray-900 sticky z-50 top-0 transition-all duration-1000">
 			<div class="max-w-screen-2xl flex flex-wrap items-center justify-between mx-auto p-4">
 				<a
 					href="https://flowbite.com/"
@@ -145,9 +147,11 @@ function Navbar() {
 								<div className="px-4 w-[300px]">
                                     {/* Wallet details content here */}
                                     <p className='font-light text-sm text-gray-700 dark:text-gray-50'>Wallet Address:</p>
-                                    <span className='text-wrap italic text-sm font-semibold dark:text-gray-50 break-words items-center justify-center py-2'>{account}</span>
+                                    <span className='text-wrap italic text-sm font-semibold dark:text-gray-50 break-words items-center justify-center py-2'>{account ? account : '0x...'}</span>
                                     <p className='font-light text-sm text-gray-700 dark:text-gray-50'>Balance:</p>
                                     <span className='text-wrap italic text-sm font-semibold dark:text-gray-50 items-center justify-center py-2'> {isWalletConnected ?balance : '0'} ETH</span>
+									<p className='font-light text-sm text-gray-700 dark:text-gray-50'>Token Balance:</p>
+									<span className='text-wrap italic text-sm font-semibold dark:text-gray-50 items-center justify-center py-2'> {isWalletConnected ?tokenBalance : 'N/A'} ABYATKN</span>
                                 </div>
 								</li>
 								<li>
@@ -205,7 +209,7 @@ function Navbar() {
 						class="items-center mr-5 hidden w-full md:flex md:w-auto md:order-1"
 						id="navbar-user"
 					>
-						<ul class="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0  dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+						<ul class="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0  dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700 transition-all duration-1000">
 							{/* This is hidden in lg views */}
 							<li className="md:hidden">
 								<a
@@ -244,25 +248,9 @@ function Navbar() {
 								</svg>
 							</a>
 							{/* togglemode btn */}
-							<a
-								href="#me"
-								className="hover:bg-gray-400 hover:rounded-full p-2"
-								onClick={() => setDarkMode(!darkMode)}
-							>
-								<svg
-									class="w-6 h-6 text-gray-800 dark:text-white"
-									aria-hidden="true"
-									xmlns="http://www.w3.org/2000/svg"
-									fill="currentColor"
-									viewBox="0 0 20 20"
-								>
-									<path
-										fill-rule="evenodd"
-										d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm0-2a6 6 0 1 1 0-12 6 6 0 0 1 0 12Z"
-									/>
-									<path d="M10 12a2 2 0 0 0 0-4V6a4 4 0 0 1 0 8v-2Z" />
-								</svg>
-							</a>
+							<button className='mx-10'>
+                                {darkMode ? <MdOutlineLightMode className='w-6 h-6 text-gray-800 dark:text-white' onClick={() => setDarkMode(!darkMode)} /> : <MdDarkMode className='w-6 h-6 text-gray-800 dark:text-white' onClick={() => setDarkMode(!darkMode)} />}
+                            </button>
 						</ul>
 					</div>
 				</div>

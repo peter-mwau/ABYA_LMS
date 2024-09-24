@@ -45,7 +45,7 @@ function Homepage() {
 
 	return (
 		<>
-		<div className="dark:bg-gray-800">
+		<div className="dark:bg-gray-800 transition-all duration-1000">
 		<h2 className="text-3xl font-semibold text-cyan-950 pt-[20px] dark:text-white">Welcome Back, <span className="text-yellow-400">{user.username}!</span></h2>
 		<main className="p-4 md:ml-64 h-auto pt-20">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">

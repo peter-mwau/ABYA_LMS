@@ -69,21 +69,6 @@ const Profile = () => {
 									: "Oops! No bio yet"}
 							</p>
 						</div>
-						{/* <div className="bg-slate-100 flex-1 rounded-xl p-4 my-2">
-								<h3 className="font-semibold text-lg text-black">
-									Ready to {user?.user_type === "Student" ? "learn" : "teach"}
-								</h3>
-								<p className="text-black my-2">
-									{user?.user_type === "Student"
-										? "Enroll in courses you're interested in."
-										: "Upload courses for students."}
-								</p>
-							</div> */}
-
-						{/* <div className="bg-slate-100 flex-1 rounded-xl p-4">
-								<h3 className="font-semibold text-lg text-black">Update</h3>
-								<p className="text-black my-2">Keep your profile updated</p>
-							</div> */}
 						<WalletBox />
 					</aside>
 				</div>
